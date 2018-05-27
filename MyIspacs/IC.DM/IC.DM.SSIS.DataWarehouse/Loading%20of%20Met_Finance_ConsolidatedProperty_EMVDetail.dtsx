@@ -1,0 +1,2333 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{F3EBC6D7-7D08-40E0-BFBA-EE48DEAD8E38}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Met_Finance_ConsolidatedProperty_EMVDetail"
+  DTS:PackageType="5"
+  DTS:VersionBuild="393"
+  DTS:VersionGUID="{E874E556-E724-4215-BDDF-3ADAC620F9B3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{E2B88DEF-DF65-42E5-8C0C-C158AD097528}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">RL_PA_003</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{B08D8C88-8CD4-472E-BF80-4658DBE821E6}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:Description="If Initial Load then truncate data warehouse"
+      DTS:DTSID="{07D0C1E7-C276-41AB-BFB9-ED76FB0A8A4A}"
+      DTS:ObjectName="IsInitialLoad">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E8BFDF04-70B1-48E4-A742-2BAFB498AD9F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C68D2B15-6678-42DD-8D59-88A92EA958CF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">ConsolidatedPropertyValuation</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{14B6B3A5-6C4C-418A-A5FE-B3E7670BC904}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Met_Finance_ConsolidatedPropertyValuation</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DD98FBD9-35DD-4307-89B6-630234038DE1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance_ConsolidatedPropertyValuation</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0C87DEB4-2D82-48F0-B554-D529BFA15150}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Met</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1E7E326B-0974-41AB-A8C4-33D7DEBE03A8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&#x9;&quot;&#x9;&#x9;&#xA;&#x9;declare @IC_DM_BUSINESS_PROCESS_INSTANCE_ID nvarchar(50);&#xA;&#x9;declare @IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION nvarchar(4);&#xA;&#x9;&#xA;&#x9;set @IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot; + @[$Package::BusinessProcessInstanceID] + &quot;';&#xA;&#x9;set @IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION = &quot; + (DT_WSTR, 50)@[$Package::BusinessProcessInstanceIteration] + &quot;;&#xA;&#xA;&#x9;declare @DataCodeForInstanceID nvarchar(100)&#xA;&#x9;select  @DataCodeForInstanceID = [IC_DM_DATA_CODE] FROM cleansing.Finance_EMV&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = @IC_DM_BUSINESS_PROCESS_INSTANCE_ID &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; AND   [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = @IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION &#xA;&#xA;&#x9;declare @LatestFMVOwnershipPercentage table(&#xA;&#x9;&#x9;IVACode&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;nvarchar(12)&#x9;&#x9;NOT NULL,&#xA;&#x9;&#x9;LatestLoadingDate&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;datetime2(3)&#x9;&#x9;NOT NULL,&#x9;&#xA;&#x9;&#x9;LatestQuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Acquisition_CurrentYearQ1_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Disposition_CurrentYearQ1_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Acquisition_CurrentYearQ2_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Disposition_CurrentYearQ2_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Acquisition_CurrentYearQ3_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Disposition_CurrentYearQ3_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Acquisition_CurrentYearQ4_QuotePart&#x9;&#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;Disposition_CurrentYearQ4_QuotePart &#x9;[numeric](18, 9)&#x9;NOT NULL,&#xA;&#x9;&#x9;IC_DM_SOURCE_CODE&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;nvarchar(100)&#x9;&#x9;NOT NULL,&#xA;&#x9;&#x9;IC_DM_DATA_CODE&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;nvarchar(100)&#x9;&#x9;NOT NULL,&#xA;&#x9;&#x9;IC_DM_LINEAGE_INFO&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;nvarchar(255)&#x9;&#x9;NULL,&#xA;&#x9;&#x9;IC_DM_TIMESTAMP_UPDATE&#x9;&#x9;&#x9;&#x9;&#x9;datetime2(3)&#x9;&#x9;NULL,   &#xA;&#x9;&#x9;IC_DM_TIMESTAMP_DELETE&#x9;&#x9;&#x9;&#x9;&#x9;datetime2(3)&#x9;&#x9;NULL&#xA;&#xA;&#x9;&#x9;UNIQUE&#x9;(&#x9;IVACode,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;LatestLoadingDate&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;)&#xA;&#xA;&#x9;&#x9;-- On recupere les valeurs les plus recentes pour tous les code IVA&#xA;&#x9;&#x9;INSERT INTO @LatestFMVOwnershipPercentage(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;IVACode,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;LatestLoadingDate,&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;LatestQuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Acquisition_CurrentYearQ1_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Disposition_CurrentYearQ1_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Acquisition_CurrentYearQ2_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Disposition_CurrentYearQ2_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Acquisition_CurrentYearQ3_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Disposition_CurrentYearQ3_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Acquisition_CurrentYearQ4_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Disposition_CurrentYearQ4_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;IC_DM_SOURCE_CODE,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;IC_DM_DATA_CODE,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;IC_DM_LINEAGE_INFO,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;IC_DM_TIMESTAMP_UPDATE,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;IC_DM_TIMESTAMP_DELETE)&#x9;&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;emv.Finance_ConsolidatedProperty_Code&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as IVACode,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;latest.Max_IC_DM_CLEANSING_DATE&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as LoadingDate,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;case when FMVOwnershipPercentage is not null then FMVOwnershipPercentage&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else  &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Acquisition_CurrentYearQ1_QuotePart is not null then Acquisition_CurrentYearQ1_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Acquisition_CurrentYearQ2_QuotePart is not null then Acquisition_CurrentYearQ2_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Acquisition_CurrentYearQ3_QuotePart is not null then Acquisition_CurrentYearQ3_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Acquisition_CurrentYearQ4_QuotePart is not null then Acquisition_CurrentYearQ4_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Disposition_CurrentYearQ1_QuotePart is not null then Disposition_CurrentYearQ1_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Disposition_CurrentYearQ2_QuotePart is not null then Disposition_CurrentYearQ2_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Disposition_CurrentYearQ3_QuotePart is not null then Disposition_CurrentYearQ3_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case when Disposition_CurrentYearQ4_QuotePart is not null then Disposition_CurrentYearQ4_QuotePart&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else 0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;end&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as LatestQuotePart,&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Acquisition_CurrentYearQ1_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ1_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Disposition_CurrentYearQ1_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ1_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Acquisition_CurrentYearQ2_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ2_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Disposition_CurrentYearQ2_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ2_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Acquisition_CurrentYearQ3_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ3_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Disposition_CurrentYearQ3_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ3_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Acquisition_CurrentYearQ4_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ4_QuotePart,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(emv.Disposition_CurrentYearQ4_QuotePart, 0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ4_QuotePart,&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;emv.IC_DM_SOURCE_CODE,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;emv.IC_DM_DATA_CODE,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;emv.IC_DM_LINEAGE_INFO,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;emv.IC_DM_TIMESTAMP_UPDATE,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;emv.IC_DM_TIMESTAMP_DELETE&#x9;&#x9;&#x9;&#x9;&#x9;  &#xA;&#x9;&#x9;FROM cleansing.Finance_EMV emv&#xA;&#x9;&#x9;INNER JOIN &#xA;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;m.Finance_ConsolidatedProperty_Code&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Max_Finance_ConsolidatedProperty_Code,&#xA;&#x9;&#x9;&#x9;MAX(m.IC_DM_CLEANSING_DATE)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Max_IC_DM_CLEANSING_DATE&#xA;&#x9;&#x9;&#x9;FROM cleansing.Finance_EMV m&#xA;&#x9;&#x9;&#x9;WHERE m.IC_DM_DATA_CODE = @DataCodeForInstanceID AND m.IsBusinessPlan = 0 &#xA;&#x9;&#x9;&#x9;Group By m.Finance_ConsolidatedProperty_Code&#xA;&#x9;&#x9;) latest ON latest.Max_Finance_ConsolidatedProperty_Code = emv.Finance_ConsolidatedProperty_Code AND &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;latest.Max_IC_DM_CLEANSING_DATE = emv.IC_DM_CLEANSING_DATE&#xA;&#xA;&#x9;-- On attache les valeurs ensembles&#xA;&#x9;SELECT &#xA;&#x9;&#x9; latest.IVACode&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as IVACode&#xA;&#x9;&#x9;,latest.LatestQuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as LatestQuotePart&#xA;&#x9;&#x9;,latest.Acquisition_CurrentYearQ1_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ1_QuotePart&#xA;&#x9;&#x9;,latest.Disposition_CurrentYearQ1_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ1_QuotePart&#xA;&#x9;&#x9;,latest.Acquisition_CurrentYearQ2_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ2_QuotePart&#xA;&#x9;&#x9;,latest.Disposition_CurrentYearQ2_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ2_QuotePart&#xA;&#x9;&#x9;,latest.Acquisition_CurrentYearQ3_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ3_QuotePart&#x9;&#x9;&#xA;&#x9;&#x9;,latest.Disposition_CurrentYearQ3_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ3_QuotePart&#xA;&#x9;&#x9;,latest.Acquisition_CurrentYearQ4_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Acquisition_CurrentYearQ4_QuotePart&#xA;&#x9;&#x9;,latest.Disposition_CurrentYearQ4_QuotePart&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Disposition_CurrentYearQ4_QuotePart   &#xA;&#x9;&#x9;,latest.LatestLoadingDate&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as LatestLoadingDate&#xA;&#x9;&#x9;,emv.CurrencyConversionShareCAD&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as CurrencyConversionShareCAD&#xA;&#x9;&#x9;,(coalesce(Acquisition_CurrentYearQ1_Amount_QP_CAD, 0) +&#xA;&#x9;&#x9;  coalesce(Acquisition_CurrentYearQ2_Amount_QP_CAD, 0) +&#xA;&#x9;&#x9;  coalesce(Acquisition_CurrentYearQ3_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Acquisition_CurrentYearQ4_Amount_QP_CAD, 0))&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as AcquisitionShareCAD&#xA;&#x9;&#x9;,(coalesce(Disposition_CurrentYearQ1_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Disposition_CurrentYearQ2_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Disposition_CurrentYearQ3_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Disposition_CurrentYearQ4_Amount_QP_CAD, 0))&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as DispositionShareCAD&#xA;&#x9;&#x9;,(coalesce(Immobilisation_CurrentYearQ1_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Immobilisation_CurrentYearQ2_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Immobilisation_CurrentYearQ3_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;  coalesce(Immobilisation_CurrentYearQ4_Amount_QP_CAD, 0))&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as ImmobilisationShareCAD&#xA;&#x9;&#x9;,((coalesce(Acquisition_CurrentYearQ1_Amount_QP_CAD, 0) +&#xA;&#x9;&#x9;   coalesce(Acquisition_CurrentYearQ2_Amount_QP_CAD, 0) +&#xA;&#x9;&#x9;   coalesce(Acquisition_CurrentYearQ3_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Acquisition_CurrentYearQ4_Amount_QP_CAD, 0)) / emv.CurrencyConversionShareCAD)&#x9;&#x9;as AcquisitionShareLocalCurrency&#xA;&#x9;&#x9;,((coalesce(Disposition_CurrentYearQ1_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Disposition_CurrentYearQ2_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Disposition_CurrentYearQ3_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Disposition_CurrentYearQ4_Amount_QP_CAD, 0)) / emv.CurrencyConversionShareCAD)&#x9;&#x9;as DispositionShareLocalCurrency&#xA;&#x9;&#x9;,((coalesce(Immobilisation_CurrentYearQ1_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Immobilisation_CurrentYearQ2_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Immobilisation_CurrentYearQ3_Amount_QP_CAD, 0) + &#xA;&#x9;&#x9;   coalesce(Immobilisation_CurrentYearQ4_Amount_QP_CAD, 0)) / emv.CurrencyConversionShareCAD)&#x9;as ImmobilisationShareLocalCurrency&#xA;&#x9;&#x9;,emv.ExchangeEffect_CurrentYear_QP_CAD&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as ExchangeEffect_CurrentYear_QP_CAD&#x9;&#xA;&#x9;&#x9;,emv.Appreciation_CurrentYear_QP_CAD&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Appreciation_CurrentYear_QP_CAD&#xA;&#x9;&#x9;,(emv.ExchangeEffect_CurrentYear_QP_CAD / emv.CurrencyConversionShareCAD)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as ExchangeEffect_CurrentYear_QP_LocalCurrency&#xA;&#x9;&#x9;,(emv.Appreciation_CurrentYear_QP_CAD / emv.CurrencyConversionShareCAD)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;as Appreciation_CurrentYear_QP_LocalCurrency&#xA;&#xA;&#x9;&#x9;,latest.IC_DM_SOURCE_CODE&#xA;&#x9;&#x9;,latest.IC_DM_DATA_CODE&#xA;&#x9;&#x9;,latest.IC_DM_LINEAGE_INFO&#xA;&#x9;&#x9;,latest.IC_DM_TIMESTAMP_UPDATE    &#xA;&#x9;&#x9;,latest.IC_DM_TIMESTAMP_DELETE&#xA;  FROM @LatestFMVOwnershipPercentage latest&#x9;&#xA;  INNER JOIN cleansing.Finance_EMV emv ON latest.IVACode = emv.Finance_ConsolidatedProperty_Code AND latest.LatestLoadingDate = emv.[IC_DM_CLEANSING_DATE]&#x9;&#xA;  WHERE emv.IsBusinessPlan = 0 &#xA;  AND Core_Date_ReportingDate &gt; '&quot; +@[User::var_Last_Closed_Qt] + &quot;'&#xA;  AND latest.IC_DM_DATA_CODE = @DataCodeForInstanceID&#x9;&#xA;&#x9;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDS">
+      <DTS:VariableValue
+        DTS:DataType="8">		
+	declare @IC_DM_BUSINESS_PROCESS_INSTANCE_ID nvarchar(50);
+	declare @IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION nvarchar(4);
+	
+	set @IC_DM_BUSINESS_PROCESS_INSTANCE_ID = 'RL_PA_003';
+	set @IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION = 1;
+
+	declare @DataCodeForInstanceID nvarchar(100)
+	select  @DataCodeForInstanceID = [IC_DM_DATA_CODE] FROM cleansing.Finance_EMV
+									 WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = @IC_DM_BUSINESS_PROCESS_INSTANCE_ID 
+									 AND   [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = @IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION 
+
+	declare @LatestFMVOwnershipPercentage table(
+		IVACode									nvarchar(12)		NOT NULL,
+		LatestLoadingDate						datetime2(3)		NOT NULL,	
+		LatestQuotePart							[numeric](18, 9)	NOT NULL,
+		Acquisition_CurrentYearQ1_QuotePart		[numeric](18, 9)	NOT NULL,
+		Disposition_CurrentYearQ1_QuotePart		[numeric](18, 9)	NOT NULL,
+		Acquisition_CurrentYearQ2_QuotePart		[numeric](18, 9)	NOT NULL,
+		Disposition_CurrentYearQ2_QuotePart		[numeric](18, 9)	NOT NULL,
+		Acquisition_CurrentYearQ3_QuotePart		[numeric](18, 9)	NOT NULL,
+		Disposition_CurrentYearQ3_QuotePart		[numeric](18, 9)	NOT NULL,
+		Acquisition_CurrentYearQ4_QuotePart		[numeric](18, 9)	NOT NULL,
+		Disposition_CurrentYearQ4_QuotePart 	[numeric](18, 9)	NOT NULL,
+		IC_DM_SOURCE_CODE						nvarchar(100)		NOT NULL,
+		IC_DM_DATA_CODE							nvarchar(100)		NOT NULL,
+		IC_DM_LINEAGE_INFO						nvarchar(255)		NULL,
+		IC_DM_TIMESTAMP_UPDATE					datetime2(3)		NULL,   
+		IC_DM_TIMESTAMP_DELETE					datetime2(3)		NULL
+
+		UNIQUE	(	IVACode,
+					LatestLoadingDate
+				)
+		)
+
+		-- On recupere les valeurs les plus recentes pour tous les code IVA
+		INSERT INTO @LatestFMVOwnershipPercentage(
+					IVACode,
+					LatestLoadingDate,	
+					LatestQuotePart,
+					Acquisition_CurrentYearQ1_QuotePart,
+					Disposition_CurrentYearQ1_QuotePart,
+					Acquisition_CurrentYearQ2_QuotePart,
+					Disposition_CurrentYearQ2_QuotePart,
+					Acquisition_CurrentYearQ3_QuotePart,
+					Disposition_CurrentYearQ3_QuotePart,
+					Acquisition_CurrentYearQ4_QuotePart,
+					Disposition_CurrentYearQ4_QuotePart,
+					IC_DM_SOURCE_CODE,
+					IC_DM_DATA_CODE,
+					IC_DM_LINEAGE_INFO,
+					IC_DM_TIMESTAMP_UPDATE,
+					IC_DM_TIMESTAMP_DELETE)	
+		SELECT
+					emv.Finance_ConsolidatedProperty_Code										as IVACode,
+					latest.Max_IC_DM_CLEANSING_DATE												as LoadingDate,
+					case when FMVOwnershipPercentage is not null then FMVOwnershipPercentage
+						else  
+							case when Acquisition_CurrentYearQ1_QuotePart is not null then Acquisition_CurrentYearQ1_QuotePart
+							else 
+								case when Acquisition_CurrentYearQ2_QuotePart is not null then Acquisition_CurrentYearQ2_QuotePart
+								else 
+									case when Acquisition_CurrentYearQ3_QuotePart is not null then Acquisition_CurrentYearQ3_QuotePart
+									else 
+										case when Acquisition_CurrentYearQ4_QuotePart is not null then Acquisition_CurrentYearQ4_QuotePart
+										else 
+											case when Disposition_CurrentYearQ1_QuotePart is not null then Disposition_CurrentYearQ1_QuotePart
+											else 
+						  						case when Disposition_CurrentYearQ2_QuotePart is not null then Disposition_CurrentYearQ2_QuotePart
+												else 
+						  							case when Disposition_CurrentYearQ3_QuotePart is not null then Disposition_CurrentYearQ3_QuotePart
+													else 
+						  								case when Disposition_CurrentYearQ4_QuotePart is not null then Disposition_CurrentYearQ4_QuotePart
+														else 0
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end																			as LatestQuotePart,
+
+					coalesce(emv.Acquisition_CurrentYearQ1_QuotePart, 0)						as Acquisition_CurrentYearQ1_QuotePart,
+					coalesce(emv.Disposition_CurrentYearQ1_QuotePart, 0)						as Disposition_CurrentYearQ1_QuotePart,
+					coalesce(emv.Acquisition_CurrentYearQ2_QuotePart, 0)						as Acquisition_CurrentYearQ2_QuotePart,
+					coalesce(emv.Disposition_CurrentYearQ2_QuotePart, 0)						as Disposition_CurrentYearQ2_QuotePart,
+					coalesce(emv.Acquisition_CurrentYearQ3_QuotePart, 0)						as Acquisition_CurrentYearQ3_QuotePart,
+					coalesce(emv.Disposition_CurrentYearQ3_QuotePart, 0)						as Disposition_CurrentYearQ3_QuotePart,
+					coalesce(emv.Acquisition_CurrentYearQ4_QuotePart, 0)						as Acquisition_CurrentYearQ4_QuotePart,
+					coalesce(emv.Disposition_CurrentYearQ4_QuotePart, 0)						as Disposition_CurrentYearQ4_QuotePart,
+
+					emv.IC_DM_SOURCE_CODE,
+					emv.IC_DM_DATA_CODE,
+					emv.IC_DM_LINEAGE_INFO,
+					emv.IC_DM_TIMESTAMP_UPDATE,
+					emv.IC_DM_TIMESTAMP_DELETE					  
+		FROM cleansing.Finance_EMV emv
+		INNER JOIN 
+		(
+			SELECT
+			m.Finance_ConsolidatedProperty_Code													as Max_Finance_ConsolidatedProperty_Code,
+			MAX(m.IC_DM_CLEANSING_DATE)															as Max_IC_DM_CLEANSING_DATE
+			FROM cleansing.Finance_EMV m
+			WHERE m.IC_DM_DATA_CODE = @DataCodeForInstanceID AND m.IsBusinessPlan = 0 
+			Group By m.Finance_ConsolidatedProperty_Code
+		) latest ON latest.Max_Finance_ConsolidatedProperty_Code = emv.Finance_ConsolidatedProperty_Code AND 
+					latest.Max_IC_DM_CLEANSING_DATE = emv.IC_DM_CLEANSING_DATE
+
+	-- On attache les valeurs ensembles
+	SELECT 
+		 latest.IVACode																					as IVACode
+		,latest.LatestQuotePart																			as LatestQuotePart
+		,latest.Acquisition_CurrentYearQ1_QuotePart														as Acquisition_CurrentYearQ1_QuotePart
+		,latest.Disposition_CurrentYearQ1_QuotePart														as Disposition_CurrentYearQ1_QuotePart
+		,latest.Acquisition_CurrentYearQ2_QuotePart														as Acquisition_CurrentYearQ2_QuotePart
+		,latest.Disposition_CurrentYearQ2_QuotePart														as Disposition_CurrentYearQ2_QuotePart
+		,latest.Acquisition_CurrentYearQ3_QuotePart														as Acquisition_CurrentYearQ3_QuotePart		
+		,latest.Disposition_CurrentYearQ3_QuotePart														as Disposition_CurrentYearQ3_QuotePart
+		,latest.Acquisition_CurrentYearQ4_QuotePart														as Acquisition_CurrentYearQ4_QuotePart
+		,latest.Disposition_CurrentYearQ4_QuotePart														as Disposition_CurrentYearQ4_QuotePart   
+		,latest.LatestLoadingDate																		as LatestLoadingDate
+		,emv.CurrencyConversionShareCAD																	as CurrencyConversionShareCAD
+		,(coalesce(Acquisition_CurrentYearQ1_Amount_QP_CAD, 0) +
+		  coalesce(Acquisition_CurrentYearQ2_Amount_QP_CAD, 0) +
+		  coalesce(Acquisition_CurrentYearQ3_Amount_QP_CAD, 0) + 
+		  coalesce(Acquisition_CurrentYearQ4_Amount_QP_CAD, 0))											as AcquisitionShareCAD
+		,(coalesce(Disposition_CurrentYearQ1_Amount_QP_CAD, 0) + 
+		  coalesce(Disposition_CurrentYearQ2_Amount_QP_CAD, 0) + 
+		  coalesce(Disposition_CurrentYearQ3_Amount_QP_CAD, 0) + 
+		  coalesce(Disposition_CurrentYearQ4_Amount_QP_CAD, 0))											as DispositionShareCAD
+		,(coalesce(Immobilisation_CurrentYearQ1_Amount_QP_CAD, 0) + 
+		  coalesce(Immobilisation_CurrentYearQ2_Amount_QP_CAD, 0) + 
+		  coalesce(Immobilisation_CurrentYearQ3_Amount_QP_CAD, 0) + 
+		  coalesce(Immobilisation_CurrentYearQ4_Amount_QP_CAD, 0))										as ImmobilisationShareCAD
+		,((coalesce(Acquisition_CurrentYearQ1_Amount_QP_CAD, 0) +
+		   coalesce(Acquisition_CurrentYearQ2_Amount_QP_CAD, 0) +
+		   coalesce(Acquisition_CurrentYearQ3_Amount_QP_CAD, 0) + 
+		   coalesce(Acquisition_CurrentYearQ4_Amount_QP_CAD, 0)) / emv.CurrencyConversionShareCAD)		as AcquisitionShareLocalCurrency
+		,((coalesce(Disposition_CurrentYearQ1_Amount_QP_CAD, 0) + 
+		   coalesce(Disposition_CurrentYearQ2_Amount_QP_CAD, 0) + 
+		   coalesce(Disposition_CurrentYearQ3_Amount_QP_CAD, 0) + 
+		   coalesce(Disposition_CurrentYearQ4_Amount_QP_CAD, 0)) / emv.CurrencyConversionShareCAD)		as DispositionShareLocalCurrency
+		,((coalesce(Immobilisation_CurrentYearQ1_Amount_QP_CAD, 0) + 
+		   coalesce(Immobilisation_CurrentYearQ2_Amount_QP_CAD, 0) + 
+		   coalesce(Immobilisation_CurrentYearQ3_Amount_QP_CAD, 0) + 
+		   coalesce(Immobilisation_CurrentYearQ4_Amount_QP_CAD, 0)) / emv.CurrencyConversionShareCAD)	as ImmobilisationShareLocalCurrency
+		,emv.ExchangeEffect_CurrentYear_QP_CAD															as ExchangeEffect_CurrentYear_QP_CAD	
+		,emv.Appreciation_CurrentYear_QP_CAD															as Appreciation_CurrentYear_QP_CAD
+		,(emv.ExchangeEffect_CurrentYear_QP_CAD / emv.CurrencyConversionShareCAD)						as ExchangeEffect_CurrentYear_QP_LocalCurrency
+		,(emv.Appreciation_CurrentYear_QP_CAD / emv.CurrencyConversionShareCAD)							as Appreciation_CurrentYear_QP_LocalCurrency
+
+		,latest.IC_DM_SOURCE_CODE
+		,latest.IC_DM_DATA_CODE
+		,latest.IC_DM_LINEAGE_INFO
+		,latest.IC_DM_TIMESTAMP_UPDATE    
+		,latest.IC_DM_TIMESTAMP_DELETE
+  FROM @LatestFMVOwnershipPercentage latest	
+  INNER JOIN cleansing.Finance_EMV emv ON latest.IVACode = emv.Finance_ConsolidatedProperty_Code AND latest.LatestLoadingDate = emv.[IC_DM_CLEANSING_DATE]	
+  WHERE emv.IsBusinessPlan = 0 
+  AND Core_Date_ReportingDate &gt; '2017-09-30'
+  AND latest.IC_DM_DATA_CODE = @DataCodeForInstanceID	
+	</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1691A299-63D8-4026-9EC1-E845D2D8554B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Load_Met_Finance_EMVDetail] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = 'RL_PA_003'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [edw].[sp_Load_Met_Finance_EMVDetail] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9DCEC452-8AFC-468B-827B-A82D91EA3188}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(@[$Package::IsInitialLoad]==1?&#xA;&#x9;&quot; TRUNCATE TABLE [edw].[Met_Finance_ConsolidatedPropertyValuation]&quot;:&quot;&quot;&#xA;)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateDataWarehouse">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{18E17360-4377-46D4-9DFA-2CE4A8165E77}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;TRUNCATE TABLE [working].Met_Finance_FMVDetail&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">TRUNCATE TABLE [working].Met_Finance_FMVDetail</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73062C5-EA87-46F4-A2D9-2B97D57154F0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;Update [entity].[Finance_ConsolidatedPropertyFMV] set [IC_DM_IS_EDW_PUBLISHED] = 1&quot;  + &quot;&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9; &quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDSTable_IsPublished">
+      <DTS:VariableValue
+        DTS:DataType="8">Update [entity].[Finance_ConsolidatedPropertyFMV] set [IC_DM_IS_EDW_PUBLISHED] = 1
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = 'RL_PA_003'
+	 </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{530F7175-1B02-4176-B8C1-3B53A3E6FBCC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">RL_PA_003_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8BE58333-9050-4588-A10E-79199407D861}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_Last_Closed_Qt">
+      <DTS:VariableValue
+        DTS:DataType="8">2017-09-30</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6D6ABD69-D442-4EB5-AA8C-5EF7156F5D06}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:32 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4CEC4337-327C-42BD-A416-C1BF510DE26C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:31</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{354452AE-C7BC-4980-B80C-64DC0B2D1F4E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add columns for no mapping"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output].Columns[TransferShareCAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output].Columns[TransferShareCAD]"
+                      name="TransferShareCAD"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_NUMERIC,18,4)0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_NUMERIC,18,4)0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output].Columns[TransferShareLocalCurrency]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output].Columns[TransferShareLocalCurrency]"
+                      name="TransferShareLocalCurrency"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_NUMERIC,18,4)0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_NUMERIC,18,4)0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata - Working"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_WORKING_STEP]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_WORKING_STEP]"
+                      name="IC_DM_WORKING_STEP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)"SSIS"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)"SSIS"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_ConsolidatedPropertyValuation - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT cpv.Finance_ConsolidatedProperty_SK, cpv.Finance_ConsolidatedProperty_DK, cp.Finance_ConsolidatedProperty_Code, cpv.Finance_ConsolidatedPropertyValuation_SK
+FROM   [edw].[Met_Finance_ConsolidatedPropertyValuation] cpv
+INNER JOIN [edw].[Ref_Finance_ConsolidatedProperty] cp ON cpv.Finance_ConsolidatedProperty_DK = cp.Finance_ConsolidatedProperty_DK
+INNER JOIN 
+(
+	Select	MAX([Core_Date_ReportingDate_SK]) as MaxCore_Date_ReportingDate_SK,
+			Finance_ConsolidatedProperty_DK	  as MaxFinance_ConsolidatedProperty_DK
+	from [edw].[Met_Finance_ConsolidatedPropertyValuation]
+	GROUP BY [Finance_ConsolidatedProperty_DK]
+) MaxConsolidatedProperty ON MaxConsolidatedProperty.MaxCore_Date_ReportingDate_SK = cpv.Core_Date_ReportingDate_SK
+                             AND MaxConsolidatedProperty.MaxFinance_ConsolidatedProperty_DK = cpv.Finance_ConsolidatedProperty_DK
+WHERE cpv.Is_Last_Version = 1 AND cp.IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT cpv.Finance_ConsolidatedProperty_SK, cpv.Finance_ConsolidatedProperty_DK, cp.Finance_ConsolidatedProperty_Code, cpv.Finance_ConsolidatedPropertyValuation_SK
+FROM   [edw].[Met_Finance_ConsolidatedPropertyValuation] cpv
+INNER JOIN [edw].[Ref_Finance_ConsolidatedProperty] cp ON cpv.Finance_ConsolidatedProperty_DK = cp.Finance_ConsolidatedProperty_DK
+INNER JOIN 
+(
+	Select	MAX([Core_Date_ReportingDate_SK]) as MaxCore_Date_ReportingDate_SK,
+			Finance_ConsolidatedProperty_DK	  as MaxFinance_ConsolidatedProperty_DK
+	from [edw].[Met_Finance_ConsolidatedPropertyValuation]
+	GROUP BY [Finance_ConsolidatedProperty_DK]
+) MaxConsolidatedProperty ON MaxConsolidatedProperty.MaxCore_Date_ReportingDate_SK = cpv.Core_Date_ReportingDate_SK
+                             AND MaxConsolidatedProperty.MaxFinance_ConsolidatedProperty_DK = cpv.Finance_ConsolidatedProperty_DK
+WHERE cpv.Is_Last_Version = 1 AND cp.IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Finance_ConsolidatedProperty_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_ConsolidatedProperty_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ConsolidatedProperty_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ConsolidatedProperty_Code" dataType="DT_WSTR" length="12" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ConsolidatedPropertyValuation_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IVACode]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Inputs[Lookup Input].Columns[IVACode]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="IVACode"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IVACode]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ConsolidatedProperty_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedProperty_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedProperty_DK]"
+                      name="Finance_ConsolidatedProperty_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_ConsolidatedProperty_DK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedProperty_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedProperty_SK]"
+                      name="Finance_ConsolidatedProperty_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_ConsolidatedProperty_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedPropertyValuation_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedPropertyValuation_SK]"
+                      name="Finance_ConsolidatedPropertyValuation_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_ConsolidatedPropertyValuation_SK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Met_Finance_FMVDetail]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_WORKING_STEP]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_WORKING_STEP"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_WORKING_STEP]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_WORKING_STEP]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[AcquisitionShareLocalCurrency]"
+                      cachedDataType="numeric"
+                      cachedName="AcquisitionShareLocalCurrency"
+                      cachedPrecision="38"
+                      cachedScale="12"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AcquisitionShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[AcquisitionShareLocalCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[DispositionShareLocalCurrency]"
+                      cachedDataType="numeric"
+                      cachedName="DispositionShareLocalCurrency"
+                      cachedPrecision="38"
+                      cachedScale="12"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[DispositionShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[DispositionShareLocalCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[ImmobilisationShareLocalCurrency]"
+                      cachedDataType="numeric"
+                      cachedName="ImmobilisationShareLocalCurrency"
+                      cachedPrecision="38"
+                      cachedScale="12"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[ImmobilisationShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ImmobilisationShareLocalCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      cachedDataType="numeric"
+                      cachedName="ExchangeEffect_CurrentYear_QP_LocalCurrency"
+                      cachedPrecision="38"
+                      cachedScale="15"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyConversionShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ExchangeEffect_CurrentYear_QP_LocalCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      cachedDataType="numeric"
+                      cachedName="Appreciation_CurrentYear_QP_LocalCurrency"
+                      cachedPrecision="38"
+                      cachedScale="15"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AppreciationShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Appreciation_CurrentYear_QP_LocalCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[AcquisitionShareCAD]"
+                      cachedDataType="numeric"
+                      cachedName="AcquisitionShareCAD"
+                      cachedPrecision="21"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AcquisitionShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[AcquisitionShareCAD]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[DispositionShareCAD]"
+                      cachedDataType="numeric"
+                      cachedName="DispositionShareCAD"
+                      cachedPrecision="21"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[DispositionShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[DispositionShareCAD]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[ImmobilisationShareCAD]"
+                      cachedDataType="numeric"
+                      cachedName="ImmobilisationShareCAD"
+                      cachedPrecision="21"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[ImmobilisationShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ImmobilisationShareCAD]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[Appreciation_CurrentYear_QP_CAD]"
+                      cachedDataType="numeric"
+                      cachedName="Appreciation_CurrentYear_QP_CAD"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AppreciationShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Appreciation_CurrentYear_QP_CAD]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[LatestQuotePart]"
+                      cachedDataType="numeric"
+                      cachedName="LatestQuotePart"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[FMVOwnershipPercentage]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[LatestQuotePart]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[TransferShareLocalCurrency]"
+                      cachedDataType="numeric"
+                      cachedName="TransferShareLocalCurrency"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[TransferShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output].Columns[TransferShareLocalCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[TransferShareCAD]"
+                      cachedDataType="numeric"
+                      cachedName="TransferShareCAD"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[TransferShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output].Columns[TransferShareCAD]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[Finance_ConsolidatedPropertyValuation_SK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_ConsolidatedPropertyValuation_SK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ConsolidatedPropertyValuation_SK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output].Columns[Finance_ConsolidatedPropertyValuation_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      cachedDataType="numeric"
+                      cachedName="ExchangeEffect_CurrentYear_QP_CAD"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyConversionShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ExchangeEffect_CurrentYear_QP_CAD]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].Columns[CurrencyConversionShareCAD]"
+                      cachedDataType="numeric"
+                      cachedName="CurrencyConversionShareCAD"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[ExchangeRate]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[CurrencyConversionShareCAD]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_WORKING_STEP]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_WORKING_STEP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AcquisitionShareLocalCurrency]"
+                      dataType="numeric"
+                      name="AcquisitionShareLocalCurrency"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[DispositionShareLocalCurrency]"
+                      dataType="numeric"
+                      name="DispositionShareLocalCurrency"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[TransferShareLocalCurrency]"
+                      dataType="numeric"
+                      name="TransferShareLocalCurrency"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[ImmobilisationShareLocalCurrency]"
+                      dataType="numeric"
+                      name="ImmobilisationShareLocalCurrency"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyConversionShareLocalCurrency]"
+                      dataType="numeric"
+                      name="CurrencyConversionShareLocalCurrency"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AppreciationShareLocalCurrency]"
+                      dataType="numeric"
+                      name="AppreciationShareLocalCurrency"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AcquisitionShareCAD]"
+                      dataType="numeric"
+                      name="AcquisitionShareCAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[DispositionShareCAD]"
+                      dataType="numeric"
+                      name="DispositionShareCAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[TransferShareCAD]"
+                      dataType="numeric"
+                      name="TransferShareCAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[ImmobilisationShareCAD]"
+                      dataType="numeric"
+                      name="ImmobilisationShareCAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyConversionShareCAD]"
+                      dataType="numeric"
+                      name="CurrencyConversionShareCAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[AppreciationShareCAD]"
+                      dataType="numeric"
+                      name="AppreciationShareCAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[FMVOwnershipPercentage]"
+                      dataType="numeric"
+                      name="FMVOwnershipPercentage"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ConsolidatedPropertyValuation_SK]"
+                      dataType="i4"
+                      name="Finance_ConsolidatedPropertyValuation_SK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DS Entity - Finance_EMVDetail Entity"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Connections[OleDbConnection]"
+                  connectionManagerID="{E42CAA2C-954B-4D73-A9BD-61150566E851}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="255"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IVACode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IVACode]"
+                      length="12"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[IVACode]"
+                      name="IVACode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[LatestQuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[LatestQuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[LatestQuotePart]"
+                      name="LatestQuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ1_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ1_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ1_QuotePart]"
+                      name="Acquisition_CurrentYearQ1_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ1_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ1_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ1_QuotePart]"
+                      name="Disposition_CurrentYearQ1_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ2_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ2_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ2_QuotePart]"
+                      name="Acquisition_CurrentYearQ2_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ2_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ2_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ2_QuotePart]"
+                      name="Disposition_CurrentYearQ2_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ3_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ3_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ3_QuotePart]"
+                      name="Acquisition_CurrentYearQ3_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ3_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ3_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ3_QuotePart]"
+                      name="Disposition_CurrentYearQ3_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ4_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ4_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Acquisition_CurrentYearQ4_QuotePart]"
+                      name="Acquisition_CurrentYearQ4_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ4_QuotePart]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ4_QuotePart]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Disposition_CurrentYearQ4_QuotePart]"
+                      name="Disposition_CurrentYearQ4_QuotePart"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[LatestLoadingDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[LatestLoadingDate]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[LatestLoadingDate]"
+                      name="LatestLoadingDate"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[CurrencyConversionShareCAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[CurrencyConversionShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[CurrencyConversionShareCAD]"
+                      name="CurrencyConversionShareCAD"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[AcquisitionShareCAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[AcquisitionShareCAD]"
+                      name="AcquisitionShareCAD"
+                      precision="21"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[DispositionShareCAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[DispositionShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[DispositionShareCAD]"
+                      name="DispositionShareCAD"
+                      precision="21"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ImmobilisationShareCAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ImmobilisationShareCAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ImmobilisationShareCAD]"
+                      name="ImmobilisationShareCAD"
+                      precision="21"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[AcquisitionShareLocalCurrency]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[AcquisitionShareLocalCurrency]"
+                      name="AcquisitionShareLocalCurrency"
+                      precision="38"
+                      scale="12"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[DispositionShareLocalCurrency]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[DispositionShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[DispositionShareLocalCurrency]"
+                      name="DispositionShareLocalCurrency"
+                      precision="38"
+                      scale="12"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ImmobilisationShareLocalCurrency]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ImmobilisationShareLocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ImmobilisationShareLocalCurrency]"
+                      name="ImmobilisationShareLocalCurrency"
+                      precision="38"
+                      scale="12"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      name="ExchangeEffect_CurrentYear_QP_CAD"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Appreciation_CurrentYear_QP_CAD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Appreciation_CurrentYear_QP_CAD]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Appreciation_CurrentYear_QP_CAD]"
+                      name="Appreciation_CurrentYear_QP_CAD"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      name="ExchangeEffect_CurrentYear_QP_LocalCurrency"
+                      precision="38"
+                      scale="15"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].Columns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      name="Appreciation_CurrentYear_QP_LocalCurrency"
+                      precision="38"
+                      scale="15"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[IVACode]"
+                      dataType="wstr"
+                      length="12"
+                      name="IVACode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[LatestQuotePart]"
+                      dataType="numeric"
+                      name="LatestQuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ1_QuotePart]"
+                      dataType="numeric"
+                      name="Acquisition_CurrentYearQ1_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ1_QuotePart]"
+                      dataType="numeric"
+                      name="Disposition_CurrentYearQ1_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ2_QuotePart]"
+                      dataType="numeric"
+                      name="Acquisition_CurrentYearQ2_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ2_QuotePart]"
+                      dataType="numeric"
+                      name="Disposition_CurrentYearQ2_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ3_QuotePart]"
+                      dataType="numeric"
+                      name="Acquisition_CurrentYearQ3_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ3_QuotePart]"
+                      dataType="numeric"
+                      name="Disposition_CurrentYearQ3_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Acquisition_CurrentYearQ4_QuotePart]"
+                      dataType="numeric"
+                      name="Acquisition_CurrentYearQ4_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Disposition_CurrentYearQ4_QuotePart]"
+                      dataType="numeric"
+                      name="Disposition_CurrentYearQ4_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[LatestLoadingDate]"
+                      dataType="dbTimeStamp2"
+                      name="LatestLoadingDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[CurrencyConversionShareCAD]"
+                      dataType="numeric"
+                      name="CurrencyConversionShareCAD"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionShareCAD]"
+                      dataType="numeric"
+                      name="AcquisitionShareCAD"
+                      precision="21"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[DispositionShareCAD]"
+                      dataType="numeric"
+                      name="DispositionShareCAD"
+                      precision="21"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ImmobilisationShareCAD]"
+                      dataType="numeric"
+                      name="ImmobilisationShareCAD"
+                      precision="21"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionShareLocalCurrency]"
+                      dataType="numeric"
+                      name="AcquisitionShareLocalCurrency"
+                      precision="38"
+                      scale="12" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[DispositionShareLocalCurrency]"
+                      dataType="numeric"
+                      name="DispositionShareLocalCurrency"
+                      precision="38"
+                      scale="12" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ImmobilisationShareLocalCurrency]"
+                      dataType="numeric"
+                      name="ImmobilisationShareLocalCurrency"
+                      precision="38"
+                      scale="12" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      dataType="numeric"
+                      name="ExchangeEffect_CurrentYear_QP_CAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Appreciation_CurrentYear_QP_CAD]"
+                      dataType="numeric"
+                      name="Appreciation_CurrentYear_QP_CAD"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      dataType="numeric"
+                      name="ExchangeEffect_CurrentYear_QP_LocalCurrency"
+                      precision="38"
+                      scale="15" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output].ExternalColumns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      dataType="numeric"
+                      name="Appreciation_CurrentYear_QP_LocalCurrency"
+                      precision="38"
+                      scale="15" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IVACode]"
+                      dataType="wstr"
+                      length="12"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IVACode]"
+                      name="IVACode" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[LatestQuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[LatestQuotePart]"
+                      name="LatestQuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ1_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ1_QuotePart]"
+                      name="Acquisition_CurrentYearQ1_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ1_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ1_QuotePart]"
+                      name="Disposition_CurrentYearQ1_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ2_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ2_QuotePart]"
+                      name="Acquisition_CurrentYearQ2_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ2_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ2_QuotePart]"
+                      name="Disposition_CurrentYearQ2_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ3_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ3_QuotePart]"
+                      name="Acquisition_CurrentYearQ3_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ3_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ3_QuotePart]"
+                      name="Disposition_CurrentYearQ3_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ4_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Acquisition_CurrentYearQ4_QuotePart]"
+                      name="Acquisition_CurrentYearQ4_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ4_QuotePart]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Disposition_CurrentYearQ4_QuotePart]"
+                      name="Disposition_CurrentYearQ4_QuotePart"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[CurrencyConversionShareCAD]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[CurrencyConversionShareCAD]"
+                      name="CurrencyConversionShareCAD"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[AcquisitionShareCAD]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[AcquisitionShareCAD]"
+                      name="AcquisitionShareCAD"
+                      precision="21"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[DispositionShareCAD]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[DispositionShareCAD]"
+                      name="DispositionShareCAD"
+                      precision="21"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ImmobilisationShareCAD]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ImmobilisationShareCAD]"
+                      name="ImmobilisationShareCAD"
+                      precision="21"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[AcquisitionShareLocalCurrency]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[AcquisitionShareLocalCurrency]"
+                      name="AcquisitionShareLocalCurrency"
+                      precision="38"
+                      scale="12" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[DispositionShareLocalCurrency]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[DispositionShareLocalCurrency]"
+                      name="DispositionShareLocalCurrency"
+                      precision="38"
+                      scale="12" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ImmobilisationShareLocalCurrency]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ImmobilisationShareLocalCurrency]"
+                      name="ImmobilisationShareLocalCurrency"
+                      precision="38"
+                      scale="12" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ExchangeEffect_CurrentYear_QP_CAD]"
+                      name="ExchangeEffect_CurrentYear_QP_CAD"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Appreciation_CurrentYear_QP_CAD]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Appreciation_CurrentYear_QP_CAD]"
+                      name="Appreciation_CurrentYear_QP_CAD"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ExchangeEffect_CurrentYear_QP_LocalCurrency]"
+                      name="ExchangeEffect_CurrentYear_QP_LocalCurrency"
+                      precision="38"
+                      scale="15" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[Appreciation_CurrentYear_QP_LocalCurrency]"
+                      name="Appreciation_CurrentYear_QP_LocalCurrency"
+                      precision="38"
+                      scale="15" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[LatestLoadingDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[LatestLoadingDate]"
+                      name="LatestLoadingDate"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Get from EDW Last_Closed_Qt"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{54FC739B-2A61-457D-BB78-FEE9776C4ED9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Get from EDW Last_Closed_Qt"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStatementSource="select MAX(EOMONTH(cast(concat(lc.Name,'-01') as date))) as Last_Closed_Qt&#xA; from  curr.v_Sub_FIN_LastClosedPeriod lc&#xA;where [FIN_PeriodType_Code] = 'QTR'&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Last_Closed_Qt"
+            SQLTask:DtsVariableName="User::var_Last_Closed_Qt" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load EDW Met_Finance_ConsolidatedProperty_EMVDetail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EFF949F9-50B9-48B7-9092-AF19CA9B0F3A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load EDW Met_Finance_ConsolidatedProperty_EMVDetail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Truncate EDW Working Met_Finance_ConsolidatedProperty_EMVDetail Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9652F6F4-7AB3-4A7D-A391-FA5080241873}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Truncate EDW Working Met_Finance_ConsolidatedProperty_EMVDetail Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{A1172E26-5261-43AB-86D8-C2FC2B7C421B}"
+      DTS:From="Package\SQL - Truncate EDW Working Met_Finance_ConsolidatedProperty_EMVDetail Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL - Get from EDW Last_Closed_Qt" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{012C4A02-61FB-44B6-8A1B-3B023FAB61B8}"
+      DTS:From="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load EDW Met_Finance_ConsolidatedProperty_EMVDetail" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{D1AD763C-BD76-4C39-8F2F-E138332DC4FF}"
+      DTS:From="Package\SQL - Get from EDW Last_Closed_Qt"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="466,42"
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS"
+          TopLeft="63.625,209.5" />
+        <NodeLayout
+          Size="437,42"
+          Id="Package\SQL - Get from EDW Last_Closed_Qt"
+          TopLeft="75.625,106.5" />
+        <NodeLayout
+          Size="379,42"
+          Id="Package\SQL - Load EDW Met_Finance_ConsolidatedProperty_EMVDetail"
+          TopLeft="104,333" />
+        <NodeLayout
+          Size="470,42"
+          Id="Package\SQL - Truncate EDW Working Met_Finance_ConsolidatedProperty_EMVDetail Entity"
+          TopLeft="63.625,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="296.375,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="295.0625,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,81.5"
+              Start="0,0"
+              End="0,74">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,74" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="295.375,148.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61"
+              Start="0,0"
+              End="0,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="360,42"
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current"
+          TopLeft="219.136363636364,139.6" />
+        <NodeLayout
+          Size="514,42"
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add metadata - Working"
+          TopLeft="146.136363636364,370.3" />
+        <NodeLayout
+          Size="518,42"
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail"
+          TopLeft="145.136363636364,586.5" />
+        <NodeLayout
+          Size="306,42"
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity"
+          TopLeft="246.136363636364,5.5" />
+        <NodeLayout
+          Size="245,42"
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\DER - Add columns for no mapping"
+          TopLeft="287,473" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[OLE DB Source Output]"
+          TopLeft="399.136363636364,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,92.1"
+              Start="0,0"
+              End="0,84.6">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,84.6" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[Lookup Match Output]"
+          TopLeft="401.136363636364,181.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,188.7"
+              Start="0,0"
+              End="0,181.2">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,181.2" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,84.7953125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[Derived Column Output1]"
+          TopLeft="406.818181818182,515">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71.5"
+              Start="0,0"
+              End="0,64">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS.Paths[Derived Column Output]"
+          TopLeft="406.318181818182,412.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.7"
+              Start="0,0"
+              End="0,53.2">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.2" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Finance_ConsolidatedPropertyEMVDetail">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\LKP - Ref_Finance_ConsolidatedPropertyValuation - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Finance_ConsolidatedProperty_EMVDetail  from DS\OLE_SRC - DS Entity - Finance_EMVDetail Entity">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

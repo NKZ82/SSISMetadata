@@ -1,0 +1,2806 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/14/2017 10:36:23 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI07"
+  DTS:CreatorName="CORP\adm1niea"
+  DTS:DTSID="{6CEB3B3D-F60D-468A-9365-39EAA7A52B51}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load Entities from PART_20VIC_SALES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="276"
+  DTS:VersionGUID="{32378385-7D98-422B-8759-FD1587E2E4BD}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{9345C1C9-3707-4ED6-B197-F729E57F95A9}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">54089</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{AC642821-42B2-4099-9A37-EA513FA54105}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C089D850-B24C-4057-B835-109FDFB3F0C4}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CurrentLeaseNumber">
+      <DTS:VariableValue
+        DTS:DataType="21">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{87B7569A-88D7-4D4F-BB8F-C8A034CE416C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LeaseNumber">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{173E5D96-7651-452C-9258-80D569124A28}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">Sales</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4B2BE9A7-878E-4CEB-A23E-2C8D503812D0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">PART</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BA1688CF-0C6E-447F-B783-769F3E02CBCC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;Delete from [entity].[PropMgmt_SaleUnitRollingMetric] where IC_DM_IS_EDW_PUBLISHED is null&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_DeleteFrom_Leasing_LeaseMaster_NonPublished_Records">
+      <DTS:VariableValue
+        DTS:DataType="8">Delete from [entity].[PropMgmt_SaleUnitRollingMetric] where IC_DM_IS_EDW_PUBLISHED is null</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9592C4AF-061E-453F-B2F5-68C6CB62A120}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_PropMgmt_SaleUnitRollingMetric_CDC]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_Get_DS_SalesUnit_LastVersion">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_PropMgmt_SaleUnitRollingMetric_CDC]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D822D664-1E3B-4C51-AF62-49DDE6300D16}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [staging].[sp_Get_JDE_Sales_Category_Data] '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;',&quot;+ (DT_WSTR,10) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_Get_JDE_SalesCategory_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [staging].[sp_Get_JDE_Sales_Category_Data] '54089',1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{438AC39C-FE84-4A70-98D4-547C85BC4035}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [staging].[sp_Get_PART_RollingMetric_Data] '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;',&quot;+ (DT_WSTR,10) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_Get_PART_AREA_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [staging].[sp_Get_PART_RollingMetric_Data] '54089',1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{21A010D5-CC40-4D22-9FB3-7334B7A0EA3A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:38 AM</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Delete Non Published records in PropMgmt_SaleUnitRollingMetric"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{75292aa4-aa6d-47ac-bfec-91e2e40ba5a4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Delete Non Published records in PropMgmt_SaleUnitRollingMetric"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_DeleteFrom_Leasing_LeaseMaster_NonPublished_Records" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B0C364E5-875B-450B-970B-3BB21E166AD6}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="CSPL - Record is New or Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DS - IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[New]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="New"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(IC_DM_HASHKEY_BK)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Modified]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Modified"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">![ISNULL](#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]}) &amp;&amp; ((#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]} != #{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]}) || ![ISNULL](#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_TIMESTAMP_DELETE]}))</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">!ISNULL(Hashkey_Attr) &amp;&amp; ((IC_DM_HASHKEY_ATTR != Hashkey_Attr) || !ISNULL([DS - IC_DM_TIMESTAMP_DELETE]))</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Deleted]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Deleted"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Hashkey_BK)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]"
+                  name="Merge Join_Output_DER - Add metadata">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output]"
+                  exclusionGroup="1"
+                  name="Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Source]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Source]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Data]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Data]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="33"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_DATE)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_DATE)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Error]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Error"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Error].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Error].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Error].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Error].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Assign IC_DM_TIMESTAMP_UPDATE"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Core_Date_ReportingDate]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Core_Date_ReportingDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_CostCenter_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_CostCenter_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Leasing_Unit_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Unit_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Leasing_Unit_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Leasing_Occupant_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Occupant_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Leasing_Occupant_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[ROLLINGCHARGES]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ROLLINGCHARGES"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[ROLLINGCHARGES]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[NUMROLLINGMONTHS]"
+                      cachedDataType="i4"
+                      cachedName="NUMROLLINGMONTHS"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[NUMROLLINGMONTHS]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_LOADING_DATE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Core_Date_ReportingDate]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Core_Date_ReportingDate]"
+                      name="Core_Date_ReportingDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Core_Date_ReportingDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Finance_CostCenter_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Finance_CostCenter_Code]"
+                      name="Finance_CostCenter_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_CostCenter_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Unit_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Unit_Code]"
+                      name="Leasing_Unit_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Leasing_Unit_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Occupant_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Occupant_Code]"
+                      name="Leasing_Occupant_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Leasing_Occupant_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[ROLLINGCHARGES]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[ROLLINGCHARGES]"
+                      name="ROLLINGCHARGES">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[ROLLINGCHARGES]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Hashkey_BK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[Hashkey_Attr]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_HASHKEY_BK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_HASHKEY_ATTR]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_LOADING_DATE]"
+                      name="DS - IC_DM_LOADING_DATE"
+                      scale="7">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_LOADING_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      name="DS - IC_DM_TIMESTAMP_DELETE"
+                      scale="7">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_TIMESTAMP_DELETE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[NUMROLLINGMONTHS]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[NUMROLLINGMONTHS]"
+                      name="NUMROLLINGMONTHS">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input].Columns[NUMROLLINGMONTHS]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - RollingMetric"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[PropMgmt_SaleUnitRollingMetric]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[Core_Date_ReportingDate]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_ReportingDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Core_Date_ReportingDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[Finance_CostCenter_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_CostCenter_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Finance_CostCenter_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[Leasing_Unit_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Unit_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_Unit_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Unit_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[Leasing_Occupant_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Occupant_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_Occupant_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Occupant_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[NUMROLLINGMONTHS]"
+                      cachedDataType="i4"
+                      cachedName="NUMROLLINGMONTHS"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[RollingMonths]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[NUMROLLINGMONTHS]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[ROLLINGCHARGES]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ROLLINGCHARGES"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Charges]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[ROLLINGCHARGES]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="33"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_ReportingDate]"
+                      dataType="wstr"
+                      length="30"
+                      name="Core_Date_ReportingDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_CostCenter_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_Unit_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Leasing_Unit_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_LeaseMaster_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Leasing_LeaseMaster_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_Occupant_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Leasing_Occupant_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[RollingMonths]"
+                      dataType="i4"
+                      name="RollingMonths" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Charges]"
+                      dataType="wstr"
+                      length="30"
+                      name="Charges" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DataStore - 20VIC_Area  CDC"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">[entity].[sp_Get_PropMgmt_SaleUnitRollingMetric_CDC]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - Staging - 20 VIC AREA"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_Get_PART_AREA_Data</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Core_Date_ReportingDate]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_ReportingDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Core_Date_ReportingDate]"
+                      name="Core_Date_ReportingDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Finance_CostCenter_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]"
+                      name="Finance_CostCenter_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Leasing_Unit_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Leasing_Unit_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Leasing_Unit_Code]"
+                      name="Leasing_Unit_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Leasing_Occupant_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Leasing_Occupant_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Leasing_Occupant_Code]"
+                      name="Leasing_Occupant_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[ROLLINGCHARGES]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[ROLLINGCHARGES]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[ROLLINGCHARGES]"
+                      name="ROLLINGCHARGES"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_BK]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_Attr]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[NUMROLLINGMONTHS]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[NUMROLLINGMONTHS]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].Columns[NUMROLLINGMONTHS]"
+                      name="NUMROLLINGMONTHS"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_ReportingDate]"
+                      dataType="i4"
+                      name="Core_Date_ReportingDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Finance_CostCenter_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_CostCenter_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Leasing_Unit_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Leasing_Unit_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Leasing_Occupant_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Leasing_Occupant_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[ROLLINGCHARGES]"
+                      dataType="wstr"
+                      length="255"
+                      name="ROLLINGCHARGES" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Hashkey_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Hashkey_Attr" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output].ExternalColumns[NUMROLLINGMONTHS]"
+                      dataType="i4"
+                      name="NUMROLLINGMONTHS" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Core_Date_ReportingDate]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Core_Date_ReportingDate]"
+                      name="Core_Date_ReportingDate" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Finance_CostCenter_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Finance_CostCenter_Code]"
+                      name="Finance_CostCenter_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Leasing_Unit_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Leasing_Unit_Code]"
+                      name="Leasing_Unit_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Leasing_Occupant_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Leasing_Occupant_Code]"
+                      name="Leasing_Occupant_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[NUMROLLINGMONTHS]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[NUMROLLINGMONTHS]"
+                      name="NUMROLLINGMONTHS" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[ROLLINGCHARGES]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[ROLLINGCHARGES]"
+                      name="ROLLINGCHARGES" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[Core_Date_ReportingDate]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Core_Date_ReportingDate]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Core_Date_ReportingDate]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[Finance_CostCenter_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_CostCenter_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Finance_CostCenter_Code]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Finance_CostCenter_Code]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[Leasing_Unit_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Unit_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Unit_Code]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Unit_Code]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[Leasing_Occupant_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Occupant_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Occupant_Code]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Occupant_Code]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[ROLLINGCHARGES]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ROLLINGCHARGES"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[ROLLINGCHARGES]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[ROLLINGCHARGES]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_BK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_Attr]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_BK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_ATTR]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[DS - IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DS - IC_DM_LOADING_DATE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_LOADING_DATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_LOADING_DATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DS - IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_TIMESTAMP_DELETE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_TIMESTAMP_DELETE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IC_DM_LOADING_DATE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_LOADING_DATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_SOURCE_CODE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_DATA_CODE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_DATA_CODE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="33"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_TIMESTAMP_UPDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_TIMESTAMP_UPDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1].Columns[NUMROLLINGMONTHS]"
+                      cachedDataType="i4"
+                      cachedName="NUMROLLINGMONTHS"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[NUMROLLINGMONTHS]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[NUMROLLINGMONTHS]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[Core_Date_ReportingDate]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Core_Date_ReportingDate]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Core_Date_ReportingDate]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[Finance_CostCenter_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_CostCenter_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Finance_CostCenter_Code]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Finance_CostCenter_Code]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[Leasing_Unit_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Unit_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Unit_Code]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Unit_Code]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[Leasing_Occupant_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Leasing_Occupant_Code"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Leasing_Occupant_Code]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Occupant_Code]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[ROLLINGCHARGES]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ROLLINGCHARGES"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[ROLLINGCHARGES]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[ROLLINGCHARGES]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_BK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_Attr]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_BK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_ATTR]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[DS - IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DS - IC_DM_LOADING_DATE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_LOADING_DATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_LOADING_DATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DS - IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_TIMESTAMP_DELETE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_TIMESTAMP_DELETE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IC_DM_LOADING_DATE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_LOADING_DATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_SOURCE_CODE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_DATA_CODE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_DATA_CODE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="33"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output].Columns[IC_DM_TIMESTAMP_UPDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_TIMESTAMP_UPDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2].Columns[NUMROLLINGMONTHS]"
+                      cachedDataType="i4"
+                      cachedName="NUMROLLINGMONTHS"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output].Columns[NUMROLLINGMONTHS]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[NUMROLLINGMONTHS]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Core_Date_ReportingDate]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Core_Date_ReportingDate]"
+                      name="Core_Date_ReportingDate" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Finance_CostCenter_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Finance_CostCenter_Code]"
+                      name="Finance_CostCenter_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Unit_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Unit_Code]"
+                      name="Leasing_Unit_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Occupant_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Leasing_Occupant_Code]"
+                      name="Leasing_Occupant_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[ROLLINGCHARGES]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[ROLLINGCHARGES]"
+                      name="ROLLINGCHARGES" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_BK]"
+                      name="Hashkey_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_LOADING_DATE]"
+                      name="DS - IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[DS - IC_DM_TIMESTAMP_DELETE]"
+                      name="DS - IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="33"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="date"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[NUMROLLINGMONTHS]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1].Columns[NUMROLLINGMONTHS]"
+                      name="NUMROLLINGMONTHS" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Derived Column Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 2]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Merge Join Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]"
+              name="Merge Join Output"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Modified]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]"
+              name="Modified"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[Modified]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[New]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Inputs[Union All Input 1]"
+              name="New"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Outputs[New]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Left Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[OLE DB Source Output1]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join.Inputs[Merge Join Right Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+              name="Output"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata.Outputs[Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Union All Output 1]"
+              endId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric.Inputs[OLE DB Destination Input]"
+              name="Union All Output 1"
+              startId="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C73BF375-8751-4A2C-8746-501842FB4130}"
+      DTS:From="Package\DFT - Delete Non Published records in PropMgmt_SaleUnitRollingMetric"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="403,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit"
+          TopLeft="192,98" />
+        <NodeLayout
+          Size="415,42"
+          Id="Package\DFT - Delete Non Published records in PropMgmt_SaleUnitRollingMetric"
+          TopLeft="191,8" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="396,50">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="282,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Assign IC_DM_TIMESTAMP_UPDATE"
+          TopLeft="507.5,386.25" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Union All"
+          TopLeft="233.75,390" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\DER - Add metadata"
+          TopLeft="522.5,208.75" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\Merge Join"
+          TopLeft="540,130" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric"
+          TopLeft="159.75,513.25" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA"
+          TopLeft="297.5,40" />
+        <NodeLayout
+          Size="273,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC"
+          TopLeft="675,41.25" />
+        <NodeLayout
+          Size="236,42"
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\CSPL - Record is New or Modified"
+          TopLeft="493.75,282.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Output]"
+          TopLeft="610.875,250.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.75"
+              Start="0,0"
+              End="0,24.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[OLE DB Source Output1]"
+          TopLeft="811.5,83.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-186.166666666667,46.75"
+              Start="0,0"
+              End="-186.166666666667,39.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.7089665653496" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.7089665653496"
+                    Point2="0,27.7089665653496"
+                    Point3="-4,27.7089665653496" />
+                  <mssgle:LineSegment
+                    End="-182.166666666667,27.7089665653496" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-182.166666666667,27.7089665653496"
+                    Point2="-186.166666666667,27.7089665653496"
+                    Point3="-186.166666666667,31.7089665653496" />
+                  <mssgle:LineSegment
+                    End="-186.166666666667,39.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[OLE DB Source Output]"
+          TopLeft="417,82">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="167.666666666667,48"
+              Start="0,0"
+              End="167.666666666667,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.4498480243161" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.4498480243161"
+                    Point2="0,28.4498480243161"
+                    Point3="4,28.4498480243161" />
+                  <mssgle:LineSegment
+                    End="163.666666666667,28.4498480243161" />
+                  <mssgle:CubicBezierSegment
+                    Point1="163.666666666667,28.4498480243161"
+                    Point2="167.666666666667,28.4498480243161"
+                    Point3="167.666666666667,32.4498480243161" />
+                  <mssgle:LineSegment
+                    End="167.666666666667,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[New]"
+          TopLeft="573.75,324.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-279.5,65.5"
+              Start="0,0"
+              End="-279.5,58">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4646464646465" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.4646464646465"
+                    Point2="0,26.4646464646465"
+                    Point3="-4,26.4646464646465" />
+                  <mssgle:LineSegment
+                    End="-275.5,26.4646464646465" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-275.5,26.4646464646465"
+                    Point2="-279.5,26.4646464646465"
+                    Point3="-279.5,30.4646464646465" />
+                  <mssgle:LineSegment
+                    End="-279.5,58" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-149.98404296875,31.4646464646465,20.4680859375,9.3974609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Modified]"
+          TopLeft="649.125,324.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.75"
+              Start="0,0"
+              End="0,54.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-18.90798828125,22.22607421875,37.8159765625,9.7978515625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Merge Join Output]"
+          TopLeft="607.5,172">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.75"
+              Start="0,0"
+              End="0,29.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Derived Column Output]"
+          TopLeft="507.5,409.125">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-152.75,0"
+              Start="0,0"
+              End="-145.25,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-145.25,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit.Paths[Union All Output 1]"
+          TopLeft="291.25,432">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,81.25"
+              Start="0,0"
+              End="0,73.75">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,73.75" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_DEST - DataStore - RollingMetric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - Staging - 20 VIC AREA">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging PART_20VIC_SALES Unit\OLE_SRC - DataStore - 20VIC_Area  CDC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

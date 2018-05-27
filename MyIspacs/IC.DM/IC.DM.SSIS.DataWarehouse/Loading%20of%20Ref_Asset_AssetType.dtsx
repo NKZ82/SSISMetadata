@@ -1,0 +1,1171 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{65618545-C3E2-4BC9-ABF3-29EC7734FBF7}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Ref_Asset_AssetType"
+  DTS:PackageType="5"
+  DTS:VersionBuild="93"
+  DTS:VersionGUID="{609394A8-A0EE-460F-B7FD-F47F2A54A8F4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{B8DBA8AE-A428-4563-8D80-7E24918C183C}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20160810-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{F6231357-B233-4251-871C-F3F241C511DA}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0E392868-122A-4A3A-92AF-2D6F98F8A8B1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Asset</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{99A9B43B-FB94-4AF5-86EC-300373CE1132}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">AssetType</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CA034171-98C7-467A-92EE-4B39E549266B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref_Asset_AssetType</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1402001B-B318-4243-8017-F1CF068EF664}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Asset_AssetType</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1EF19353-BF7B-4AC7-B20E-A51D63632729}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EC384E09-A3B6-4F9E-808D-505FDF0C8BF2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [usr].[sp_Get_&quot; + @[User::md_EntityName] + &quot;_Entity]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromMDM">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [usr].[sp_Get_Asset_AssetType_Entity]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C72EF649-C9FA-4BC7-9B1E-E811080A094D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20160810-01-EL'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [edw].[sp_Load_Ref_Asset_AssetType_SCD2] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BEC7998E-2E5D-41A2-B46D-23430D274DE1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Ref_Asset_AssetType]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20160810-01-EL'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{67A2E8CC-F04D-48B9-A679-4EA58FCAC5CD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20160810-01-EL_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7A36AF8C-891C-4130-B47A-73922C8FE9C8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:28 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{57230D4A-A710-4E09-822A-F5EB6CBAAAAA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:27</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D9814D1D-5A9B-48A5-9387-83BC960539D1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Asset_AssetType - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Asset_AssetType_Code, Asset_AssetType_DK FROM [edw].[Ref_Asset_AssetType] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Asset_AssetType_Code, Asset_AssetType_DK FROM [edw].[Ref_Asset_AssetType] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Asset_AssetType_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Asset_AssetType_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Asset_AssetType_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Asset_AssetType_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Inputs[Lookup Input].Columns[Asset_AssetType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Asset_AssetType_Code"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Asset_AssetType_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Asset_AssetType_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Match Output].Columns[Asset_AssetType_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Match Output].Columns[Asset_AssetType_DK]"
+                      name="Asset_AssetType_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Asset_AssetType_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Ref_Asset_AssetType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[Description_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="Description_EN"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Description_EN]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Description_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[Description_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="Description_FR"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Description_FR]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Description_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[Name_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Name_FR"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Name_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[ValidationSucceeded]"
+                      cachedDataType="i4"
+                      cachedName="ValidationSucceeded"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[Asset_AssetType_DK]"
+                      cachedDataType="i4"
+                      cachedName="Asset_AssetType_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Asset_AssetType_DK]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Match Output].Columns[Asset_AssetType_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].Columns[Asset_AssetType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Asset_AssetType_Code"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Asset_AssetType_Code]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Asset_AssetType_Code]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Description_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="Description_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Description_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="Description_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Asset_AssetType_DK]"
+                      dataType="i4"
+                      name="Asset_AssetType_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input].ExternalColumns[Asset_AssetType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Asset_AssetType_Code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - MDS DB - DM_MDM - Asset_AssetType"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromMDM</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Connections[OleDbConnection]"
+                  connectionManagerID="{26FCB80F-4859-4366-8B2F-37D07352E510}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Description_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Description_EN]"
+                      length="500"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Description_EN]"
+                      name="Description_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      name="Name_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Description_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Description_FR]"
+                      length="500"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Description_FR]"
+                      name="Description_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Asset_AssetType_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Asset_AssetType_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].Columns[Asset_AssetType_Code]"
+                      name="Asset_AssetType_Code"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Description_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="Description_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Description_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="Description_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      dataType="i4"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output].ExternalColumns[Asset_AssetType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Asset_AssetType_Code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Asset_AssetType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Asset_AssetType_Code]"
+                      name="Asset_AssetType_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Description_EN]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Description_EN]"
+                      name="Description_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                      name="Name_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Description_FR]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Description_FR]"
+                      name="Description_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      name="Name_EN" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete EDW Working Ref_Asset_AsseType Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{729DEE90-1D48-4239-879B-298BA8C2DBAE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete EDW Working Ref_Asset_AsseType Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load EDW Ref_Asset_AssetType Entity - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CC7024D4-C2D2-4C5D-8B16-56B00A020119}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load EDW Ref_Asset_AssetType Entity - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{4035E2C2-1B8B-44F0-98BF-BB9DDB41D43A}"
+      DTS:From="Package\SQL - Delete EDW Working Ref_Asset_AsseType Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D23062F6-3810-40D0-B26E-E0EF410C74A5}"
+      DTS:From="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load EDW Ref_Asset_AssetType Entity - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="384,42"
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="337,42"
+          Id="Package\SQL - Delete EDW Working Ref_Asset_AsseType Entity"
+          TopLeft="26.5,5.5" />
+        <NodeLayout
+          Size="327,42"
+          Id="Package\SQL - Load EDW Ref_Asset_AssetType Entity - SCD2"
+          TopLeft="33.5,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="196.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="197.25,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="253,42"
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current"
+          TopLeft="82,107.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\DER - Add metadata"
+          TopLeft="121.5,209.5" />
+        <NodeLayout
+          Size="317,42"
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType"
+          TopLeft="50.5,5.5" />
+        <NodeLayout
+          Size="406,42"
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType"
+          TopLeft="5.50000000000006,311.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS.Paths[OLE DB Source Output]"
+          TopLeft="208.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS.Paths[Lookup Match Output]"
+          TopLeft="208.75,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS.Paths[Derived Column Output]"
+          TopLeft="208.75,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\LKP - Ref_Asset_AssetType - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Asset_AssetType">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Asset_AssetType Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Asset_AssetType">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

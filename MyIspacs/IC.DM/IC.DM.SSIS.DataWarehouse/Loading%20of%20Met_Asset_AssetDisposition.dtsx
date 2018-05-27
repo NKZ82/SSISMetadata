@@ -1,0 +1,2127 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{C3608E1B-C467-40BE-9D45-8F812B79198C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Met_Asset_AssetDisposition"
+  DTS:PackageType="5"
+  DTS:VersionBuild="661"
+  DTS:VersionGUID="{C7FDADF4-ACD9-454D-9190-EF351D9B36DB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{272DE0DC-2266-4896-979A-29CAAE6BF6C6}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">INITIAL_LOAD</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{25E9F894-18A9-4C0D-96C5-99EA98BBA95D}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6FE0FE15-1F23-4B1A-AE24-8CA301BB732A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Asset</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{82FF9CDA-491B-4F01-A9F8-C208F911F5CA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">AssetDisposition</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7F4F5E28-09DD-4041-965E-701BBE1F682E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; +  @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Met_Asset_AssetDisposition</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{99533FC3-0BFA-402A-8B7E-2A51243B0258}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Asset_AssetDisposition</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{14DF8960-EB6C-4B16-AD33-2E896B41A261}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Met</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{506C469D-7414-44F5-8674-23641F4E0C80}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetExternalAccountDataFromMDM">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7235B67B-6D03-4955-AA07-786849932250}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT Asset_Asset_Code,&#xA;&#x9;Core_Date_DispositionDate,&#xA;&#x9;Finance_Currency_Code,&#xA;&#x9;GrossDispositionPrice,&#xA;&#x9;NetDispositionPrice,&#xA;&#x9;OwnershipPercentageDisposed,&#xA;&#x9;IC_DM_BUSINESS_PROCESS_INSTANCE_ID,&#xA;&#x9;IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;FROM cleansing.&quot; + @[User::md_EntityName] + &quot;&#xA;WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot;+ @[$Package::BusinessProcessInstanceID] +&quot;'&#xA;&#x9;AND IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION = &quot;+ (DT_WSTR, 50)@[$Package::BusinessProcessInstanceIteration] +&quot;&#xA;ORDER BY &#x9;&#xA;&#x9;Asset_Asset_Code,&#xA;&#x9;Core_Date_DispositionDate&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetExternalLineItemDataFromDS">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT Asset_Asset_Code,
+	Core_Date_DispositionDate,
+	Finance_Currency_Code,
+	GrossDispositionPrice,
+	NetDispositionPrice,
+	OwnershipPercentageDisposed,
+	IC_DM_BUSINESS_PROCESS_INSTANCE_ID,
+	IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+FROM cleansing.Asset_AssetDisposition
+WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = 'INITIAL_LOAD'
+	AND IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION = 1
+ORDER BY 	
+	Asset_Asset_Code,
+	Core_Date_DispositionDate</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{66CEC2FD-52C0-4A3C-8F6F-30FA30963755}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = 'INITIAL_LOAD'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [edw].[sp_Load_Met_Asset_AssetDisposition] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{24A2AE0E-663B-4869-BC87-4F01F2EFC6C3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Met_Asset_AssetDisposition]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = 'INITIAL_LOAD'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FB048195-4A74-4869-B21B-62D3238CFF7A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">INITIAL_LOAD_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{915123B1-7BE9-4F6C-B767-FA3A31212AD7}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:16 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5D7DF92C-0774-4303-8755-29A674F25F21}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:16</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{FCBF5651-C819-44AD-AAFD-36A7E9CA6682}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add Core_Date_DispositionDate_DK"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Inputs[Derived Column Input].Columns[Core_Date_DispositionDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_DispositionDate_SK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output].Columns[Core_Date_DispositionDate_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output].Columns[Core_Date_DispositionDate_DK]"
+                      name="Core_Date_DispositionDate_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Core_Date_DispositionDate_SK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata - Working"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Handle missing values"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Finance_Currency_SK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_Currency_SK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Finance_Currency_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_Currency_DK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Core_Date_DispositionDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_DispositionDate_SK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Core_Date_DispositionDate_DK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_DispositionDate_DK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output].Columns[Core_Date_DispositionDate_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Asset_Asset_SK]"
+                      cachedDataType="i4"
+                      cachedName="Asset_Asset_SK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Asset_Asset_DK]"
+                      cachedDataType="i4"
+                      cachedName="Asset_Asset_DK"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_Currency_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_Currency_SK]"
+                      name="Applicable_Finance_Currency_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_SK]}) ? -1 : #{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_SK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Finance_Currency_SK) ? -1 : Finance_Currency_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_Currency_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_Currency_DK]"
+                      name="Applicable_Finance_Currency_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]}) ? -1 : #{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Finance_Currency_DK) ? -1 : Finance_Currency_DK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Asset_Asset_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Asset_Asset_SK]"
+                      name="Applicable_Asset_Asset_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_SK]}) ? -1 : #{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_SK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Asset_Asset_SK) ? -1 : Asset_Asset_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Asset_Asset_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Asset_Asset_DK]"
+                      name="Applicable_Asset_Asset_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_DK]}) ? -1 : #{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Asset_Asset_DK) ? -1 : Asset_Asset_DK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Date_DispositionDate_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Date_DispositionDate_SK]"
+                      name="Applicable_Core_Date_DispositionDate_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]}) ? -1 : #{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Core_Date_DispositionDate_SK) ? -1 : Core_Date_DispositionDate_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Date_DispositionDate_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Date_DispositionDate_DK]"
+                      name="Applicable_Core_Date_DispositionDate_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output].Columns[Core_Date_DispositionDate_DK]}) ? -1 : #{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output].Columns[Core_Date_DispositionDate_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Core_Date_DispositionDate_DK) ? -1 : Core_Date_DispositionDate_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Asset_Asset - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select Asset_Asset_SK, Asset_Asset_DK, Asset_Asset_Code from [edw].[Ref_Asset_Asset]
+WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select Asset_Asset_SK, Asset_Asset_DK, Asset_Asset_Code from [edw].[Ref_Asset_Asset]
+WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Asset_Asset_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Asset_Asset_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Asset_Asset_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Asset_Asset_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Asset_Asset_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Inputs[Lookup Input].Columns[Asset_Asset_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Asset_Asset_Code"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Asset_Asset_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Asset_Asset_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_SK]"
+                      name="Asset_Asset_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Asset_Asset_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output].Columns[Asset_Asset_DK]"
+                      name="Asset_Asset_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Asset_Asset_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Core_Date - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select Date, Core_Date_SK from edw.Ref_Core_Date</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select Date, Core_Date_SK from edw.Ref_Core_Date) [refTable]
+where [refTable].[Date] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Date" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="3" codePage="0"/&gt;&lt;referenceColumn name="Core_Date_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Core_Date_DispositionDate]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Inputs[Lookup Input].Columns[Core_Date_DispositionDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="Core_Date_DispositionDate"
+                      cachedScale="3"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Core_Date_DispositionDate]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Date</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output].Columns[Core_Date_DispositionDate_SK]"
+                      name="Core_Date_DispositionDate_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Core_Date_SK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_Currency - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select Finance_Currency_SK, Finance_Currency_DK, Finance_Currency_Code from [edw].[Ref_Finance_Currency]
+WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select Finance_Currency_SK, Finance_Currency_DK, Finance_Currency_Code from [edw].[Ref_Finance_Currency]
+WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Finance_Currency_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_Currency_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_Currency_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_Currency_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Inputs[Lookup Input].Columns[Finance_Currency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_Currency_Code"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_Currency_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_SK]"
+                      name="Finance_Currency_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_Currency_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]"
+                      name="Finance_Currency_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_Currency_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Met_Asset_AssetDisposition]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Finance_Currency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_Currency_Code"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Applicable_Finance_Currency_SK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Finance_Currency_SK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_SK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_Currency_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Applicable_Finance_Currency_DK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Finance_Currency_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_Currency_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Core_Date_DispositionDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="Core_Date_DispositionDate"
+                      cachedScale="3"
+                      cachedSortKeyPosition="2"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_DispositionDate]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Core_Date_DispositionDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[GrossDispositionPrice]"
+                      cachedDataType="numeric"
+                      cachedName="GrossDispositionPrice"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[GrossDispositionPrice]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[GrossDispositionPrice]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[NetDispositionPrice]"
+                      cachedDataType="numeric"
+                      cachedName="NetDispositionPrice"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[NetDispositionPrice]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[NetDispositionPrice]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[OwnershipPercentageDisposed]"
+                      cachedDataType="numeric"
+                      cachedName="OwnershipPercentageDisposed"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[OwnershipPercentageDisposed]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[OwnershipPercentageDisposed]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Applicable_Core_Date_DispositionDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Core_Date_DispositionDate_SK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_DispositionDate_SK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Date_DispositionDate_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Applicable_Core_Date_DispositionDate_DK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Core_Date_DispositionDate_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_DispositionDate_DK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Date_DispositionDate_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Applicable_Asset_Asset_SK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Asset_Asset_SK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Asset_Asset_SK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Asset_Asset_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Applicable_Asset_Asset_DK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Asset_Asset_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Asset_Asset_DK]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Asset_Asset_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].Columns[Asset_Asset_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Asset_Asset_Code"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Asset_Asset_Code]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Asset_Asset_Code]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_SK]"
+                      dataType="i4"
+                      name="Finance_Currency_SK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DK]"
+                      dataType="i4"
+                      name="Finance_Currency_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_Currency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_DispositionDate_SK]"
+                      dataType="i4"
+                      name="Core_Date_DispositionDate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_DispositionDate_DK]"
+                      dataType="i4"
+                      name="Core_Date_DispositionDate_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_DispositionDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_DispositionDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[GrossDispositionPrice]"
+                      dataType="numeric"
+                      name="GrossDispositionPrice"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[NetDispositionPrice]"
+                      dataType="numeric"
+                      name="NetDispositionPrice"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[OwnershipPercentageDisposed]"
+                      dataType="numeric"
+                      name="OwnershipPercentageDisposed"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Asset_Asset_SK]"
+                      dataType="i4"
+                      name="Asset_Asset_SK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Asset_Asset_DK]"
+                      dataType="i4"
+                      name="Asset_Asset_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input].ExternalColumns[Asset_Asset_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Asset_Asset_Code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DS - Cleansing - Asset_AssetDisposition"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetExternalLineItemDataFromDS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Connections[OleDbConnection]"
+                  connectionManagerID="{E42CAA2C-954B-4D73-A9BD-61150566E851}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]"
+                      name="Finance_Currency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Core_Date_DispositionDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_DispositionDate]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Core_Date_DispositionDate]"
+                      name="Core_Date_DispositionDate"
+                      scale="3"
+                      sortKeyPosition="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[GrossDispositionPrice]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[GrossDispositionPrice]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[GrossDispositionPrice]"
+                      name="GrossDispositionPrice"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[NetDispositionPrice]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[NetDispositionPrice]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[NetDispositionPrice]"
+                      name="NetDispositionPrice"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[OwnershipPercentageDisposed]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[OwnershipPercentageDisposed]"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[OwnershipPercentageDisposed]"
+                      name="OwnershipPercentageDisposed"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Asset_Asset_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[Asset_Asset_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].Columns[Asset_Asset_Code]"
+                      name="Asset_Asset_Code"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_Currency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_DispositionDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_DispositionDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[GrossDispositionPrice]"
+                      dataType="numeric"
+                      name="GrossDispositionPrice"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[NetDispositionPrice]"
+                      dataType="numeric"
+                      name="NetDispositionPrice"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[OwnershipPercentageDisposed]"
+                      dataType="numeric"
+                      name="OwnershipPercentageDisposed"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output].ExternalColumns[Asset_Asset_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Asset_Asset_Code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[Asset_Asset_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[Asset_Asset_Code]"
+                      name="Asset_Asset_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[Core_Date_DispositionDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[Core_Date_DispositionDate]"
+                      name="Core_Date_DispositionDate"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_Code]"
+                      name="Finance_Currency_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[GrossDispositionPrice]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[GrossDispositionPrice]"
+                      name="GrossDispositionPrice"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[NetDispositionPrice]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[NetDispositionPrice]"
+                      name="NetDispositionPrice"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[OwnershipPercentageDisposed]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[OwnershipPercentageDisposed]"
+                      name="OwnershipPercentageDisposed"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Derived Column Output2]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Lookup Match Output2]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete EDW Working Met_Asset_AssetDisposition Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A6A92E5F-64C8-420C-B500-9BA781B1F9C2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete EDW Working Met_Asset_AssetDisposition Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load EDW Met_Asset_AssetDisposition Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{565BD3A1-0372-4C34-98D4-B24563574233}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load EDW Met_Asset_AssetDisposition Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{51EEB455-A567-487C-83C6-F0B12608C484}"
+      DTS:From="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL - Load EDW Met_Asset_AssetDisposition Entity" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{456B14AB-ECD9-47FB-9CC2-420DE1DAA230}"
+      DTS:From="Package\SQL - Delete EDW Working Met_Asset_AssetDisposition Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="405,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="371,42"
+          Id="Package\SQL - Delete EDW Working Met_Asset_AssetDisposition Entity"
+          TopLeft="23,5.5" />
+        <NodeLayout
+          Size="321,42"
+          Id="Package\SQL - Load EDW Met_Asset_AssetDisposition Entity"
+          TopLeft="48,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="208.25,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="208.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="224,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current"
+          TopLeft="111.5,209.5" />
+        <NodeLayout
+          Size="320,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition"
+          TopLeft="63.5,5.5" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add metadata - Working"
+          TopLeft="111,617.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Handle missing values"
+          TopLeft="116.5,515.5" />
+        <NodeLayout
+          Size="258,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current"
+          TopLeft="99.5,311.5" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current"
+          TopLeft="113.5,107.5" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\DER - Add Core_Date_DispositionDate_DK"
+          TopLeft="84,413.5" />
+        <NodeLayout
+          Size="436,42"
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition"
+          TopLeft="5.50000000000009,719.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[OLE DB Source Output]"
+          TopLeft="226,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Lookup Match Output2]"
+          TopLeft="226,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Lookup Match Output1]"
+          TopLeft="226,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Lookup Match Output]"
+          TopLeft="226,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Derived Column Output2]"
+          TopLeft="223.5,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Derived Column Output1]"
+          TopLeft="223.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS.Paths[Derived Column Output]"
+          TopLeft="223.5,659.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Core_Date - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_SRC - DS - Cleansing - Asset_AssetDisposition">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Finance_Currency - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\LKP - Ref_Asset_Asset - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Met_Asset_AssetDisposition Entity from DS\OLE_DST - IC_DM_DataWarehouse - Working - Met_Asset_AssetDisposition">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

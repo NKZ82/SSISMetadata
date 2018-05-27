@@ -1,0 +1,2112 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/14/2016 1:48:16 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSHP54"
+  DTS:CreatorName="CORP\adm1nbagn"
+  DTS:DTSID="{0CEF9DF9-84C3-4EEC-9649-A7FE78896090}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="GlobalFund_Ref"
+  DTS:PackageType="5"
+  DTS:VersionBuild="61"
+  DTS:VersionGUID="{637784B9-CDFD-4C70-8EF4-606C230DBD30}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{EB8B4ECE-FAF5-414F-90E6-FC29BB421988}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20161006-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{C152C5A1-4642-475E-AB80-4F61CA9388C4}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{73E3F03B-6B1D-48FD-BB50-A90BB7658BAD}"
+      DTS:ObjectName="CodeFieldName">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">Asset_ProductType_Code</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{DFA447E9-977C-44DB-BC8F-418337AC7634}"
+      DTS:ObjectName="GlobalFund_Code">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">Product Type</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="11"
+      DTS:DTSID="{8FDA5770-8C7A-4CC6-9372-B64C0D4FCED7}"
+      DTS:ObjectName="Initial_Load">
+      <DTS:Property
+        DTS:DataType="11"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{47652856-DCA1-4292-AD44-A3EF398DE181}"
+      DTS:ObjectName="Message_ID_List">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{E4DA7D17-46E5-4863-B949-938268303E52}"
+      DTS:ObjectName="SkFieldName">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">Asset_ProductType_SK</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{CFBE77BC-4390-455B-9322-FD1993BBDAAB}"
+      DTS:ObjectName="SubscriptionViewName">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">[sub].[v_Ref_Asset_ProductType]</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{71D0C612-6E06-41D4-B269-4EC24FF86A6A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::CodeFieldName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_CodeFieldName">
+      <DTS:VariableValue
+        DTS:DataType="8">Asset_ProductType_Code</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CC373ABE-7333-4763-84B1-DF8BD6744EB2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::GlobalFund_Code]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_GlobalFund_Code">
+      <DTS:VariableValue
+        DTS:DataType="8">Product Type</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A710C020-BA0A-4E11-B254-922F13AFAA18}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::SkFieldName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_SkFieldName">
+      <DTS:VariableValue
+        DTS:DataType="8">Asset_ProductType_SK</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C30BBCD2-3286-46D3-8816-36B445A2BD5F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::SubscriptionViewName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_SubscriptionViewName">
+      <DTS:VariableValue
+        DTS:DataType="8">[sub].[v_Ref_Asset_ProductType]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2BF59865-4B02-427C-8268-219BEBF91E73}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT &quot;+ @[User::md_CodeFieldName] + &quot; AS CCODE&#xA;&#x9;&#x9;,Name_EN FROM &quot;+ @[User::md_SubscriptionViewName] + &quot; Sub_v&#xA;&#x9;&quot;+ ( @[$Package::Initial_Load] ?&quot;LEFT JOIN&quot;:&quot;INNER JOIN&quot;)+&quot; [esb].[v_MessageDetail] Msg&#xA;&#x9;ON Sub_v.&quot;+ @[User::md_SkFieldName] +&quot; = Msg.EntityReferenceValue&#xA; AND Msg.Message_ID IN (&quot;+ @[$Package::Message_ID_List] +&quot;)&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDWH">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT Asset_ProductType_Code AS CCODE
+		,Name_EN FROM [sub].[v_Ref_Asset_ProductType] Sub_v
+	INNER JOIN [esb].[v_MessageDetail] Msg
+	ON Sub_v.Asset_ProductType_SK = Msg.EntityReferenceValue
+ AND Msg.Message_ID IN (1)</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CDE79A99-97BB-4F17-956B-17A54576FBA4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT ILISTVALUE&#xA;FROM LISTVALUE&#xA;WHERE CCODE='&quot;+ @[User::md_GlobalFund_Code] +&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_Get_ILISTVALUE">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT ILISTVALUE
+FROM LISTVALUE
+WHERE CCODE='Product Type'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{754637F8-797D-442E-870F-2183240FDC05}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT COALESCE(MAX(NORDER),0)&#xA; AS MAX_NORDER FROM [LISTVALUEDETAIL] &#xA;WHERE ILISTVALUE=&quot;+  (DT_WSTR,50)@[User::var_GlobalFund_ILISTVALUE]+&quot;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_Get_Max_Order_number">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT COALESCE(MAX(NORDER),0)
+ AS MAX_NORDER FROM [LISTVALUEDETAIL] 
+WHERE ILISTVALUE=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{79BE3A2E-5E96-47EA-BD39-66B3AB88F364}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT UPPER(CCODE) AS CCODE&#xA;&#x9;   ,&quot;+ (DT_WSTR,50)@[User::var_GlobalFund_ILISTVALUE] +&quot; AS ILISTVALUE&#xA;FROM [LISTVALUEDETAIL] &#xA;WHERE ILISTVALUE=&quot;+  (DT_WSTR,50)@[User::var_GlobalFund_ILISTVALUE]+&quot;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LKP_GlobalFund_ValueListDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT UPPER(CCODE) AS CCODE
+	   ,0 AS ILISTVALUE
+FROM [LISTVALUEDETAIL] 
+WHERE ILISTVALUE=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D7DBC7DF-EEEC-429C-A59A-9C91A31D4EC1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_GlobalFund_ILISTVALUE">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{94AB4F92-3322-4386-87B2-DFF3424448CC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_GlobalFund_Max_NORDER">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{4C437209-245D-425A-86C4-5DD600415057}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"DFT - Load GlobalFund ListValueDetail from " +  REPLACE(REPLACE(REPLACE(  @[$Package::SubscriptionViewName],"[",""),"]",""),"."," ")</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="[LKP - GlobalFund ValueListDetail].[SqlCommand]">@[User::sql_LKP_GlobalFund_ValueListDetail]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="CDM - UPDATE Existing value"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">  UPDATE LISTVALUEDETAIL SET TDESC = ?
+  WHERE CCODE =?
+  AND ILISTVALUE =?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Connections[OleDbConnection]"
+                  connectionManagerID="{2A3C5203-59EE-42D9-8B47-C397AD2E92DF}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb GlobalFund]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].Columns[CCODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="CCODE"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[CCODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].Columns[ILISTVALUE]"
+                      cachedDataType="i4"
+                      cachedName="ILISTVALUE"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Match Output].Columns[ILISTVALUE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="255"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER -  Add ILISTVALUE"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[ILISTVALUE]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[ILISTVALUE]"
+                      name="ILISTVALUE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_GlobalFund_ILISTVALUE]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_GlobalFund_ILISTVALUE]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[NORDER]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[NORDER]"
+                      name="NORDER"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - GlobalFund ValueListDetail"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT UPPER(CCODE) AS CCODE
+	   ,0 AS ILISTVALUE
+FROM [LISTVALUEDETAIL] 
+WHERE ILISTVALUE=0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT UPPER(CCODE) AS CCODE
+	   ,0 AS ILISTVALUE
+FROM [LISTVALUEDETAIL] 
+WHERE ILISTVALUE=0) [refTable]
+where [refTable].[CCODE] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CCODE" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ILISTVALUE" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[CCODE]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Connections[OleDbConnection]"
+                  connectionManagerID="{2A3C5203-59EE-42D9-8B47-C397AD2E92DF}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb GlobalFund]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Inputs[Lookup Input].Columns[CCODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="CCODE"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[CCODE]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">CCODE</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Match Output].Columns[ILISTVALUE]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Match Output].Columns[ILISTVALUE]"
+                      name="ILISTVALUE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ILISTVALUE</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - GlobalFund - ValueListDetail"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[LISTVALUEDETAIL]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Connections[OleDbConnection]"
+                  connectionManagerID="{2A3C5203-59EE-42D9-8B47-C397AD2E92DF}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb GlobalFund]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].Columns[CCODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="CCODE"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[CCODE]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[CCODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].Columns[ILISTVALUE]"
+                      cachedDataType="i4"
+                      cachedName="ILISTVALUE"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[ILISTVALUE]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[ILISTVALUE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].Columns[NORDER]"
+                      cachedDataType="i4"
+                      cachedName="NORDER"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[NORDER]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[NORDER]" />
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[TDESC]"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[ILISTVALUEDETAIL]"
+                      dataType="i4"
+                      name="ILISTVALUEDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[ILISTVALUE]"
+                      dataType="i4"
+                      name="ILISTVALUE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[CCODE]"
+                      dataType="wstr"
+                      length="50"
+                      name="CCODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[TDESC]"
+                      dataType="wstr"
+                      length="255"
+                      name="TDESC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input].ExternalColumns[NORDER]"
+                      dataType="i4"
+                      name="NORDER" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DWH - Subscription View"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDWH</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Connections[OleDbConnection]"
+                  connectionManagerID="{A81991BE-9342-43D6-8B8B-F0BCF9BBDE2E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[CCODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].ExternalColumns[CCODE]"
+                      length="30"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[CCODE]"
+                      name="CCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      length="100"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].ExternalColumns[CCODE]"
+                      dataType="wstr"
+                      length="30"
+                      name="CCODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_EN" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[CCODE]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[CCODE]"
+                      name="CCODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      name="Name_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+              description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+              name="SCR -  Auto increment NORDER"
+              version="10">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Stores the source code of the component"
+                  isArray="true"
+                  name="SourceCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="30">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public override void ProcessInput(int InputID, string InputName, PipelineBuffer Buffer, OutputNameMap OutputMap)
+    {
+
+        if (InputName.Equals(@"Input 0", StringComparison.Ordinal))
+        {
+            Input0_ProcessInput(new Input0Buffer(Buffer, GetColumnIndexes(InputID), OutputMap));
+        }
+
+    }
+
+    public virtual void Input0_ProcessInput(Input0Buffer Buffer)
+    {
+        while (Buffer.NextRow())
+        {
+            Input0_ProcessInputRow(Buffer);
+        }
+    }
+
+    public virtual void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Int32 varGlobalFundMaxNORDER
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["var_GlobalFund_Max_NORDER"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow.
+ *
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script component. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    int Counter;
+    public override void PreExecute()
+    {
+        base.PreExecute();
+        Counter = this.Variables.varGlobalFundMaxNORDER + 1;
+    }
+
+    /// <summary>
+    /// This method is called after all the rows have passed through this component.
+    ///
+    /// You can delete this method if you don't need to do anything here.
+    /// </summary>
+    public override void PostExecute()
+    {
+        base.PostExecute();
+        /*
+         * Add your code here
+         */
+    }
+
+
+    public override void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+        Row.NORDER = Counter;
+        Counter = Counter + 1;
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class Input0Buffer: ScriptBuffer
+
+{
+    public Input0Buffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public Int32 NORDER
+    {
+        get
+        {
+            return Buffer.GetInt32(BufferColumnIndexes[0]);
+        }
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool NORDER_IsNull
+    {
+        get
+        {
+            return IsNull(0);
+        }
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public bool NextRow()
+    {
+        return base.NextRow();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_ad9a8a6302914870a436b8a1eed3e118.Properties.Settings.get_Default():SC_ad9a8a6302914870a436b8a1eed3e118.Properties.Sett" +
+    "ings")]
+
+namespace SC_ad9a8a6302914870a436b8a1eed3e118.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_ad9a8a6302914870a436b8a1eed3e118.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_ad9a8a6302914870a436b8a1eed3e118.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_ad9a8a6302914870a436b8a1eed3e118.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_ad9a8a6302914870a436b8a1eed3e118.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_ad9a8a6302914870a436b8a1eed3e118.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Project]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:Language>msBuild</msb:Language>
+		<msb:CodeName>SC_ad9a8a6302914870a436b8a1eed3e118</msb:CodeName>
+		<msb:DisplayName>SC_ad9a8a6302914870a436b8a1eed3e118</msb:DisplayName>
+		<msb:ProjectId>{2F4803CC-2FF2-427E-A651-A5E3B10A3461}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_ad9a8a6302914870a436b8a1eed3e118.csproj"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_ad9a8a6302914870a436b8a1eed3e118")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_ad9a8a6302914870a436b8a1eed3e118")]
+[assembly: AssemblyCopyright("Copyright @  2016")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_ad9a8a6302914870a436b8a1eed3e118.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8e5267fa-0cc1-47a9-9961-7b305080523b}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_ad9a8a6302914870a436b8a1eed3e118</RootNamespace>
+    <AssemblyName>SC_ad9a8a6302914870a436b8a1eed3e118</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptComponent" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptComponent" GeneratedNamespace="SC_ad9a8a6302914870a436b8a1eed3e118" IconIndex="0"></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC130</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Stores the binary representation of the component"
+                  isArray="true"
+                  name="BinaryCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="2">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_ad9a8a6302914870a436b8a1eed3e118.dll]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAPHyBFgAAAAAAAAAAOAAIiALATAAABQAAAAIAAAAAAAAijMA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAADgzAABPAAAAAEAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAkBMAAAAgAAAAFAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAQAAAAAYAAAAWAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAHAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABs
+MwAAAAAAAEgAAAACAAUA9CEAAIwQAAABAAAAAAAAAIAyAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoCKBAAAAoCAnsDAAAEbxIAAAYXWH0BAAAEKh4CKBEAAAoq
+bgMCewEAAARvBwAABgICewEAAAQXWH0BAAAEKh4CKAwAAAYqKgIDBAUoEgAACipSAnsTAAAKAnsU
+AAAKFpRvFQAACio6AhYDjBoAAAEoFgAACioiAhYoFwAACipaAywIAhYoGAAACipyAQAAcHMZAAAK
+eh4CKBoAAAoqHgIoGwAACip+AigcAAAKAgJzEAAABn0CAAAEAgJzEQAABn0DAAAEKpIEcp4AAHAa
+bx0AAAosFQIFAgMoHgAACg4EcwUAAAZvDgAABipKKwcCA28PAAAGA28KAAAGLfEqBio6AigfAAAK
+AgN9BAAABCo6AigfAAAKAgN9BQAABCqWAnsFAAAEbyAAAApyrgAAcG8hAAAKKCIAAApvIwAACqUa
+AAABKh4CKB8AAAoqrn4GAAAELR5y4gAAcNAHAAACKCQAAApvJQAACnMmAAAKgAYAAAR+BgAABCoa
+fgcAAAQqHgKABwAABCoafggAAAQqHgIoJwAACioucxgAAAaACAAABCoAAEJTSkIBAAEAAAAAAAwA
+AAB2NC4wLjMwMzE5AAAAAAUAbAAAAMgFAAAjfgAANAYAADQHAAAjU3RyaW5ncwAAAABoDQAAVAEA
+ACNVUwC8DgAAEAAAACNHVUlEAAAAzA4AAMABAAAjQmxvYgAAAAAAAAACAAABVxWgAQkBAAAA+gEz
+ABYAAAEAAAAkAAAACAAAAAgAAAAZAAAADwAAACcAAAAQAAAABAAAAAYAAAAJAAAAAQAAAAUAAAAB
+AAAAAABdAwEAAAAAAAYAVwIcBQYA6wIcBQYAowEJBQ8AkAUAAAYA0AELBAYAOgILBAYAGwILBAYA
+0gILBAYAdwILBAYAkAILBAYA5wELBAYAAgImAwoAqwLwAAoAqwTwAA4AnATwAAoAVATwAAoAYgbw
+AAYAJQbDAwYAhgEJBQYAvAQ8BQYASAT2AxIAVgFHAxIAtwFHAxIAPgHhAwYAawEcBQYAPQDDAwYA
+HQTDAwYAQAPDAwYANwTDAxYAEQDMBBYAAQDMBEcA2AYAABYAIgDMBAYAEQHDAwYAwgDDAwYAKwcL
+BAAAAABnAAAAAAABAAEAAQAQANYDAAAQAAEAAQABABAAjwQAADkAAgAFAAEAEABEBgAARQACAAwA
+AQAQABkGAABJAAQAEAABABAA2gUAAEkABQARAAAAEABDBZ8FSQAGABMAAAEQAAkGnwVhAAgAFwAB
+APQEjwAGABkGkgAGANoFlgABAFIGmgABAFIGmgARAMoDngARAC4BogARALIApgBQIAAAAADGAAkD
+BgABAGsgAAAAAMYAFAMGAAEAcyAAAAAAxgAIB6oAAQCPIAAAAACGGPwEBgACAJcgAAAAAIYY/AQb
+AAIAoiAAAAAAhgh4ALAABQC3IAAAAACGCIMAAQAFAMYgAAAAAIYIhQM9AAYAzyAAAAAAhgiXA7QA
+BgDmIAAAAACGAB8HPQAHAO4gAAAAAIYALAY9AAcA9iAAAAAAhhj8BAYABwAWIQAAAADGALcGuQAH
+ADshAAAAAMYBsAaqAAsATiEAAAAAxgEIB6oADABQIQAAAACGGPwEwwANAF8hAAAAAIYY/ATDAA4A
+biEAAAAAhgiOALAADwCUIQAAAACDGPwEBgAPAJwhAAAAAJMIuATJAA8AyCEAAAAAkwgWAc4ADwDP
+IQAAAACTCCIB0wAPANchAAAAAJYIOAbZABAA3iEAAAAAhhj8BAYAEADmIQAAAACRGAIF3gAQAAAA
+AQAjBwAAAQCxBAAAAgDkBQAAAwBiBAAAAQAgAwAAAQAgAwAAAQBwAAAAAgDmAAAAAwCxBAAABABi
+BAAAAQCxBAAAAQAjBwAAAQBoBgAAAQBoBgAAAQAgAwkA/AQBABEA/AQGABkA/AQKACkA/AQQADEA
+/AQQADkA/AQQAEEA/AQQAEkA/AQQAFEA/AQQAFkA/AQQAGEA/AQQAGkA/AQGAJkA/AQGALkA/AQV
+AMkA/AQGAIkACQMGAIkAFAMGAHEA/AQbAHEAsQQlAHEA5AUpAHkAOgAtAHEAugMyAHEAogM4AHEA
+qQMBANkA/AQQAHEAHwc9AHEALAY9AIkA/AQGAOEAEgZBAIkA+AVIAJEA/AQGAIkAzgVOAPEAsQNT
+AIkA8wZZAPkAxAZfABEB1ABmABEBJwdvAKEA/AR1AMEA/AQGAC4ACwD5AC4AEwACAS4AGwAhAS4A
+IwAqAS4AKwBTAS4AMwBTAS4AOwBTAS4AQwAqAS4ASwBZAS4AUwBTAS4AWwBwAUMAYwC6AYkAcwAh
+AakAcwAhAeMAawC6AQEBewC6AQMAAQAGAAMABwAEAAgABgAAAKIA4gAAAJsD5gAAAJIA4gAAALwE
+6gAAADYB7wAAADwG9AACAAYAAwABAAcAAwACAAgABQABAAkABQACABIABwACABQACQACABUACwAB
+ABYACwACABcADQAEgAAAAQAAAAAAAAAAAAAAAABDAAAABAAAAAAAAAAAAAAAfQCpAAAAAAANAAAA
+AAAAAAAAAACGAHIGAAAAAA0AAAAAAAAAAAAAAIYAjwYAAAAABAAAAAAAAAAAAAAAfQDDAwAAAAAN
+AAAAAAAAAAAAAACGAGwEAAAAAAAAAAABAAAATQUAAAAAAAAASURUU1ZhcmlhYmxlMTAwAElEVFNW
+YXJpYWJsZXMxMDAASURUU0V2YWx1YXRvckNvbnRleHQxMDAAR2V0SW50MzIAU0NfYWQ5YThhNjMw
+MjkxNDg3MGE0MzZiOGExZWVkM2UxMTgAPE1vZHVsZT4ASW5wdXRJRABnZXRfTk9SREVSAHNldF9O
+T1JERVIAZ2V0X3Zhckdsb2JhbEZ1bmRNYXhOT1JERVIAbXNjb3JsaWIAZGVmYXVsdEluc3RhbmNl
+AFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9tSGFuZGxlAElucHV0TmFtZQBNaWNyb3NvZnQu
+U3FsU2VydmVyLkR0cy5QaXBlbGluZQBUeXBlAGdldF9DdWx0dXJlAHNldF9DdWx0dXJlAHJlc291
+cmNlQ3VsdHVyZQBBcHBsaWNhdGlvblNldHRpbmdzQmFzZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBD
+b21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBEZWJ1Z2dlck5vblVzZXJDb2RlQXR0cmlidXRlAERl
+YnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJvd3NhYmxlQXR0cmlidXRlAEFzc2VtYmx5VGl0bGVB
+dHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRyaWJ1dGUAVGFyZ2V0RnJhbWV3b3JrQXR0cmli
+dXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0dHJpYnV0ZQBBc3NlbWJseURlc2NyaXB0aW9uQXR0
+cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0
+cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0QXR0cmlidXRlAFNTSVNTY3JpcHRDb21wb25lbnRFbnRy
+eVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJp
+bGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRlAFBvc3RFeGVjdXRlAHZhbHVlAFN5c3RlbS5SdW50aW1l
+LlZlcnNpb25pbmcAU3RyaW5nAFN5c3RlbS5Db21wb25lbnRNb2RlbABTQ19hZDlhOGE2MzAyOTE0
+ODcwYTQzNmI4YTFlZWQzZTExOC5kbGwAZ2V0X05PUkRFUl9Jc051bGwAc2V0X05PUkRFUl9Jc051
+bGwAU2V0TnVsbABnZXRfSXRlbQBzZXRfSXRlbQBTeXN0ZW0AcmVzb3VyY2VNYW4AU2NyaXB0TWFp
+bgBTeXN0ZW0uQ29uZmlndXJhdGlvbgBTeXN0ZW0uR2xvYmFsaXphdGlvbgBTeXN0ZW0uUmVmbGVj
+dGlvbgBJbnZhbGlkT3BlcmF0aW9uRXhjZXB0aW9uAFN0cmluZ0NvbXBhcmlzb24AQ3VsdHVyZUlu
+Zm8AT3V0cHV0TmFtZU1hcABPdXRwdXRNYXAATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNSdW50aW1l
+V3JhcABJbnB1dDBCdWZmZXIAUGlwZWxpbmVCdWZmZXIAU2NyaXB0QnVmZmVyAGdldF9SZXNvdXJj
+ZU1hbmFnZXIATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZS5XcmFwcGVyAENvdW50ZXIA
+LmN0b3IALmNjdG9yAFN5c3RlbS5EaWFnbm9zdGljcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNl
+cnZpY2VzAFN5c3RlbS5SZXNvdXJjZXMAU0NfYWQ5YThhNjMwMjkxNDg3MGE0MzZiOGExZWVkM2Ux
+MTguUHJvcGVydGllcy5SZXNvdXJjZXMucmVzb3VyY2VzAERlYnVnZ2luZ01vZGVzAFNDX2FkOWE4
+YTYzMDI5MTQ4NzBhNDM2YjhhMWVlZDNlMTE4LlByb3BlcnRpZXMAZ2V0X1JlYWRPbmx5VmFyaWFi
+bGVzAEJ1ZmZlckNvbHVtbkluZGV4ZXMAR2V0Q29sdW1uSW5kZXhlcwBTZXR0aW5ncwBFcXVhbHMA
+Q29ubmVjdGlvbnMAT2JqZWN0AEVuZE9mUm93c2V0AGdldF9EZWZhdWx0AFVzZXJDb21wb25lbnQA
+UGFyZW50Q29tcG9uZW50AFNjcmlwdENvbXBvbmVudABNaWNyb3NvZnQuU3FsU2VydmVyLlR4U2Ny
+aXB0AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuUGlwZWxpbmVIb3N0AElucHV0MF9Qcm9jZXNzSW5wdXQA
+R2V0VmFsdWVXaXRoQ29udGV4dABTY3JpcHRDb21wb25lbnRFdmFsQ29udGV4dABnZXRfRXZhbHVh
+dG9yQ29udGV4dABJbnB1dDBfUHJvY2Vzc0lucHV0Um93AE5leHRSb3cAZ2V0X0Fzc2VtYmx5AACA
+m0kAcwBOAHUAbABsACAAcAByAG8AcABlAHIAdAB5ACAAYwBhAG4AbgBvAHQAIABiAGUAIABzAGUA
+dAAgAHQAbwAgAEYAYQBsAHMAZQAuACAAQQBzAHMAaQBnAG4AIABhACAAdgBhAGwAdQBlACAAdABv
+ACAAdABoAGUAIABjAG8AbAB1AG0AbgAgAGkAbgBzAHQAZQBhAGQALgAAD0kAbgBwAHUAdAAgADAA
+ADN2AGEAcgBfAEcAbABvAGIAYQBsAEYAdQBuAGQAXwBNAGEAeABfAE4ATwBSAEQARQBSAABxUwBD
+AF8AYQBkADkAYQA4AGEANgAzADAAMgA5ADEANAA4ADcAMABhADQAMwA2AGIAOABhADEAZQBlAGQA
+MwBlADEAMQA4AC4AUAByAG8AcABlAHIAdABpAGUAcwAuAFIAZQBzAG8AdQByAGMAZQBzAACRYIYo
+ok84Q46tff/VzNzcAAQgAQEIAyAAAQUgAQEREQQgAQEOBSABARFZCSADARI9HQgSQQMGEj0DBh0I
+BCABCAgFIAIBCBwEIAECCAMgAAIGIAICDhF1BSABHQgIBCAAEnkFIAESfRwFAAASgIEGIAEcEoCF
+CAABEoCJEYCNBSAAEoCRByACAQ4SgJEIt3pcVhk04IkIiYRdzYCAzJECBggDBhIUAwYSGAMGEkUD
+BhJRAwYSVQMGEiAFIAEBEgwDIAAIBCABAQIJIAQBCA4SPRJBBSABARJFBAAAElEEAAASVQUAAQES
+VQQAABIgAwAAAQMoAAgDKAACBAgAElEECAASVQQIABIgCAEACAAAAAAAHgEAAQBUAhZXcmFwTm9u
+RXhjZXB0aW9uVGhyb3dzAQgBAAIAAAAAACgBACNTQ19hZDlhOGE2MzAyOTE0ODcwYTQzNmI4YTFl
+ZWQzZTExOAAABQEAAAAAFgEAEUNvcHlyaWdodCBAICAyMDE2AABJAQAaLk5FVEZyYW1ld29yayxW
+ZXJzaW9uPXY0LjUBAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEi5ORVQgRnJhbWV3b3JrIDQuNQQB
+AAAAALQAAADOyu++AQAAAJEAAABsU3lzdGVtLlJlc291cmNlcy5SZXNvdXJjZVJlYWRlciwgbXNj
+b3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1i
+NzdhNWM1NjE5MzRlMDg5I1N5c3RlbS5SZXNvdXJjZXMuUnVudGltZVJlc291cmNlU2V0AgAAAAAA
+AAAAAAAAUEFEUEFEULQAAABgMwAAAAAAAAAAAAB6MwAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+bDMAAAAAAAAAAAAAAABfQ29yRGxsTWFpbgBtc2NvcmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAA
+SAAAAFhAAADsAwAAAAAAAAAAAADsAzQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAA
+AAAAvQTv/gAAAQAAAAEAAAAAAAAAAQAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQA
+AAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBu
+AAAAAAAAALAETAMAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAAKAMAAAEAMAAwADAA
+MAAwADQAYgAwAAAAGgABAAEAQwBvAG0AbQBlAG4AdABzAAAAAAAAACIAAQABAEMAbwBtAHAAYQBu
+AHkATgBhAG0AZQAAAAAAAAAAAHAAJAABAEYAaQBsAGUARABlAHMAYwByAGkAcAB0AGkAbwBuAAAA
+AABTAEMAXwBhAGQAOQBhADgAYQA2ADMAMAAyADkAMQA0ADgANwAwAGEANAAzADYAYgA4AGEAMQBl
+AGUAZAAzAGUAMQAxADgAAAAwAAgAAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADEALgAwAC4A
+MAAuADAAAABwACgAAQBJAG4AdABlAHIAbgBhAGwATgBhAG0AZQAAAFMAQwBfAGEAZAA5AGEAOABh
+ADYAMwAwADIAOQAxADQAOAA3ADAAYQA0ADMANgBiADgAYQAxAGUAZQBkADMAZQAxADEAOAAuAGQA
+bABsAAAASAASAAEATABlAGcAYQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAQwBvAHAAeQByAGkAZwBo
+AHQAIABAACAAIAAyADAAMQA2AAAAKgABAAEATABlAGcAYQBsAFQAcgBhAGQAZQBtAGEAcgBrAHMA
+AAAAAAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBuAGEAbQBlAAAAUwBDAF8AYQBk
+ADkAYQA4AGEANgAzADAAMgA5ADEANAA4ADcAMABhADQAMwA2AGIAOABhADEAZQBlAGQAMwBlADEA
+MQA4AC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0AE4AYQBtAGUAAAAAAFMAQwBfAGEAZAA5
+AGEAOABhADYAMwAwADIAOQAxADQAOAA3ADAAYQA0ADMANgBiADgAYQAxAGUAZQBkADMAZQAxADEA
+OAAAADQACAABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAA4
+AAgAAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4AMAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAMAAAAjDMAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                  name="VSTAProjectName"
+                  typeConverter="NOTBROWSABLE">SC_ad9a8a6302914870a436b8a1eed3e118</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the programming language used by the script."
+                  name="ScriptLanguage"
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read-only variables."
+                  name="ReadOnlyVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg">User::var_GlobalFund_Max_NORDER</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read/write variables."
+                  name="ReadWriteVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                <property
+                  dataType="System.String"
+                  description="List of breakpoints present on the script."
+                  isArray="true"
+                  name="BreakpointCollection"
+                  typeConverter="NOTBROWSABLE">
+                  <arrayElements
+                    arrayElementCount="0" />
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataChecksum"
+                  typeConverter="NOTBROWSABLE">27122a9b00aae591e97bd59d8fe262f9</property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataShaChecksum"
+                  typeConverter="NOTBROWSABLE">029b2b6d930ab19946d029e040c1043bda06ec9d</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER.Inputs[Input 0]"
+                  hasSideEffects="true"
+                  name="Input 0">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER.Inputs[Input 0].Columns[NORDER]"
+                      cachedDataType="i4"
+                      cachedName="NORDER"
+                      lineageId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output].Columns[NORDER]"
+                      usageType="readWrite" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER.Outputs[Output 0]"
+                  name="Output 0"
+                  synchronousInputId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER.Inputs[Input 0]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Derived Column Output]"
+              endId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER.Inputs[Input 0]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value.Inputs[OLE DB Command Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Lookup No Match Output]"
+              endId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE.Inputs[Derived Column Input]"
+              name="Lookup No Match Output"
+              startId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Output 0]"
+              endId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail.Inputs[OLE DB Destination Input]"
+              name="Output 0"
+              startId="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER.Outputs[Output 0]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Get ILISTVALUE associated with md_GlobalFund_Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1B8EFA08-7033-4EB3-B6FE-CC1AEAE17F42}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Get ILISTVALUE associated with md_GlobalFund_Code"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2A3C5203-59EE-42D9-8B47-C397AD2E92DF}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_Get_ILISTVALUE"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="ILISTVALUE"
+            SQLTask:DtsVariableName="User::var_GlobalFund_ILISTVALUE" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Get Max Order Number from GlobalFund"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{64A8C3D7-A75E-463D-81CD-60C6AA6F49A5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Get Max Order Number from GlobalFund"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2A3C5203-59EE-42D9-8B47-C397AD2E92DF}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_Get_Max_Order_number"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="MAX_NORDER"
+            SQLTask:DtsVariableName="User::var_GlobalFund_Max_NORDER" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{CC599374-C357-4066-A540-C4B23EF176E2}"
+      DTS:From="Package\SQL - Get Max Order Number from GlobalFund"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{6C5679FB-B580-4814-AD98-303EB731B618}"
+      DTS:From="Package\SQL - Get ILISTVALUE associated with md_GlobalFund_Code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Get Max Order Number from GlobalFund" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="399,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType"
+          TopLeft="370,185.5" />
+        <NodeLayout
+          Size="398,42"
+          Id="Package\SQL - Get ILISTVALUE associated with md_GlobalFund_Code"
+          TopLeft="376.5,21" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\SQL - Get Max Order Number from GlobalFund"
+          TopLeft="420,107" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="569.5,149">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.5"
+              Start="0,0"
+              End="0,29">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="572.5,63">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="251,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View"
+          TopLeft="402,80" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail"
+          TopLeft="208,472" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail"
+          TopLeft="414,183" />
+        <NodeLayout
+          Size="191,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\DER -  Add ILISTVALUE"
+          TopLeft="256,285" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\SCR -  Auto increment NORDER"
+          TopLeft="230,385" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\CDM - UPDATE Existing value"
+          TopLeft="624,385" />
+        <EdgeLayout
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Output 0]"
+          TopLeft="342.5,427">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[OLE DB Source Output]"
+          TopLeft="528.75,122">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61"
+              Start="0,0"
+              End="0,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Lookup No Match Output]"
+          TopLeft="530,225">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-178.5,60"
+              Start="0,0"
+              End="-178.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-174.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-174.5,30"
+                    Point2="-178.5,30"
+                    Point3="-178.5,34" />
+                  <mssgle:LineSegment
+                    End="-178.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-145.05638671875,35,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Lookup Match Output]"
+          TopLeft="567.333333333333,225">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="165.666666666667,160"
+              Start="0,0"
+              End="165.666666666667,152.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.6575342465754" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,60.6575342465754"
+                    Point2="0,64.6575342465754"
+                    Point3="4,64.6575342465754" />
+                  <mssgle:LineSegment
+                    End="161.666666666667,64.6575342465754" />
+                  <mssgle:CubicBezierSegment
+                    Point1="161.666666666667,64.6575342465754"
+                    Point2="165.666666666667,64.6575342465754"
+                    Point3="165.666666666667,68.6575342465754" />
+                  <mssgle:LineSegment
+                    End="165.666666666667,152.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="34.6419466145834,69.6575342465754,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType.Paths[Derived Column Output]"
+          TopLeft="347.75,327">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_SRC - DWH - Subscription View">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\OLE_DST - GlobalFund - ValueListDetail">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load GlobalFund ListValueDetail from sub v_Ref_Asset_ProductType\LKP - GlobalFund ValueListDetail">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

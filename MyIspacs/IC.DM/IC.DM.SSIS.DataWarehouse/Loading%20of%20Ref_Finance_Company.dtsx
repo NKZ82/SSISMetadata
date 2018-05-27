@@ -1,0 +1,1768 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{4BA393D8-4AE7-4426-8922-DF7C97263F3D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Ref_Finance_Company"
+  DTS:PackageType="5"
+  DTS:VersionBuild="149"
+  DTS:VersionGUID="{BFD35820-2260-4869-B0E4-9697DD4690DE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{A1835409-7354-42BE-AB4A-3E08CED11762}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">27</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{C5DB86F3-5264-455F-B35E-90189D267217}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3DD5FB26-4AB8-497A-9DC2-17414642583B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{53F733B7-182A-40AE-AD11-B94CF1C91A23}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">Company</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D03CCCF0-2DB4-4CF4-A757-49616651691F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref_Finance_Company</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{73A7E733-9EDC-42EC-AB84-ACC025CE617D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance_Company</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{73897A7E-DE29-47CC-A94D-739CA690116E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2AAB7DB7-7540-4AA5-B91C-214EBC627575}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT DISTINCT  LTRIM(RTRIM(CAST(Finance_Company_Code AS NVARCHAR(12)))) AS Company_Code &#xA;      , LTRIM(RTRIM(CAST(Name_EN AS NVARCHAR(80)))) AS Name_EN &#xA;      ,NULL AS Description_EN &#xA;      , LTRIM(RTRIM(CAST(Name_EN AS NVARCHAR(80)))) AS Name_FR &#xA;      ,NULL AS Description_FR &#xA;&#x9;  , LTRIM(RTRIM(FiscalYearEnd)) AS FiscalYearEnd&#xA;&#x9;  , LTRIM(RTRIM(CAST(CompanyCurrency_Code AS NVARCHAR(30)))) AS CompanyCurrency_Code&#xA;      ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]&#xA;      ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]&#xA;FROM     [entity].[Finance_Company]A&#xA;   INNER JOIN &#xA;   (SELECT Finance_Company_Code as maxId, &#xA;   max(IC_DM_LOADING_DATE) as maxLoadingDate &#xA;   FROM     [entity].[Finance_Company]&#xA;   GROUP BY Finance_Company_Code) B&#xA;ON A.Finance_Company_Code = B.maxId&#xA;AND A.IC_DM_LOADING_DATE = B.maxLoadingDate where  [IC_DM_TIMESTAMP_DELETE] is null&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDS">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT DISTINCT  LTRIM(RTRIM(CAST(Finance_Company_Code AS NVARCHAR(12)))) AS Company_Code 
+      , LTRIM(RTRIM(CAST(Name_EN AS NVARCHAR(80)))) AS Name_EN 
+      ,NULL AS Description_EN 
+      , LTRIM(RTRIM(CAST(Name_EN AS NVARCHAR(80)))) AS Name_FR 
+      ,NULL AS Description_FR 
+	  , LTRIM(RTRIM(FiscalYearEnd)) AS FiscalYearEnd
+	  , LTRIM(RTRIM(CAST(CompanyCurrency_Code AS NVARCHAR(30)))) AS CompanyCurrency_Code
+      ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]
+      ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]
+FROM     [entity].[Finance_Company]A
+   INNER JOIN 
+   (SELECT Finance_Company_Code as maxId, 
+   max(IC_DM_LOADING_DATE) as maxLoadingDate 
+   FROM     [entity].[Finance_Company]
+   GROUP BY Finance_Company_Code) B
+ON A.Finance_Company_Code = B.maxId
+AND A.IC_DM_LOADING_DATE = B.maxLoadingDate where  [IC_DM_TIMESTAMP_DELETE] is null</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3600D14C-4C30-42B1-90B0-CAE8B2447D8B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '27'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [edw].[sp_Load_Ref_Finance_Company_SCD2] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{21BC0532-49AA-4871-9B18-0D503558A6BD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Ref_Finance_Company]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '27'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3647FCD5-B1CC-4043-823E-77C25FA73E02}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">27_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6E768820-D662-4F64-95A9-6BABC9EFFE55}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:20 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{35B32227-6FEE-423F-86C0-4179752E43A6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:20</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{AC4A4285-2E61-442E-B15A-5BFB03DB8FC7}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Working Ref_Finance_Company from DS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Handle missing values"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Finance_Currency_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_Currency_DK"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Finance_Currency_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Finance_Currency_DK]"
+                      name="Finance_Currency_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]}) ? -1 : #{Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Finance_Currency_DK) ? -1 : Finance_Currency_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Trim All"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="80"
+                      cachedName="Name_EN"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[TRIM](#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_EN]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(Name_EN)</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input].Columns[Name_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="80"
+                      cachedName="Name_FR"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[TRIM](#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_FR]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(Name_FR)</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input].Columns[Company_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="Company_Code"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[TRIM](#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(Company_Code)</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input].Columns[CompanyCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="CompanyCurrency_Code"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[TRIM](#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(CompanyCurrency_Code)</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_Company - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT  Finance_Company_DK
+      ,LTRIM(RTRIM(Finance_Company_Code)) 
+Finance_Company_Code FROM   [edw].[Ref_Finance_Company]
+WHERE  IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT  Finance_Company_DK
+      ,LTRIM(RTRIM(Finance_Company_Code)) 
+Finance_Company_Code FROM   [edw].[Ref_Finance_Company]
+WHERE  IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Finance_Company_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_Company_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_Company_Code" dataType="DT_WSTR" length="12" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Inputs[Lookup Input].Columns[Company_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="Company_Code"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_Company_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Match Output].Columns[Finance_Company_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Match Output].Columns[Finance_Company_DK]"
+                      name="Finance_Company_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_Company_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_Currency"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT DISTINCT LTRIM(RTRIM([Finance_Currency_Code])) Finance_Currency_Code, [Finance_Currency_DK] 
+FROM [edw].[Ref_Finance_Currency]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT DISTINCT LTRIM(RTRIM([Finance_Currency_Code])) Finance_Currency_Code, [Finance_Currency_DK] 
+FROM [edw].[Ref_Finance_Currency]) [refTable]
+where [refTable].[Finance_Currency_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_Currency_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_Currency_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Inputs[Lookup Input].Columns[CompanyCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="CompanyCurrency_Code"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_Currency_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output].Columns[Finance_Currency_DK]"
+                      name="Finance_Currency_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_Currency_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Ref_Finance_Company]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Description_EN]"
+                      cachedDataType="i4"
+                      cachedName="Description_EN"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Description_EN]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Description_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Description_FR]"
+                      cachedDataType="i4"
+                      cachedName="Description_FR"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Description_FR]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Description_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="80"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Name_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="80"
+                      cachedName="Name_FR"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Company_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="Company_Code"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_Code]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[FiscalYearEnd]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="FiscalYearEnd"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYearEnd]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Finance_Currency_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_Currency_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DK]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Finance_Currency_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].Columns[Finance_Company_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_Company_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_DK]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Match Output].Columns[Finance_Company_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Description_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="Description_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Description_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="Description_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_DK]"
+                      dataType="i4"
+                      name="Finance_Company_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_Code]"
+                      dataType="wstr"
+                      length="12"
+                      name="Finance_Company_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYearEnd]"
+                      dataType="i4"
+                      name="FiscalYearEnd" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DK]"
+                      dataType="i4"
+                      name="Finance_Currency_DK" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Connections[OleDbConnection]"
+                  connectionManagerID="{E42CAA2C-954B-4D73-A9BD-61150566E851}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      length="80"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Description_EN]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Description_EN]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Description_EN]"
+                      name="Description_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                      length="80"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      name="Name_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Description_FR]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Description_FR]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Description_FR]"
+                      name="Description_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Company_Code]"
+                      length="12"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[Company_Code]"
+                      name="Company_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[FiscalYearEnd]"
+                      length="12"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[CompanyCurrency_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="80"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Description_EN]"
+                      dataType="i4"
+                      name="Description_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="80"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Description_FR]"
+                      dataType="i4"
+                      name="Description_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[Company_Code]"
+                      dataType="wstr"
+                      length="12"
+                      name="Company_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[FiscalYearEnd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="FiscalYearEnd" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output].ExternalColumns[CompanyCurrency_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="CompanyCurrency_Code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Company_Code]"
+                      dataType="wstr"
+                      length="12"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Company_Code]"
+                      name="Company_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      length="80"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      name="Name_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Description_EN]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Description_EN]"
+                      name="Description_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      length="80"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                      name="Name_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Description_FR]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[Description_FR]"
+                      name="Description_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[FiscalYearEnd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[CompanyCurrency_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Derived Column Output2]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete EDW Working Ref_Finance_Company"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{31436D59-0EB7-473A-959A-51629C438D4B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete EDW Working Ref_Finance_Company"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load EDW Ref_Finance_Company - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6C545F20-E175-4727-85EC-E9471E8BFE82}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load EDW Ref_Finance_Company - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{264F06EA-F5FA-459C-B181-D0A5CAB87B2A}"
+      DTS:From="Package\SQL - Delete EDW Working Ref_Finance_Company"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load EDW Working Ref_Finance_Company from DS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7985EB5A-34F1-40BA-AD74-30CBCCA1DAE5}"
+      DTS:From="Package\DFT - Load EDW Working Ref_Finance_Company from DS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load EDW Ref_Finance_Company - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="352,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS"
+          TopLeft="415.5,220.5" />
+        <NodeLayout
+          Size="352,42"
+          Id="Package\SQL - Delete EDW Working Ref_Finance_Company"
+          TopLeft="414.5,117.5" />
+        <NodeLayout
+          Size="343,42"
+          Id="Package\SQL - Load EDW Ref_Finance_Company - SCD2"
+          TopLeft="419.5,319.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="591,159.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61"
+              Start="0,0"
+              End="0,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="591.25,262.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_Company from DS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="255,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency"
+          TopLeft="97,205" />
+        <NodeLayout
+          Size="406,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity"
+          TopLeft="24,10" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current"
+          TopLeft="92.5,107.5" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Trim All"
+          TopLeft="127,417" />
+        <NodeLayout
+          Size="418,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company"
+          TopLeft="2.50000000000006,599.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Add metadata"
+          TopLeft="129.5,324.5" />
+        <NodeLayout
+          Size="286,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS\DER - Handle missing values"
+          TopLeft="72.5000000000001,501.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[OLE DB Source Output]"
+          TopLeft="224.75,52">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55.5"
+              Start="0,0"
+              End="0,48">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Lookup Match Output1]"
+          TopLeft="220.75,247">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77.5"
+              Start="0,0"
+              End="0,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,29.1953125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Lookup Match Output]"
+          TopLeft="223.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55.5"
+              Start="0,0"
+              End="0,48">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,18.1953125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Derived Column Output2]"
+          TopLeft="213.5,543.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Derived Column Output1]"
+          TopLeft="215.25,459">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42.5"
+              Start="0,0"
+              End="0,35">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_Company from DS.Paths[Derived Column Output]"
+          TopLeft="216,366.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.5"
+              Start="0,0"
+              End="0,43">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Currency">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_SRC - DS DB - DM_IC_DM_DataStore - Finance_Company Entity">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_Company from DS\LKP - Ref_Finance_Company - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_Company from DS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_Company">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

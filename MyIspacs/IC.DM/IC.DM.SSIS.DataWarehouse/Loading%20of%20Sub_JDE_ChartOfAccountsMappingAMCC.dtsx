@@ -1,0 +1,2091 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{2C856E96-3213-41E4-8F87-810A56D4B576}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Sub_JDE_ChartOfAccountsMappingAMCC"
+  DTS:PackageType="5"
+  DTS:VersionBuild="178"
+  DTS:VersionGUID="{6D63F839-5CDE-4D6A-974D-DE7CA69D013E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{1A54FAE3-3EBA-443A-A079-024187C9DB4E}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20170728-EL-02</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{AF9F831F-3599-4623-A939-A48E449AC1F1}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B9330E8E-DF0B-41C7-8704-3E60C46CCE93}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{300E386F-0D1D-43AE-BA36-B947CF4CBE2D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">ChartOfAccountsMappingAMCC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EC57DC9B-00F8-435D-AD7F-8D96AD9563F4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Sub_JDE_ChartOfAccountsMappingAMCC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FCACD657-FE75-4819-A481-C60AB1D227D3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE_ChartOfAccountsMappingAMCC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{92C55B03-5D75-4A51-88F4-E7ABF6D105D0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Sub</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F1FFFDE0-A7A5-4903-814C-B51D3F2B8B5F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [usr].[sp_Get_&quot; + @[User::md_EntityFullName] + &quot;_Entity]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromMDM">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [usr].[sp_Get_Sub_JDE_ChartOfAccountsMappingAMCC_Entity]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C06AA68F-C2D8-4C5E-BF01-75EDC48582FF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [sub].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20170728-EL-02'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [sub].[sp_Load_Sub_JDE_ChartOfAccountsMappingAMCC_SCD2] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{012A1FD6-4415-49D1-977F-E40375D717FD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Sub_JDE_ChartOfAccountsMappingAMCC]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20170728-EL-02'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7FF453A5-D868-4516-96BE-74E7E5FE0632}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20170728-EL-02_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{228B2399-31D7-44A1-AE37-3C2B30273532}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:28 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F1B9B4A-39F1-4889-A27E-8F684D4157BF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:27</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{AB4B1132-6C2F-46A2-82CD-597DE5B6105A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Handle missing values"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Finance_ChartOfAccounts_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_ChartOfAccounts_DK"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Finance_ChartOfAccountsCostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_ChartOfAccountsCostCenter_DK"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_ChartOfAccounts_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_ChartOfAccounts_DK]"
+                      name="Applicable_Finance_ChartOfAccounts_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]}) ? -1 : #{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Finance_ChartOfAccounts_DK) ? -1 : Finance_ChartOfAccounts_DK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_ChartOfAccountsCostCenter_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_ChartOfAccountsCostCenter_DK]"
+                      name="Applicable_Finance_ChartOfAccountsCostCenter_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]}) ? -1 : #{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Finance_ChartOfAccountsCostCenter_DK) ? -1 : Finance_ChartOfAccountsCostCenter_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - JDE_ChartOfAccountsMappingAMCC - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT JDE_ChartOfAccountsMappingAMCC_DK,
+	GF_Model_DK,
+	Finance_ChartOfAccounts_DK,
+	Finance_ChartOfAccountsCostCenter_DK
+FROM [sub].[JDE_ChartOfAccountsMappingAMCC]
+WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT JDE_ChartOfAccountsMappingAMCC_DK,
+	GF_Model_DK,
+	Finance_ChartOfAccounts_DK,
+	Finance_ChartOfAccountsCostCenter_DK
+FROM [sub].[JDE_ChartOfAccountsMappingAMCC]
+WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[GF_Model_DK] = ? and [refTable].[Finance_ChartOfAccounts_DK] = ? and [refTable].[Finance_ChartOfAccountsCostCenter_DK] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="JDE_ChartOfAccountsMappingAMCC_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GF_Model_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccounts_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccountsCostCenter_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output].Columns[GF_Model_DK]};#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]};#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input].Columns[GF_Model_DK]"
+                      cachedDataType="i4"
+                      cachedName="GF_Model_DK"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output].Columns[GF_Model_DK]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">GF_Model_DK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccounts_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_ChartOfAccounts_DK"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccounts_DK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccountsCostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_ChartOfAccountsCostCenter_DK"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccountsCostCenter_DK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Match Output].Columns[JDE_ChartOfAccountsMappingAMCC_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Match Output].Columns[JDE_ChartOfAccountsMappingAMCC_DK]"
+                      name="JDE_ChartOfAccountsMappingAMCC_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">JDE_ChartOfAccountsMappingAMCC_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_ChartOfAccounts (AM) - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Finance_ChartOfAccounts_ChartOfAccountsCode,
+	Finance_ChartOfAccounts_AccountNumber,
+	Finance_ChartOfAccounts_DK
+FROM [edw].[Ref_Finance_ChartOfAccounts]
+WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Finance_ChartOfAccounts_ChartOfAccountsCode,
+	Finance_ChartOfAccounts_AccountNumber,
+	Finance_ChartOfAccounts_DK
+FROM [edw].[Ref_Finance_ChartOfAccounts]
+WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Finance_ChartOfAccounts_ChartOfAccountsCode] = ? and [refTable].[Finance_ChartOfAccounts_AccountNumber] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_ChartOfAccounts_ChartOfAccountsCode" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccounts_AccountNumber" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccounts_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]};#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_ChartOfAccountsCode"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccounts_ChartOfAccountsCode</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_AccountNumber"
+                      cachedSortKeyPosition="3"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccounts_AccountNumber</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccounts_DK]"
+                      name="Finance_ChartOfAccounts_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_ChartOfAccounts_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_ChartOfAccountsCostCenter - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Finance_ChartOfAccountsCostCenter_AccountNumber,
+	Finance_ChartOfAccountsCostCenter_SubsidiaryCode,	
+	Finance_ChartOfAccountsCostCenter_DK
+FROM [edw].[Ref_Finance_ChartOfAccountsCostCenter]
+WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Finance_ChartOfAccountsCostCenter_AccountNumber,
+	Finance_ChartOfAccountsCostCenter_SubsidiaryCode,	
+	Finance_ChartOfAccountsCostCenter_DK
+FROM [edw].[Ref_Finance_ChartOfAccountsCostCenter]
+WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Finance_ChartOfAccountsCostCenter_AccountNumber] = ? and [refTable].[Finance_ChartOfAccountsCostCenter_SubsidiaryCode] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_ChartOfAccountsCostCenter_AccountNumber" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccountsCostCenter_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]};#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      cachedSortKeyPosition="4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccountsCostCenter_AccountNumber</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_SubsidiaryCode"
+                      cachedSortKeyPosition="5"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccountsCostCenter_SubsidiaryCode</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_ChartOfAccountsCostCenter_DK]"
+                      name="Finance_ChartOfAccountsCostCenter_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_ChartOfAccountsCostCenter_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Sub_GF_Model - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT GF_Model_Code, GF_Model_DK FROM [sub].[GF_Model] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT GF_Model_Code, GF_Model_DK FROM [sub].[GF_Model] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[GF_Model_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="GF_Model_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GF_Model_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[GF_Model_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Inputs[Lookup Input].Columns[GF_Model_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="GF_Model_Code"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[GF_Model_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">GF_Model_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output].Columns[GF_Model_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output].Columns[GF_Model_DK]"
+                      name="GF_Model_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">GF_Model_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Sub_JDE_ChartOfAccountsMappingAMCC]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[ValidationSucceeded]"
+                      cachedDataType="i4"
+                      cachedName="ValidationSucceeded"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[GF_Model_DK]"
+                      cachedDataType="i4"
+                      cachedName="GF_Model_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[GF_Model_DK]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output].Columns[GF_Model_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[GF_Model_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="GF_Model_Code"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[GF_Model_Code]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[GF_Model_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[JDE_ChartOfAccountsMappingAMCC_DK]"
+                      cachedDataType="i4"
+                      cachedName="JDE_ChartOfAccountsMappingAMCC_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[JDE_ChartOfAccountsMappingAMCC_DK]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Match Output].Columns[JDE_ChartOfAccountsMappingAMCC_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_ChartOfAccountsCode"
+                      cachedSortKeyPosition="2"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_AccountNumber"
+                      cachedSortKeyPosition="3"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      cachedSortKeyPosition="4"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_SubsidiaryCode"
+                      cachedSortKeyPosition="5"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[Applicable_Finance_ChartOfAccountsCostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Finance_ChartOfAccountsCostCenter_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_DK]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_ChartOfAccountsCostCenter_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].Columns[Applicable_Finance_ChartOfAccounts_DK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Finance_ChartOfAccounts_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_DK]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Finance_ChartOfAccounts_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[GF_Model_DK]"
+                      dataType="i4"
+                      name="GF_Model_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[GF_Model_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="GF_Model_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[JDE_ChartOfAccountsMappingAMCC_DK]"
+                      dataType="i4"
+                      name="JDE_ChartOfAccountsMappingAMCC_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_DK]"
+                      dataType="i4"
+                      name="Finance_ChartOfAccounts_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccounts_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_DK]"
+                      dataType="i4"
+                      name="Finance_ChartOfAccountsCostCenter_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromMDM</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Connections[OleDbConnection]"
+                  connectionManagerID="{26FCB80F-4859-4366-8B2F-37D07352E510}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[GF_Model_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[GF_Model_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[GF_Model_Code]"
+                      name="GF_Model_Code"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode"
+                      sortKeyPosition="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      name="Finance_ChartOfAccounts_AccountNumber"
+                      sortKeyPosition="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      sortKeyPosition="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode"
+                      sortKeyPosition="5"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      dataType="i4"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[GF_Model_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="GF_Model_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccounts_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[GF_Model_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[GF_Model_Code]"
+                      name="GF_Model_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      name="Finance_ChartOfAccounts_AccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output2]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output3]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Sub Working JDE_ChartOfAccountsMappingAMCC Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{72A80938-8F09-4597-A937-2087757A2AA5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Sub Working JDE_ChartOfAccountsMappingAMCC Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Sub JDE_ChartOfAccountsMappingAMCC Entity - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1F330960-DA9D-4DFB-A41A-F5028D380274}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Sub JDE_ChartOfAccountsMappingAMCC Entity - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{010C96D1-248E-46CA-BD4D-8609112C9B39}"
+      DTS:From="Package\SQL - Delete Sub Working JDE_ChartOfAccountsMappingAMCC Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{6367150A-31CE-4FA3-AD3F-E4A35BB5C7CD}"
+      DTS:From="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load Sub JDE_ChartOfAccountsMappingAMCC Entity - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="447,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="405,42"
+          Id="Package\SQL - Delete Sub Working JDE_ChartOfAccountsMappingAMCC Entity"
+          TopLeft="26.5,5.5" />
+        <NodeLayout
+          Size="391,42"
+          Id="Package\SQL - Load Sub JDE_ChartOfAccountsMappingAMCC Entity - SCD2"
+          TopLeft="33.5,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="229,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="229,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="223,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current"
+          TopLeft="143.5,107.5" />
+        <NodeLayout
+          Size="322,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current"
+          TopLeft="94,413.5" />
+        <NodeLayout
+          Size="321,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current"
+          TopLeft="94.5,209.5" />
+        <NodeLayout
+          Size="441,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC"
+          TopLeft="34.5,5.5" />
+        <NodeLayout
+          Size="499,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC"
+          TopLeft="5.50000000000009,719.5" />
+        <NodeLayout
+          Size="346,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current"
+          TopLeft="82,311.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Add metadata"
+          TopLeft="167.5,617.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\DER - Handle missing values"
+          TopLeft="148,515.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Derived Column Output1]"
+          TopLeft="255,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Derived Column Output]"
+          TopLeft="255,659.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[OLE DB Source Output]"
+          TopLeft="255,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output3]"
+          TopLeft="255,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output2]"
+          TopLeft="255,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output1]"
+          TopLeft="255,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS.Paths[Lookup Match Output]"
+          TopLeft="255,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Sub_GF_Model - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - JDE_ChartOfAccountsMappingAMCC - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccounts (AM) - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - JDE_ChartOfAccountsMappingAMCC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_JDE_ChartOfAccountsMappingAMCC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working JDE_ChartOfAccountsMappingAMCC Entity from MDS\LKP - Ref_Finance_ChartOfAccountsCostCenter - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,2226 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2016 9:36:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{CA992EB3-0D5B-4235-8D3C-E080BD9DA971}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Cleansing of MarketData_ExchangeRate"
+  DTS:PackageType="5"
+  DTS:VersionBuild="659"
+  DTS:VersionGUID="{CF2C363E-B98E-454C-866B-699DA77B4778}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{237D4CAE-1A7C-44DC-8195-5F95657EA6DD}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20160610-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{1AEA2D9E-41B8-445C-B3AF-BC369CE1F35A}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{97E02F1A-CA16-476C-A2EF-204F9FB522F2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">MarketData</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{15274824-EABC-48EE-814A-8EB03E6F30C2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">ExchangeRate</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E8CA9965-1179-4443-9EE6-8D51DE0B75F4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">MarketData_ExchangeRate</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{97F7E7DC-8606-492C-9F84-38DD2D05F6B4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_KBName">
+      <DTS:VariableValue
+        DTS:DataType="8">DM_Cleansing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7CA6C360-5A92-4A9E-BE4A-7B3E71E9557E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT * FROM entity.&quot;+ @[User::md_EntityFullName] +&quot;&#xA;WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT * FROM entity.MarketData_ExchangeRate
+WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '20160610-01-EL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{423ECA2F-B44C-4571-9E3A-68B934892CEA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT [PUBLISH_DATE] &#xA;FROM &#xA;[dbo].[A_KNOWLEDGEBASE] &#xA;WHERE NAME= '&quot; + @[User::var_KBName]  + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDQSKBLastPublishedDate">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [PUBLISH_DATE] 
+FROM 
+[dbo].[A_KNOWLEDGEBASE] 
+WHERE NAME= 'DM_Cleansing'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{73F40870-031D-4362-AD2D-712847AF6521}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [cleansing].[sp_Load_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadCleansedData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20160610-01-EL'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [cleansing].[sp_Load_MarketData_ExchangeRate]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A7A14A87-F32A-4161-AC59-EAD7952EFC8B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&quot;&#xA; +&#xA;&quot;DELETE FROM [reject].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]+&#xA;&quot;DELETE FROM [cleansing].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateExistingDataQuality">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[MarketData_ExchangeRate]DELETE FROM [reject].[MarketData_ExchangeRate]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20160610-01-EL'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1DELETE FROM [cleansing].[MarketData_ExchangeRate]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20160610-01-EL'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B9FCE2EC-33CB-404B-9513-5DA61F90E7FF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [working].[sp_Validate_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20160610-01-EL'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [working].[sp_Validate_MarketData_ExchangeRate]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{377CB345-4768-4853-8C0A-5AD8529F2142}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20160610-01-EL_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2F3F0E4E-15F1-4E69-9919-A0D25FEA81D4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/8/2018 12:24:37 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0AF64D86-EB47-432E-B7CB-DE13655AC1CB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-08 12:24:36</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Name of the DQS Knowledgebase considerated in the validation process"
+      DTS:DTSID="{0F7663EC-B366-49F6-B592-D47513E11C6A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_KBName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_KBName">
+      <DTS:VariableValue
+        DTS:DataType="8">DM_Cleansing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Last date the DQS KB has been published"
+      DTS:DTSID="{6ECE9BA0-BF14-4B28-8B3A-466C8B029186}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LastKBPublishDate">
+      <DTS:VariableValue
+        DTS:DataType="7">1/1/1900</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load MarketData_Exchange- Working"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{A2A76D8E-6FE6-4F0B-B406-B13B7BB32D6F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load MarketData_Exchange- Working"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      name="IC_DM_CLEANSING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_CleansingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_CleansingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze cleansing &amp; lookup results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Core_Currency_DomesticCurrency_Code_IsFound]"
+                      cachedDataType="bool"
+                      cachedName="Core_Currency_DomesticCurrency_Code_IsFound"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_IsFound]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Core_Currency_ForeignCurrency_Code_IsFound]"
+                      cachedDataType="bool"
+                      cachedName="Core_Currency_ForeignCurrency_Code_IsFound"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_IsFound]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[MDSDomesticCurrencyCode_ValidationStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="MDSDomesticCurrencyCode_ValidationStatus"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode_ValidationStatus]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[MDSForeignCurrencyCode_ValidationStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="MDSForeignCurrencyCode_ValidationStatus"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode_ValidationStatus]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_CleansingStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_CleansingStatus]"
+                      name="Core_Currency_DomesticCurrency_Code_CleansingStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(!#{Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_IsFound]} || #{Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode_ValidationStatus]} != "Validation Succeeded") ? "NOT FOUND" : "OK"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(!Core_Currency_DomesticCurrency_Code_IsFound || MDSDomesticCurrencyCode_ValidationStatus != "Validation Succeeded") ? "NOT FOUND" : "OK"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_CleansingStatus  &lt;add as new column&gt;  ! [Core_Currency_DomesticCurrency_Code_IsFound] ? &quot;NOT FOUND&quot; : &quot;OK&quot;  Unicode string [DT_WSTR]  9]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_CleansingStatus  &lt;add as new column&gt;  ! [Core_Currency_DomesticCurrency_Code_IsFound] ? &quot;NOT FOUND&quot; : &quot;OK&quot;  Unicode string [DT_WSTR]  9]"
+                      name="Core_Currency_ForeignCurrency_Code_CleansingStatus  &lt;add as new column&gt;  ! [Core_Currency_DomesticCurrency_Code_IsFound] ? &quot;NOT FOUND&quot; : &quot;OK&quot;  Unicode string [DT_WSTR]  9"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(!#{Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_IsFound]} || #{Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode_ValidationStatus]} != "Validation Succeeded") ? "NOT FOUND" : "OK"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(!Core_Currency_ForeignCurrency_Code_IsFound || MDSForeignCurrencyCode_ValidationStatus != "Validation Succeeded") ? "NOT FOUND" : "OK"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze cleansing results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze lookup results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[MDSDomesticCurrencyCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="MDSDomesticCurrencyCode"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[MDSForeignCurrencyCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="MDSForeignCurrencyCode"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_IsFound]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_IsFound]"
+                      name="Core_Currency_DomesticCurrency_Code_IsFound"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode]}) ?  FALSE  :  TRUE </property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(MDSDomesticCurrencyCode) ?  FALSE  :  TRUE </property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_IsFound]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_IsFound]"
+                      name="Core_Currency_ForeignCurrency_Code_IsFound"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode]}) ?  FALSE  :  TRUE </property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(MDSForeignCurrencyCode) ?  FALSE  :  TRUE </property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Handle empty currency code"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - MDS - Core_Currency - Domestic"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">Select TRY_CAST(code as nvarchar(3)) as Code, ValidationStatus from [mdm].[vw_DM_MDM_Finance_Currency]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (Select TRY_CAST(code as nvarchar(3)) as Code, ValidationStatus from [mdm].[vw_DM_MDM_Finance_Currency]) [refTable]
+where [refTable].[Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Code" dataType="DT_WSTR" length="3" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ValidationStatus" dataType="DT_WSTR" length="250" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_DomesticCurrency_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Connections[OleDbConnection]"
+                  connectionManagerID="{8108D27E-5293-4B95-873E-E2B475C000AB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Inputs[Lookup Input].Columns[Finance_Currency_DomesticCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_DomesticCurrency_Code"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_DomesticCurrency_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="3"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode]"
+                      name="MDSDomesticCurrencyCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode_ValidationStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="250"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode_ValidationStatus]"
+                      name="MDSDomesticCurrencyCode_ValidationStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ValidationStatus</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - MDS - Core_Currency - Foreign"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">Select TRY_CAST(code as nvarchar(3)) as Code, ValidationStatus from [mdm].[vw_DM_MDM_Finance_Currency]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (Select TRY_CAST(code as nvarchar(3)) as Code, ValidationStatus from [mdm].[vw_DM_MDM_Finance_Currency]) [refTable]
+where [refTable].[Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Code" dataType="DT_WSTR" length="3" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ValidationStatus" dataType="DT_WSTR" length="250" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_ForeignCurrency_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Connections[OleDbConnection]"
+                  connectionManagerID="{8108D27E-5293-4B95-873E-E2B475C000AB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Inputs[Lookup Input].Columns[Finance_Currency_ForeignCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_ForeignCurrency_Code"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_ForeignCurrency_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="3"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode]"
+                      name="MDSForeignCurrencyCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode_ValidationStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="250"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode_ValidationStatus]"
+                      name="MDSForeignCurrencyCode_ValidationStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ValidationStatus</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[MarketData_ExchangeRate]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_CLEANSING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_CLEANSING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[NominalDate]"
+                      cachedDataType="dbDate"
+                      cachedName="NominalDate"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[NominalDate]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[NominalDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[AccountingExchangeRate]"
+                      cachedDataType="numeric"
+                      cachedName="AccountingExchangeRate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[AccountingExchangeRate]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[AccountingExchangeRate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[Finance_Currency_DomesticCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_DomesticCurrency_Code"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DomesticCurrency_Code_Source]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_DomesticCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[MDSDomesticCurrencyCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="MDSDomesticCurrencyCode"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DomesticCurrency_Code_Output]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output].Columns[MDSDomesticCurrencyCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[Core_Currency_DomesticCurrency_Code_CleansingStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Core_Currency_DomesticCurrency_Code_CleansingStatus"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DomesticCurrency_Code_CleansingStatus]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_DomesticCurrency_Code_CleansingStatus]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[Finance_Currency_ForeignCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_ForeignCurrency_Code"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_ForeignCurrency_Code_Source]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_ForeignCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[MDSForeignCurrencyCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="MDSForeignCurrencyCode"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_ForeignCurrency_Code_Output]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output].Columns[MDSForeignCurrencyCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[Core_Currency_ForeignCurrency_Code_CleansingStatus  &lt;add as new column&gt;  ! [Core_Currency_DomesticCurrency_Code_IsFound] ? &quot;NOT FOUND&quot; : &quot;OK&quot;  Unicode string [DT_WSTR]  9]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Core_Currency_ForeignCurrency_Code_CleansingStatus  &lt;add as new column&gt;  ! [Core_Currency_DomesticCurrency_Code_IsFound] ? &quot;NOT FOUND&quot; : &quot;OK&quot;  Unicode string [DT_WSTR]  9"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_ForeignCurrency_Code_CleansingStatus]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_ForeignCurrency_Code_CleansingStatus  &lt;add as new column&gt;  ! [Core_Currency_DomesticCurrency_Code_IsFound] ? &quot;NOT FOUND&quot; : &quot;OK&quot;  Unicode string [DT_WSTR]  9]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].Columns[ExchangeRate]"
+                      cachedDataType="numeric"
+                      cachedName="ExchangeRate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[ExchangeRate]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[ExchangeRate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_CLEANSING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[NominalDate]"
+                      dataType="dbDate"
+                      name="NominalDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[AccountingExchangeRate]"
+                      dataType="numeric"
+                      name="AccountingExchangeRate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DomesticCurrency_Code_Source]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_DomesticCurrency_Code_Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DomesticCurrency_Code_Output]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_DomesticCurrency_Code_Output" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_DomesticCurrency_Code_CleansingStatus]"
+                      dataType="wstr"
+                      length="100"
+                      name="Finance_Currency_DomesticCurrency_Code_CleansingStatus" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_ForeignCurrency_Code_Source]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_ForeignCurrency_Code_Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_ForeignCurrency_Code_Output]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_ForeignCurrency_Code_Output" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_ForeignCurrency_Code_CleansingStatus]"
+                      dataType="wstr"
+                      length="100"
+                      name="Finance_Currency_ForeignCurrency_Code_CleansingStatus" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromEntity</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[NominalDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[NominalDate]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[NominalDate]"
+                      name="NominalDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[ExchangeRate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[ExchangeRate]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[ExchangeRate]"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[AccountingExchangeRate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[AccountingExchangeRate]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[AccountingExchangeRate]"
+                      name="AccountingExchangeRate"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_DomesticCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_DomesticCurrency_Code]"
+                      length="3"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_DomesticCurrency_Code]"
+                      name="Finance_Currency_DomesticCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_ForeignCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_ForeignCurrency_Code]"
+                      length="3"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_ForeignCurrency_Code]"
+                      name="Finance_Currency_ForeignCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="255"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[NominalDate]"
+                      dataType="dbDate"
+                      name="NominalDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[AccountingExchangeRate]"
+                      dataType="numeric"
+                      name="AccountingExchangeRate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_DomesticCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_DomesticCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_ForeignCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_ForeignCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[NominalDate]"
+                      dataType="dbDate"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[NominalDate]"
+                      name="NominalDate" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_DomesticCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_DomesticCurrency_Code]"
+                      name="Finance_Currency_DomesticCurrency_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_ForeignCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_ForeignCurrency_Code]"
+                      name="Finance_Currency_ForeignCurrency_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ExchangeRate]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ExchangeRate]"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[AccountingExchangeRate]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[AccountingExchangeRate]"
+                      name="AccountingExchangeRate"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output2]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output3]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output4]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load MarketData_Exchange- Working.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete MarketData_ExchangeRate existing Dataquality process"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{34CCC217-4D3C-44E5-B63C-9C4531EC1F0F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete MarketData_ExchangeRate existing Dataquality process"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateExistingDataQuality" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load MarketData_ExchangeRate - Cleansing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F4779B78-98F3-4B40-85BE-77ECFDA6F4D9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load MarketData_ExchangeRate - Cleansing"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadCleansedData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Validate MarketData_ExchangeRate- Rejects"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{985B3CAF-15C4-425D-8D3A-0064F6B9C5CB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Validate MarketData_ExchangeRate- Rejects"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateWorkingData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{38DE73E3-7E37-408D-AAED-959741EEC2EA}"
+      DTS:From="Package\SQL - Delete MarketData_ExchangeRate existing Dataquality process"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - Load MarketData_Exchange- Working" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{974B739A-BB42-4B6E-92B2-89FA19653C86}"
+      DTS:From="Package\DFT - Load MarketData_Exchange- Working"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL - Validate MarketData_ExchangeRate- Rejects" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{CAE918E8-431D-4BBD-8640-918C074BD341}"
+      DTS:From="Package\SQL - Validate MarketData_ExchangeRate- Rejects"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SQL - Load MarketData_ExchangeRate - Cleansing" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="286,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working"
+          TopLeft="29.5,205.5" />
+        <NodeLayout
+          Size="403,42"
+          Id="Package\SQL - Delete MarketData_ExchangeRate existing Dataquality process"
+          TopLeft="27.5,106.5" />
+        <NodeLayout
+          Size="316,42"
+          Id="Package\SQL - Load MarketData_ExchangeRate - Cleansing"
+          TopLeft="8.50000000000006,413.5" />
+        <NodeLayout
+          Size="317,42"
+          Id="Package\SQL - Validate MarketData_ExchangeRate- Rejects"
+          TopLeft="6.50000000000003,311.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="229,148.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-56.5,57"
+              Start="0,0"
+              End="-56.5,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5"
+                    Point2="0,28.5"
+                    Point3="-4,28.5" />
+                  <mssgle:LineSegment
+                    End="-52.5,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-52.5,28.5"
+                    Point2="-56.5,28.5"
+                    Point3="-56.5,32.5" />
+                  <mssgle:LineSegment
+                    End="-56.5,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="168.75,247.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64"
+              Start="0,0"
+              End="0,56.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,56.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="165.75,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load MarketData_Exchange- Working">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing results"
+          TopLeft="123.777777777778,506.611111111111" />
+        <NodeLayout
+          Size="392,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate"
+          TopLeft="32.5,5.5" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\DER - Handle empty currency code"
+          TopLeft="106.5,105.5" />
+        <NodeLayout
+          Size="404,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate"
+          TopLeft="53,978" />
+        <NodeLayout
+          Size="262,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic"
+          TopLeft="108.5,228.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze lookup results"
+          TopLeft="131.5,646.722222222222" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\DER - Add metadata"
+          TopLeft="161.888888888889,882.166666666667" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign"
+          TopLeft="121.5,362" />
+        <NodeLayout
+          Size="272,42"
+          Id="Package\DFT - Load MarketData_Exchange- Working\DER - Analyze cleansing &amp; lookup results"
+          TopLeft="107.5,767.833333333333" />
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output4]"
+          TopLeft="252.194444444445,924.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.833333333333"
+              Start="0,0"
+              End="0,46.333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output3]"
+          TopLeft="228.5,147.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11,81"
+              Start="0,0"
+              End="11,73.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.5"
+                    Point2="0,40.5"
+                    Point3="4,40.5" />
+                  <mssgle:LineSegment
+                    End="7,40.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7,40.5"
+                    Point2="11,40.5"
+                    Point3="11,44.5" />
+                  <mssgle:LineSegment
+                    End="11,73.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output2]"
+          TopLeft="246.444444444445,809.833333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72.3333333333339"
+              Start="0,0"
+              End="0,64.8333333333339">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.8333333333339" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output1]"
+          TopLeft="241,688.722222222222">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,79.1111111111111"
+              Start="0,0"
+              End="0,71.6111111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.6111111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Derived Column Output]"
+          TopLeft="237.888888888889,548.611111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,98.111111111111"
+              Start="0,0"
+              End="0,90.611111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,90.611111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[OLE DB Source Output]"
+          TopLeft="228.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Lookup Match Output1]"
+          TopLeft="248.5,404">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-11.222222222222,102.611111111111"
+              Start="0,0"
+              End="-11.222222222222,95.111111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.3055555555555" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47.3055555555555"
+                    Point2="0,51.3055555555555"
+                    Point3="-4,51.3055555555555" />
+                  <mssgle:LineSegment
+                    End="-7.222222222222,51.3055555555555" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-7.222222222222,51.3055555555555"
+                    Point2="-11.222222222222,51.3055555555555"
+                    Point3="-11.222222222222,55.3055555555555" />
+                  <mssgle:LineSegment
+                    End="-11.222222222222,95.111111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-53.802497829861,56.3055555555555,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load MarketData_Exchange- Working.Paths[Lookup Match Output]"
+          TopLeft="239.5,270.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9,91.5"
+              Start="0,0"
+              End="9,84">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,41.75"
+                    Point2="0,45.75"
+                    Point3="4,45.75" />
+                  <mssgle:LineSegment
+                    End="5,45.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5,45.75"
+                    Point2="9,45.75"
+                    Point3="9,49.75" />
+                  <mssgle:LineSegment
+                    End="9,84" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-43.69138671875,50.75,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load MarketData_Exchange- Working\OLE_SRC - IC_DM_DataStore - Entity - MarketData_ExchangeRate">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load MarketData_Exchange- Working\OLE_DST - IC_DM_DataStore - Working - MarketData_ExchangeRate">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Domestic">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load MarketData_Exchange- Working\LKP - MDS - Core_Currency - Foreign">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q4:string">false</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

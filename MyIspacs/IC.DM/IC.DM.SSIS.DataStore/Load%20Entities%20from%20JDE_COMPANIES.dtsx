@@ -1,0 +1,2807 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 12:55:02 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSHP15"
+  DTS:CreatorName="CORP\adm1neh"
+  DTS:DTSID="{4D73AF13-1B00-4953-A700-24D8DE3D042F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Load Entities from JDE_COMPANIES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="320"
+  DTS:VersionGUID="{7EA482CD-391C-41F1-9B16-C64E328283BB}"
+  DTS:VersionMajor="0">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{69E31FD5-ADCE-4DA4-BAEB-420284AA26EE}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20170502-01-IL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{866039DB-916F-4EEB-A7A5-783CFBD1E030}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5401DB50-BEEE-4B5D-B787-133BA6E04F8A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">COMPANIES</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2CD7B82A-51D2-4B82-8EC9-9E4FE4DB6847}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{19D04757-B863-4699-8E46-19FA2058A703}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [staging].[sp_Get_JDE_Companies_Data]  '&quot; + @[$Package::BusinessProcessInstanceID] +&quot;','&quot;+ (DT_WSTR, 100) @[$Package::BusinessProcessInstanceIteration] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataStaging">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [staging].[sp_Get_JDE_Companies_Data]  '20170502-01-IL','1'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BC230AD9-A08A-4253-8CB0-5B490A8AFEAA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_Finance_Company_CDC]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataStore">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_Finance_Company_CDC]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{097763AB-CB66-4113-971B-3543DF306ED2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20170502-01-IL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AF8F46EF-2F07-4626-901D-D4D87B3525A3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:30 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A28367EA-6EE8-4D58-9D54-843D4FA3EC49}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:17:29</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load JDE_COMPANIES"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{B8DEFE3B-1A05-4521-BCB2-E03E5894795C}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load JDE_COMPANIES"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="CSPL - Record is New or Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[hashKeySource]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="hashKeySource"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[hashKeyDestination]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="hashKeyDestination"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Insert]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Insert"
+                  synchronousInputId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">([ISNULL](#{Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]}) || (![ISNULL](#{Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]}) &amp;&amp; ((DT_WSTR,1000)#{Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]} != (DT_WSTR,1000)#{Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]})))</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">(ISNULL(hashKeyDestination) || (!ISNULL(hashKeySource) &amp;&amp; ((DT_WSTR,1000)hashKeyDestination != (DT_WSTR,1000)hashKeySource)))</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Delete]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Delete"
+                  synchronousInputId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]}) &amp;&amp; [ISNULL](#{Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(hashKeySource) &amp;&amp; ISNULL(IC_DM_TIMESTAMP_DELETE)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\DC - add delete flag"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DC - add delete flag"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load JDE_COMPANIES\DC - add delete flag.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\DC - add delete flag.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\DC - add delete flag.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load JDE_COMPANIES\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Source]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Source]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Data]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Data]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[Company_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Company_Code"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[Company_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[Name_EN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Name_EN"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[CompanyCurrency_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="CompanyCurrency_Code"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[DateFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateFiscalYearBegins"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[FiscalYearEnd]"
+                      cachedDataType="i4"
+                      cachedName="FiscalYearEnd"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[PeriodNumberCurrent]"
+                      cachedDataType="r8"
+                      cachedName="PeriodNumberCurrent"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[PeriodNumberCurrent]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[TaxYearBeginningMonth]"
+                      cachedDataType="r8"
+                      cachedName="TaxYearBeginningMonth"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[TaxYearBeginningMonth]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[NumberofPeriodsNormal]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="NumberofPeriodsNormal"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[NumberofPeriodsNormal]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[FiscalDatePattern_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="FiscalDatePattern_Code"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FiscalDatePattern_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[FinancialReportingYear]"
+                      cachedDataType="r8"
+                      cachedName="FinancialReportingYear"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FinancialReportingYear]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[DateARFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateARFiscalYearBegins"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateARFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[DateAPFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateAPFiscalYearBegins"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateAPFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[LastModified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LastModified"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[LastModified]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[HashKey]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="HashKey"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[HashKey]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[Name_EN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Name_EN"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[CompanyCurrency_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="CompanyCurrency_Code"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[DateFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateFiscalYearBegins"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[FiscalYearEnd]"
+                      cachedDataType="i4"
+                      cachedName="FiscalYearEnd"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[PeriodNumberCurrent]"
+                      cachedDataType="r8"
+                      cachedName="PeriodNumberCurrent"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[PeriodNumberCurrent]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[TaxYearBeginningMonth]"
+                      cachedDataType="r8"
+                      cachedName="TaxYearBeginningMonth"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[TaxYearBeginningMonth]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[NumberofPeriodsNormal]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="NumberofPeriodsNormal"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[NumberofPeriodsNormal]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[FiscalDatePattern_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="FiscalDatePattern_Code"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FiscalDatePattern_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[FinancialReportingYear]"
+                      cachedDataType="r8"
+                      cachedName="FinancialReportingYear"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FinancialReportingYear]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[DateARFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateARFiscalYearBegins"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateARFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[DateAPFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateAPFiscalYearBegins"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateAPFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[HashKey]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="HashKey"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[HashKey]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_Company_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Finance_Company_Code"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[Finance_Company_Code]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[Company_Code]"
+                      name="Company_Code"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[Company_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[Name_EN]"
+                      name="Name_EN">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[Name_EN]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[CompanyCurrency_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateFiscalYearBegins]"
+                      name="DateFiscalYearBegins">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[DateFiscalYearBegins]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FiscalYearEnd]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[FiscalYearEnd]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[PeriodNumberCurrent]"
+                      name="PeriodNumberCurrent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[PeriodNumberCurrent]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[TaxYearBeginningMonth]"
+                      name="TaxYearBeginningMonth">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[TaxYearBeginningMonth]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[NumberofPeriodsNormal]"
+                      name="NumberofPeriodsNormal">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[NumberofPeriodsNormal]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FiscalDatePattern_Code]"
+                      name="FiscalDatePattern_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[FiscalDatePattern_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FinancialReportingYear]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FinancialReportingYear]"
+                      name="FinancialReportingYear">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[FinancialReportingYear]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateARFiscalYearBegins]"
+                      name="DateARFiscalYearBegins">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[DateARFiscalYearBegins]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateAPFiscalYearBegins]"
+                      name="DateAPFiscalYearBegins">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[DateAPFiscalYearBegins]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[LastModified]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[LastModified]"
+                      name="LastModified">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[LastModified]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]"
+                      name="hashKeySource">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input].Columns[HashKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSName_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSName_EN]"
+                      name="DSName_EN">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[Name_EN]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSCompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSCompanyCurrency_Code]"
+                      name="DSCompanyCurrency_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[CompanyCurrency_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateFiscalYearBegins]"
+                      name="DSDateFiscalYearBegins">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[DateFiscalYearBegins]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFiscalYearEnd]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFiscalYearEnd]"
+                      name="DSFiscalYearEnd">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[FiscalYearEnd]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSPeriodNumberCurrent]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSPeriodNumberCurrent]"
+                      name="DSPeriodNumberCurrent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[PeriodNumberCurrent]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSTaxYearBeginningMonth]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSTaxYearBeginningMonth]"
+                      name="DSTaxYearBeginningMonth">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[TaxYearBeginningMonth]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSNumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSNumberofPeriodsNormal]"
+                      name="DSNumberofPeriodsNormal">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[NumberofPeriodsNormal]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFiscalDatePattern_Code]"
+                      name="DSFiscalDatePattern_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[FiscalDatePattern_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFinancialReportingYear]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFinancialReportingYear]"
+                      name="DSFinancialReportingYear">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[FinancialReportingYear]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateARFiscalYearBegins]"
+                      name="DSDateARFiscalYearBegins">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[DateARFiscalYearBegins]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateAPFiscalYearBegins]"
+                      name="DSDateAPFiscalYearBegins">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[DateAPFiscalYearBegins]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_TIMESTAMP_DELETE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]"
+                      name="hashKeyDestination">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[HashKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFinance_Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFinance_Company_Code]"
+                      name="DSFinance_Company_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_Company_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - COMPANY from staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Finance_Company]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[DateFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateFiscalYearBegins"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[DateFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[PeriodNumberCurrent]"
+                      cachedDataType="r8"
+                      cachedName="PeriodNumberCurrent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[PeriodNumberCurrent]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[PeriodNumberCurrent]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[TaxYearBeginningMonth]"
+                      cachedDataType="r8"
+                      cachedName="TaxYearBeginningMonth"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[TaxYearBeginningMonth]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[TaxYearBeginningMonth]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[NumberofPeriodsNormal]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="NumberofPeriodsNormal"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[NumberofPeriodsNormal]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[NumberofPeriodsNormal]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[DateARFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateARFiscalYearBegins"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[DateARFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateARFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[DateAPFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DateAPFiscalYearBegins"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[DateAPFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DateAPFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[LastModified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LastModified"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModified]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[LastModified]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[FiscalYearEnd]"
+                      cachedDataType="i4"
+                      cachedName="FiscalYearEnd"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYearEnd]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FiscalYearEnd]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[CompanyCurrency_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="CompanyCurrency_Code"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[CompanyCurrency_Code]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[CompanyCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[FiscalDatePattern_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="FiscalDatePattern_Code"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[FiscalDatePattern_Code]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FiscalDatePattern_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[FinancialReportingYear]"
+                      cachedDataType="r8"
+                      cachedName="FinancialReportingYear"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[FinancialReportingYear]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[FinancialReportingYear]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].Columns[Company_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Company_Code"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_Code]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[Company_Code]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      name="PeriodNumberCurrent" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      name="TaxYearBeginningMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="NumberofPeriodsNormal" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FiscalDatePattern_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[FinancialReportingYear]"
+                      dataType="r8"
+                      name="FinancialReportingYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateARFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateAPFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModified]"
+                      dataType="dbTimeStamp"
+                      name="LastModified" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYearEnd]"
+                      dataType="i4"
+                      name="FiscalYearEnd" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CompanyCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Finance_Company_Code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - COMPANY from staging Delete"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Finance_Company]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[LastModified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LastModified"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[LastModified]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[LastModified]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSName_EN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="DSName_EN"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSName_EN]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSDateFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DSDateFiscalYearBegins"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[DateFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSPeriodNumberCurrent]"
+                      cachedDataType="r8"
+                      cachedName="DSPeriodNumberCurrent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[PeriodNumberCurrent]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSPeriodNumberCurrent]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSTaxYearBeginningMonth]"
+                      cachedDataType="r8"
+                      cachedName="DSTaxYearBeginningMonth"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[TaxYearBeginningMonth]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSTaxYearBeginningMonth]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSNumberofPeriodsNormal]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="DSNumberofPeriodsNormal"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[NumberofPeriodsNormal]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSNumberofPeriodsNormal]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSFiscalDatePattern_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="DSFiscalDatePattern_Code"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[FiscalDatePattern_Code]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFiscalDatePattern_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSFinancialReportingYear]"
+                      cachedDataType="r8"
+                      cachedName="DSFinancialReportingYear"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[FinancialReportingYear]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFinancialReportingYear]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSDateARFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DSDateARFiscalYearBegins"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[DateARFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateARFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSDateAPFiscalYearBegins]"
+                      cachedDataType="dbDate"
+                      cachedName="DSDateAPFiscalYearBegins"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[DateAPFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSDateAPFiscalYearBegins]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSFiscalYearEnd]"
+                      cachedDataType="i4"
+                      cachedName="DSFiscalYearEnd"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYearEnd]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFiscalYearEnd]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSCompanyCurrency_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="DSCompanyCurrency_Code"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[CompanyCurrency_Code]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSCompanyCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].Columns[DSFinance_Company_Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="DSFinance_Company_Code"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_Code]"
+                      lineageId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output].Columns[DSFinance_Company_Code]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      name="PeriodNumberCurrent" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      name="TaxYearBeginningMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="NumberofPeriodsNormal" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FiscalDatePattern_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[FinancialReportingYear]"
+                      dataType="r8"
+                      name="FinancialReportingYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateARFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateAPFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[LastModified]"
+                      dataType="dbTimeStamp"
+                      name="LastModified" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYearEnd]"
+                      dataType="i4"
+                      name="FiscalYearEnd" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CompanyCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Finance_Company_Code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DataStore - FINANCE_COMAPNY"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataStore</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      length="30"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[CompanyCurrency_Code]"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[DateFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateFiscalYearBegins]"
+                      name="DateFiscalYearBegins"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[FiscalYearEnd]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[PeriodNumberCurrent]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[PeriodNumberCurrent]"
+                      name="PeriodNumberCurrent"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[TaxYearBeginningMonth]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[TaxYearBeginningMonth]"
+                      name="TaxYearBeginningMonth"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[NumberofPeriodsNormal]"
+                      length="2"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[NumberofPeriodsNormal]"
+                      name="NumberofPeriodsNormal"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[FiscalDatePattern_Code]"
+                      length="1"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FiscalDatePattern_Code]"
+                      name="FiscalDatePattern_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FinancialReportingYear]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[FinancialReportingYear]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[FinancialReportingYear]"
+                      name="FinancialReportingYear"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[DateARFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateARFiscalYearBegins]"
+                      name="DateARFiscalYearBegins"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[DateAPFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[DateAPFiscalYearBegins]"
+                      name="DateAPFiscalYearBegins"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      length="1000"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      name="HashKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[Finance_Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[Finance_Company_Code]"
+                      length="5"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].Columns[Finance_Company_Code]"
+                      name="Finance_Company_Code"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CompanyCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[FiscalYearEnd]"
+                      dataType="i4"
+                      name="FiscalYearEnd" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      name="PeriodNumberCurrent" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      name="TaxYearBeginningMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="NumberofPeriodsNormal" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FiscalDatePattern_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[FinancialReportingYear]"
+                      dataType="r8"
+                      name="FinancialReportingYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateARFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateAPFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      name="HashKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output].ExternalColumns[Finance_Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Finance_Company_Code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[Finance_Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[Finance_Company_Code]"
+                      name="Finance_Company_Code" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      name="Name_EN" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[DateFiscalYearBegins]"
+                      name="DateFiscalYearBegins" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[FiscalYearEnd]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[PeriodNumberCurrent]"
+                      name="PeriodNumberCurrent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[TaxYearBeginningMonth]"
+                      name="TaxYearBeginningMonth" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[NumberofPeriodsNormal]"
+                      name="NumberofPeriodsNormal" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[FiscalDatePattern_Code]"
+                      name="FiscalDatePattern_Code" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[FinancialReportingYear]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[FinancialReportingYear]"
+                      name="FinancialReportingYear" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[DateARFiscalYearBegins]"
+                      name="DateARFiscalYearBegins" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[DateAPFiscalYearBegins]"
+                      name="DateAPFiscalYearBegins" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      name="HashKey" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - Staging - COMPANIES"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataStaging</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[Company_Code]"
+                      length="5"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[Company_Code]"
+                      name="Company_Code"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      length="30"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[CompanyCurrency_Code]"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[DateFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateFiscalYearBegins]"
+                      name="DateFiscalYearBegins"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[FiscalYearEnd]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[PeriodNumberCurrent]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[PeriodNumberCurrent]"
+                      name="PeriodNumberCurrent"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[TaxYearBeginningMonth]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[TaxYearBeginningMonth]"
+                      name="TaxYearBeginningMonth"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[NumberofPeriodsNormal]"
+                      length="2"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[NumberofPeriodsNormal]"
+                      name="NumberofPeriodsNormal"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[FiscalDatePattern_Code]"
+                      length="1"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FiscalDatePattern_Code]"
+                      name="FiscalDatePattern_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FinancialReportingYear]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[FinancialReportingYear]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[FinancialReportingYear]"
+                      name="FinancialReportingYear"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[DateARFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateARFiscalYearBegins]"
+                      name="DateARFiscalYearBegins"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[DateAPFiscalYearBegins]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[DateAPFiscalYearBegins]"
+                      name="DateAPFiscalYearBegins"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[LastModified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[LastModified]"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[LastModified]"
+                      name="LastModified"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      length="1000"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      name="HashKey"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Company_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CompanyCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[FiscalYearEnd]"
+                      dataType="i4"
+                      name="FiscalYearEnd" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      name="PeriodNumberCurrent" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      name="TaxYearBeginningMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="NumberofPeriodsNormal" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FiscalDatePattern_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[FinancialReportingYear]"
+                      dataType="r8"
+                      name="FinancialReportingYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateARFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      name="DateAPFiscalYearBegins" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[LastModified]"
+                      dataType="dbTimeStamp"
+                      name="LastModified" />
+                    <externalMetadataColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      name="HashKey" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[Company_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[Company_Code]"
+                      name="Company_Code" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      name="Name_EN" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[CompanyCurrency_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[CompanyCurrency_Code]"
+                      name="CompanyCurrency_Code" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[DateFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[DateFiscalYearBegins]"
+                      name="DateFiscalYearBegins" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[FiscalYearEnd]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[FiscalYearEnd]"
+                      name="FiscalYearEnd" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[PeriodNumberCurrent]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[PeriodNumberCurrent]"
+                      name="PeriodNumberCurrent" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[TaxYearBeginningMonth]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[TaxYearBeginningMonth]"
+                      name="TaxYearBeginningMonth" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[NumberofPeriodsNormal]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[NumberofPeriodsNormal]"
+                      name="NumberofPeriodsNormal" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[FiscalDatePattern_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[FiscalDatePattern_Code]"
+                      name="FiscalDatePattern_Code" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[FinancialReportingYear]"
+                      dataType="r8"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[FinancialReportingYear]"
+                      name="FinancialReportingYear" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[DateARFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[DateARFiscalYearBegins]"
+                      name="DateARFiscalYearBegins" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[DateAPFiscalYearBegins]"
+                      dataType="dbDate"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[DateAPFiscalYearBegins]"
+                      name="DateAPFiscalYearBegins" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[LastModified]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[LastModified]"
+                      name="LastModified" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      name="HashKey" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[Delete]"
+              endId="Package\Load JDE_COMPANIES\DC - add delete flag.Inputs[Derived Column Input]"
+              name="Delete"
+              startId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Delete]" />
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[Derived Column Output]"
+              endId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\Load JDE_COMPANIES\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[Derived Column Output1]"
+              endId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load JDE_COMPANIES\DC - add delete flag.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[Insert]"
+              endId="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging.Inputs[OLE DB Destination Input]"
+              name="Insert"
+              startId="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified.Outputs[Insert]" />
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[Merge Join Output]"
+              endId="Package\Load JDE_COMPANIES\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Merge Join Output"
+              startId="Package\Load JDE_COMPANIES\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[OLE DB Source Output]"
+              endId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Left Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load JDE_COMPANIES.Paths[OLE DB Source Output1]"
+              endId="Package\Load JDE_COMPANIES\Merge Join.Inputs[Merge Join Right Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="251,42"
+          Id="Package\Load JDE_COMPANIES"
+          TopLeft="449.5,154.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load JDE_COMPANIES">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="287,42"
+          Id="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY"
+          TopLeft="253,48" />
+        <NodeLayout
+          Size="258,42"
+          Id="Package\Load JDE_COMPANIES\Merge Join"
+          TopLeft="495,244" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Load JDE_COMPANIES\DER - Add metadata"
+          TopLeft="489,358" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load JDE_COMPANIES\DC - add delete flag"
+          TopLeft="944.65656565657,456" />
+        <NodeLayout
+          Size="341,42"
+          Id="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete"
+          TopLeft="863,689" />
+        <NodeLayout
+          Size="307,42"
+          Id="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging"
+          TopLeft="461,690" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\Load JDE_COMPANIES\CSPL - Record is New or Modified"
+          TopLeft="490,457" />
+        <NodeLayout
+          Size="298,42"
+          Id="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES"
+          TopLeft="705,49" />
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[OLE DB Source Output1]"
+          TopLeft="396.5,90">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="185.833333333333,154"
+              Start="0,0"
+              End="185.833333333333,146.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,87.8305084745763" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,87.8305084745763"
+                    Point2="0,91.8305084745763"
+                    Point3="4,91.8305084745763" />
+                  <mssgle:LineSegment
+                    End="181.833333333333,91.8305084745763" />
+                  <mssgle:CubicBezierSegment
+                    Point1="181.833333333333,91.8305084745763"
+                    Point2="185.833333333333,91.8305084745763"
+                    Point3="185.833333333333,95.8305084745763" />
+                  <mssgle:LineSegment
+                    End="185.833333333333,146.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[OLE DB Source Output]"
+          TopLeft="854,91">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-188.333333333333,153"
+              Start="0,0"
+              End="-188.333333333333,145.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,87.2342064714946" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,87.2342064714946"
+                    Point2="0,91.2342064714946"
+                    Point3="-4,91.2342064714946" />
+                  <mssgle:LineSegment
+                    End="-184.333333333333,91.2342064714946" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-184.333333333333,91.2342064714946"
+                    Point2="-188.333333333333,91.2342064714946"
+                    Point3="-188.333333333333,95.2342064714946" />
+                  <mssgle:LineSegment
+                    End="-188.333333333333,145.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[Merge Join Output]"
+          TopLeft="620.25,286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72"
+              Start="0,0"
+              End="0,64.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[Insert]"
+          TopLeft="615.75,499">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,191"
+              Start="0,0"
+              End="0,183.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,183.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-13.75298828125,87.048828125,27.5059765625,9.40234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[Derived Column Output1]"
+          TopLeft="1032.32828282828,498">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,191"
+              Start="0,0"
+              End="0,183.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,183.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[Derived Column Output]"
+          TopLeft="616.75,400">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load JDE_COMPANIES.Paths[Delete]"
+          TopLeft="744,477.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="200.65656565657,0"
+              Start="0,0"
+              End="193.15656565657,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="193.15656565657,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="81.981935172035,5,29.1926953125,9.724609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load JDE_COMPANIES\OLE_SRC - DataStore - FINANCE_COMAPNY">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging Delete">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load JDE_COMPANIES\OLE_DEST - DataStore - COMPANY from staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load JDE_COMPANIES\OLE_SRC - Staging - COMPANIES">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

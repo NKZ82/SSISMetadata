@@ -1,0 +1,1474 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{27BA39DB-4ACE-4570-AD22-C6DB6EEF9278}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Ref_Core_State"
+  DTS:PackageType="5"
+  DTS:VersionBuild="106"
+  DTS:VersionGUID="{189B5B1E-2DAD-43E0-A6B8-1544CB94BAC9}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{F82E17AD-8470-4362-89A9-A256CB9F5431}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20160809-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{766C2E60-5C7D-4A24-AC57-C8F838A18371}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1B10CDFE-C7BA-4B92-A66B-14D71149D497}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Core</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{35A6FB7D-EF6E-46FB-8D72-31DD6BE14B01}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">State</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8600C174-23FA-4B4D-B7FB-5AF38672A2AD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref_Core_State</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4CC0D114-74DB-40AE-9DD1-AA89E6010313}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Core_State</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{81FEF859-30E7-4A1F-9F5B-7F4A4CBDD443}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{66062D27-2543-4C9A-ABDB-509C9A8B9421}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [usr].[sp_Get_&quot; + @[User::md_EntityName] + &quot;_Entity]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromMDM">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [usr].[sp_Get_Core_State_Entity]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E280BFEF-B418-4530-8A12-5D59C78B06CA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20160809-01-EL'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [edw].[sp_Load_Ref_Core_State_SCD2] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{96B55921-E850-4CA6-B9AF-EB11ACC609D1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Ref_Core_State]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20160809-01-EL'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BBBEAF1E-85E0-42F1-ADE2-66A67A76A9E2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20160809-01-EL_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{15063164-BBFE-4645-9707-A0450018574D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:15 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{439ED849-F0FB-4947-873C-3BCFBCFB1A85}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:14</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{DCBCD2AD-A43B-4F26-B373-8410B9AA61CF}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Working Ref_Core_State Entity from MDS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Handle missing values"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input].Columns[Core_Country_DK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Country_DK"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output].Columns[Core_Country_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Country_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Country_DK]"
+                      name="Applicable_Core_Country_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output].Columns[Core_Country_DK]}) ? -1 : #{Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output].Columns[Core_Country_DK]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Core_Country_DK) ? -1 : Core_Country_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Core_Country - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Core_Country_Code, Core_Country_DK FROM [edw].[Ref_Core_Country] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Core_Country_Code, Core_Country_DK FROM [edw].[Ref_Core_Country] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Core_Country_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Core_Country_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Core_Country_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_Country_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Inputs[Lookup Input].Columns[Core_Country_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Core_Country_Code"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_Country_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Core_Country_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output].Columns[Core_Country_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output].Columns[Core_Country_DK]"
+                      name="Core_Country_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Core_Country_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Core_State - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Core_State_Code, Core_State_DK FROM [edw].[Ref_Core_State] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Core_State_Code, Core_State_DK FROM [edw].[Ref_Core_State] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Core_State_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Core_State_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Core_State_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_State_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Inputs[Lookup Input].Columns[Core_State_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Core_State_Code"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_State_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Core_State_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Match Output].Columns[Core_State_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Match Output].Columns[Core_State_DK]"
+                      name="Core_State_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Core_State_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Ref_Core_State]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[Name_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Name_FR"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Name_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[Core_Country_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Core_Country_Code"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_Country_Code]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_Country_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[Core_State_DK]"
+                      cachedDataType="i4"
+                      cachedName="Core_State_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_DK]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Match Output].Columns[Core_State_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[Core_State_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Core_State_Code"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_Code]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_State_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[ValidationSucceeded]"
+                      cachedDataType="i4"
+                      cachedName="ValidationSucceeded"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].Columns[Applicable_Core_Country_DK]"
+                      cachedDataType="i4"
+                      cachedName="Applicable_Core_Country_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_Country_DK]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output].Columns[Applicable_Core_Country_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_Country_DK]"
+                      dataType="i4"
+                      name="Core_Country_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_Country_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Core_Country_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_DK]"
+                      dataType="i4"
+                      name="Core_State_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Core_State_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - MDS DB - DM_MDM - Core_State"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromMDM</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Connections[OleDbConnection]"
+                  connectionManagerID="{26FCB80F-4859-4366-8B2F-37D07352E510}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_Country_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Core_Country_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_Country_Code]"
+                      name="Core_Country_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                      name="Name_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_State_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Core_State_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[Core_State_Code]"
+                      name="Core_State_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Core_Country_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Core_Country_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[Core_State_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Core_State_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      dataType="i4"
+                      name="ValidationSucceeded" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Core_State_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Core_State_Code]"
+                      name="Core_State_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Core_Country_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Core_Country_Code]"
+                      name="Core_Country_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                      name="Name_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                      name="Name_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete EDW Working Ref_Core_State Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{55A53059-50D4-4A56-B8A0-9694BD850B51}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete EDW Working Ref_Core_State Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load EDW Ref_Core_State Entity - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2418E864-2EED-482F-8440-BE1D4C4DDC5B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load EDW Ref_Core_State Entity - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3ACE21ED-E2E4-4ED4-B425-3DB70CBADA94}"
+      DTS:From="Package\SQL - Delete EDW Working Ref_Core_State Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{FD6C1374-82D0-4393-8808-9CAF2E66A35E}"
+      DTS:From="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load EDW Ref_Core_State Entity - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="356,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="313,42"
+          Id="Package\SQL - Delete EDW Working Ref_Core_State Entity"
+          TopLeft="21.5,5.5" />
+        <NodeLayout
+          Size="300,42"
+          Id="Package\SQL - Load EDW Ref_Core_State Entity - SCD2"
+          TopLeft="34,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="180.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="183.75,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="289,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State"
+          TopLeft="50.5,5.5" />
+        <NodeLayout
+          Size="238,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current"
+          TopLeft="76,209.5" />
+        <NodeLayout
+          Size="379,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State"
+          TopLeft="5.50000000000009,515.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Add metadata"
+          TopLeft="107.5,413.5" />
+        <NodeLayout
+          Size="226,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current"
+          TopLeft="82,107.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\DER - Handle missing values"
+          TopLeft="88.0000000000001,311.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[OLE DB Source Output]"
+          TopLeft="195,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Lookup Match Output1]"
+          TopLeft="195,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Lookup Match Output]"
+          TopLeft="195,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Derived Column Output1]"
+          TopLeft="195,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS.Paths[Derived Column Output]"
+          TopLeft="195,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_SRC - MDS DB - DM_MDM - Core_State">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_Country - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Core_State">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Core_State Entity from MDS\LKP - Ref_Core_State - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

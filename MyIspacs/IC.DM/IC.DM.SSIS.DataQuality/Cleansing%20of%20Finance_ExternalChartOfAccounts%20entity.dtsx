@@ -1,0 +1,1830 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2016 9:36:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{068E7E88-102F-4D2B-B8AB-B44257B18D3C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Cleansing of Finance_ExternalChartOfAccounts entity"
+  DTS:PackageType="5"
+  DTS:VersionBuild="668"
+  DTS:VersionGUID="{BE0AEB16-EEEB-4690-B569-3F75DFDF96AC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="11"
+      DTS:DTSID="{950EF757-C0B3-49F1-9E2C-2FEDE7F9744E}"
+      DTS:ObjectName="AllowPartialLoadOfCleansingTable">
+      <DTS:Property
+        DTS:DataType="11"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{A872BE30-FAEC-44D4-B47A-B3EB9B1FE10C}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20170808-NASC-02</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{BCCB1604-46F9-4608-81DE-1054FAC0109F}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0B03E5A3-B1A7-441C-B3BC-D2D186D43CBB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{302E0A53-4882-41BA-A88A-970601B725A7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">ExternalChartOfAccounts</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AC3FC9EA-065A-4842-8C3C-A92EE27D138D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance_ExternalChartOfAccounts</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4CE25BDE-B02F-4EE2-B386-DF07F66446B2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_&quot; + @[User::md_EntityFullName] + &quot;_Entity] '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;' , &quot;+ (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_Finance_ExternalChartOfAccounts_Entity] '20170808-NASC-02' , 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{13769799-959A-4BED-BF72-C15EDC7443A8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [cleansing].[sp_Load_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadCleansedData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20170808-NASC-02'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [cleansing].[sp_Load_Finance_ExternalChartOfAccounts]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8121FD16-75D8-4845-8EB2-3FD3BFEB9C08}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Finance_ExternalChartOfAccounts]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20170808-NASC-02'
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{636F47AA-EDB0-4AD0-B4CE-86F741DEB08C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [working].[sp_Validate_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20170808-NASC-02'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [working].[sp_Validate_Finance_ExternalChartOfAccounts]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{85C07CEB-41D3-4DFF-881C-1AC26C33A7CF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20170808-NASC-02_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{73C687E0-183E-44F4-8C17-F33298F26624}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/8/2018 12:24:37 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B2CE8EE0-EE36-416C-9020-256107CCD624}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-08 12:24:36</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EBD1FBC8-C200-4207-A6B8-0FA5BD8C3BCA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_MDS_Domain_Validation_Failed">
+      <DTS:VariableValue
+        DTS:DataType="8">MDS DOMAIN VALIDATION ISSUE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F49A86A7-856B-4C6B-B0A7-79AB62A9AFCF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_MDS_MDM_Validation_Failed">
+      <DTS:VariableValue
+        DTS:DataType="8">MDS MDM VALIDATION ISSUE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5A9F7447-4943-4763-BA27-DE924B593805}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RejectedRowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{9AC3AE31-7402-4067-86AF-902595E2527F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load Finance_ExternalChartOfAccounts - Working"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      name="IC_DM_CLEANSING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_CleansingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_CleansingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze cleansing &amp; lookup results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Finance_ChartOfAccounts_MDMCleansingStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Finance_ChartOfAccounts_MDMCleansingStatus"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_MDMCleansingStatus]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_AccountNumber_UPPER"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_CleansingStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_CleansingStatus]"
+                      name="Finance_ChartOfAccounts_CleansingStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]}) ? "OK" : [UPPER](#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_MDMCleansingStatus]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(Finance_ChartOfAccounts_AccountNumber_UPPER) ? "OK" : UPPER(Finance_ChartOfAccounts_MDMCleansingStatus)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - MDM Cleansing Status"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Inputs[Derived Column Input].Columns[MDMChartOfAccountsAMCode]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="MDMChartOfAccountsAMCode"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Inputs[Derived Column Input].Columns[MDMChartOfAccountsAMCode_ValidationStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="MDMChartOfAccountsAMCode_ValidationStatus"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode_ValidationStatus]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_MDMCleansingStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_MDMCleansingStatus]"
+                      name="Finance_ChartOfAccounts_MDMCleansingStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)([ISNULL](#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode]}) ? "NOT FOUND" : (#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode_ValidationStatus]} != "Validation Succeeded" ? @[User::var_MDS_MDM_Validation_Failed] : "OK"))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)(ISNULL(MDMChartOfAccountsAMCode) ? "NOT FOUND" : (MDMChartOfAccountsAMCode_ValidationStatus != "Validation Succeeded" ? @[User::var_MDS_MDM_Validation_Failed] : "OK"))</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - UPPER Source Cols"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Inputs[Derived Column Input].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_AccountNumber"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Inputs[Derived Column Input].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_ChartOfAccountsCode"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]"
+                      name="Finance_ChartOfAccounts_AccountNumber_UPPER"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[UPPER](#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">UPPER(Finance_ChartOfAccounts_AccountNumber)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER]"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[UPPER](#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">UPPER(Finance_ChartOfAccounts_ChartOfAccountsCode)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Code,
+	UPPER([Finance_ChartOfAccounts_ChartOfAccountsCode]) AS Finance_ChartOfAccounts_ChartOfAccountsCode,
+	UPPER([Finance_ChartOfAccounts_AccountNumber]) AS Finance_ChartOfAccounts_AccountNumber,
+	[ValidationStatus]
+FROM [mdm].[vw_DM_MDM_Finance_ChartOfAccounts]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Code,
+	UPPER([Finance_ChartOfAccounts_ChartOfAccountsCode]) AS Finance_ChartOfAccounts_ChartOfAccountsCode,
+	UPPER([Finance_ChartOfAccounts_AccountNumber]) AS Finance_ChartOfAccounts_AccountNumber,
+	[ValidationStatus]
+FROM [mdm].[vw_DM_MDM_Finance_ChartOfAccounts]) [refTable]
+where [refTable].[Finance_ChartOfAccounts_AccountNumber] = ? and [refTable].[Finance_ChartOfAccounts_ChartOfAccountsCode] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Code" dataType="DT_WSTR" length="250" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccounts_ChartOfAccountsCode" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ChartOfAccounts_AccountNumber" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ValidationStatus" dataType="DT_WSTR" length="250" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]};#{Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{8108D27E-5293-4B95-873E-E2B475C000AB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode_UPPER]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccounts_ChartOfAccountsCode</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_AccountNumber_UPPER"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_AccountNumber_UPPER]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ChartOfAccounts_AccountNumber</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="250"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode]"
+                      name="MDMChartOfAccountsAMCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode_ValidationStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="250"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output].Columns[MDMChartOfAccountsAMCode_ValidationStatus]"
+                      name="MDMChartOfAccountsAMCode_ValidationStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ValidationStatus</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Finance_ExternalChartOfAccounts]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_CLEANSING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_CLEANSING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[ChartOfAccountsName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ChartOfAccountsName"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[ChartOfAccountsName]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[ChartOfAccountsName]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[ExternalAccountName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ExternalAccountName"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[ExternalAccountName]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[ExternalAccountName]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ExternalChartOfAccounts_ChartOfAccountsCode"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ExternalChartOfAccounts_ExternalAccountNumber"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_ChartOfAccountsCode"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccounts_AccountNumber"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccounts_CleansingStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Finance_ChartOfAccounts_CleansingStatus"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_CleansingStatus]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Finance_ChartOfAccounts_CleansingStatus]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_CLEANSING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExternalChartOfAccounts_ChartOfAccountsCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[ChartOfAccountsName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ChartOfAccountsName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExternalChartOfAccounts_ExternalAccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[ExternalAccountName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ExternalAccountName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_ChartOfAccounts_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccounts_CleansingStatus]"
+                      dataType="wstr"
+                      length="100"
+                      name="Finance_ChartOfAccounts_CleansingStatus" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromEntity</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      name="Finance_ExternalChartOfAccounts_ExternalAccountNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[ExternalAccountName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[ExternalAccountName]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[ExternalAccountName]"
+                      name="ExternalAccountName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      name="Finance_ExternalChartOfAccounts_ChartOfAccountsCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[ChartOfAccountsName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[ChartOfAccountsName]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[ChartOfAccountsName]"
+                      name="ChartOfAccountsName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      name="Finance_ChartOfAccounts_AccountNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExternalChartOfAccounts_ExternalAccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[ExternalAccountName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ExternalAccountName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExternalChartOfAccounts_ChartOfAccountsCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[ChartOfAccountsName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ChartOfAccountsName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccounts_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ExternalChartOfAccounts_ExternalAccountNumber]"
+                      name="Finance_ExternalChartOfAccounts_ExternalAccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ExternalAccountName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ExternalAccountName]"
+                      name="ExternalAccountName" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ExternalChartOfAccounts_ChartOfAccountsCode]"
+                      name="Finance_ExternalChartOfAccounts_ChartOfAccountsCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ChartOfAccountsName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ChartOfAccountsName]"
+                      name="ChartOfAccountsName" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_ChartOfAccountsCode]"
+                      name="Finance_ChartOfAccounts_ChartOfAccountsCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccounts_AccountNumber]"
+                      name="Finance_ChartOfAccounts_AccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output]"
+              endId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output2]"
+              endId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output3]"
+              endId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Finance_ExternalChartOfAccounts - Working"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0667E932-DD1B-4D5A-888D-9EAD79044F91}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Finance_ExternalChartOfAccounts - Working"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Finance_ExternalChartOfAccounts - Cleansing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7181D946-B020-41D1-B3F0-F6FEEB296F13}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Finance_ExternalChartOfAccounts - Cleansing"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadCleansedData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Validate Finance_ExternalChartOfAccounts - Rejects"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0f3a9c48-b170-4e47-be98-eda12ce00913}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Validate Finance_ExternalChartOfAccounts - Rejects"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateWorkingData"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="InsertedRowCount"
+            SQLTask:DtsVariableName="User::var_RejectedRowCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D5CFC113-7804-44D3-A86C-32B210DF2B4F}"
+      DTS:From="Package\DFT - Load Finance_ExternalChartOfAccounts - Working"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL - Validate Finance_ExternalChartOfAccounts - Rejects" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{32985124-A5EC-4613-B743-46CDCDBDE7E0}"
+      DTS:From="Package\SQL - Delete Finance_ExternalChartOfAccounts - Working"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - Load Finance_ExternalChartOfAccounts - Working" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{293664EB-FDFE-4DAF-A99F-18BD8B269E35}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::var_RejectedRowCount] == 0 ||  @[$Package::AllowPartialLoadOfCleansingTable]"
+      DTS:From="Package\SQL - Validate Finance_ExternalChartOfAccounts - Rejects"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL - Load Finance_ExternalChartOfAccounts - Cleansing" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="343,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working"
+          TopLeft="10.5,107.5" />
+        <NodeLayout
+          Size="350,42"
+          Id="Package\SQL - Delete Finance_ExternalChartOfAccounts - Working"
+          TopLeft="7,5.5" />
+        <NodeLayout
+          Size="349,42"
+          Id="Package\SQL - Load Finance_ExternalChartOfAccounts - Cleansing"
+          TopLeft="7.50000000000006,311.5" />
+        <NodeLayout
+          Size="353,42"
+          Id="Package\SQL - Validate Finance_ExternalChartOfAccounts - Rejects"
+          TopLeft="5.50000000000003,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="182,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="182,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="182,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.68123046875,18.25,53.3624609375,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text=""
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="29,40"
+          Id="cde3bcab-9006-4fd8-838f-d40bb06078e7"
+          TopLeft="944,506" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load Finance_ExternalChartOfAccounts - Working">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="436,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts"
+          TopLeft="5.50000000000009,617.5" />
+        <NodeLayout
+          Size="361,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current"
+          TopLeft="43,209.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - MDM Cleansing Status"
+          TopLeft="116.5,311.5" />
+        <NodeLayout
+          Size="424,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts"
+          TopLeft="11.5,5.5" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - UPPER Source Cols"
+          TopLeft="124,107.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Add metadata"
+          TopLeft="136,515.5" />
+        <NodeLayout
+          Size="272,42"
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\DER - Analyze cleansing &amp; lookup results"
+          TopLeft="87.5000000000001,413.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[OLE DB Source Output]"
+          TopLeft="223.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Lookup Match Output]"
+          TopLeft="223.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output3]"
+          TopLeft="223.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output2]"
+          TopLeft="223.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output1]"
+          TopLeft="223.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ExternalChartOfAccounts - Working.Paths[Derived Column Output]"
+          TopLeft="223.5,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_DST - IC_DM_DataStore - Working - Finance_ExternalChartOfAccounts">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\LKP - MDS - DM_MDM - Finance_ChartOfAccounts - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ExternalChartOfAccounts - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ExternalChartOfAccounts">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

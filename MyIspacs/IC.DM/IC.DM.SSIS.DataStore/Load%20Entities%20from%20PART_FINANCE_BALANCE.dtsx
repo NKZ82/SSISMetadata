@@ -1,0 +1,811 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 12:55:02 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSHP15"
+  DTS:CreatorName="CORP\adm1neh"
+  DTS:DTSID="{03A9A602-DD8A-49C7-BB75-DC16F84084CD}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Load Entities from PART_FINANCE_BALANCE"
+  DTS:PackageType="5"
+  DTS:VersionBuild="186"
+  DTS:VersionGUID="{DA798649-63E7-4B5E-9DBF-19D8BBD84A79}"
+  DTS:VersionMajor="0">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{C18A6512-83AA-4D51-B310-B3749DBE88B7}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">22162</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{1040456D-1456-46F9-873B-F51A10A86622}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DE425B5E-A0F4-4969-9EE0-B89D3D09E432}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">BALANCE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F0D13673-5A5E-4FA0-A544-DF9C14E57AEE}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">PART</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{82BC70B9-619B-489C-99C4-924295335C20}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [staging].[sp_Get_PART_BALANCE_Data]  '&quot; + @[$Package::BusinessProcessInstanceID] + &quot;',&quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataSource">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [staging].[sp_Get_PART_BALANCE_Data]  '22162',1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{586F38A1-9CA9-448F-8414-E6685241302C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">22162_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7826276C-E0C1-49D4-A7CC-92DEBC9E2CC6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:28 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F555A26-C25F-4EDD-9EE6-2BB359957928}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:17:27</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load FINANCE_BALANCE"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{634ED974-DF97-4640-9F73-7435E291A234}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load FINANCE_BALANCE"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Load FINANCE_BALANCE\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]"
+                  name="Merge Join_Output_DER - Add metadata">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output]"
+                  exclusionGroup="1"
+                  name="Output"
+                  synchronousInputId="Package\Load FINANCE_BALANCE\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Source]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Source]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Data]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Data]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="33"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Error]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Error"
+                  synchronousInputId="Package\Load FINANCE_BALANCE\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Error].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Error].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Error].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Error].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              name="OLE_DEST - DataStore - FINANCE_BALANCE from staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[IC_DM_DataStore].[entity].[FINANCE_BALANCE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="33"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Date"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[BalanceDate]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[BankAccount]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="BankAccount"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[Finance_BankAccount_Code]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[BankAccount]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="15"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[Amount]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[IC_DM_LINEAGE_INFO]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[Finance_BankAccount_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_BankAccount_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[BalanceDate]"
+                      dataType="dbDate"
+                      name="BalanceDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Outputs[Error]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Error"
+                  synchronousInputId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Outputs[Error].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Outputs[Error].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Outputs[Error].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Outputs[Error].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              name="OLE_SRC - Staging - FINANCE_BALANCE"
+              usesDispositions="true"
+              validateExternalMetadata="False"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataSource</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output]"
+                  name="Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[Date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[Date]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[BankAccount]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[BankAccount]"
+                      length="30"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[BankAccount]"
+                      name="BankAccount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[Amount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[Amount]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[Amount]"
+                      name="Amount"
+                      precision="15"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[RowError]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[RowError]"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[RowError]"
+                      name="RowError"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="500"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[Date]"
+                      dataType="dbDate"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[BankAccount]"
+                      dataType="wstr"
+                      length="30"
+                      name="BankAccount" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="15"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[RowError]"
+                      dataType="i4"
+                      name="RowError" />
+                    <externalMetadataColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="500"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error]"
+                  isErrorOut="true"
+                  name="Error">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[BankAccount]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[BankAccount]"
+                      name="BankAccount" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[Amount]"
+                      name="Amount"
+                      precision="15"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[RowError]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[RowError]"
+                      name="RowError" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Error].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load FINANCE_BALANCE.Paths[Output]"
+              endId="Package\Load FINANCE_BALANCE\DER - Add metadata.Inputs[Merge Join_Output_DER - Add metadata]"
+              name="Output"
+              startId="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE.Outputs[Output]" />
+            <path
+              refId="Package\Load FINANCE_BALANCE.Paths[Output1]"
+              endId="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging.Inputs[CSPL - Record is New or Modified_Insert_OLE_DEST - DataStore - FINANCE_BALANCE from staging]"
+              name="Output"
+              startId="Package\Load FINANCE_BALANCE\DER - Add metadata.Outputs[Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Load FINANCE_BALANCE"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load FINANCE_BALANCE">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="352,42"
+          Id="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging"
+          TopLeft="301,272.5" />
+        <NodeLayout
+          Size="271,42"
+          Id="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE"
+          TopLeft="349.5,5.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\Load FINANCE_BALANCE\DER - Add metadata"
+          TopLeft="388.5,142.5" />
+        <EdgeLayout
+          Id="Package\Load FINANCE_BALANCE.Paths[Output]"
+          TopLeft="485,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-9,95"
+              Start="0,0"
+              End="-9,87.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,43.5"
+                    Point2="0,47.5"
+                    Point3="-4,47.5" />
+                  <mssgle:LineSegment
+                    End="-5,47.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-5,47.5"
+                    Point2="-9,47.5"
+                    Point3="-9,51.5" />
+                  <mssgle:LineSegment
+                    End="-9,87.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load FINANCE_BALANCE.Paths[Output1]"
+          TopLeft="476.5,184.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,88"
+              Start="0,0"
+              End="0,80.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load FINANCE_BALANCE\OLE_DEST - DataStore - FINANCE_BALANCE from staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load FINANCE_BALANCE\OLE_SRC - Staging - FINANCE_BALANCE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

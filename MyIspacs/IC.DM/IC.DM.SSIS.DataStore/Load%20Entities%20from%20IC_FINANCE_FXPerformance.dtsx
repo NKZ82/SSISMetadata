@@ -1,0 +1,2667 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/25/2016 1:01:22 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{79C70B56-6182-4C18-BBC9-7AAFA4738735}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load Entities from IC_FINANCE_FXPerformance"
+  DTS:PackageType="5"
+  DTS:VersionBuild="454"
+  DTS:VersionGUID="{60F79913-0180-4815-88CF-E72397ABC6ED}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{1A5CE06E-F633-41EB-8350-D5A649DF053E}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">66560</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="19"
+      DTS:DTSID="{F88F7F04-42B7-4824-A350-9EBB129F2274}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="19"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C8081CAF-E01A-4B0E-82F3-8FAD5D87CF0E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">FINANCE_FXPERFORMANCE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9D2E1D71-BD44-46D1-BAD4-69887E26C826}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">IC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FC074BEE-62CF-4066-BAE4-A1956A47DB79}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [ods_preview].[sp_Get_FINANCE_FXPERFORMANCE_CDC]&quot;   + &quot; '&quot;+ @[User::var_PeriodDate] +&quot;'&quot;+ &quot; ,'&quot;+ @[User::var_scenario] +&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataStore">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [ods_preview].[sp_Get_FINANCE_FXPERFORMANCE_CDC] '2040' ,'FOR'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0C14229F-B0AA-40FC-B186-1489AD0BCC52}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Get_&quot;+ @[User::md_Source] +&quot;_&quot;+ @[User::md_Data] +&quot;_Data '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromSource">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Get_IC_FINANCE_FXPERFORMANCE_Data '66560'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{45352793-8032-492D-94F3-FB8CF08E001E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;select max (PeriodDate) AS PeriodDate&#xA;,d.scenario as Scenario&#xA;FROM staging.[IC_FINANCE_FxPerformance_ACTUAL_Detail]  d&#xA;JOIN staging.DataLoading l ON d.DataLoadingID = l.DataLoadingID&#xA;JOIN config.vw_ProviderSourceDataInfo i ON i.DataID = l.DataID&#xA;WHERE l.IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;' &#xA;AND l.ValidationSucceeded = 1 &#xA;group by Scenario &#xA;union all&#xA;select max (PeriodDate) AS PeriodDate&#xA;,d.scenario as Scenario&#xA;FROM staging.[IC_FINANCE_FxPerformance_FORECAST_Detail]  d&#xA;JOIN staging.DataLoading l ON d.DataLoadingID = l.DataLoadingID&#xA;JOIN config.vw_ProviderSourceDataInfo i ON i.DataID = l.DataID&#xA;WHERE l.IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;' &#xA;AND l.ValidationSucceeded = 1 &#xA;group by Scenario&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDimensionDate">
+      <DTS:VariableValue
+        DTS:DataType="8">select max (PeriodDate) AS PeriodDate
+,d.scenario as Scenario
+FROM staging.[IC_FINANCE_FxPerformance_ACTUAL_Detail]  d
+JOIN staging.DataLoading l ON d.DataLoadingID = l.DataLoadingID
+JOIN config.vw_ProviderSourceDataInfo i ON i.DataID = l.DataID
+WHERE l.IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '66560' 
+AND l.ValidationSucceeded = 1 
+group by Scenario 
+union all
+select max (PeriodDate) AS PeriodDate
+,d.scenario as Scenario
+FROM staging.[IC_FINANCE_FxPerformance_FORECAST_Detail]  d
+JOIN staging.DataLoading l ON d.DataLoadingID = l.DataLoadingID
+JOIN config.vw_ProviderSourceDataInfo i ON i.DataID = l.DataID
+WHERE l.IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '66560' 
+AND l.ValidationSucceeded = 1 
+group by Scenario</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1AC6C674-5A22-486E-ADA3-28E3BDFCE999}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">66560_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{138F7D68-1677-4451-9943-73D570210646}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:38 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9A4FB847-CD6E-44E7-9D86-336C69309A4B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:17:38</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6A18DA4E-9E79-4037-A54D-39A18CE262D6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_PeriodDate">
+      <DTS:VariableValue
+        DTS:DataType="8">2040</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{99C0C68D-862F-4775-A39C-C5D56993BAA6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_scenario">
+      <DTS:VariableValue
+        DTS:DataType="8">FOR</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{f9efd483-0863-475c-9408-1c14bc8020ea}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          defaultBufferMaxRows="10400"
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="CSPL - Record is New or Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[New]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="New"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(IC_DM_HASHKEY_BK)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Modified]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Modified"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">![ISNULL](#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]}) &amp;&amp; (#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]} != #{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">!ISNULL(Hashkey_Attr) &amp;&amp; (IC_DM_HASHKEY_ATTR != Hashkey_Attr)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Deleted]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Deleted"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Hashkey_BK)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_DATE)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_DATE)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Assign IC_DM_TIMESTAMP_UPDATE"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="DNCV - Convert Amount"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Inputs[Data Conversion Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Amount]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Output].Columns[Amount_Convert]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Output].Columns[Amount_Convert]"
+                      name="Amount_Convert"
+                      scale="4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Amount]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[PeriodDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="PeriodDate"
+                      cachedScale="3"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[PeriodDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Scenario]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Scenario"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Scenario]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="3"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_BK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_ATTR]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_BK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_Attr]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_TIMESTAMP_DELETE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_LINEAGE_INFO]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_DATA_CODE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_SOURCE_CODE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[PeriodDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[PeriodDate]"
+                      name="PeriodDate"
+                      scale="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[PeriodDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Amount]"
+                      name="Amount"
+                      precision="18"
+                      scale="4">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Amount]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Description]"
+                      name="Description">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Description]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Scenario]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Scenario]"
+                      name="Scenario">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input].Columns[Scenario]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">DELETE FROM [ods_preview].[Finance_FXPERFORMANCE] 
+WHERE IC_DM_HASHKEY_BK =?
+AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = ?
+AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">1073741889</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [ods_preview].[Finance_FXPERFORMANCE] 
+		SET			IC_DM_TIMESTAMP_UPDATE = ?
+					,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = ?
+					,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = ?
+					, Amount = ?
+					, IC_DM_HASHKEY_ATTR = ?
+		WHERE		IC_DM_HASHKEY_BK =?
+				AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = ?
+				AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].Columns[Amount_Convert]"
+                      cachedDataType="decimal"
+                      cachedName="Amount_Convert"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Output].Columns[Amount_Convert]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="dbTimeStamp2"
+                      name="Param_0"
+                      scale="3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">1073741889</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      dataType="numeric"
+                      name="Param_3"
+                      precision="18"
+                      scale="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ods_preview].[Finance_FXPERFORMANCE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[Hashkey_Attr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_Attr"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[Hashkey_BK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="66"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[PeriodDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="PeriodDate"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[PeriodDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[PeriodDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[Amount_Convert]"
+                      cachedDataType="decimal"
+                      cachedName="Amount_Convert"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Output].Columns[Amount_Convert]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].Columns[Scenario]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Scenario"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[Scenario]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output].Columns[Scenario]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[PeriodDate]"
+                      dataType="dbTimeStamp2"
+                      name="PeriodDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[Scenario]"
+                      dataType="wstr"
+                      length="25"
+                      name="Scenario" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DataStore - Finance_FXPERFORMANCE"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataStore</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromSource</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_BK]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_Attr]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="300"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[PeriodDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[PeriodDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[PeriodDate]"
+                      name="PeriodDate"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Amount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Amount]"
+                      name="Amount"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Scenario]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Scenario]"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].Columns[Scenario]"
+                      name="Scenario"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Hashkey_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="Hashkey_Attr" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="300"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[PeriodDate]"
+                      dataType="dbTimeStamp2"
+                      name="PeriodDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output].ExternalColumns[Scenario]"
+                      dataType="wstr"
+                      length="255"
+                      name="Scenario" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[PeriodDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[PeriodDate]"
+                      name="PeriodDate"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      name="Amount"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Scenario]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Scenario]"
+                      name="Scenario" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Hashkey_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Hashkey_Attr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Data Conversion Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Deleted]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted.Inputs[OLE DB Command Input]"
+              name="Deleted"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Deleted]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Derived Column Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update.Inputs[OLE DB Command Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Merge Join Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount.Inputs[Data Conversion Input]"
+              name="Merge Join Output"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Modified]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]"
+              name="Modified"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[Modified]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[New]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New.Inputs[OLE DB Destination Input]"
+              name="New"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified.Outputs[New]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Left Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[OLE DB Source Output1]"
+              endId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join.Inputs[Merge Join Right Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL -GetDimensionDate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3c6c58ed-065b-45fb-aa2e-123f1735a2b7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL -GetDimensionDate"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_GetDimensionDate"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="PeriodDate"
+            SQLTask:DtsVariableName="User::var_PeriodDate" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Scenario"
+            SQLTask:DtsVariableName="User::var_scenario" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::BusinessProcessInstanceID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::BusinessProcessInstanceIteration"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="131"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{7388802F-00A2-4B7E-81B6-BB66C7C4B34B}"
+      DTS:From="Package\SQL -GetDimensionDate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="422,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance"
+          TopLeft="610,148" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\SQL -GetDimensionDate"
+          TopLeft="695,67" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="791,109">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="30,39"
+              Start="0,0"
+              End="30,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="4,19.5" />
+                  <mssgle:LineSegment
+                    End="26,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="26,19.5"
+                    Point2="30,19.5"
+                    Point3="30,23.5" />
+                  <mssgle:LineSegment
+                    End="30,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="426,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing Update"
+          TopLeft="711,533" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\Merge Join"
+          TopLeft="446,107.5" />
+        <NodeLayout
+          Size="441,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_CMD - DataStore - Finance_FXPERFORMANCE - Flag existing to Deleted"
+          TopLeft="2,412.5" />
+        <NodeLayout
+          Size="282,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Assign IC_DM_TIMESTAMP_UPDATE"
+          TopLeft="572,413.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DER - Add metadata"
+          TopLeft="423.5,209.5" />
+        <NodeLayout
+          Size="316,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE"
+          TopLeft="692,9.5" />
+        <NodeLayout
+          Size="417,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New"
+          TopLeft="278,554.5" />
+        <NodeLayout
+          Size="445,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\CSPL - Record is New or Modified"
+          TopLeft="386,311.5" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\DNCV - Convert Amount"
+          TopLeft="658,170" />
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Modified]"
+          TopLeft="570,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143,60"
+              Start="0,0"
+              End="143,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4255319148936" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4255319148936"
+                    Point2="0,20.4255319148936"
+                    Point3="4,20.4255319148936" />
+                  <mssgle:LineSegment
+                    End="139,20.4255319148936" />
+                  <mssgle:CubicBezierSegment
+                    Point1="139,20.4255319148936"
+                    Point2="143,20.4255319148936"
+                    Point3="143,24.4255319148936" />
+                  <mssgle:LineSegment
+                    End="143,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="52.59201171875,25.4255319148936,37.8159765625,9.7978515625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Merge Join Output]"
+          TopLeft="576,128.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="82,62.5"
+              Start="0,0"
+              End="74.5,62.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="37,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37,0"
+                    Point2="41,0"
+                    Point3="41,4" />
+                  <mssgle:LineSegment
+                    End="41,58.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="41,58.5"
+                    Point2="41,62.5"
+                    Point3="45,62.5" />
+                  <mssgle:LineSegment
+                    End="74.5,62.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Derived Column Output1]"
+          TopLeft="713,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="211,77.5"
+              Start="0,0"
+              End="211,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.75"
+                    Point2="0,38.75"
+                    Point3="4,38.75" />
+                  <mssgle:LineSegment
+                    End="207,38.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="207,38.75"
+                    Point2="211,38.75"
+                    Point3="211,42.75" />
+                  <mssgle:LineSegment
+                    End="211,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Derived Column Output]"
+          TopLeft="510.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Deleted]"
+          TopLeft="450,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-227.5,59"
+              Start="0,0"
+              End="-227.5,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.0851063829787" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.0851063829787"
+                    Point2="0,20.0851063829787"
+                    Point3="-4,20.0851063829787" />
+                  <mssgle:LineSegment
+                    End="-223.5,20.0851063829787" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-223.5,20.0851063829787"
+                    Point2="-227.5,20.0851063829787"
+                    Point3="-227.5,24.0851063829787" />
+                  <mssgle:LineSegment
+                    End="-227.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-130.90798828125,25.0851063829787,34.3159765625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[Data Conversion Output]"
+          TopLeft="658,196.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-59.5,33.8333333333333"
+              Start="0,0"
+              End="-52,33.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-21.1100917431193,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-21.1100917431193,0"
+                    Point2="-25.1100917431193,0"
+                    Point3="-25.1100917431193,4" />
+                  <mssgle:LineSegment
+                    End="-25.1100917431193,29.8333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-25.1100917431193,29.8333333333333"
+                    Point2="-25.1100917431193,33.8333333333333"
+                    Point3="-29.1100917431193,33.8333333333333" />
+                  <mssgle:LineSegment
+                    End="-52,33.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[OLE DB Source Output1]"
+          TopLeft="228,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="262.666666666667,60"
+              Start="0,0"
+              End="262.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5623100303951" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5623100303951"
+                    Point2="0,35.5623100303951"
+                    Point3="4,35.5623100303951" />
+                  <mssgle:LineSegment
+                    End="258.666666666667,35.5623100303951" />
+                  <mssgle:CubicBezierSegment
+                    Point1="258.666666666667,35.5623100303951"
+                    Point2="262.666666666667,35.5623100303951"
+                    Point3="262.666666666667,39.5623100303951" />
+                  <mssgle:LineSegment
+                    End="262.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[OLE DB Source Output]"
+          TopLeft="850,51.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-318.666666666667,56"
+              Start="0,0"
+              End="-318.666666666667,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.1914893617021" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.1914893617021"
+                    Point2="0,33.1914893617021"
+                    Point3="-4,33.1914893617021" />
+                  <mssgle:LineSegment
+                    End="-314.666666666667,33.1914893617021" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-314.666666666667,33.1914893617021"
+                    Point2="-318.666666666667,33.1914893617021"
+                    Point3="-318.666666666667,37.1914893617021" />
+                  <mssgle:LineSegment
+                    End="-318.666666666667,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance.Paths[New]"
+          TopLeft="510,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-23.5,201"
+              Start="0,0"
+              End="-23.5,193.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,96.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,96.5"
+                    Point2="0,100.5"
+                    Point3="-4,100.5" />
+                  <mssgle:LineSegment
+                    End="-19.5,100.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19.5,100.5"
+                    Point2="-23.5,100.5"
+                    Point3="-23.5,104.5" />
+                  <mssgle:LineSegment
+                    End="-23.5,193.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.98404296875,105.5,20.4680859375,9.3974609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - DataStore - Finance_FXPERFORMANCE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_DEST - DataStore - Finance_FXPERFORMANCE from staging - New">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging IC_FINANCE_FXPerformance\OLE_SRC - Staging - OLE_SRC - Staging DB - IC_FINANCE_FXPERFORMANCE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

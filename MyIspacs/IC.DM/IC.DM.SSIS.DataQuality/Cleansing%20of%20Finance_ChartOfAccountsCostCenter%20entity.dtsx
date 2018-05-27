@@ -1,0 +1,2403 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2016 9:36:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{1907037E-FD68-4417-9C58-7DF3C7700202}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Cleansing of Finance_ChartOfAccountsCostCenter entity"
+  DTS:PackageType="5"
+  DTS:VersionBuild="761"
+  DTS:VersionGUID="{9FBB67E3-F219-4970-8FE0-FEA131B46ED9}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{D76F7B17-32AF-45AB-94C5-4A8FB7597902}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">1234K</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{EFCBF200-F954-4CFC-B3BC-53D3D123DD5B}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{83F2D3D7-D9A1-4704-8508-8A17A5F00C9D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8BAC22EF-E95D-434A-A5B3-EAC5BE2DD690}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">ChartOfAccountsCostCenter</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{318BCAE1-7747-4B2E-A2A7-5830E8580E87}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance_ChartOfAccountsCostCenter</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{19F33FF7-D7CD-4292-A543-A7C1D791FBDF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_KBName">
+      <DTS:VariableValue
+        DTS:DataType="8">DM_Cleansing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E7559C2F-4685-4346-B79B-9E07234C8689}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;exec entity.sp_Get_&quot;+ @[User::md_EntityFullName] +&quot;_entity '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;','&quot;+ (DT_WSTR,10) @[$Package::BusinessProcessInstanceIteration]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">exec entity.sp_Get_Finance_ChartOfAccountsCostCenter_entity '1234K','1'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C1EBBB3F-8AD1-4AB0-8CF8-2FDCDEAC96E2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT [PUBLISH_DATE] &#xA;FROM &#xA;[dbo].[A_KNOWLEDGEBASE] &#xA;WHERE NAME= '&quot; + @[User::var_KBName]  + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDQSKBLastPublishedDate">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [PUBLISH_DATE] 
+FROM 
+[dbo].[A_KNOWLEDGEBASE] 
+WHERE NAME= 'DM_Cleansing'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EFD39C8E-D065-48A9-A604-C3710AE0F7C1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [cleansing].[sp_Load_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadCleansedData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '1234K'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [cleansing].[sp_Load_Finance_ChartOfAccountsCostCenter]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2854D8EE-4887-4465-9A0F-7BA66F85B455}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&quot;&#xA; +&#xA;&quot;DELETE FROM [reject].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]+&#xA;&quot;DELETE FROM [cleansing].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateExistingDataQuality">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Finance_ChartOfAccountsCostCenter]DELETE FROM [reject].[Finance_ChartOfAccountsCostCenter]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '1234K'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1DELETE FROM [cleansing].[Finance_ChartOfAccountsCostCenter]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '1234K'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B0BE6CED-C51D-4EA7-A16A-882F8A7D48A9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [working].[sp_Validate_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '1234K'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [working].[sp_Validate_Finance_ChartOfAccountsCostCenter]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3612182A-3AE6-4CD0-AD7F-333ED1983A88}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">1234K_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{64F68AF8-54BD-47A2-A851-91F862B6647B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/8/2018 12:24:49 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1F249564-43A8-46CB-8406-CE60C46989BF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-08 12:24:48</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Name of the DQS Knowledgebase considerated in the validation process"
+      DTS:DTSID="{FB0EB823-F236-419A-932A-8FAC82C343F1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_KBName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_KBName">
+      <DTS:VariableValue
+        DTS:DataType="8">DM_Cleansing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Last date the DQS KB has been published"
+      DTS:DTSID="{0A908DFD-1C54-41DB-A923-DEE6F4A357DE}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LastKBPublishDate">
+      <DTS:VariableValue
+        DTS:DataType="7">1/1/1900</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8F746A5E-2658-472B-8ADB-458254D5BC9A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load Finance_ChartOfAccountsCostCenter - Working"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"DFT - Load "+ @[User::md_EntityFullName]+" - Working"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      name="IC_DM_CLEANSING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_CleansingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_CleansingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze lookup results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[Metric_Code_Asset]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Metric_Code_Asset"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output].Columns[Metric_Code_Asset]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[Metric_Code_BU]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Metric_Code_BU"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output].Columns[Metric_Code_BU]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[Metric_Code_IC]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Metric_Code_IC"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Match Output].Columns[Metric_Code_IC]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[EBIDTAAccount]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="EBIDTAAccount"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Metric_IsFound]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Metric_IsFound]"
+                      name="Metric_IsFound"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]} == "A" &amp;&amp; [ISNULL](#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output].Columns[Metric_Code_Asset]})) || (#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]} == "B" &amp;&amp; ([ISNULL](#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output].Columns[Metric_Code_Asset]}) || [ISNULL](#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output].Columns[Metric_Code_BU]}))) || (#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]} == "C" &amp;&amp; ([ISNULL](#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output].Columns[Metric_Code_Asset]}) || [ISNULL](#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output].Columns[Metric_Code_BU]}) || [ISNULL](#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Match Output].Columns[Metric_Code_IC]}))) ? "NOT FOUND" : "OK"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(EBIDTAAccount == "A" &amp;&amp; ISNULL(Metric_Code_Asset)) || (EBIDTAAccount == "B" &amp;&amp; (ISNULL(Metric_Code_Asset) || ISNULL(Metric_Code_BU))) || (EBIDTAAccount == "C" &amp;&amp; (ISNULL(Metric_Code_Asset) || ISNULL(Metric_Code_BU) || ISNULL(Metric_Code_IC))) ? "NOT FOUND" : "OK"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - EDW EBITDA ASSET"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT A.VDMFR_Account_Code,M.VDMFR_Metric_Code
+FROM curr.v_sub_VDMFR_Account A
+LEFT JOIN curr.v_sub_VDMFR_AccountMetricMapping AM
+ON A.VDMFR_Account_DK=AM.VDMFR_Account_DK
+LEFT JOIN curr.v_sub_VDMFR_Metric M
+ON AM.VDMFR_Metric_DK=M.VDMFR_Metric_DK
+WHERE VDMFR_Metric_Code='EBITDA_ASSET'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT A.VDMFR_Account_Code,M.VDMFR_Metric_Code
+FROM curr.v_sub_VDMFR_Account A
+LEFT JOIN curr.v_sub_VDMFR_AccountMetricMapping AM
+ON A.VDMFR_Account_DK=AM.VDMFR_Account_DK
+LEFT JOIN curr.v_sub_VDMFR_Metric M
+ON AM.VDMFR_Metric_DK=M.VDMFR_Metric_DK
+WHERE VDMFR_Metric_Code='EBITDA_ASSET') [refTable]
+where [refTable].[VDMFR_Account_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="VDMFR_Account_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Metric_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Connections[OleDbConnection]"
+                  connectionManagerID="{675D950A-A2D9-406E-B826-570B7415834D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Inputs[Lookup Input].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Account_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output].Columns[Metric_Code_Asset]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output].Columns[Metric_Code_Asset]"
+                      name="Metric_Code_Asset"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">VDMFR_Metric_Code</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - EDW EBITDA BU"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT A.VDMFR_Account_Code,M.VDMFR_Metric_Code
+FROM curr.v_sub_VDMFR_Account A
+LEFT JOIN curr.v_sub_VDMFR_AccountMetricMapping AM
+ON A.VDMFR_Account_DK=AM.VDMFR_Account_DK
+LEFT JOIN curr.v_sub_VDMFR_Metric M
+ON AM.VDMFR_Metric_DK=M.VDMFR_Metric_DK
+WHERE VDMFR_Metric_Code='EBITDA_BU'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT A.VDMFR_Account_Code,M.VDMFR_Metric_Code
+FROM curr.v_sub_VDMFR_Account A
+LEFT JOIN curr.v_sub_VDMFR_AccountMetricMapping AM
+ON A.VDMFR_Account_DK=AM.VDMFR_Account_DK
+LEFT JOIN curr.v_sub_VDMFR_Metric M
+ON AM.VDMFR_Metric_DK=M.VDMFR_Metric_DK
+WHERE VDMFR_Metric_Code='EBITDA_BU') [refTable]
+where [refTable].[VDMFR_Account_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="VDMFR_Account_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Metric_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Connections[OleDbConnection]"
+                  connectionManagerID="{675D950A-A2D9-406E-B826-570B7415834D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Inputs[Lookup Input].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Account_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output].Columns[Metric_Code_BU]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output].Columns[Metric_Code_BU]"
+                      name="Metric_Code_BU"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">VDMFR_Metric_Code</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - EDW EBITDA IC"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT A.VDMFR_Account_Code,M.VDMFR_Metric_Code
+FROM curr.v_sub_VDMFR_Account A
+LEFT JOIN curr.v_sub_VDMFR_AccountMetricMapping AM
+ON A.VDMFR_Account_DK=AM.VDMFR_Account_DK
+LEFT JOIN curr.v_sub_VDMFR_Metric M
+ON AM.VDMFR_Metric_DK=M.VDMFR_Metric_DK
+WHERE VDMFR_Metric_Code='EBITDA_IC'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT A.VDMFR_Account_Code,M.VDMFR_Metric_Code
+FROM curr.v_sub_VDMFR_Account A
+LEFT JOIN curr.v_sub_VDMFR_AccountMetricMapping AM
+ON A.VDMFR_Account_DK=AM.VDMFR_Account_DK
+LEFT JOIN curr.v_sub_VDMFR_Metric M
+ON AM.VDMFR_Metric_DK=M.VDMFR_Metric_DK
+WHERE VDMFR_Metric_Code='EBITDA_IC') [refTable]
+where [refTable].[VDMFR_Account_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="VDMFR_Account_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Metric_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Connections[OleDbConnection]"
+                  connectionManagerID="{675D950A-A2D9-406E-B826-570B7415834D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Inputs[Lookup Input].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Account_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Match Output].Columns[Metric_Code_IC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Match Output].Columns[Metric_Code_IC]"
+                      name="Metric_Code_IC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">VDMFR_Metric_Code</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Finance_ChartOfAccountsCostCenter]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_CLEANSING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_CLEANSING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="128"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="128"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ChartOfAccountsCostCenter_SubsidiaryCode"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[AccountName_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="AccountName_EN"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountName_EN]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountName_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[AccountName_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="AccountName_FR"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountName_FR]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountName_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[AccountDescription_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="AccountDescription_EN"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountDescription_EN]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountDescription_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[AccountDescription_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="AccountDescription_FR"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountDescription_FR]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountDescription_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[AccountLevel]"
+                      cachedDataType="i4"
+                      cachedName="AccountLevel"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountLevel]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountLevel]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[SubsidiaryName_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="SubsidiaryName_EN"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryName_EN]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryName_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[SubsidiaryDescription_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="SubsidiaryDescription_EN"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryDescription_EN]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryDescription_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[SubsidiaryName_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="SubsidiaryName_FR"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryName_FR]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryName_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[SubsidiaryDescription_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="SubsidiaryDescription_FR"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryDescription_FR]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryDescription_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[Finance_FinancialStatement_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_FinancialStatement_Code"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_FinancialStatement_Code]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_FinancialStatement_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[Finance_AlternateIS_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_AlternateIS_Code"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_AlternateIS_Code]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_AlternateIS_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[EBIDTAAccount]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="EBIDTAAccount"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[EBIDTAAccount_Source]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].Columns[Metric_IsFound]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Metric_IsFound"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[EBIDTAAccount_CleansingStatus]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Metric_IsFound]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_CLEANSING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="128"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="128"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountName_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="AccountName_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountName_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="AccountName_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountDescription_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="AccountDescription_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountDescription_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="AccountDescription_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[AccountLevel]"
+                      dataType="i4"
+                      name="AccountLevel" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryName_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="SubsidiaryName_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryDescription_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="SubsidiaryDescription_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryName_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="SubsidiaryName_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[SubsidiaryDescription_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="SubsidiaryDescription_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_FinancialStatement_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_FinancialStatement_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[Finance_AlternateIS_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_AlternateIS_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[EBIDTAAccount_Source]"
+                      dataType="wstr"
+                      length="30"
+                      name="EBIDTAAccount_Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[EBIDTAAccount_Output]"
+                      dataType="wstr"
+                      length="30"
+                      name="EBIDTAAccount_Output" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input].ExternalColumns[EBIDTAAccount_CleansingStatus]"
+                      dataType="wstr"
+                      length="100"
+                      name="EBIDTAAccount_CleansingStatus" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromEntity</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="128"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="128"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      length="66"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      length="66"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountName_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountName_EN]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountName_EN]"
+                      name="AccountName_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountName_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountName_FR]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountName_FR]"
+                      name="AccountName_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountDescription_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountDescription_EN]"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountDescription_EN]"
+                      name="AccountDescription_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountDescription_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountDescription_FR]"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountDescription_FR]"
+                      name="AccountDescription_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountLevel]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountLevel]"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[AccountLevel]"
+                      name="AccountLevel"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryName_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryName_EN]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryName_EN]"
+                      name="SubsidiaryName_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryDescription_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryDescription_EN]"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryDescription_EN]"
+                      name="SubsidiaryDescription_EN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryName_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryName_FR]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryName_FR]"
+                      name="SubsidiaryName_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryDescription_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryDescription_FR]"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[SubsidiaryDescription_FR]"
+                      name="SubsidiaryDescription_FR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_FinancialStatement_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_FinancialStatement_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_FinancialStatement_Code]"
+                      name="Finance_FinancialStatement_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_AlternateIS_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_AlternateIS_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[Finance_AlternateIS_Code]"
+                      name="Finance_AlternateIS_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[EBIDTAAccount]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].Columns[EBIDTAAccount]"
+                      name="EBIDTAAccount"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountName_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="AccountName_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountName_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="AccountName_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountDescription_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="AccountDescription_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountDescription_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="AccountDescription_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[AccountLevel]"
+                      dataType="i4"
+                      name="AccountLevel" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryName_EN]"
+                      dataType="wstr"
+                      length="100"
+                      name="SubsidiaryName_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryDescription_EN]"
+                      dataType="wstr"
+                      length="500"
+                      name="SubsidiaryDescription_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryName_FR]"
+                      dataType="wstr"
+                      length="100"
+                      name="SubsidiaryName_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[SubsidiaryDescription_FR]"
+                      dataType="wstr"
+                      length="500"
+                      name="SubsidiaryDescription_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_FinancialStatement_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_FinancialStatement_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[Finance_AlternateIS_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_AlternateIS_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output].ExternalColumns[EBIDTAAccount]"
+                      dataType="wstr"
+                      length="30"
+                      name="EBIDTAAccount" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountName_EN]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountName_EN]"
+                      name="AccountName_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountName_FR]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountName_FR]"
+                      name="AccountName_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountDescription_EN]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountDescription_EN]"
+                      name="AccountDescription_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountDescription_FR]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountDescription_FR]"
+                      name="AccountDescription_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountLevel]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[AccountLevel]"
+                      name="AccountLevel" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryName_EN]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryName_EN]"
+                      name="SubsidiaryName_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryDescription_EN]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryDescription_EN]"
+                      name="SubsidiaryDescription_EN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryName_FR]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryName_FR]"
+                      name="SubsidiaryName_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryDescription_FR]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[SubsidiaryDescription_FR]"
+                      name="SubsidiaryDescription_FR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[EBIDTAAccount]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[EBIDTAAccount]"
+                      name="EBIDTAAccount" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_FinancialStatement_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_FinancialStatement_Code]"
+                      name="Finance_FinancialStatement_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_AlternateIS_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_AlternateIS_Code]"
+                      name="Finance_AlternateIS_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_AccountNumber]"
+                      name="Finance_ChartOfAccountsCostCenter_AccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[Finance_ChartOfAccountsCostCenter_SubsidiaryCode]"
+                      name="Finance_ChartOfAccountsCostCenter_SubsidiaryCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Derived Column Output]"
+              endId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Lookup Match Output2]"
+              endId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Finance_ChartOfAccountsCostCenter - existing Dataquality process"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{80EBCC45-6B15-40BB-8BB9-7D4D1E2FA6C9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Finance_ChartOfAccountsCostCenter - existing Dataquality process"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Delete "+@[User::md_EntityFullName]+" - existing Dataquality process"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateExistingDataQuality" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Finance_ChartOfAccountsCostCenter - Cleansing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AB833057-9927-4960-9934-03EB3BE0FC56}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Finance_ChartOfAccountsCostCenter - Cleansing"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Load "+ @[User::md_EntityFullName]+" - Cleansing"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadCleansedData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Validate Finance_ChartOfAccountsCostCenter - Rejects"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2E4D28A7-58E8-40D8-8C6D-46A4CAB43049}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Validate Finance_ChartOfAccountsCostCenter - Rejects"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Validate "+ @[User::md_EntityFullName]+" - Rejects"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateWorkingData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2C17E4A6-7C46-4FDB-8B1E-7292A40D330B}"
+      DTS:From="Package\SQL - Delete Finance_ChartOfAccountsCostCenter - existing Dataquality process"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{5AA89AE7-3AC5-4D08-AE03-C0C2ED2CF4DA}"
+      DTS:From="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL - Validate Finance_ChartOfAccountsCostCenter - Rejects" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{EBCC4BE9-700B-489B-8EFB-B5BBDD3F439B}"
+      DTS:From="Package\SQL - Validate Finance_ChartOfAccountsCostCenter - Rejects"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SQL - Load Finance_ChartOfAccountsCostCenter - Cleansing" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="363,58"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working"
+          TopLeft="81.5,172.5" />
+        <NodeLayout
+          Size="457,44"
+          Id="Package\SQL - Delete Finance_ChartOfAccountsCostCenter - existing Dataquality process"
+          TopLeft="31.5,74.5" />
+        <NodeLayout
+          Size="370,42"
+          Id="Package\SQL - Load Finance_ChartOfAccountsCostCenter - Cleansing"
+          TopLeft="82.5000000000001,402.5" />
+        <NodeLayout
+          Size="372,43"
+          Id="Package\SQL - Validate Finance_ChartOfAccountsCostCenter - Rejects"
+          TopLeft="84.5,301.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="261.5,118.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54"
+              Start="0,0"
+              End="0,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="266.75,230.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71"
+              Start="0,0"
+              End="0,63.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="269,344.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="437,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter"
+          TopLeft="43,10.5" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET"
+          TopLeft="157,104" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC"
+          TopLeft="167,263" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU"
+          TopLeft="164,182" />
+        <NodeLayout
+          Size="455,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter"
+          TopLeft="24.5000000000002,545.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Add metadata"
+          TopLeft="167.5,450.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\DER - Analyze lookup results"
+          TopLeft="150,359" />
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[OLE DB Source Output]"
+          TopLeft="260,52.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.5"
+              Start="0,0"
+              End="0,44">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Lookup Match Output2]"
+          TopLeft="257.75,305">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54"
+              Start="0,0"
+              End="0,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,17.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Lookup Match Output1]"
+          TopLeft="257.75,224">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,9.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Lookup Match Output]"
+          TopLeft="257.75,146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,8.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Derived Column Output1]"
+          TopLeft="256,401">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49.5"
+              Start="0,0"
+              End="0,42">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working.Paths[Derived Column Output]"
+          TopLeft="253.5,492.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_ChartOfAccountsCostCenter">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA ASSET">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA IC">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\LKP - EDW EBITDA BU">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_ChartOfAccountsCostCenter - Working\OLE_DST - IC_DM_DataStore - Working - Financial_ChartOfAccountsCostCenter">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

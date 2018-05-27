@@ -1,0 +1,1791 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2016 9:36:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{732DB6C6-AF62-455A-8226-D4F9DA679614}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Cleansing of PropMgmt_SalePropertyRollingMetric entity"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1056"
+  DTS:VersionGUID="{73749EC0-1FAB-4519-BD87-A3D45A52B3E4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{1DE3DAF7-0170-47B0-AEB1-4591A241644A}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20171017_MG_TestReportDate</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{288390CD-D2E1-4AB6-BCB1-E0D434A70F54}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{024B3A93-3D17-4210-88E5-E301B2AFCD79}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">PropMgmt</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D439A79C-04FD-4344-8881-074DD6872664}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">SalesPropertyRollingMetric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BFDD0B78-26BB-4DF1-90F3-D4278DA434CF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">PropMgmt_SalesPropertyRollingMetric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{032C5B1E-9CF7-488C-AA66-AB8F6E8C0CB2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_Clean_Data] '&quot; + @[User::md_EntityFullName] +  &quot;' , '''&quot;+ @[$Package::BusinessProcessInstanceID] +&quot;''' ,'&quot;+ (DT_WSTR,10) @[$Package::BusinessProcessInstanceIteration]+&quot;' WITH RESULT SETS&#xA;      (&#xA;        (&#xA;    [Core_Date_ReportingDate] [nvarchar](30) NULL,&#xA;&#x9;[Finance_CostCenter_Code] [nvarchar](30) NULL,&#xA;&#x9;[Leasing_Unit_Code] [nvarchar](30) NULL,&#xA;&#x9;[Leasing_LeaseMaster_Code] [nvarchar](30) NULL,&#xA;&#x9;[Leasing_Occupant_Code] [nvarchar](30) NULL,&#xA;&#x9;[RollingMonths] INT NULL,&#xA;&#x9;[Charges] [nvarchar](30) NULL,&#xA;&#x9;[IC_DM_HASHKEY_BK] [varchar](66) NULL,&#xA;&#x9;[IC_DM_HASHKEY_ATTR] [varchar](66) NULL,&#xA;&#x9;[IC_DM_SOURCE_CODE] [nvarchar](100) NULL,&#xA;&#x9;[IC_DM_DATA_CODE] [nvarchar](100) NULL,&#xA;&#x9;[IC_DM_BUSINESS_PROCESS_INSTANCE_ID] [nvarchar](100) NULL,&#xA;&#x9;[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] [nvarchar](100) NULL,&#xA;&#x9;[IC_DM_LOADING_DATE] [datetime2](7) NULL,&#xA;&#x9;[IC_DM_DATA_SOURCE_ROW_NUMBER] [int] NULL,&#xA;&#x9;[IC_DM_TIMESTAMP_DELETE] [datetime2](7) NULL,&#xA;&#x9;[IC_DM_LINEAGE_INFO] [nvarchar](255) NULL&#xA;        )&#xA;      )&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetCleansedDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_Clean_Data] 'PropMgmt_SalesPropertyRollingMetric' , '''20171017_MG_TestReportDate''' ,'0' WITH RESULT SETS
+      (
+        (
+    [Core_Date_ReportingDate] [nvarchar](30) NULL,
+	[Finance_CostCenter_Code] [nvarchar](30) NULL,
+	[Leasing_Unit_Code] [nvarchar](30) NULL,
+	[Leasing_LeaseMaster_Code] [nvarchar](30) NULL,
+	[Leasing_Occupant_Code] [nvarchar](30) NULL,
+	[RollingMonths] INT NULL,
+	[Charges] [nvarchar](30) NULL,
+	[IC_DM_HASHKEY_BK] [varchar](66) NULL,
+	[IC_DM_HASHKEY_ATTR] [varchar](66) NULL,
+	[IC_DM_SOURCE_CODE] [nvarchar](100) NULL,
+	[IC_DM_DATA_CODE] [nvarchar](100) NULL,
+	[IC_DM_BUSINESS_PROCESS_INSTANCE_ID] [nvarchar](100) NULL,
+	[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] [nvarchar](100) NULL,
+	[IC_DM_LOADING_DATE] [datetime2](7) NULL,
+	[IC_DM_DATA_SOURCE_ROW_NUMBER] [int] NULL,
+	[IC_DM_TIMESTAMP_DELETE] [datetime2](7) NULL,
+	[IC_DM_LINEAGE_INFO] [nvarchar](255) NULL
+        )
+      )</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A1A828CF-5032-4974-BBAC-C8D0628BCA51}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_&quot; + @[User::md_EntityFullName] + &quot;_Entity] '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;', &quot;+ (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_PropMgmt_SalesPropertyRollingMetric_Entity] '20171017_MG_TestReportDate', 0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6C7292EC-1B81-49D4-878D-D974BDA9C3CB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [cleansing].[sp_Load_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadCleansedData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20171017_MG_TestReportDate'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [cleansing].[sp_Load_PropMgmt_SalesPropertyRollingMetric]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7CD4A1EC-9995-4BF1-B138-B8FD12EDA601}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[PropMgmt_SalesPropertyRollingMetric]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20171017_MG_TestReportDate'
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{70C05AF5-A064-4E0B-A72A-CF3EA8837F88}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [working].[sp_Validate_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20171017_MG_TestReportDate'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [working].[sp_Validate_PropMgmt_SalesPropertyRollingMetric]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BB4824B4-1F1B-46C4-A658-618866D30F26}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20171017_MG_TestReportDate_0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6ABC800D-7DBB-4064-A07E-29504524F5EB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/8/2018 12:24:43 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{31804C04-ED46-405C-BA9F-FDF284271B4F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-08 12:24:42</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DFDBAE40-A984-4301-BB9C-7686F0F06CED}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_MDS_Domain_Validation_Failed">
+      <DTS:VariableValue
+        DTS:DataType="8">MDS DOMAIN VALIDATION ISSUE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9D4DFD7C-4239-40B6-8855-AB9B500C8B36}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_MDS_MDM_Validation_Failed">
+      <DTS:VariableValue
+        DTS:DataType="8">MDS MDM VALIDATION ISSUE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EEB1D33B-0603-451E-BB5C-3176FAD1ED90}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RejectedRowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2" />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Cleanse SalePropertyRollingMetric"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7CA80F61-5F25-41E1-B270-ECD9B7DACBB6}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Cleanse SalePropertyRollingMetric">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{CC40978A-4F9C-4969-AD28-FE884A64357B}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - Load PropMgmt_SalesPropertyRollingMetric - Working"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0"
+            DTS:LoggingMode="1">
+            <DTS:Property
+              DTS:DataType="8"
+              DTS:Name="EventFilter">2,16,BufferSizeTuning,18,PipelineBufferLeak</DTS:Property>
+            <DTS:Property
+              DTS:EventName="BufferSizeTuning"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+            <DTS:Property
+              DTS:EventName="PipelineBufferLeak"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+            <DTS:Property
+              DTS:EventName="PipelineExecutionPlan"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+            <DTS:Property
+              DTS:EventName="PipelineExecutionTrees"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+          </DTS:LoggingOptions>
+          <DTS:PropertyExpression
+            DTS:Name="Name">"DFT - Load " +  @[User::md_EntityFullName] +" - Working"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <pipeline
+              defaultBufferSize="157286400"
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="DER - Add metadata"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                          name="IC_DM_CLEANSING_DATE"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[User::var_CleansingDate]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[User::var_CleansingDate]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                          name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                          dataType="ui4"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                          name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="Lkp - Cost Center Code - MDS"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">Select Name,CAST(CorrectTo AS NVARCHAR(30)) CorrectTo from [mdm].[vw_DM_Domain_Finance_CostCenter_Code]
+Where ValidationStatus = 'Validation Succeeded'</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (Select Name,CAST(CorrectTo AS NVARCHAR(30)) CorrectTo from [mdm].[vw_DM_Domain_Finance_CostCenter_Code]
+Where ValidationStatus = 'Validation Succeeded') [refTable]
+where [refTable].[Name] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="250" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CorrectTo" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Connections[OleDbConnection]"
+                      connectionManagerID="{8108D27E-5293-4B95-873E-E2B475C000AB}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Inputs[Lookup Input].Columns[CostCenterCode]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="CostCenterCode"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">Name</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Match Output].Columns[CorrectTo]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Copy Column"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Match Output].Columns[CorrectTo]"
+                          name="CorrectTo"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn">CorrectTo</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[working].[PropMgmt_SalesPropertyRollingMetric]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Connections[OleDbConnection]"
+                      connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_HASHKEY_BK]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="66"
+                          cachedName="IC_DM_HASHKEY_BK"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_HASHKEY_ATTR]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="66"
+                          cachedName="IC_DM_HASHKEY_ATTR"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_SOURCE_CODE"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_DATA_CODE"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="IC_DM_LOADING_DATE"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          cachedDataType="i4"
+                          cachedName="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="IC_DM_TIMESTAMP_DELETE"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="IC_DM_LINEAGE_INFO"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[Charges]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="Charges"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Charges]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[ReportingDate]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ReportingDate"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[ReportingDate]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[SalesAmountScenarioCode]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="SalesAmountScenarioCode"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmountScenarioCode]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[Sales]"
+                          cachedDataType="cy"
+                          cachedName="Sales"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Sales]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[AverageMonthlyGLA]"
+                          cachedDataType="numeric"
+                          cachedName="AverageMonthlyGLA"
+                          cachedPrecision="18"
+                          cachedScale="4"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[AverageMonthlyGLA]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[CorrectTo]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="CorrectTo"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[CostCenterCode]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Match Output].Columns[CorrectTo]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[ReportingDate]"
+                          dataType="wstr"
+                          length="30"
+                          name="ReportingDate" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmountScenarioCode]"
+                          dataType="wstr"
+                          length="30"
+                          name="SalesAmountScenarioCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[CostCenterCode]"
+                          dataType="wstr"
+                          length="30"
+                          name="CostCenterCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Charges]"
+                          dataType="numeric"
+                          name="Charges"
+                          precision="18"
+                          scale="4" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Sales]"
+                          dataType="cy"
+                          name="Sales" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[AverageMonthlyGLA]"
+                          dataType="numeric"
+                          name="AverageMonthlyGLA"
+                          precision="18"
+                          scale="4" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          name="IC_DM_HASHKEY_BK" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          name="IC_DM_HASHKEY_ATTR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_SOURCE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_DATA_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_LOADING_DATE"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          length="255"
+                          name="IC_DM_LINEAGE_INFO" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable">User::sql_GetDataFromEntity</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Connections[OleDbConnection]"
+                      connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          length="66"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                          name="IC_DM_HASHKEY_BK"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                          length="66"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                          name="IC_DM_HASHKEY_ATTR"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                          name="IC_DM_SOURCE_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                          name="IC_DM_DATA_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                          name="IC_DM_LOADING_DATE"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          length="255"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                          name="IC_DM_LINEAGE_INFO"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Charges]"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]"
+                          name="Charges"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[ReportingDate]"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]"
+                          name="ReportingDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[SalesAmountScenarioCode]"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]"
+                          name="SalesAmountScenarioCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[CostCenterCode]"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]"
+                          name="CostCenterCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Sales]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]"
+                          name="Sales"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[AverageMonthlyGLA]"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]"
+                          name="AverageMonthlyGLA"
+                          precision="18"
+                          scale="4"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          name="IC_DM_HASHKEY_BK" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          name="IC_DM_HASHKEY_ATTR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_SOURCE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_DATA_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_LOADING_DATE"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          length="255"
+                          name="IC_DM_LINEAGE_INFO" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Charges]"
+                          dataType="numeric"
+                          name="Charges"
+                          precision="18"
+                          scale="4" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[ReportingDate]"
+                          dataType="wstr"
+                          length="30"
+                          name="ReportingDate" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[SalesAmountScenarioCode]"
+                          dataType="wstr"
+                          length="30"
+                          name="SalesAmountScenarioCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[CostCenterCode]"
+                          dataType="wstr"
+                          length="30"
+                          name="CostCenterCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Sales]"
+                          dataType="cy"
+                          name="Sales" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[AverageMonthlyGLA]"
+                          dataType="numeric"
+                          name="AverageMonthlyGLA"
+                          precision="18"
+                          scale="4" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ReportingDate]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ReportingDate]"
+                          name="ReportingDate" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[SalesAmountScenarioCode]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[SalesAmountScenarioCode]"
+                          name="SalesAmountScenarioCode" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[CostCenterCode]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[CostCenterCode]"
+                          name="CostCenterCode" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Charges]"
+                          dataType="numeric"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Charges]"
+                          name="Charges"
+                          precision="18"
+                          scale="4" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Sales]"
+                          dataType="cy"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Sales]"
+                          name="Sales" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[AverageMonthlyGLA]"
+                          dataType="numeric"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[AverageMonthlyGLA]"
+                          name="AverageMonthlyGLA"
+                          precision="18"
+                          scale="4" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                          name="IC_DM_HASHKEY_BK" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                          name="IC_DM_HASHKEY_ATTR" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                          name="IC_DM_SOURCE_CODE" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                          name="IC_DM_DATA_CODE" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                          name="IC_DM_LOADING_DATE"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                          name="IC_DM_LINEAGE_INFO" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working.Paths[Derived Column Output]"
+                  endId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working.Paths[Lookup Match Output]"
+                  endId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                  name="Lookup Match Output"
+                  startId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Outputs[Lookup Match Output]" />
+                <path
+                  refId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working.Paths[OLE DB Source Output]"
+                  endId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS.Inputs[Lookup Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Load PropMgmt_SalesPropertyRollingMetric - Cleansing"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{62AA9D5E-6B97-455D-9C62-2AF697173C23}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - Load PropMgmt_SalesPropertyRollingMetric - Cleansing"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Name">"SQL - Load " +  @[User::md_EntityFullName] +" - Cleansing"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_LoadCleansedData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Validate PropMgmt_SalesPropertyRollingMetric - Rejects"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{B8558C97-B39A-492A-BF2E-330EDA635BC2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - Validate PropMgmt_SalesPropertyRollingMetric - Rejects"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Name">"SQL - Validate " +  @[User::md_EntityFullName] +" - Rejects"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateWorkingData"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="InsertedRowCount"
+                SQLTask:DtsVariableName="User::var_RejectedRowCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Cleanse SalePropertyRollingMetric.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{1478B05D-B89C-4118-9163-EEE458B60D71}"
+          DTS:From="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Validate PropMgmt_SalesPropertyRollingMetric - Rejects" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Cleanse SalePropertyRollingMetric.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{4933EE67-253D-4D96-B5EE-A0900E477859}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::var_RejectedRowCount] == 0"
+          DTS:From="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Validate PropMgmt_SalesPropertyRollingMetric - Rejects"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Load PropMgmt_SalesPropertyRollingMetric - Cleansing" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (End)"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FC9EF590-7107-496D-8404-3D0A6E2E3E72}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (End)"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Delete " +  @[User::md_EntityFullName] +" - Working (End)"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (Start)"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2E87DBCD-2388-4456-B557-F686956B8CE4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (Start)"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Delete " + @[User::md_EntityFullName]  + " - Working (Start)"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3768A06B-C14D-4B47-8EF9-93B31E95768F}"
+      DTS:From="Package\SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (Start)"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC - Cleanse SalePropertyRollingMetric" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{B0BAD3B2-8B66-4F16-A7A2-2C4A16C697FA}"
+      DTS:From="Package\SEQC - Cleanse SalePropertyRollingMetric"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (End)"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="357,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working"
+          TopLeft="25,13" />
+        <NodeLayout
+          Size="338,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Load PropMgmt_SalesPropertyRollingMetric - Cleansing"
+          TopLeft="22,215" />
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\SQL - Validate PropMgmt_SalesPropertyRollingMetric - Rejects"
+          TopLeft="20,114" />
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric.PrecedenceConstraints[Constraint]"
+          TopLeft="203.5,55">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12.5,59"
+              Start="0,0"
+              End="-12.5,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="-4,29.5" />
+                  <mssgle:LineSegment
+                    End="-8.5,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8.5,29.5"
+                    Point2="-12.5,29.5"
+                    Point3="-12.5,33.5" />
+                  <mssgle:LineSegment
+                    End="-12.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric.PrecedenceConstraints[Constraint 1]"
+          TopLeft="191,156">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,17.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="387,312"
+          Size="387,355"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric"
+          TopLeft="100,200" />
+        <NodeLayout
+          Size="369,42"
+          Id="Package\SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (End)"
+          TopLeft="103.25,598.5" />
+        <NodeLayout
+          Size="337,48"
+          Id="Package\SQL - Delete PropMgmt_SalesPropertyRollingMetric - Working (Start)"
+          TopLeft="133.25,99.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="301.75,147.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8.25,52.5"
+              Start="0,0"
+              End="-8.25,45">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.25"
+                    Point2="0,26.25"
+                    Point3="-4,26.25" />
+                  <mssgle:LineSegment
+                    End="-4.25,26.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4.25,26.25"
+                    Point2="-8.25,26.25"
+                    Point3="-8.25,30.25" />
+                  <mssgle:LineSegment
+                    End="-8.25,45" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="290.625,555">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43.5"
+              Start="0,0"
+              End="0,36">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,12.1953125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="443,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric"
+          TopLeft="102,30" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS"
+          TopLeft="211,113" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\DER - Add metadata"
+          TopLeft="235,215" />
+        <NodeLayout
+          Size="456,42"
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric"
+          TopLeft="96,299" />
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working.Paths[OLE DB Source Output]"
+          TopLeft="322.25,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working.Paths[Lookup Match Output]"
+          TopLeft="321.75,155">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working.Paths[Derived Column Output]"
+          TopLeft="323.25,257">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_SRC - IC_DM_DataStore - Entity - PropMgmt_SalesPropertyRollingMetric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\Lkp - Cost Center Code - MDS">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse SalePropertyRollingMetric\DFT - Load PropMgmt_SalesPropertyRollingMetric - Working\OLE_DST - IC_DM_DataStore - Working - PropMgmt_SalesPropertyRollingMetric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

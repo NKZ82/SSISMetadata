@@ -1,0 +1,1825 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{3FEE86FA-8E3D-4823-B6E5-3F4416E32616}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Sub_VDMFR_Corporate_Hierarchy"
+  DTS:PackageType="5"
+  DTS:VersionBuild="141"
+  DTS:VersionGUID="{DED20566-2F4A-41E4-A5CE-8A7A21E1ACC8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{9EB1F012-D10D-4CCC-8879-2528E64DDBA8}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20161116-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{1B73E60B-CED2-4789-81A7-B88344F808D1}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{70F277E4-2517-43F6-854F-B4E969FC8619}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">VDMFR</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{089B371C-B68B-44AF-B774-CF5FAFB6B585}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">Corporate_Hierarchy</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E2993BD0-DB32-443D-B432-47570552DF25}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Sub_VDMFR_Corporate_Hierarchy</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E7D9C7D2-DA71-4946-92F4-215C6F51B7C6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">VDMFR_Corporate_Hierarchy</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{607867BC-0F02-44F0-B9E5-152C280D3C2A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Sub</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E3778C7D-6418-4ED6-B130-A398F090AFA3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [usr].[sp_Get_&quot; + @[User::md_EntityFullName] + &quot;_Entity]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromMDM">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [usr].[sp_Get_Sub_VDMFR_Corporate_Hierarchy_Entity]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9A8F9743-3D03-4E64-B176-3D8AF5AFEE56}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [sub].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20161116-01-EL'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [sub].[sp_Load_Sub_VDMFR_Corporate_Hierarchy_SCD2] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9F3F991C-9B16-441F-B993-282EB5355275}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Sub_VDMFR_Corporate_Hierarchy]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20161116-01-EL'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{732E0969-132E-4C14-A1E7-B6292AD19CBB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20161116-01-EL_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EF4F4060-1A30-4F86-8C94-127DAFC7C8BD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:26 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C13E7117-086B-4701-AB52-524B5D613A4C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:26</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{065B23AB-A9D0-4EA4-A29C-E0E3BE5A2C39}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Sub_VDMFR_Account - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT VDMFR_Account_Code, VDMFR_Account_DK FROM [sub].[VDMFR_Account] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT VDMFR_Account_Code, VDMFR_Account_DK FROM [sub].[VDMFR_Account] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[VDMFR_Account_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="VDMFR_Account_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Account_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Account_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Inputs[Lookup Input].Columns[VDMFR_Account_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="VDMFR_Account_Code"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Account_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Account_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output].Columns[VDMFR_Account_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output].Columns[VDMFR_Account_DK]"
+                      name="VDMFR_Account_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">VDMFR_Account_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Sub_VDMFR_Hierarchy - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT VDMFR_Account_DK, VDMFR_Hierarchy_Code, VDMFR_Hierarchy_DK FROM [sub].[VDMFR_Corporate_Hierarchy] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT VDMFR_Account_DK, VDMFR_Hierarchy_Code, VDMFR_Hierarchy_DK FROM [sub].[VDMFR_Corporate_Hierarchy] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[VDMFR_Hierarchy_Code] = ? and [refTable].[VDMFR_Account_DK] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="VDMFR_Account_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Hierarchy_Code" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Hierarchy_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Hierarchy_Code]};#{Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output].Columns[VDMFR_Account_DK]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input].Columns[VDMFR_Hierarchy_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="VDMFR_Hierarchy_Code"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Hierarchy_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Hierarchy_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input].Columns[VDMFR_Account_DK]"
+                      cachedDataType="i4"
+                      cachedName="VDMFR_Account_DK"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output].Columns[VDMFR_Account_DK]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Account_DK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Match Output].Columns[VDMFR_Hierarchy_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Match Output].Columns[VDMFR_Hierarchy_DK]"
+                      name="VDMFR_Hierarchy_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">VDMFR_Hierarchy_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Sub_VDMFR_Corporate_Hierarchy]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[ValidationSucceeded]"
+                      cachedDataType="i4"
+                      cachedName="ValidationSucceeded"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[VDMFR_Account_DK]"
+                      cachedDataType="i4"
+                      cachedName="VDMFR_Account_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Account_DK]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output].Columns[VDMFR_Account_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[VDMFR_Account_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="VDMFR_Account_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Account_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Account_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[VDMFR_Hierarchy_DK]"
+                      cachedDataType="i4"
+                      cachedName="VDMFR_Hierarchy_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Hierarchy_DK]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Match Output].Columns[VDMFR_Hierarchy_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[VDMFR_Hierarchy_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="VDMFR_Hierarchy_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Hierarchy_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Hierarchy_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L0_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L0_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L0_SortKey]"
+                      cachedDataType="numeric"
+                      cachedName="L0_SortKey"
+                      cachedPrecision="38"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_SortKey]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_SortKey]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L1_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L1_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L1_SortKey]"
+                      cachedDataType="numeric"
+                      cachedName="L1_SortKey"
+                      cachedPrecision="38"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_SortKey]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_SortKey]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L2_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L2_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L2_SortKey]"
+                      cachedDataType="numeric"
+                      cachedName="L2_SortKey"
+                      cachedPrecision="38"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_SortKey]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_SortKey]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L3_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L3_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L3_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L0_NameEN]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L0_NameEN"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_NameEN]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_NameEN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L0_NameFR]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L0_NameFR"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_NameFR]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_NameFR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L1_NameEN]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L1_NameEN"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_NameEN]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_NameEN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L1_NameFR]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L1_NameFR"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_NameFR]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_NameFR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L2_NameEN]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L2_NameEN"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_NameEN]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_NameEN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L2_NameFR]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L2_NameFR"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_NameFR]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_NameFR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L3_NameEN]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L3_NameEN"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L3_NameEN]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_NameEN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].Columns[L3_NameFR]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="L3_NameFR"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L3_NameFR]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_NameFR]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Account_DK]"
+                      dataType="i4"
+                      name="VDMFR_Account_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Account_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="VDMFR_Account_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Hierarchy_DK]"
+                      dataType="i4"
+                      name="VDMFR_Hierarchy_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Hierarchy_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="VDMFR_Hierarchy_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L0_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_SortKey]"
+                      dataType="i4"
+                      name="L0_SortKey" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L1_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_SortKey]"
+                      dataType="i4"
+                      name="L1_SortKey" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L2_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_SortKey]"
+                      dataType="i4"
+                      name="L2_SortKey" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L3_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L3_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L0_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L0_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L0_NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L1_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L1_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L1_NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L2_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L2_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L2_NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L3_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L3_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input].ExternalColumns[L3_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L3_NameFR" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromMDM</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Connections[OleDbConnection]"
+                  connectionManagerID="{26FCB80F-4859-4366-8B2F-37D07352E510}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Account_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[VDMFR_Account_Code]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Account_Code]"
+                      name="VDMFR_Account_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Hierarchy_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[VDMFR_Hierarchy_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[VDMFR_Hierarchy_Code]"
+                      name="VDMFR_Hierarchy_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_Code]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_Code]"
+                      name="L0_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_SortKey]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_SortKey]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_SortKey]"
+                      name="L0_SortKey"
+                      precision="38"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_Code]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_Code]"
+                      name="L1_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_SortKey]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_SortKey]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_SortKey]"
+                      name="L1_SortKey"
+                      precision="38"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_Code]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_Code]"
+                      name="L2_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_SortKey]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_SortKey]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_SortKey]"
+                      name="L2_SortKey"
+                      precision="38"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L3_Code]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_Code]"
+                      name="L3_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_NameEN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_NameEN]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_NameEN]"
+                      name="L0_NameEN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_NameFR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_NameFR]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L0_NameFR]"
+                      name="L0_NameFR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_NameEN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_NameEN]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_NameEN]"
+                      name="L1_NameEN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_NameFR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_NameFR]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L1_NameFR]"
+                      name="L1_NameFR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_NameEN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_NameEN]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_NameEN]"
+                      name="L2_NameEN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_NameFR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_NameFR]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L2_NameFR]"
+                      name="L2_NameFR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_NameEN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L3_NameEN]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_NameEN]"
+                      name="L3_NameEN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_NameFR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L3_NameFR]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].Columns[L3_NameFR]"
+                      name="L3_NameFR"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      dataType="i4"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[VDMFR_Account_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="VDMFR_Account_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[VDMFR_Hierarchy_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="VDMFR_Hierarchy_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L0_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_SortKey]"
+                      dataType="numeric"
+                      name="L0_SortKey"
+                      precision="38" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L1_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_SortKey]"
+                      dataType="numeric"
+                      name="L1_SortKey"
+                      precision="38" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L2_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_SortKey]"
+                      dataType="numeric"
+                      name="L2_SortKey"
+                      precision="38" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L3_Code]"
+                      dataType="wstr"
+                      length="250"
+                      name="L3_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L0_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L0_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L0_NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L1_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L1_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L1_NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L2_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L2_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L2_NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L3_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="L3_NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[L3_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="L3_NameFR" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[VDMFR_Hierarchy_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[VDMFR_Hierarchy_Code]"
+                      name="VDMFR_Hierarchy_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[VDMFR_Account_Code]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[VDMFR_Account_Code]"
+                      name="VDMFR_Account_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_Code]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_Code]"
+                      name="L0_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_NameEN]"
+                      name="L0_NameEN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_NameFR]"
+                      name="L0_NameFR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_SortKey]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L0_SortKey]"
+                      name="L0_SortKey"
+                      precision="38" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_Code]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_Code]"
+                      name="L1_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_NameEN]"
+                      name="L1_NameEN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_NameFR]"
+                      name="L1_NameFR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_SortKey]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L1_SortKey]"
+                      name="L1_SortKey"
+                      precision="38" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_Code]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_Code]"
+                      name="L2_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_NameEN]"
+                      name="L2_NameEN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_NameFR]"
+                      name="L2_NameFR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_SortKey]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L2_SortKey]"
+                      name="L2_SortKey"
+                      precision="38" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L3_Code]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L3_Code]"
+                      name="L3_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L3_NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L3_NameEN]"
+                      name="L3_NameEN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L3_NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[L3_NameFR]"
+                      name="L3_NameFR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Sub Working VDMFR_Corporate_Hierarchy Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{96816235-5124-4FB5-A706-73787CEF5A2B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Sub Working VDMFR_Corporate_Hierarchy Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Sub VDMFR_Corporate_Hierarchy Entity - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D4DD3CF5-5469-4FE6-8FCF-927EB28E5FC6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Sub VDMFR_Corporate_Hierarchy Entity - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{F5E731B4-F987-4690-AC7C-874EC9803161}"
+      DTS:From="Package\SQL - Delete Sub Working VDMFR_Corporate_Hierarchy Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9F664FC8-88D8-4995-A29C-A4124DC84555}"
+      DTS:From="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load Sub VDMFR_Corporate_Hierarchy Entity - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="415,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS"
+          TopLeft="9.5,107.5" />
+        <NodeLayout
+          Size="372,42"
+          Id="Package\SQL - Delete Sub Working VDMFR_Corporate_Hierarchy Entity"
+          TopLeft="30.5,5.5" />
+        <NodeLayout
+          Size="358,42"
+          Id="Package\SQL - Load Sub VDMFR_Corporate_Hierarchy Entity - SCD2"
+          TopLeft="33.5,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="216.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="214.75,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="466,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy"
+          TopLeft="20.5000000000001,396.5" />
+        <NodeLayout
+          Size="408,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy"
+          TopLeft="35,18" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current"
+          TopLeft="79,210.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\DER - Add metadata"
+          TopLeft="119,310.5" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current"
+          TopLeft="85.5000000000001,108.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[Derived Column Output]"
+          TopLeft="206.5,352.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="47.0000000000001,44"
+              Start="0,0"
+              End="47.0000000000001,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18"
+                    Point2="0,22"
+                    Point3="4,22" />
+                  <mssgle:LineSegment
+                    End="43.0000000000001,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="43.0000000000001,22"
+                    Point2="47.0000000000001,22"
+                    Point3="47.0000000000001,26" />
+                  <mssgle:LineSegment
+                    End="47.0000000000001,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[OLE DB Source Output]"
+          TopLeft="239,60">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-26.4999999999999,48.5"
+              Start="0,0"
+              End="-26.4999999999999,41">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.25"
+                    Point2="0,24.25"
+                    Point3="-4,24.25" />
+                  <mssgle:LineSegment
+                    End="-22.4999999999999,24.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.4999999999999,24.25"
+                    Point2="-26.4999999999999,24.25"
+                    Point3="-26.4999999999999,28.25" />
+                  <mssgle:LineSegment
+                    End="-26.4999999999999,41" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[Lookup Match Output1]"
+          TopLeft="211,150.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS.Paths[Lookup Match Output]"
+          TopLeft="208,252.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,19.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Corporate_Hierarchy">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Corporate_Hierarchy">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Account - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Corporate_Hierarchy Entity from MDS\LKP - Sub_VDMFR_Hierarchy - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

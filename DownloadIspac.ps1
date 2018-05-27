@@ -5,7 +5,7 @@
 # Change Server, folder, project and download folder
 $SsisServer = "SIVCDPSQL14" # Mandatory
 $FolderName = "IC.DM"         # Can be empty to download multiple projects
-$ProjectName = "IC.DM.SSIS.Staging"       # Can be empty to download multiple projects
+$ProjectName = ""       # Can be empty to download multiple projects
 $DownloadFolder = "C:\Users\ngueguen\SSISMetadata\MyIspacs\" # Mandatory
 $CreateSubfolders = $true        # Mandatory
 $UnzipIspac = $true              # Mandatory

@@ -1,0 +1,2265 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/25/2016 1:01:22 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{DB46DFE2-4B84-4833-A2BF-478755544595}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load Entities from PART_TRAFFIC"
+  DTS:PackageType="5"
+  DTS:VersionBuild="418"
+  DTS:VersionGUID="{2CA37756-103B-46CF-8B54-B65BF7817C5D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{03943F7B-4E4F-45D0-8F40-B772A1F2C554}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">3591</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="19"
+      DTS:DTSID="{969A1946-2205-4812-8DE6-6A4DFBC43361}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="19"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C759260D-0679-4BEB-8967-5E68629D3342}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">InboundTraffic</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{619D4A9C-6E67-4398-AFE9-FE057319966D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">PropMgmt</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CFC775D4-7604-404C-BA7C-793943FD44DC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Get_PART_TRAFFIC_Data '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataSource">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Get_PART_TRAFFIC_Data '3591'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{97C5DED3-4AE0-475A-96E4-807BD5876DC4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC ods_preview.sp_Get_&quot;+ @[User::md_Source] +&quot;_&quot;+ @[User::md_Data] +&quot;_CDC&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataStore">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC ods_preview.sp_Get_PropMgmt_InboundTraffic_CDC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{782A43EE-6EC4-4C70-9B43-54A58EFEC73B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">3591_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8DBFD579-9C8A-42D0-B3C8-657886FAD577}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:39 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{54D69B57-12A0-49DB-8A88-671879C66F12}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:17:39</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{CFBCAA84-AA77-4978-A3A7-56ABD20074C8}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load DataStore ods_preview from Staging PART_TRAFFIC"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          defaultBufferMaxRows="10400"
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="CSPL - Record is New or Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[Hashkey_BK]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[Hashkey_Attr]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[New]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="New"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(IC_DM_HASHKEY_BK)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Modified]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Modified"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">![ISNULL](#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]}) &amp;&amp; ((DT_STR,66,1252)#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]} != (DT_STR,66,1252)#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">!ISNULL(Hashkey_Attr) &amp;&amp; ((DT_STR,66,1252)Hashkey_Attr != (DT_STR,66,1252)IC_DM_HASHKEY_ATTR)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Deleted]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Deleted"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Hashkey_BK)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_DATE)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_DATE)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Assign IC_DM_TIMESTAMP_UPDATE"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="MRGJ - Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_BK]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="IC_DM_DATA_CODE"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[TrafficInCount]"
+                      cachedDataType="numeric"
+                      cachedName="TrafficInCount"
+                      cachedPrecision="38"
+                      cachedScale="4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[TrafficInCount]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[SiteID]"
+                      cachedDataType="wstr"
+                      cachedLength="66"
+                      cachedName="SiteID"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[SiteID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[DateValue]"
+                      cachedDataType="dbDate"
+                      cachedName="DateValue"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[DateValue]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[ProviderCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ProviderCode"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[ProviderCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[EntranceID]"
+                      cachedDataType="wstr"
+                      cachedLength="66"
+                      cachedName="EntranceID"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[EntranceID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_Attr]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_Attr"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[EntranceName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="EntranceName"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[EntranceName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_BK]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="IC_DM_HASHKEY_BK"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="3"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_ATTR]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="IC_DM_HASHKEY_ATTR"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_BK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_TIMESTAMP_DELETE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_DATA_CODE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[IC_DM_SOURCE_CODE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[TrafficInCount_STG]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[TrafficInCount_STG]"
+                      name="TrafficInCount_STG"
+                      precision="38"
+                      scale="4">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[TrafficInCount]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[SiteID_STG]"
+                      dataType="wstr"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[SiteID_STG]"
+                      name="SiteID_STG">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[SiteID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DateValue_STG]"
+                      dataType="dbDate"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DateValue_STG]"
+                      name="DateValue_STG">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[DateValue]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[ProviderCode_STG]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[ProviderCode_STG]"
+                      name="ProviderCode_STG">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[ProviderCode]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_BK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceID_STG]"
+                      dataType="wstr"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceID_STG]"
+                      name="EntranceID_STG">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[EntranceID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input].Columns[IC_DM_HASHKEY_ATTR]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[Hashkey_Attr]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceName_STG]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceName_STG]"
+                      name="EntranceName_STG">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input].Columns[EntranceName]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [ods_preview].[PropMgmt_InboundTraffic]
+SET IC_DM_TIMESTAMP_UPDATE = ?,
+	[IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = ?,
+	[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = ?,
+	TrafficInCount = ?,
+	EntranceName = ?,
+	IC_DM_HASHKEY_ATTR = ?
+WHERE IC_DM_HASHKEY_BK = ?
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = ?
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[TrafficInCount_STG]"
+                      cachedDataType="numeric"
+                      cachedName="TrafficInCount_STG"
+                      cachedPrecision="38"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[TrafficInCount_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[EntranceName_STG]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="EntranceName_STG"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceName_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[Hashkey_Attr]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_Attr"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[Hashkey_BK]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DS - IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="dbTimeStamp2"
+                      name="Param_0"
+                      scale="3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">1073741889</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      dataType="numeric"
+                      name="Param_3"
+                      precision="18"
+                      scale="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      dataType="bytes"
+                      length="32"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      dataType="bytes"
+                      length="32"
+                      name="Param_6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                      dataType="wstr"
+                      length="100"
+                      name="Param_8">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ods_preview].[PropMgmt_InboundTraffic]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[Hashkey_BK]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_BK"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_BK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_TIMESTAMP_UPDATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_TIMESTAMP_UPDATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[DateValue_STG]"
+                      cachedDataType="dbDate"
+                      cachedName="DateValue_STG"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[DateValue]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[DateValue_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[EntranceID_STG]"
+                      cachedDataType="wstr"
+                      cachedLength="66"
+                      cachedName="EntranceID_STG"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[EntranceID]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceID_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[ProviderCode_STG]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ProviderCode_STG"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[ProviderCode]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[ProviderCode_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[SiteID_STG]"
+                      cachedDataType="wstr"
+                      cachedLength="66"
+                      cachedName="SiteID_STG"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[SiteID]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[SiteID_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[TrafficInCount_STG]"
+                      cachedDataType="numeric"
+                      cachedName="TrafficInCount_STG"
+                      cachedPrecision="38"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[TrafficInCount]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[TrafficInCount_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[EntranceName_STG]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="EntranceName_STG"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[EntranceName]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[EntranceName_STG]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].Columns[Hashkey_Attr]"
+                      cachedDataType="bytes"
+                      cachedLength="32"
+                      cachedName="Hashkey_Attr"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output].Columns[Hashkey_Attr]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      dataType="bytes"
+                      length="32"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[SiteID]"
+                      dataType="wstr"
+                      length="66"
+                      name="SiteID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[EntranceID]"
+                      dataType="wstr"
+                      length="66"
+                      name="EntranceID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[DateValue]"
+                      dataType="dbTimeStamp2"
+                      name="DateValue" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[TrafficInCount]"
+                      dataType="numeric"
+                      name="TrafficInCount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[ProviderCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="ProviderCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[EntranceName]"
+                      dataType="wstr"
+                      length="100"
+                      name="EntranceName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      dataType="bytes"
+                      length="32"
+                      name="IC_DM_HASHKEY_ATTR" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DataStore - PropMgmt_InboundTraffic"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataStore</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      dataType="bytes"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      dataType="bytes"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      dataType="bytes"
+                      length="32"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      dataType="bytes"
+                      length="32"
+                      name="IC_DM_HASHKEY_ATTR" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataSource</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[SiteID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[SiteID]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[SiteID]"
+                      name="SiteID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[DateValue]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[DateValue]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[DateValue]"
+                      name="DateValue"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[TrafficInCount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[TrafficInCount]"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[TrafficInCount]"
+                      name="TrafficInCount"
+                      precision="38"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[ProviderCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[ProviderCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[ProviderCode]"
+                      name="ProviderCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[Hashkey_BK]"
+                      dataType="bytes"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_BK]"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[EntranceID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[EntranceID]"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[EntranceID]"
+                      name="EntranceID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[EntranceName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[EntranceName]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[EntranceName]"
+                      name="EntranceName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]"
+                      dataType="bytes"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_Attr]"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_BK]"
+                      dataType="bytes"
+                      length="32"
+                      name="Hashkey_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="30"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="30"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[SiteID]"
+                      dataType="wstr"
+                      length="66"
+                      name="SiteID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[EntranceID]"
+                      dataType="wstr"
+                      length="66"
+                      name="EntranceID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[DateValue]"
+                      dataType="dbDate"
+                      name="DateValue" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[TrafficInCount]"
+                      dataType="numeric"
+                      name="TrafficInCount"
+                      precision="38"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[ProviderCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="ProviderCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[EntranceName]"
+                      dataType="wstr"
+                      length="100"
+                      name="EntranceName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output].ExternalColumns[Hashkey_Attr]"
+                      dataType="bytes"
+                      length="32"
+                      name="Hashkey_Attr" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[SiteID]"
+                      dataType="wstr"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[SiteID]"
+                      name="SiteID" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[DateValue]"
+                      dataType="dbDate"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[DateValue]"
+                      name="DateValue" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[EntranceName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[EntranceName]"
+                      name="EntranceName" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[TrafficInCount]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[TrafficInCount]"
+                      name="TrafficInCount"
+                      precision="38"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[ProviderCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[ProviderCode]"
+                      name="ProviderCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[Hashkey_Attr]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[Hashkey_Attr]"
+                      name="Hashkey_Attr" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[Hashkey_BK]"
+                      dataType="bytes"
+                      length="32"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[Hashkey_BK]"
+                      name="Hashkey_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[EntranceID]"
+                      dataType="wstr"
+                      length="66"
+                      lineageId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Error Output].Columns[EntranceID]"
+                      name="EntranceID" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Derived Column Output]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update.Inputs[OLE DB Command Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Merge Join Output]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Merge Join Output"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Modified]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE.Inputs[Derived Column Input]"
+              name="Modified"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[Modified]" />
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[New]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New.Inputs[OLE DB Destination Input]"
+              name="New"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified.Outputs[New]" />
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Left Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[OLE DB Source Output1]"
+              endId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join.Inputs[Merge Join Right Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="382,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="368,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC"
+          TopLeft="437.5,5.49999999999977" />
+        <NodeLayout
+          Size="314,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic"
+          TopLeft="62.5,5.5" />
+        <NodeLayout
+          Size="282,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Assign IC_DM_TIMESTAMP_UPDATE"
+          TopLeft="480.5,413.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\DER - Add metadata"
+          TopLeft="534,209.5" />
+        <NodeLayout
+          Size="414,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New"
+          TopLeft="5.50000000000023,413.5" />
+        <NodeLayout
+          Size="423,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_CMD - DataStore - PropMgmt_InboundTraffic - Flag existing Update"
+          TopLeft="410,530.5" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\CSPL - Record is New or Modified"
+          TopLeft="497.5,311.5" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\MRGJ - Merge Join"
+          TopLeft="538,107.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[OLE DB Source Output1]"
+          TopLeft="621.5,47.4999999999998">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="26.5,60.0000000000001"
+              Start="0,0"
+              End="26.5,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6583629893239" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.6583629893239"
+                    Point2="0,35.6583629893239"
+                    Point3="4,35.6583629893239" />
+                  <mssgle:LineSegment
+                    End="22.5,35.6583629893239" />
+                  <mssgle:CubicBezierSegment
+                    Point1="22.5,35.6583629893239"
+                    Point2="26.5,35.6583629893239"
+                    Point3="26.5,39.6583629893239" />
+                  <mssgle:LineSegment
+                    End="26.5,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[OLE DB Source Output]"
+          TopLeft="219.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="375.5,59.9999999999999"
+              Start="0,0"
+              End="375.5,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6583629893238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.6583629893238"
+                    Point2="0,35.6583629893238"
+                    Point3="4,35.6583629893238" />
+                  <mssgle:LineSegment
+                    End="371.5,35.6583629893238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="371.5,35.6583629893238"
+                    Point2="375.5,35.6583629893238"
+                    Point3="375.5,39.6583629893238" />
+                  <mssgle:LineSegment
+                    End="375.5,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[New]"
+          TopLeft="581.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-369,60"
+              Start="0,0"
+              End="-369,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2307692307692" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2307692307692"
+                    Point2="0,24.2307692307692"
+                    Point3="-4,24.2307692307692" />
+                  <mssgle:LineSegment
+                    End="-365,24.2307692307692" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-365,24.2307692307692"
+                    Point2="-369,24.2307692307692"
+                    Point3="-369,28.2307692307692" />
+                  <mssgle:LineSegment
+                    End="-369,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-194.73404296875,29.2307692307692,20.4680859375,9.3974609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Modified]"
+          TopLeft="661.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-40,60"
+              Start="0,0"
+              End="-40,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2307692307692" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2307692307692"
+                    Point2="0,24.2307692307692"
+                    Point3="-4,24.2307692307692" />
+                  <mssgle:LineSegment
+                    End="-36,24.2307692307692" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-36,24.2307692307692"
+                    Point2="-40,24.2307692307692"
+                    Point3="-40,28.2307692307692" />
+                  <mssgle:LineSegment
+                    End="-40,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-38.90798828125,29.2307692307692,37.8159765625,9.7978515625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Merge Join Output]"
+          TopLeft="621.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Derived Column Output1]"
+          TopLeft="621.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC.Paths[Derived Column Output]"
+          TopLeft="621.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="NOTE: &#xA;Les données de PART_TRAFFIC arrivent dans une &quot;fenêtre de temps mobile&quot;, donc la notion de&#xA;&quot;soft-delete&quot; ne s'applique pas."
+          ParentId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC"
+          FontInfo="{assembly:Null}"
+          Size="528,72"
+          Id="9de8787e-31f0-4751-9925-3a8e8298d413"
+          TopLeft="893.5,515.5" />
+        <AnnotationLayout
+          Text=""
+          ParentId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC"
+          FontInfo="{assembly:Null}"
+          Size="29,40"
+          Id="686c04e1-29f7-42f8-a382-c87458576df6"
+          TopLeft="1482,531.5" />
+        <AnnotationLayout
+          Text=""
+          ParentId="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC"
+          FontInfo="{assembly:Null}"
+          Size="29,60"
+          Id="441e2506-109d-4cd4-a35e-985ff1692da0"
+          TopLeft="1130,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - Staging - OLE_SRC - Staging DB - PART_TRAFFIC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_SRC - DataStore - PropMgmt_InboundTraffic">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore ods_preview from Staging PART_TRAFFIC\OLE_DEST - DataStore - PropMgmt_InboundTraffic from staging - New">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

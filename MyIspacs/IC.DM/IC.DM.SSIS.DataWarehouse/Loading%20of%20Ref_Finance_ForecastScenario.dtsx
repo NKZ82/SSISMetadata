@@ -1,0 +1,1218 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{758AB361-6D28-4655-BE2A-94BAE75AA2C4}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Ref_Finance_ForecastScenario"
+  DTS:PackageType="5"
+  DTS:VersionBuild="118"
+  DTS:VersionGUID="{AC51E39B-AA99-4EC4-A77C-B24D3C3B694C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{5C4F59DE-A676-4F8D-B6A4-BF1A47184904}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20170106-EL-1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{B6193DA1-71A7-4935-AA98-BC4A4CD7A5C2}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8FA78847-47A3-4C42-977B-420BAE048F32}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3E3159EE-3B24-40AC-B132-8ABDE9607AB8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">ForecastScenario</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C464C063-93E5-49AD-A093-83C4A5716C67}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref_Finance_ForecastScenario</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{61C84A89-0751-4802-B8F2-87311256C1A5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance_ForecastScenario</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{460CCEAA-B0E2-4BFC-B3F4-18AE50107322}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Ref</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{043851A5-1EC2-4BB1-B8CE-A6A79D0BE553}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT Finance_ForecastScenario_Code,&#xA;&#x9;CAST(1 AS BIT) AS ValidationSucceeded,&#xA;&#x9;Equity,&#xA;&#x9;IC_DM_BUSINESS_PROCESS_INSTANCE_ID,&#xA;&#x9;IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION,&#xA;&#x9;IC_DM_SOURCE_CODE,&#xA;&#x9;IC_DM_DATA_CODE,&#xA;&#x9;NULL AS IC_DM_LINEAGE_INFO &#xA;FROM cleansing.Finance_ForecastScenario&#xA;WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot;+ @[$Package::BusinessProcessInstanceID] +&quot;'&#xA;ORDER BY &#x9;&#xA;&#x9;Finance_ForecastScenario_Code&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDS">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT Finance_ForecastScenario_Code,
+	CAST(1 AS BIT) AS ValidationSucceeded,
+	Equity,
+	IC_DM_BUSINESS_PROCESS_INSTANCE_ID,
+	IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION,
+	IC_DM_SOURCE_CODE,
+	IC_DM_DATA_CODE,
+	NULL AS IC_DM_LINEAGE_INFO 
+FROM cleansing.Finance_ForecastScenario
+WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '20170106-EL-1'
+ORDER BY 	
+	Finance_ForecastScenario_Code</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AB6259AF-6252-4F81-BE3D-5024222C0F7B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;[edw].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;', &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">[edw].[sp_Load_Ref_Finance_ForecastScenario_SCD2] '20170106-EL-1', 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DA9C91EE-10FD-47D8-8417-E3AA8FFD511A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Ref_Finance_ForecastScenario]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20170106-EL-1'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E4DA693C-55C2-48AC-8768-CB90848338EE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20170106-EL-1_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{83C35DA9-27DE-4A5F-911A-FB87B0005A42}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:18 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E33981FA-2FD2-4D1F-BE02-A93EA89EC0DE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:17</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{DF3A9595-34EA-4631-B3A2-1E0943FB41CE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[PublicationDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[PublicationDate]"
+                      name="PublicationDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_ForecastScenario - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Finance_ForecastScenario_Code, Finance_ForecastScenario_DK FROM [edw].[Ref_Finance_ForecastScenario] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Finance_ForecastScenario_Code, Finance_ForecastScenario_DK FROM [edw].[Ref_Finance_ForecastScenario] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Finance_ForecastScenario_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_ForecastScenario_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_ForecastScenario_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Finance_ForecastScenario_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Inputs[Lookup Input].Columns[Finance_ForecastScenario_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ForecastScenario_Code"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Finance_ForecastScenario_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_ForecastScenario_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Match Output].Columns[Finance_ForecastScenario_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Match Output].Columns[Finance_ForecastScenario_DK]"
+                      name="Finance_ForecastScenario_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_ForecastScenario_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Ref_Finance_ForecastScenario]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[ValidationSucceeded]"
+                      cachedDataType="bool"
+                      cachedName="ValidationSucceeded"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[Finance_ForecastScenario_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_ForecastScenario_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ForecastScenario_DK]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Match Output].Columns[Finance_ForecastScenario_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[Finance_ForecastScenario_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ForecastScenario_Code"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ForecastScenario_Code]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Finance_ForecastScenario_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[PublicationDate]"
+                      cachedDataType="date"
+                      cachedName="PublicationDate"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[PublicationDate]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[PublicationDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].Columns[Equity]"
+                      cachedDataType="numeric"
+                      cachedName="Equity"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[Equity]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Equity]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ForecastScenario_DK]"
+                      dataType="i4"
+                      name="Finance_ForecastScenario_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ForecastScenario_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ForecastScenario_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[PublicationDate]"
+                      dataType="dbTimeStamp2"
+                      name="PublicationDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input].ExternalColumns[Equity]"
+                      dataType="numeric"
+                      name="Equity"
+                      precision="18"
+                      scale="9" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Connections[OleDbConnection]"
+                  connectionManagerID="{E42CAA2C-954B-4D73-A9BD-61150566E851}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Finance_ForecastScenario_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[Finance_ForecastScenario_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Finance_ForecastScenario_Code]"
+                      name="Finance_ForecastScenario_Code"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Equity]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[Equity]"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].Columns[Equity]"
+                      name="Equity"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="i4"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[Finance_ForecastScenario_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ForecastScenario_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output].ExternalColumns[Equity]"
+                      dataType="numeric"
+                      name="Equity"
+                      precision="18"
+                      scale="9" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[Finance_ForecastScenario_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[Finance_ForecastScenario_Code]"
+                      name="Finance_ForecastScenario_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      dataType="bool"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[Equity]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[Equity]"
+                      name="Equity"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete EDW Working Ref_Finance_ForecastScenario Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6E480DD7-DE1C-48BB-82CF-BFAF43F3456C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete EDW Working Ref_Finance_ForecastScenario Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load EDW Ref_Finance_ForecastScenario Entity - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5CDC304F-D37C-4CE3-8952-07A887D19828}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load EDW Ref_Finance_ForecastScenario Entity - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:IsStoredProc="True"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E200B6FC-B51F-4F0A-AB36-93714B989C22}"
+      DTS:From="Package\SQL - Delete EDW Working Ref_Finance_ForecastScenario Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{FE3337AB-EAD4-4E2B-A4B4-A2B3F97A2B9A}"
+      DTS:From="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load EDW Ref_Finance_ForecastScenario Entity - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="426,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="383,42"
+          Id="Package\SQL - Delete EDW Working Ref_Finance_ForecastScenario Entity"
+          TopLeft="27,5.5" />
+        <NodeLayout
+          Size="370,42"
+          Id="Package\SQL - Load EDW Ref_Finance_ForecastScenario Entity - SCD2"
+          TopLeft="33.5,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="218.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="218.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="296,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current"
+          TopLeft="84.5,107.5" />
+        <NodeLayout
+          Size="454,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario"
+          TopLeft="5.50000000000006,311.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\DER - Add metadata"
+          TopLeft="145,209.5" />
+        <NodeLayout
+          Size="361,42"
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast"
+          TopLeft="52,5.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS.Paths[Lookup Match Output]"
+          TopLeft="232.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS.Paths[Derived Column Output]"
+          TopLeft="232.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS.Paths[OLE DB Source Output]"
+          TopLeft="232.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\LKP - Ref_Finance_ForecastScenario - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Ref_Financial_ForecastScenario">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Working Ref_Finance_ForecastScenario Entity from MDS\OLE_SRC - DS - Cleansing - Finance_LineItemAssetForecast">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

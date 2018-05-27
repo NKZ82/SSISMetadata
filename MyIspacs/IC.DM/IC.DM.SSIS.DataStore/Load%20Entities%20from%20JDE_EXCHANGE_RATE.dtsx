@@ -1,0 +1,2328 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 12:55:02 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSHP15"
+  DTS:CreatorName="CORP\adm1neh"
+  DTS:DTSID="{7FF9DE25-EEC3-467C-9050-01ADC331AC86}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Load Entities from JDE_EXCHANGE_RATE"
+  DTS:PackageType="5"
+  DTS:VersionBuild="433"
+  DTS:VersionGUID="{C1103E8F-EA9A-4EE5-AE1E-BE1A07C28F76}"
+  DTS:VersionMajor="0">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{22F07E33-2F8C-40C4-A443-505F598CED55}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">testinitialload</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{ADB1BF1A-592B-4F5E-8025-9C4D2046577D}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E30906E9-42C2-4799-B2A1-60903FBC4992}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="dateEnd">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BCA9DDEB-0C48-4BAC-90CF-427FB5619038}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="dateStart">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C655FA64-2810-4923-B920-E430308E58D9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">ExchangeRate</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4D81AE2F-2848-45FE-810B-24D4FDB9C2E5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1E4BFD4E-0FC9-4A89-B65E-5064D309CA2E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;exec [staging].[sp_Delete_JDE_ExchangeRate_Data] '&quot; +  @[$Package::BusinessProcessInstanceID] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SQL_DeleteRowsInStagingForBusinessInstanceID">
+      <DTS:VariableValue
+        DTS:DataType="8">exec [staging].[sp_Delete_JDE_ExchangeRate_Data] 'testinitialload'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D24BF113-4E90-48B7-8A11-7C0D9FD47307}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM entity.Finance_ExchangeRate&#xA;WHERE        IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot; +  @[$Package::BusinessProcessInstanceID] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SQL_DeleteRowsWithSameBusinessInstanceID">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM entity.Finance_ExchangeRate
+WHERE        IC_DM_BUSINESS_PROCESS_INSTANCE_ID = 'testinitialload'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2D02462C-984B-463B-92F1-D22884032C56}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [staging].[sp_Get_JDE_ExchangeRate_Data]  '&quot; + @[User::var_BusinessProcessInstanceID_Iteration]  + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataStaging">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [staging].[sp_Get_JDE_ExchangeRate_Data]  'testinitialload'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AA4CE933-9368-49AD-BD76-820350F9A38F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_Finance_ExchangeRate_CDC] '&quot; +  @[User::dateStart] +&quot;','&quot; +  @[User::dateEnd] +&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromDataStore">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_Finance_ExchangeRate_CDC] '',''</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{269B1772-1491-4ED4-BECC-5DBAD428C409}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;select top 1 loadstartdate,loadenddate from IC_DM_Staging.[staging].[JDE_EXCHANGE_RATE_Control]&#xA;where ic_dm_business_Process_instance_ID='&quot; +  @[$Package::BusinessProcessInstanceID]    +&quot;'&#xA;order by id desc&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDateRange">
+      <DTS:VariableValue
+        DTS:DataType="8">select top 1 loadstartdate,loadenddate from IC_DM_Staging.[staging].[JDE_EXCHANGE_RATE_Control]
+where ic_dm_business_Process_instance_ID='testinitialload'
+order by id desc</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{37642993-8477-4060-B0F5-CCC41851CFF8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">testinitialload</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7D304FC9-308D-496F-9A6A-B114CD27728D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:36 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F6389317-1EB5-4ECF-8492-49357D993B15}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:17:36</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete rows in staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{582B4180-DAC7-496E-B150-05BD2DEA8CA9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete rows in staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::SQL_DeleteRowsInStagingForBusinessInstanceID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Delete rows with same BusinessProcessID"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{01B293F0-DCE1-4F1F-8C10-77D9DE342AF8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete rows with same BusinessProcessID"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::SQL_DeleteRowsWithSameBusinessInstanceID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Date Range to process"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Get Date Range to process"
+      DTS:DTSID="{6D1F51CD-67D8-46BC-A810-708AE4E4C949}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Date Range to process"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_GetDateRange"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="LoadStartDate"
+            SQLTask:DtsVariableName="User::dateStart" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="LoadEndDate"
+            SQLTask:DtsVariableName="User::dateEnd" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load  JDE_ExchangeRate"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{9E1B8DFD-5003-42A1-BA0A-24D8F6EC17D9}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load  JDE_ExchangeRate"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="CSPL - Record is New or Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input].Columns[hashKeySource]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="hashKeySource"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Insert]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Insert"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">([ISNULL](#{Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]}) ==  FALSE )</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">(ISNULL(hashKeySource) ==  FALSE )</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Deleted]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Deleted"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">([ISNULL](#{Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]}))</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">(ISNULL(hashKeySource))</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\DC - add delete flag"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DC - add delete flag"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Output].Columns[DeletedDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Output].Columns[DeletedDate]"
+                      name="DeletedDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Source]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Source]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::md_Data]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::md_Data]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[BusinessProcessInstanceID_Iteration]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[BusinessProcessInstanceID_Iteration]"
+                      name="BusinessProcessInstanceID_Iteration"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[HashKey]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="HashKey"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[HashKey]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_ExchangeRateType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ExchangeRateType_Code"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_ExchangeRateType_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Rate]"
+                      cachedDataType="numeric"
+                      cachedName="Rate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Rate]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_Currency_BaseCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_BaseCurrency_Code"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_BaseCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_Currency_CounterCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_CounterCurrency_Code"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_CounterCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Core_Date_Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Core_Date_Date"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Core_Date_Date]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[DataLoadingID]"
+                      cachedDataType="i4"
+                      cachedName="DataLoadingID"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[DataLoadingID]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[HashKey]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="HashKey"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[HashKey]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_ExchangeRateType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_ExchangeRateType_Code"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_ExchangeRateType_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_Currency_BaseCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_BaseCurrency_Code"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_BaseCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_Currency_CounterCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_CounterCurrency_Code"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_CounterCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Core_Date_Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Core_Date_Date"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Core_Date_Date]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Rate]"
+                      cachedDataType="numeric"
+                      cachedName="Rate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Rate]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeySource]"
+                      name="hashKeySource"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[HashKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[hashKeyDestination]"
+                      name="hashKeyDestination">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[HashKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_ExchangeRateType_Code]"
+                      name="Staging_Finance_ExchangeRateType_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_ExchangeRateType_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Rate]"
+                      dataType="numeric"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Rate]"
+                      name="Staging_Rate"
+                      precision="18"
+                      scale="9">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Rate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_ExchangeRateType_Code]"
+                      name="Store_Finance_ExchangeRateType_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_ExchangeRateType_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_Currency_BaseCurrency_Code]"
+                      name="Staging_Finance_Currency_BaseCurrency_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_Currency_BaseCurrency_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_Currency_CounterCurrency_Code]"
+                      name="Staging_Finance_Currency_CounterCurrency_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Finance_Currency_CounterCurrency_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_Currency_BaseCurrency_Code]"
+                      name="Store_Finance_Currency_BaseCurrency_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_Currency_BaseCurrency_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_Currency_CounterCurrency_Code]"
+                      name="Store_Finance_Currency_CounterCurrency_Code">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Finance_Currency_CounterCurrency_Code]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Core_Date_Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Core_Date_Date]"
+                      name="Staging_Core_Date_Date">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[Core_Date_Date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Core_Date_Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Core_Date_Date]"
+                      name="Store_Core_Date_Date">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Core_Date_Date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[DataLoadingID]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[DataLoadingID]"
+                      name="DataLoadingID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input].Columns[DataLoadingID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Rate]"
+                      dataType="numeric"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Rate]"
+                      name="Store_Rate"
+                      precision="18"
+                      scale="9">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input].Columns[Rate]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - ExchangeRate from staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Finance_ExchangeRate]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[Staging_Finance_ExchangeRateType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Staging_Finance_ExchangeRateType_Code"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_ExchangeRateType_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[Staging_Rate]"
+                      cachedDataType="numeric"
+                      cachedName="Staging_Rate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Rate]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[Staging_Finance_Currency_BaseCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Staging_Finance_Currency_BaseCurrency_Code"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_Currency_BaseCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[Staging_Finance_Currency_CounterCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Staging_Finance_Currency_CounterCurrency_Code"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Finance_Currency_CounterCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[Staging_Core_Date_Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Staging_Core_Date_Date"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_Date]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Staging_Core_Date_Date]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[BusinessProcessInstanceID_Iteration]"
+                      cachedDataType="i4"
+                      cachedName="BusinessProcessInstanceID_Iteration"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[BusinessProcessInstanceID_Iteration]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                      cachedDataType="i4"
+                      cachedName="DataLoadingID"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[DataLoadingID]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExchangeRateType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      dataType="numeric"
+                      name="Rate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_Date]"
+                      dataType="dbTimeStamp"
+                      name="Core_Date_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_BaseCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_CounterCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DEST - DataStore - ExchangeRate from staging delete"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Finance_ExchangeRate]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[BusinessProcessInstanceID_Iteration]"
+                      cachedDataType="i4"
+                      cachedName="BusinessProcessInstanceID_Iteration"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[BusinessProcessInstanceID_Iteration]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[Store_Finance_ExchangeRateType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Store_Finance_ExchangeRateType_Code"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_ExchangeRateType_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[Store_Core_Date_Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Store_Core_Date_Date"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_Date]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Core_Date_Date]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[Store_Finance_Currency_BaseCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Store_Finance_Currency_BaseCurrency_Code"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_Currency_BaseCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[Store_Finance_Currency_CounterCurrency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Store_Finance_Currency_CounterCurrency_Code"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Finance_Currency_CounterCurrency_Code]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[DeletedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DeletedDate"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Output].Columns[DeletedDate]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                      cachedDataType="i4"
+                      cachedName="DataLoadingID"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[DataLoadingID]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].Columns[Store_Rate]"
+                      cachedDataType="numeric"
+                      cachedName="Store_Rate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      lineageId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output].Columns[Store_Rate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExchangeRateType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      dataType="numeric"
+                      name="Rate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_Date]"
+                      dataType="dbTimeStamp"
+                      name="Core_Date_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_BaseCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_CounterCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DataStore - FINANCE_ExchangeRate"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataStore</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      length="1000"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      name="HashKey"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      length="30"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_ExchangeRateType_Code]"
+                      name="Finance_ExchangeRateType_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Core_Date_Date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_Date]"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Core_Date_Date]"
+                      name="Core_Date_Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      name="Finance_Currency_BaseCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      name="Finance_Currency_CounterCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Rate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Rate]"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].Columns[Rate]"
+                      name="Rate"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      name="HashKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExchangeRateType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_Date]"
+                      dataType="dbTimeStamp"
+                      name="Core_Date_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_BaseCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_CounterCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Rate]"
+                      dataType="numeric"
+                      name="Rate"
+                      precision="18"
+                      scale="9" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Core_Date_Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Core_Date_Date]"
+                      name="Core_Date_Date" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      name="Finance_Currency_BaseCurrency_Code" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      name="Finance_Currency_CounterCurrency_Code" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_ExchangeRateType_Code]"
+                      name="Finance_ExchangeRateType_Code" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Rate]"
+                      dataType="numeric"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Rate]"
+                      name="Rate"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      name="HashKey" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - Staging - ExchangeRate"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromDataStaging</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      length="1000"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[HashKey]"
+                      name="HashKey"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      length="30"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_ExchangeRateType_Code]"
+                      name="Finance_ExchangeRateType_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Rate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Rate]"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Rate]"
+                      name="Rate"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Core_Date_Date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_Date]"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Core_Date_Date]"
+                      name="Core_Date_Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      name="Finance_Currency_BaseCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      name="Finance_Currency_CounterCurrency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[DataLoadingID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[DataLoadingID]"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].Columns[DataLoadingID]"
+                      name="DataLoadingID"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      name="HashKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_ExchangeRateType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Rate]"
+                      dataType="numeric"
+                      name="Rate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_Date]"
+                      dataType="dbDate"
+                      name="Core_Date_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_BaseCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_CounterCurrency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output].ExternalColumns[DataLoadingID]"
+                      dataType="i4"
+                      name="DataLoadingID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Core_Date_Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Core_Date_Date]"
+                      name="Core_Date_Date" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_BaseCurrency_Code]"
+                      name="Finance_Currency_BaseCurrency_Code" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_CounterCurrency_Code]"
+                      name="Finance_Currency_CounterCurrency_Code" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_ExchangeRateType_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Finance_ExchangeRateType_Code]"
+                      name="Finance_ExchangeRateType_Code" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Rate]"
+                      dataType="numeric"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[Rate]"
+                      name="Rate"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[DataLoadingID]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[DataLoadingID]"
+                      name="DataLoadingID" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[HashKey]"
+                      name="HashKey" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[Deleted]"
+              endId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Inputs[Derived Column Input]"
+              name="Deleted"
+              startId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Deleted]" />
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[Derived Column Output]"
+              endId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[Derived Column Output1]"
+              endId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load  JDE_ExchangeRate\DC - add delete flag.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[Insert]"
+              endId="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging.Inputs[OLE DB Destination Input]"
+              name="Insert"
+              startId="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified.Outputs[Insert]" />
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[Merge Join Output]"
+              endId="Package\Load  JDE_ExchangeRate\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Merge Join Output"
+              startId="Package\Load  JDE_ExchangeRate\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[OLE DB Source Output]"
+              endId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Left Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load  JDE_ExchangeRate.Paths[OLE DB Source Output1]"
+              endId="Package\Load  JDE_ExchangeRate\Merge Join.Inputs[Merge Join Right Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{BD6FBA15-2C36-49DA-8DBD-0A775205B63B}"
+      DTS:From="Package\Delete rows with same BusinessProcessID"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Get Date Range to process" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2DB33A0B-A9B5-47E3-B373-0100A58714C5}"
+      DTS:From="Package\Load  JDE_ExchangeRate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Delete rows in staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{AA42C331-8FA0-4623-BB7E-56D74B0834A4}"
+      DTS:From="Package\Get Date Range to process"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Load  JDE_ExchangeRate" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="251,42"
+          Id="Package\Delete rows in staging"
+          TopLeft="219,330" />
+        <NodeLayout
+          Size="288,42"
+          Id="Package\Delete rows with same BusinessProcessID"
+          TopLeft="204,38" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\Get Date Range to process"
+          TopLeft="240,140" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Load  JDE_ExchangeRate"
+          TopLeft="209.5,244.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="347,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="313.5,286.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="31,43.5"
+              Start="0,0"
+              End="31,36">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.75"
+                    Point2="0,21.75"
+                    Point3="4,21.75" />
+                  <mssgle:LineSegment
+                    End="27,21.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="27,21.75"
+                    Point2="31,21.75"
+                    Point3="31,25.75" />
+                  <mssgle:LineSegment
+                    End="31,36" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="346,182">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-32.5,62.5"
+              Start="0,0"
+              End="-32.5,55">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.25"
+                    Point2="0,31.25"
+                    Point3="-4,31.25" />
+                  <mssgle:LineSegment
+                    End="-28.5,31.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-28.5,31.25"
+                    Point2="-32.5,31.25"
+                    Point3="-32.5,35.25" />
+                  <mssgle:LineSegment
+                    End="-32.5,55" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load  JDE_ExchangeRate">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Load  JDE_ExchangeRate\DER - Add metadata"
+          TopLeft="495,406" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load  JDE_ExchangeRate\DC - add delete flag"
+          TopLeft="825,559" />
+        <NodeLayout
+          Size="373,42"
+          Id="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete"
+          TopLeft="815,686" />
+        <NodeLayout
+          Size="287,42"
+          Id="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate"
+          TopLeft="253,48" />
+        <NodeLayout
+          Size="258,42"
+          Id="Package\Load  JDE_ExchangeRate\Merge Join"
+          TopLeft="495,244" />
+        <NodeLayout
+          Size="298,42"
+          Id="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate"
+          TopLeft="705,49" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Load  JDE_ExchangeRate\CSPL - Record is New or Modified"
+          TopLeft="497,555" />
+        <NodeLayout
+          Size="307,42"
+          Id="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging"
+          TopLeft="461,690" />
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[OLE DB Source Output1]"
+          TopLeft="396.5,90">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="185.833333333333,154"
+              Start="0,0"
+              End="185.833333333333,146.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,87.8305084745763" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,87.8305084745763"
+                    Point2="0,91.8305084745763"
+                    Point3="4,91.8305084745763" />
+                  <mssgle:LineSegment
+                    End="181.833333333333,91.8305084745763" />
+                  <mssgle:CubicBezierSegment
+                    Point1="181.833333333333,91.8305084745763"
+                    Point2="185.833333333333,91.8305084745763"
+                    Point3="185.833333333333,95.8305084745763" />
+                  <mssgle:LineSegment
+                    End="185.833333333333,146.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[OLE DB Source Output]"
+          TopLeft="854,91">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-188.333333333333,153"
+              Start="0,0"
+              End="-188.333333333333,145.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,87.2342064714946" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,87.2342064714946"
+                    Point2="0,91.2342064714946"
+                    Point3="-4,91.2342064714946" />
+                  <mssgle:LineSegment
+                    End="-184.333333333333,91.2342064714946" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-184.333333333333,91.2342064714946"
+                    Point2="-188.333333333333,91.2342064714946"
+                    Point3="-188.333333333333,95.2342064714946" />
+                  <mssgle:LineSegment
+                    End="-188.333333333333,145.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[Merge Join Output]"
+          TopLeft="623.25,286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,120"
+              Start="0,0"
+              End="0,112.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,112.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[Insert]"
+          TopLeft="617.25,597">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,93"
+              Start="0,0"
+              End="0,85.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,85.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-22.4800390625,34.75,44.960078125,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[Derived Column Output1]"
+          TopLeft="911.5,601">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="90,85"
+              Start="0,0"
+              End="90,77.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38.5"
+                    Point2="0,42.5"
+                    Point3="4,42.5" />
+                  <mssgle:LineSegment
+                    End="86,42.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="86,42.5"
+                    Point2="90,42.5"
+                    Point3="90,46.5" />
+                  <mssgle:LineSegment
+                    End="90,77.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="37,47.5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[Derived Column Output]"
+          TopLeft="621.25,448">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,107"
+              Start="0,0"
+              End="0,99.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,99.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load  JDE_ExchangeRate.Paths[Deleted]"
+          TopLeft="743,578">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="82,0"
+              Start="0,0"
+              End="74.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="74.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="20.09201171875,5,34.3159765625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging delete">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load  JDE_ExchangeRate\OLE_SRC - DataStore - FINANCE_ExchangeRate">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load  JDE_ExchangeRate\OLE_SRC - Staging - ExchangeRate">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load  JDE_ExchangeRate\OLE_DEST - DataStore - ExchangeRate from staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

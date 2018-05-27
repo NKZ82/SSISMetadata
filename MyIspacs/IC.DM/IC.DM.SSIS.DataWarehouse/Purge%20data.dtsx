@@ -1,0 +1,1513 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/21/2018 10:20:10 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{F574427A-F2D6-4A2B-85CC-909486D8F820}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Purge data"
+  DTS:PackageType="5"
+  DTS:VersionBuild="228"
+  DTS:VersionGUID="{5F257228-7574-4B9F-9A13-18ED90876B3B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{7CFFD634-FCD3-44B3-91D2-FC04621F145A}"
+      DTS:ObjectName="TableType">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">dw.esb</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7278AD1D-2234-4970-B270-5F5CAB364853}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT&#xA;&#x9;c.name AS ColumnName&#xA;FROM sys.columns c&#xA;JOIN sys.tables t&#xA;&#x9;ON c.object_id = t.object_id&#xA;WHERE SCHEMA_NAME(t.schema_id)+'.'+OBJECT_NAME(t.object_id) = '{0}'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ColumnQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT
+	c.name AS ColumnName
+FROM sys.columns c
+JOIN sys.tables t
+	ON c.object_id = t.object_id
+WHERE SCHEMA_NAME(t.schema_id)+'.'+OBJECT_NAME(t.object_id) = '{0}'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F6DF6B4C-E8BE-4A06-8CD2-A34F46522FF5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT ParameterCode, ParameterValue FROM config.Parameter WHERE ParameterCode LIKE '{0}%'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ConfigQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT ParameterCode, ParameterValue FROM config.Parameter WHERE ParameterCode LIKE '{0}%'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DC4949F5-F76C-4557-803B-3893718CE7F2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DECLARE @InitialRowCount INT&#xA;DECLARE @DeleteRowCount INT&#xA;DECLARE @KeepRowCount INT&#xA;&#xA;-- Nombre de lignes avant la suppression des données&#xA;SELECT @InitialRowCount = COUNT(*) FROM {0}&#xA;&#xA;-- Nombre de lignes à conserver&#xA;SELECT @KeepRowCount = COUNT(*)&#xA;FROM {0} s&#xA;WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}&#xA;&#xA;-- Calcul nombre de lignes à supprimer&#xA;SET @DeleteRowCount = @InitialRowCount - @KeepRowCount&#xA;&#xA;IF (@DeleteRowCount &gt; 0)&#xA;BEGIN&#xA;&#x9;-- Copier données à garder dans une table temporaire&#xA;&#x9;SELECT {3}&#xA;&#x9;INTO [#{0}_TMP]&#xA;&#x9;FROM {0} s&#xA;&#x9;WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}&#xA;&#xA;&#x9;TRUNCATE TABLE {0}&#xA;&#xA;&#x9;IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)&#xA;&#x9;&#x9;SET IDENTITY_INSERT {0} ON;&#xA;&#x9;&#xA;&#x9;INSERT INTO {0} ({3})&#xA;&#x9;SELECT {3}&#xA;&#x9;FROM [#{0}_TMP]&#xA;&#x9;&#xA;&#x9;IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)&#xA;&#x9;&#x9;SET IDENTITY_INSERT {0} OFF;&#xA;&#xA;&#x9;DROP TABLE [#{0}_TMP]&#xA;END&#xA;&#xA;SELECT @DeleteRowCount&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_PurgeDataQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">DECLARE @InitialRowCount INT
+DECLARE @DeleteRowCount INT
+DECLARE @KeepRowCount INT
+
+-- Nombre de lignes avant la suppression des données
+SELECT @InitialRowCount = COUNT(*) FROM {0}
+
+-- Nombre de lignes à conserver
+SELECT @KeepRowCount = COUNT(*)
+FROM {0} s
+WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}
+
+-- Calcul nombre de lignes à supprimer
+SET @DeleteRowCount = @InitialRowCount - @KeepRowCount
+
+IF (@DeleteRowCount &gt; 0)
+BEGIN
+	-- Copier données à garder dans une table temporaire
+	SELECT {3}
+	INTO [#{0}_TMP]
+	FROM {0} s
+	WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}
+
+	TRUNCATE TABLE {0}
+
+	IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)
+		SET IDENTITY_INSERT {0} ON;
+	
+	INSERT INTO {0} ({3})
+	SELECT {3}
+	FROM [#{0}_TMP]
+	
+	IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)
+		SET IDENTITY_INSERT {0} OFF;
+
+	DROP TABLE [#{0}_TMP]
+END
+
+SELECT @DeleteRowCount</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{372B959F-1292-40F3-9687-417156CCA961}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DECLARE @InitialRowCount INT&#xA;DECLARE @DeleteRowCount INT&#xA;DECLARE @KeepRowCount INT&#xA;&#xA;-- Nombre de lignes avant la suppression des données&#xA;SELECT @InitialRowCount = COUNT(*) FROM {0}&#xA;&#xA;-- Nombre de lignes à conserver&#xA;SELECT @KeepRowCount = COUNT(*)&#xA;FROM {0} s&#xA;WHERE Message_ID IN (&#xA;&#x9;SELECT&#xA;&#x9;&#x9;m.Message_ID&#xA;&#x9;FROM esb.Message m&#xA;&#x9;WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}&#xA;&#x9;&#x9;AND '{0}' = 'esb.MessageDetail'&#xA;&#x9;UNION ALL&#xA;&#x9;SELECT&#xA;&#x9;&#x9;m.Message_ID&#xA;&#x9;FROM esb.Message m&#xA;&#x9;LEFT JOIN esb.Notification n&#xA;&#x9;&#x9;ON m.Message_ID = n.Message_ID&#xA;&#x9;WHERE (&#xA;&#x9;&#x9;(COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') = '0' AND DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2})&#xA;&#x9;&#x9;OR (COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') != '0')&#xA;&#x9;) AND '{0}' != 'esb.MessageDetail'&#x9;&#x9;&#xA;)&#xA;&#xA;-- Calcul nombre de lignes à supprimer&#xA;SET @DeleteRowCount = @InitialRowCount - @KeepRowCount&#xA;&#xA;IF (@DeleteRowCount &gt; 0)&#xA;BEGIN&#xA;&#x9;-- Copier données à garder dans une table temporaire&#xA;&#x9;SELECT {3}&#xA;&#x9;INTO [#{0}_TMP]&#xA;&#x9;FROM {0} s&#xA;&#x9;WHERE Message_ID IN (&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;m.Message_ID&#xA;&#x9;&#x9;FROM esb.Message m&#xA;&#x9;&#x9;WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}&#xA;&#x9;&#x9;&#x9;AND '{0}' = 'esb.MessageDetail'&#xA;&#x9;&#x9;UNION ALL&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;m.Message_ID&#xA;&#x9;&#x9;FROM esb.Message m&#xA;&#x9;&#x9;LEFT JOIN esb.Notification n&#xA;&#x9;&#x9;&#x9;ON m.Message_ID = n.Message_ID&#xA;&#x9;&#x9;WHERE (&#xA;&#x9;&#x9;&#x9;(COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') = '0' AND DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2})&#xA;&#x9;&#x9;&#x9;OR (COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') != '0')&#xA;&#x9;&#x9;) AND '{0}' != 'esb.MessageDetail'&#x9;&#x9;&#xA;&#x9;) &#xA;&#xA;&#x9;-- Il n'y pas de vue matérialisée sur esb.MessageDetail donc on peut faire un TRUNCATE&#xA;&#x9;-- sinon ça prend un DELETE&#xA;&#x9;IF '{0}' = 'esb.MessageDetail'&#xA;&#x9;&#x9;TRUNCATE TABLE {0}&#xA;&#x9;ELSE&#xA;&#x9;&#x9;DELETE FROM {0}&#xA;&#xA;&#x9;IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)&#xA;&#x9;&#x9;SET IDENTITY_INSERT {0} ON;&#xA;&#x9;&#xA;&#x9;INSERT INTO {0} ({3})&#xA;&#x9;SELECT {3}&#xA;&#x9;FROM [#{0}_TMP]&#xA;&#x9;&#xA;&#x9;IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)&#xA;&#x9;&#x9;SET IDENTITY_INSERT {0} OFF;&#xA;&#xA;&#x9;DROP TABLE [#{0}_TMP]&#xA;END&#xA;&#xA;SELECT @DeleteRowCount&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_PurgeDataQuery_Dw_Esb">
+      <DTS:VariableValue
+        DTS:DataType="8">DECLARE @InitialRowCount INT
+DECLARE @DeleteRowCount INT
+DECLARE @KeepRowCount INT
+
+-- Nombre de lignes avant la suppression des données
+SELECT @InitialRowCount = COUNT(*) FROM {0}
+
+-- Nombre de lignes à conserver
+SELECT @KeepRowCount = COUNT(*)
+FROM {0} s
+WHERE Message_ID IN (
+	SELECT
+		m.Message_ID
+	FROM esb.Message m
+	WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}
+		AND '{0}' = 'esb.MessageDetail'
+	UNION ALL
+	SELECT
+		m.Message_ID
+	FROM esb.Message m
+	LEFT JOIN esb.Notification n
+		ON m.Message_ID = n.Message_ID
+	WHERE (
+		(COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') = '0' AND DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2})
+		OR (COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') != '0')
+	) AND '{0}' != 'esb.MessageDetail'		
+)
+
+-- Calcul nombre de lignes à supprimer
+SET @DeleteRowCount = @InitialRowCount - @KeepRowCount
+
+IF (@DeleteRowCount &gt; 0)
+BEGIN
+	-- Copier données à garder dans une table temporaire
+	SELECT {3}
+	INTO [#{0}_TMP]
+	FROM {0} s
+	WHERE Message_ID IN (
+		SELECT
+			m.Message_ID
+		FROM esb.Message m
+		WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}
+			AND '{0}' = 'esb.MessageDetail'
+		UNION ALL
+		SELECT
+			m.Message_ID
+		FROM esb.Message m
+		LEFT JOIN esb.Notification n
+			ON m.Message_ID = n.Message_ID
+		WHERE (
+			(COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') = '0' AND DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2})
+			OR (COALESCE(n.IC_DM_BUSINESS_PROCESS_INSTANCE_ID, '0') != '0')
+		) AND '{0}' != 'esb.MessageDetail'		
+	) 
+
+	-- Il n'y pas de vue matérialisée sur esb.MessageDetail donc on peut faire un TRUNCATE
+	-- sinon ça prend un DELETE
+	IF '{0}' = 'esb.MessageDetail'
+		TRUNCATE TABLE {0}
+	ELSE
+		DELETE FROM {0}
+
+	IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)
+		SET IDENTITY_INSERT {0} ON;
+	
+	INSERT INTO {0} ({3})
+	SELECT {3}
+	FROM [#{0}_TMP]
+	
+	IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)
+		SET IDENTITY_INSERT {0} OFF;
+
+	DROP TABLE [#{0}_TMP]
+END
+
+SELECT @DeleteRowCount</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AD32A6D3-6352-411C-9D09-CEDCE784AE69}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DECLARE @InitialRowCount INT&#xA;DECLARE @DeleteRowCount INT&#xA;DECLARE @KeepRowCount INT&#xA;&#xA;-- Nombre de lignes avant la suppression des données&#xA;SELECT @InitialRowCount = COUNT(*) FROM {0}&#xA;&#xA;-- Nombre de lignes à conserver&#xA;SELECT @KeepRowCount = COUNT(*)&#xA;FROM {0} s&#xA;WHERE DataLoadingID IN (&#xA;&#x9;SELECT DataLoadingID&#xA;&#x9;FROM staging.DataLoading&#xA;&#x9;WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}&#x9;&#xA;)&#xA;&#xA;-- Calcul nombre de lignes à supprimer&#xA;SET @DeleteRowCount = @InitialRowCount - @KeepRowCount&#xA;&#xA;IF (@DeleteRowCount &gt; 0)&#xA;BEGIN&#xA;&#x9;IF '{0}' NOT IN (&quot;+@[User::sql_PurgeDataQuery_Stg_Staging_TruncateTableList]+&quot;)&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;-- Copier données à garder dans une table temporaire&#xA;&#x9;&#x9;SELECT {3}&#xA;&#x9;&#x9;INTO [#{0}_TMP]&#xA;&#x9;&#x9;FROM {0} s&#xA;&#x9;&#x9;WHERE DataLoadingID IN (&#xA;&#x9;&#x9;&#x9;SELECT DataLoadingID&#xA;&#x9;&#x9;&#x9;FROM staging.DataLoading&#xA;&#x9;&#x9;&#x9;WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}&#x9;&#xA;&#x9;&#x9;)&#xA;&#xA;&#x9;&#x9;TRUNCATE TABLE {0}&#xA;&#x9;&#xA;&#x9;&#x9;IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)&#xA;&#x9;&#x9;&#x9;SET IDENTITY_INSERT {0} ON;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;INSERT INTO {0} ({3})&#xA;&#x9;&#x9;SELECT {3}&#xA;&#x9;&#x9;FROM [#{0}_TMP]&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)&#xA;&#x9;&#x9;&#x9;SET IDENTITY_INSERT {0} OFF;&#xA;&#xA;&#x9;&#x9;DROP TABLE [#{0}_TMP]&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;SELECT @DeleteRowCount&#xA;&#x9;END&#xA;&#x9;ELSE&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;TRUNCATE TABLE {0}&#xA;&#x9;&#x9;SELECT @InitialRowCount&#xA;&#x9;END&#xA;END&#xA;ELSE&#xA;&#x9;SELECT @DeleteRowCount&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_PurgeDataQuery_Stg_Staging">
+      <DTS:VariableValue
+        DTS:DataType="8">DECLARE @InitialRowCount INT
+DECLARE @DeleteRowCount INT
+DECLARE @KeepRowCount INT
+
+-- Nombre de lignes avant la suppression des données
+SELECT @InitialRowCount = COUNT(*) FROM {0}
+
+-- Nombre de lignes à conserver
+SELECT @KeepRowCount = COUNT(*)
+FROM {0} s
+WHERE DataLoadingID IN (
+	SELECT DataLoadingID
+	FROM staging.DataLoading
+	WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}	
+)
+
+-- Calcul nombre de lignes à supprimer
+SET @DeleteRowCount = @InitialRowCount - @KeepRowCount
+
+IF (@DeleteRowCount &gt; 0)
+BEGIN
+	IF '{0}' NOT IN ('staging.GF_ATTRIBUTE_VALUES_Detail')
+	BEGIN
+		-- Copier données à garder dans une table temporaire
+		SELECT {3}
+		INTO [#{0}_TMP]
+		FROM {0} s
+		WHERE DataLoadingID IN (
+			SELECT DataLoadingID
+			FROM staging.DataLoading
+			WHERE DATEDIFF(d, {1}, SYSDATETIME()) &lt;= {2}	
+		)
+
+		TRUNCATE TABLE {0}
+	
+		IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)
+			SET IDENTITY_INSERT {0} ON;
+		
+		INSERT INTO {0} ({3})
+		SELECT {3}
+		FROM [#{0}_TMP]
+		
+		IF (OBJECTPROPERTY(OBJECT_ID('{0}'), 'TableHasIdentity') = 1)
+			SET IDENTITY_INSERT {0} OFF;
+
+		DROP TABLE [#{0}_TMP]
+		
+		SELECT @DeleteRowCount
+	END
+	ELSE
+	BEGIN
+		TRUNCATE TABLE {0}
+		SELECT @InitialRowCount
+	END
+END
+ELSE
+	SELECT @DeleteRowCount</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A102292A-AA0A-43AA-A5D1-EA2FCE6ADAA8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_PurgeDataQuery_Stg_Staging_TruncateTableList">
+      <DTS:VariableValue
+        DTS:DataType="8">'staging.GF_ATTRIBUTE_VALUES_Detail'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C0596483-2F1E-49AC-8AA4-E518D1A7B876}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT monitoring.Table_DataPurgeLog (&#xA;&#x9;TableName,&#xA;&#x9;IC_DM_TIMESTAMP_INSERT&#xA;)&#xA;SELECT&#xA;&#x9;t.TableName,&#xA;&#x9;SYSDATETIME()&#xA;FROM ({0}) t&#xA;LEFT JOIN monitoring.Table_DataPurgeLog pl&#xA;&#x9;ON t.TableName = pl.TableName&#xA;WHERE pl.TableName IS NULL&#xA;ORDER BY&#xA;&#x9;t.TableName&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_RefreshLogTableQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT monitoring.Table_DataPurgeLog (
+	TableName,
+	IC_DM_TIMESTAMP_INSERT
+)
+SELECT
+	t.TableName,
+	SYSDATETIME()
+FROM ({0}) t
+LEFT JOIN monitoring.Table_DataPurgeLog pl
+	ON t.TableName = pl.TableName
+WHERE pl.TableName IS NULL
+ORDER BY
+	t.TableName</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{477FD7D3-754C-499F-9FC9-D000C4E30E74}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT &#xA;&#x9;SCHEMA_NAME(schema_id)+'.'+name AS TableName &#xA;FROM sys.tables &#xA;WHERE SCHEMA_NAME(schema_id) = '{0}'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TableQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT 
+	SCHEMA_NAME(schema_id)+'.'+name AS TableName 
+FROM sys.tables 
+WHERE SCHEMA_NAME(schema_id) = '{0}'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E0758D8F-4F17-4436-98AC-6BE8037AFF16}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT &#xA;&#x9;SCHEMA_NAME(schema_id)+'.'+name AS TableName &#xA;FROM sys.tables &#xA;WHERE SCHEMA_NAME(schema_id) = '{0}'&#xA;AND name = 'MessageDetail'&#xA;UNION ALL&#xA;SELECT &#xA;&#x9;SCHEMA_NAME(schema_id)+'.'+name AS TableName &#xA;FROM sys.tables &#xA;WHERE SCHEMA_NAME(schema_id) = '{0}'&#xA;AND name = 'Message'&#xA;UNION ALL&#xA;SELECT &#xA;&#x9;SCHEMA_NAME(schema_id)+'.'+name AS TableName &#xA;FROM sys.tables &#xA;WHERE SCHEMA_NAME(schema_id) = '{0}'&#xA;AND name = 'Notification'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TableQuery_Dw_Esb">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT 
+	SCHEMA_NAME(schema_id)+'.'+name AS TableName 
+FROM sys.tables 
+WHERE SCHEMA_NAME(schema_id) = '{0}'
+AND name = 'MessageDetail'
+UNION ALL
+SELECT 
+	SCHEMA_NAME(schema_id)+'.'+name AS TableName 
+FROM sys.tables 
+WHERE SCHEMA_NAME(schema_id) = '{0}'
+AND name = 'Message'
+UNION ALL
+SELECT 
+	SCHEMA_NAME(schema_id)+'.'+name AS TableName 
+FROM sys.tables 
+WHERE SCHEMA_NAME(schema_id) = '{0}'
+AND name = 'Notification'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F4EAABF6-9C8D-464F-A85B-0C88D62C5206}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT&#xA;&#x9;SCHEMA_NAME(schema_id)+'.'+name AS TableName &#xA;FROM sys.tables &#xA;WHERE SCHEMA_NAME(schema_id) = '{0}' &#xA;&#x9;AND name NOT LIKE '%Control'&#xA;&#x9;AND name != 'DataLoading'&#xA;UNION ALL&#xA;SELECT&#xA;&#x9;SCHEMA_NAME(schema_id)+'.'+name AS TableName &#xA;FROM sys.tables &#xA;WHERE SCHEMA_NAME(schema_id) = '{0}' &#xA;&#x9;AND name = 'DataLoading'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TableQuery_Stg_Staging">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT
+	SCHEMA_NAME(schema_id)+'.'+name AS TableName 
+FROM sys.tables 
+WHERE SCHEMA_NAME(schema_id) = '{0}' 
+	AND name NOT LIKE '%Control'
+	AND name != 'DataLoading'
+UNION ALL
+SELECT
+	SCHEMA_NAME(schema_id)+'.'+name AS TableName 
+FROM sys.tables 
+WHERE SCHEMA_NAME(schema_id) = '{0}' 
+	AND name = 'DataLoading'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{89F6E84A-36FD-4BA2-BE5F-933D139B88E8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE monitoring.Table_DataPurgeLog&#xA;SET LatestPurgeTimestampStart = {1},&#xA;&#x9;LatestPurgeTimestampEnd = {2},&#xA;&#x9;DeletedRowCount = {3},&#xA;&#x9;ErrorsRaised = {4},&#xA;&#x9;ErrorMessage = {5},&#xA;&#x9;PurgeSucceeded = {6},&#xA;&#x9;IC_DM_TIMESTAMP_UPDATE = SYSDATETIME()&#xA;WHERE TableName = '{0}'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateLogTableQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE monitoring.Table_DataPurgeLog
+SET LatestPurgeTimestampStart = {1},
+	LatestPurgeTimestampEnd = {2},
+	DeletedRowCount = {3},
+	ErrorsRaised = {4},
+	ErrorMessage = {5},
+	PurgeSucceeded = {6},
+	IC_DM_TIMESTAMP_UPDATE = SYSDATETIME()
+WHERE TableName = '{0}'</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SCR - Purge Data"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{06A50395-2DF3-452F-B46B-0B16B693B4BD}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SCR - Purge Data"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_166851d7a71c4eeca46287df1aee7bb9"
+          VSTAMajorVersion="14"
+          VSTAMinorVersion="0"
+          Language="CSharp"
+          ReadOnlyVariables="User::sql_ColumnQuery,User::sql_ConfigQuery,User::sql_PurgeDataQuery,User::sql_PurgeDataQuery_Dw_Esb,User::sql_PurgeDataQuery_Stg_Staging,User::sql_RefreshLogTableQuery,User::sql_TableQuery,User::sql_TableQuery_Dw_Esb,User::sql_TableQuery_Stg_Staging,User::sql_UpdateLogTableQuery,$Package::TableType">
+          <ProjectItem
+            Name="Properties\AssemblyInfo.cs"
+            Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_166851d7a71c4eeca46287df1aee7bb9")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_166851d7a71c4eeca46287df1aee7bb9")]
+[assembly: AssemblyCopyright("Copyright @  2018")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Resources.resx"
+            Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></ProjectItem>
+          <ProjectItem
+            Name="ScriptMain.cs"
+            Encoding="UTF8"><![CDATA[#region Namespaces
+using System;
+using System.Data;
+using System.Data.OleDb;
+using System.Collections.Generic;
+using System.Linq;
+using System.Diagnostics;
+using System.Text;
+using Microsoft.SqlServer.Dts.Runtime;
+using System.Windows.Forms;
+#endregion
+
+namespace ST_166851d7a71c4eeca46287df1aee7bb9
+{
+	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
+	public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+	{
+        private const string CONNECTION_MANAGER_DW = "oledb IC_DM_DataWarehouse";
+        private const string CONNECTION_MANAGER_DS = "oledb IC_DM_DataStore";
+        private const string CONNECTION_MANAGER_STG = "oledb IC_DM_Staging";
+
+        private static readonly IList<string> SUPPORTED_TABLE_TYPES = new List<string>
+        {
+            "stg.staging",
+            "ds.cleansing",
+            "ds.reject",
+            "ds.working",
+            "ds.matching",
+            "dw.info",
+            "dw.working",
+            "dw.esb"
+        };
+
+        public void Main()
+		{            
+            var tableType = (Dts.Variables["$Package::TableType"].Value as string).ToLower();  // Format [database alias].[database schema]
+            var tableQuery = Dts.Variables["User::sql_TableQuery"].Value as string;
+            var tableQueryStgStaging = Dts.Variables["User::sql_TableQuery_Stg_Staging"].Value as string;
+            var tableQueryDwEsb = Dts.Variables["User::sql_TableQuery_Dw_Esb"].Value as string;
+            var purgeQuery = Dts.Variables["User::sql_PurgeDataQuery"].Value as string;
+            var purgeQueryStgStaging = Dts.Variables["User::sql_PurgeDataQuery_Stg_Staging"].Value as string;
+            var purgeQueryDwEsb = Dts.Variables["User::sql_PurgeDataQuery_Dw_Esb"].Value as string;
+            var configQuery = Dts.Variables["User::sql_ConfigQuery"].Value as string;
+            var columnQuery = Dts.Variables["User::sql_ColumnQuery"].Value as string;
+            var refreshLogTableQuery = Dts.Variables["User::sql_RefreshLogTableQuery"].Value as string;
+            var updateLogTableQuery = Dts.Variables["User::sql_UpdateLogTableQuery"].Value as string;
+
+            // Si le type de table n'est pas implémenté lève une exception et termine le programme
+            if (!SUPPORTED_TABLE_TYPES.Contains(tableType))
+            {
+                Dts.Events.FireError(3, "Main", String.Format("Table type '{0}' is not supported.", tableType), "", 0);
+                return;
+            }
+
+            // Lecture des périodes de rétention à partir du DW
+            var retentionPeriodConfg = GetDataRetentionConfiguration(configQuery);
+
+            // Sélection de la requête pour récuperer la liste des tables pour le type de table spécifié
+            var tableQueryTableType = PrepareTableQuery(tableQuery, tableQueryStgStaging, tableQueryDwEsb, tableType);
+
+            // Sélection de la requête pour supprimer les données pour le type de table spécifié
+            var purgeQueryTableType = PreparePurgeQuery(purgeQuery, purgeQueryStgStaging, purgeQueryDwEsb, tableType);
+
+            // Purge des tables pour le type de table spécifié
+            RefreshLogTable(tableQueryTableType, refreshLogTableQuery, tableType);
+            PurgeTables(tableQueryTableType, columnQuery, purgeQueryTableType, updateLogTableQuery, retentionPeriodConfg, tableType);
+
+            Dts.TaskResult = (int)ScriptResults.Success;
+		}
+
+        // Actualise la liste des tables dans monitoring.Table_DataPurgeLog (s'il y a de nouvelles tables dans le schéma
+        // spécifié dans tableType elles seront ajoutées)
+        private void RefreshLogTable(string tableQuery, string refreshLogTableQuery, string tableType)
+        {
+            bool fireAgain = false;
+            var databaseAlias = GetDatabaseAlias(tableType);
+            var schema = GetSchema(tableType);
+            string sql = "";
+
+            using (var conn = GetConnection(databaseAlias))
+            {
+                try
+                {
+                    Dts.Events.FireInformation(3, "RefreshLogTable", String.Format("Refreshing log table in '{0}'...", conn.Database), "", 0, ref fireAgain);
+
+                    conn.Open();
+                    var cmd = conn.CreateCommand();
+                    sql = String.Format(refreshLogTableQuery, String.Format(tableQuery, schema));
+                    cmd.CommandText = sql;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Dts.Events.FireError(3, "RefreshLogTable", "SQL: " + sql, "", 0);
+                    Dts.Events.FireError(3, "RefreshLogTable", e.Message, "", 0);
+                    throw;
+                }
+            }
+        }
+
+        // Suppression des données pour toutes les tables spécifiés dans le paramètre "tableType" en fonction de la période de rétention spécifiée
+        private void PurgeTables(string tableQuery, string columnQuery, string purgeQuery, string updateLogTableQuery, Dictionary<string, string> retentionPeriodConfig, string tableType)
+        {
+            bool fireAgain = false;
+            var databaseAlias = GetDatabaseAlias(tableType);
+            var schema = GetSchema(tableType);
+            var timestampColumns = GetTimestampColumn(tableType);
+            var retentionDays = retentionPeriodConfig[tableType];
+
+            Dts.Events.FireInformation(3, "PurgeTables", String.Format("The retention period for tables of type '{0}' is {1} days.", tableType, retentionDays), "", 0, ref fireAgain);
+            
+            using (var conn = GetConnection(databaseAlias))
+            {
+                conn.Open();
+
+                using (var reader = GetTables(conn, tableQuery, schema))
+                {
+                    while (reader.Read())
+                    {
+                        var tableName = (reader["TableName"] as string).Trim();
+                        var tableColumns = GetTableColumns(conn, columnQuery, tableName);
+                        PurgeTable(purgeQuery, updateLogTableQuery,  tableName, tableColumns, timestampColumns, retentionDays, tableType);
+                    }
+                }
+            }
+        }
+
+        // La suppression de données se fait à l'intérieur d'une transaction
+        private void PurgeTable(string purgeQuery, string updateLogTableQuery, string tableName, string[] tableColumns, string[] timestampColumns, string retentionDays, string tableType)
+        {
+            OleDbTransaction trans = null;
+            bool fireAgain = false, purgeSucceeded = false;
+            string sql = "";
+            var stopWatch = new Stopwatch();
+            var databaseAlias = GetDatabaseAlias(tableType);
+            DateTime startTime;
+            DateTime? endTime;
+            int deletedRowCount = 0, errorCount = 0;
+            StringBuilder errorMessages = new StringBuilder();
+
+            Dts.Events.FireInformation(3, tableName, String.Format("Purging table '{0}'...", tableName), "", 0, ref fireAgain);
+
+            stopWatch.Start();
+            startTime = DateTime.Now;
+            endTime = null;
+            using (var conn = GetConnection(databaseAlias))
+            {
+                conn.Open();
+
+                foreach (var timestampColumn in timestampColumns)
+                {
+                    try
+                    {
+                        Dts.Events.FireInformation(3, tableName, String.Format("Trying timestamp column '{0}' for table '{1}'...", timestampColumn, tableName), "", 0, ref fireAgain);
+                        try
+                        {
+                            var columns = String.Join(",", tableColumns);
+                            sql = String.Format(purgeQuery,
+                                                tableName,        // {0} Nom de la table à purger
+                                                timestampColumn,  // {1} Nom de la colonne timestamp
+                                                retentionDays,    // {2} Période de rétention (en jours)
+                                                columns);         // {3} List des colonnes dans la table à purger
+
+                            trans = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                            var cmd = conn.CreateCommand();
+                            cmd.CommandText = sql;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.CommandTimeout = 1800; // 30 minutes
+                            cmd.Transaction = trans;
+                            deletedRowCount = (int)cmd.ExecuteScalar();
+
+                            trans.Commit();
+                            stopWatch.Stop();
+
+                            Dts.Events.FireInformation(3, tableName, String.Format("Done. Deleted {0} rows in {1} seconds in table '{2}'.", deletedRowCount, stopWatch.Elapsed.Seconds, tableName), "", 0, ref fireAgain);
+                            endTime = DateTime.Now;
+                            purgeSucceeded = true;
+                            
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            errorCount++;
+                            var sqlMessage = "SQL: " + sql;
+                            var exceptionMessage = e.Message;
+                            Dts.Events.FireWarning(3, tableName, sqlMessage, "", 0);
+                            Dts.Events.FireWarning(3, tableName, exceptionMessage, "", 0);
+                            errorMessages.AppendLine(String.Format("Error #{0}: ", errorCount)+exceptionMessage);
+                            trans.Rollback();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // Pour quelque raison le try catch intérieur ne rattrape pas l'exception. Ce catch
+                        // est pour rattraper l'exception et l'ignorer
+                    }
+                }
+
+                try
+                {
+                    Dts.Events.FireInformation(3, tableName, String.Format("Updating log for table '{0}'...", tableName), "", 0, ref fireAgain);
+                    
+                    // Mise à jour la table de log
+                    sql = String.Format(updateLogTableQuery,
+                                        tableName,                                                                          // {0} Nom de la table
+                                        "'" + startTime.ToString("o") + "'",                                                // {1} LatestPurgeTimestampStart
+                                        endTime == null ? "NULL" : "'" + endTime?.ToString("o") + "'",                      // {2} LatestPurgeTimestampEnd
+                                        deletedRowCount,                                                                    // {3} DeletedRowCount
+                                        errorCount > 0 ? '1' : '0',                                                         // {4} ErrorsRaised
+                                        errorCount > 0 ? "'" + errorMessages.ToString().Replace("'", "''") + "'" : "NULL",  // {5} ErrorMessage
+                                        purgeSucceeded ? '1' : '0');                                                        // {6} PurgeSucceeded
+                    var cmd = conn.CreateCommand();
+                    cmd.CommandText = sql;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    var sqlMessage = "SQL: " + sql;
+                    var exceptionMessage = e.Message;
+                    Dts.Events.FireWarning(3, tableName, sqlMessage, "", 0);
+                    Dts.Events.FireWarning(3, tableName, exceptionMessage, "", 0);
+                }
+            }
+        }
+
+        // Sélection la requête pour récuperer la liste des tables pour le type de table spécifié
+        private string PrepareTableQuery(string tableQuery, string tableQueryStgStaging, string tableQueryDwEsb, string tableType)
+        {
+            if (tableType == "stg.staging")
+                return tableQueryStgStaging;
+            else if (tableType == "dw.esb")
+                return tableQueryDwEsb;
+            else
+                return tableQuery;
+        }
+
+        // Sélection la requête pour supprimer les données dans le type de table spécifie
+        private string PreparePurgeQuery(string purgeQuery, string purgeQueryStgStaging, string purgeQueryDwEsb, string tableType)
+        {
+            if (tableType == "stg.staging")
+                return purgeQueryStgStaging;
+            else if (tableType == "dw.esb")
+                return purgeQueryDwEsb;
+            else
+                return purgeQuery;
+        }
+
+        private string GetDatabaseAlias(string tableType)
+        {
+            return tableType.Split('.')[0];
+        }
+
+        private string GetSchema(string tableType)
+        {
+            return tableType.Split('.')[1];
+        }
+
+        private OleDbConnection GetConnection(string databaseAlias)
+        {
+            string connectionName = null;
+            switch (databaseAlias)
+            {
+                case "stg":
+                    connectionName = CONNECTION_MANAGER_STG;
+                    break;
+
+                case "ds":
+                    connectionName = CONNECTION_MANAGER_DS;
+                    break;
+
+                case "dw":
+                    connectionName = CONNECTION_MANAGER_DW;
+                    break;
+            }
+            return new OleDbConnection(Dts.Connections[connectionName].ConnectionString);
+        }
+
+        // Pour chaque type de table plusiers colonnes de timestamp sont essayés 
+        private string[] GetTimestampColumn(string tableType)
+        {
+            string[] timestampColumn;
+            switch (tableType)
+            {
+                case "stg.staging":
+                    timestampColumn = new[] { "LoadingDate" };
+                    break;
+
+                case "ds.cleansing":
+                case "ds.working":
+                    timestampColumn = new[] { "IC_DM_CLEANSING_DATE", "IC_DM_LOADING_DATE", "IC_DM_TIMESTAMP_INSERT" };
+                    break;
+
+                case "ds.reject":
+                    timestampColumn = new[] { "IC_DM_REJECT_DATE", "IC_DM_TIMESTAMP_INSERT" };
+                    break;
+
+                case "ds.matching":
+                    timestampColumn = new[] { "IC_DM_MATCHING_DATE", "IC_DM_TIMESTAMP_INSERT" };
+                    break;
+
+                case "dw.working":
+                    timestampColumn = new[] { "IC_DM_LOADING_DATE", "IC_DM_TIMESTAMP_INSERT" };
+                    break;
+
+                case "dw.info":
+                    timestampColumn = new[] { "IC_DM_INFO_DATE", "IC_DM_TIMESTAMP_INSERT" };
+                    break;
+
+                case "dw.esb":
+                    timestampColumn = new[] { "IC_DM_MESSAGE_DATE" };
+                    break;
+
+                default:
+                    timestampColumn = new string[] { };
+                    break;
+            }
+            return timestampColumn;
+        }
+
+        // Liste des tables dans la vue sys.tables pour le schéma spécifié
+        private OleDbDataReader GetTables(OleDbConnection conn, string query, string schema)
+        {
+            bool fireAgain = false;
+            string sql = "";
+
+            try
+            {
+                Dts.Events.FireInformation(3, "GetTables", String.Format("Getting '{0}' tables of type '{1}'...", conn.Database, schema), "", 0, ref fireAgain);
+
+                var cmd = conn.CreateCommand();
+                sql = String.Format(query, schema);
+                cmd.CommandText = sql;
+                cmd.CommandType = CommandType.Text;
+
+                return cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                Dts.Events.FireError(3, "GetTables", "SQL: " + sql, "", 0);
+                Dts.Events.FireError(3, "GetTables", e.Message, "", 0);
+                throw;
+            }            
+        }
+
+        // Liste des colonnes dans la vue sys.columns pour la table spécifiée
+        private string[] GetTableColumns(OleDbConnection conn, string query, string tableName)
+        {
+            List<string> columns = new List<string>();
+            bool fireAgain = false;
+            string sql = "";
+
+            try
+            {
+                Dts.Events.FireInformation(3, "GetTableColumns", String.Format("Getting columns for table '{0}' in database '{1}'...", tableName, conn.Database), "", 0, ref fireAgain);
+
+                var cmd = conn.CreateCommand();
+                sql = String.Format(query, tableName);
+                cmd.CommandText = sql;
+                cmd.CommandType = CommandType.Text;
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        columns.Add("[" + (reader["ColumnName"] as string) + "]");
+                    }
+                }
+
+                return columns.ToArray();
+            }
+            catch (Exception e)
+            {
+                Dts.Events.FireError(3, "GetTableColumns", "SQL: " + sql, "", 0);
+                Dts.Events.FireError(3, "GetTableColumns", e.Message, "", 0);
+                throw;
+            }
+        }
+
+        // Lécture des périodes de rétention à partir de la table config.Parameter dans le DW
+        private Dictionary<string, string> GetDataRetentionConfiguration(string query)
+        {
+            bool fireAgain = false;
+            string sql = "";
+
+            using (var conn = GetConnection("dw"))
+            {
+                try
+                {
+                    Dts.Events.FireInformation(3, "GetDataRetentionConfiguration", String.Format("Reading retention period configuration from '{0}'...", conn.Database), "", 0, ref fireAgain);
+
+                    conn.Open();
+                    var cmd = conn.CreateCommand();
+                    sql = String.Format(query, "DM_Data_Retention");
+                    cmd.CommandText = sql;
+                    cmd.CommandType = CommandType.Text;
+
+                    var config = new Dictionary<string, string>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var paramSuffix = ((string)reader["ParameterCode"]).Split('_').Reverse().Take(2).Reverse().ToArray<string>();
+                        var paramKey = (paramSuffix[0] + '.' + paramSuffix[1]).ToLower();
+                        var paramValue = (string)reader["ParameterValue"];
+                        config[paramKey] = paramValue;
+                    }
+                    return config;
+                }
+                catch (Exception e)
+                {
+                    Dts.Events.FireError(3, "GetDataRetentionConfiguration", "SQL: " + sql, "", 0);
+                    Dts.Events.FireError(3, "GetDataRetentionConfiguration", e.Message, "", 0);
+                    throw;
+                }
+            }
+        }
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
+        #endregion
+	}
+}]]></ProjectItem>
+          <ProjectItem
+            Name="ST_166851d7a71c4eeca46287df1aee7bb9.csproj"
+            Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ECB654CB-EACD-41CB-876A-A14B0BE1AE01}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ST_166851d7a71c4eeca46287df1aee7bb9</RootNamespace>
+    <AssemblyName>ST_166851d7a71c4eeca46287df1aee7bb9</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptTask" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST130</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_166851d7a71c4eeca46287df1aee7bb9</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_166851d7a71c4eeca46287df1aee7bb9</msb:DisplayName>
+		<msb:ProjectId>{4EE08702-4FF2-44A6-8433-2506C68317F0}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_166851d7a71c4eeca46287df1aee7bb9.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="ScriptMain.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Settings.Designer.cs"
+            Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_166851d7a71c4eeca46287df1aee7bb9.Properties.Settings.get_Default():ST_166851d7a71c4eeca46287df1aee7bb9.Properties.Sett" +
+    "ings")]
+
+namespace ST_166851d7a71c4eeca46287df1aee7bb9.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Settings.settings"
+            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Resources.Designer.cs"
+            Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_166851d7a71c4eeca46287df1aee7bb9.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_166851d7a71c4eeca46287df1aee7bb9.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_166851d7a71c4eeca46287df1aee7bb9.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace ST_166851d7a71c4eeca46287df1aee7bb9.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ST_166851d7a71c4eeca46287df1aee7bb9.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}]]></ProjectItem>
+          <BinaryItem
+            Name="ST_166851d7a71c4eeca46287df1aee7bb9.dll">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
+AgAAAVcdogkJCwAAAPoBMwAWAAABAAAAOgAAAAYAAAAKAAAAFwAAACUAAABYAAAABQAAABEAAAAK
+AAAAAgAAAAMAAAAEAAAABAAAAAEAAAAGAAAAAQAAAAEAAAADAAAAAAAdBgEAAAAAAAYAIAR0CAYA
+rwR0CAYAbANVCA8A6AgAAAYAmQM0BwYAAwQ0BwYA5AM0BwYAlgQ0BwYAQAQ0BwYAWQQ0BwYAsAM0
+BwYAywMqBQoAdAS9BQoAzgK9BQYAKABnAQYANgBnAQ4ARgcsAQYAZAdXBg4AsQcsAQ4AEgcsARIA
+bgVVCAYARAJXBgYAAQBXBgYAzwdDCgYAdAZXBgYAKQBnAQYAYwZXBgYATwNVCAYA6QlXBgYA4QeU
+CAYAgQftBhIAHwP4BRIAgAP4BRIA6gK6BgYANAN0CAoA5gW9BRYAQAlNAhYA9gFNAgYAZwVXBgYA
+GgBnAQoAAwi9BQ4ASQduBw4AlwEsAQ4AmgFuBw4AfAIgAQYACgJXBg4AtAduBw4ADgYgAQYAMABX
+Bg4AFQduBwYAngdXBhYAjglNAhYA8QdNAhoA/wGSBwYADABnAQYAjQJXBgYAFgJXBgYAcwo0BwAA
+AABnAAAAAAABAAEAAQAQAIIGQwA5AAEAAQAAABAAmwj3CHUABQAQAAABEABKCfcIiQAHABQAAAEA
+AHAAAAB1AAgAFwADAQAAtAkAAG0ACAAYAFGA8QC7AlGApgC7AlGAjwC7AjEAvAC+AhEAaAbFAhEA
+vgLJAhEAugHNAgYGBwHRAlaApAnUAlaAngLUAlAgAAAAAIYAiAYGAAEATCIAAAAAgQDmAdgCAQBU
+IwAAAACBACYJ3wIEAEwkAAAAAIEA2wHuAgoAOCgAAAAAgQCZCvsCEQA4KAAAAACBAHwK+wIVAFso
+AAAAAIEANgg6ARkAcCgAAAAAgQAPAToBGgCIKAAAAACBAFYHAwMbAPQoAAAAAIEAkgYJAxwA2CoA
+AAAAgQAyCQ8DHQCgKwAAAACBAFwJGAMgAMAsAAAAAIEAzwYhAyMAUC4AAAAAhhgpCAYAJABYLgAA
+AACRGC8IKwMkAMcuAAAAAIMYKQgGACQAzy4AAAAAkwjdBy8DJAD7LgAAAACTCKYCNAMkAAIvAAAA
+AJMIsgI5AyQACi8AAAAAlgj9CT8DJQARLwAAAACGGCkIBgAlABkvAAAAAJEYLwgrAyUAKC8AAAAA
+kwB4BUQDJQAAAAEA1AoAAAIAvwoAAAMAiAIAAAEA1AoAAAIA3woAAAMAjgoAAAQAqwoAAAUA6gQA
+AAYAiAIAAAEAjgoAAAIAqwoAAAMAOgIAAAQAbAkAAAUAeQkAAAYAzQkAAAcAiAIAAAEA1AoAAAIA
+FQUAAAMAVwEAAAQAiAIAAAEAjgoAAAIAAAUAAAMARwEAAAQAiAIAAAEAiAIAAAEAiAIAAAEARwgA
+AAEAiAIAAAEApQYAAAIA+woAAAMAGQEAAAEApQYAAAIA+woAAAMAOgIAAAEA+woAAAEA5AQAAAEA
+2QkJACkIAQARACkIBgAZACkICgApACkIEAAxACkIEAA5ACkIEABBACkIEABJACkIEABRACkIEABZ
+ACkIEABhACkIEABpACkIBgDhACkIBgAJASkIFQAZASkIBgBxAKwJMgAhATwJOAApAUUGPgAxAc0E
+RQA5ARcISQAMAFMJVAAhAcIJWgA5AeIJYABJAR8IZgAhARsKAQBRAQIDSQBJAaoGegBRAX0GBgCJ
+AKQBhQBhAU8KEABhAXgCiwBhAesKkgA5AdsJlgCRAMoBSQBxAQ8DBgAUAEUGswA5AeIJugB5AUUG
+wQA5AV4GSQB5AYIBxgCpACkIBgDBACkIBgCpACoKBgCxAF8K8AA5AY0G/AA5AeIJAwGJACMHCgFh
+ATAKAQBZAQIHEgFhAaMHRQCRAfYJBgCpAI0HBgCpAIsBGAHJAGgIkgA5AeIJHQEcACkIJQFJAUQF
+KwHBAG0CNAGRAZUFBgCxAGUFOgE5AdsJPwEcANcExgAcAAkKRgHpAGUFSQA5AbIBSwE5AQELUQE5
+AfAJVwEhAYoJYgGhAUUGaAGpAVAFSQCJACkIEABZAcEHfgEkACkIBgAkAIcBJQEkAGcKmQEUACkI
+BgCxARcDugGxAdYB0AGxAWcK4wEUAE4G8QFxACkIBgDpACkIBgDBASgC+QHBAW8KAgLxACkICAIR
+ASkIBgA5AZoJFQI5AYoFkgAOAAQALAIOAAgAXwIOAAwAigIIACQAsQIIACgAtgIpAHMAgAMuAAsA
+WAMuABMAYQMuABsAgAMuACMAiQMuACsAsgMuADMAsgMuADsAsgMuAEMAiQMuAEsAuAMuAFMAsgMu
+AFsAzwNDAGMAtgJJAHMAgANjAGsAtgKjAHsAtgLhAHsAtgIcAG8AnADKAF4BbwF1AYMBnwEQAgMA
+AQAEAAMAAADhB0kDAADGAk4DAAATClMDAgARAAMAAgASAAUAAQATAAUAAgAUAAcATQCsAPUAkwEE
+gAAAAQAAAPAZkk0AAAAAAABDAAAABAAAAAAAAAAAAAAAGgI+AQAAAAANAAAAAAAAAAAAAAAjAp4F
+AAAAAAQAAAAAAAAAAAAAABoCIAEAAAAABAAAAAAAAAAAAAAAGgJXBgAAAAANAAAAAAAAAAAAAAAj
+AtIAAAAAAAQAAAAAAAAAAAAAABoCkgIAAAAAAAAAAAEAAAClCAAABgACAJsAzAGdAMwBnwDMAQAA
+AE51bGxhYmxlYDEASUVudW1lcmFibGVgMQBJQ29sbGVjdGlvbmAxAElMaXN0YDEASW50MzIARGlj
+dGlvbmFyeWAyAFNUXzE2Njg1MWQ3YTcxYzRlZWNhNDYyODdkZjFhZWU3YmI5ADxNb2R1bGU+ADxQ
+cml2YXRlSW1wbGVtZW50YXRpb25EZXRhaWxzPgBDT05ORUNUSU9OX01BTkFHRVJfU1RHAENPTk5F
+Q1RJT05fTUFOQUdFUl9EUwBTVVBQT1JURURfVEFCTEVfVFlQRVMATWljcm9zb2Z0LlNxbFNlcnZl
+ci5NYW5hZ2VkRFRTAENPTk5FQ1RJT05fTUFOQUdFUl9EVwB2YWx1ZV9fAEdldFNjaGVtYQBzY2hl
+bWEAU3lzdGVtLkRhdGEAU3lzdGVtLkRhdGEuT2xlRGIAbXNjb3JsaWIAcHVyZ2VRdWVyeUR3RXNi
+AHRhYmxlUXVlcnlEd0VzYgBTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYwBSZWFkAEFkZABnZXRf
+RWxhcHNlZABPbGVEYkNvbW1hbmQAQ3JlYXRlQ29tbWFuZABSZXBsYWNlAGRlZmF1bHRJbnN0YW5j
+ZQBnZXRfTWVzc2FnZQBUYWtlAFB1cmdlVGFibGUAUmVmcmVzaExvZ1RhYmxlAFZhcmlhYmxlAEVu
+dW1lcmFibGUASURpc3Bvc2FibGUAUnVudGltZVR5cGVIYW5kbGUAR2V0VHlwZUZyb21IYW5kbGUA
+dGFibGVOYW1lAERhdGVUaW1lAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUAQXBwZW5k
+TGluZQBzZXRfQ29tbWFuZFR5cGUAdGFibGVUeXBlAFN5c3RlbS5Db3JlAEZhaWx1cmUAZ2V0X0N1
+bHR1cmUAc2V0X0N1bHR1cmUAcmVzb3VyY2VDdWx0dXJlAFZTVEFSVFNjcmlwdE9iamVjdE1vZGVs
+QmFzZQBBcHBsaWNhdGlvblNldHRpbmdzQmFzZQBnZXRfRGF0YWJhc2UARGlzcG9zZQBSZXZlcnNl
+AEVkaXRvckJyb3dzYWJsZVN0YXRlAENvbXBpbGVyR2VuZXJhdGVkQXR0cmlidXRlAERlYnVnZ2Vy
+Tm9uVXNlckNvZGVBdHRyaWJ1dGUARGVidWdnYWJsZUF0dHJpYnV0ZQBFZGl0b3JCcm93c2FibGVB
+dHRyaWJ1dGUAQXNzZW1ibHlUaXRsZUF0dHJpYnV0ZQBBc3NlbWJseVRyYWRlbWFya0F0dHJpYnV0
+ZQBUYXJnZXRGcmFtZXdvcmtBdHRyaWJ1dGUAQXNzZW1ibHlDb25maWd1cmF0aW9uQXR0cmlidXRl
+AEFzc2VtYmx5RGVzY3JpcHRpb25BdHRyaWJ1dGUAQ29tcGlsYXRpb25SZWxheGF0aW9uc0F0dHJp
+YnV0ZQBBc3NlbWJseVByb2R1Y3RBdHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUA
+U1NJU1NjcmlwdFRhc2tFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0
+ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBnZXRfVmFsdWUAZ2V0X0hhc1ZhbHVlAHZh
+bHVlAHJldGVudGlvblBlcmlvZENvbmZpZwBwdXJnZVF1ZXJ5U3RnU3RhZ2luZwB0YWJsZVF1ZXJ5
+U3RnU3RhZ2luZwBTeXN0ZW0uUnVudGltZS5WZXJzaW9uaW5nAEZpcmVXYXJuaW5nAGdldF9Db25u
+ZWN0aW9uU3RyaW5nAFRvU3RyaW5nAFN0b3B3YXRjaABDb21wdXRlU3RyaW5nSGFzaABnZXRfTGVu
+Z3RoAFJvbGxiYWNrAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuU2NyaXB0VGFzawBNaWNyb3NvZnQuU3Fs
+U2VydmVyLkR0cy5UYXNrcy5TY3JpcHRUYXNrAFNjcmlwdE9iamVjdE1vZGVsAFN5c3RlbS5Db21w
+b25lbnRNb2RlbABJc29sYXRpb25MZXZlbABTVF8xNjY4NTFkN2E3MWM0ZWVjYTQ2Mjg3ZGYxYWVl
+N2JiOS5kbGwAZ2V0X0l0ZW0Ac2V0X0l0ZW0AU3lzdGVtAFRyaW0ARW51bQByZXNvdXJjZU1hbgBU
+aW1lU3BhbgBPcGVuAFNjcmlwdE1haW4ASm9pbgBHZXRUaW1lc3RhbXBDb2x1bW4AY29ubgBGaXJl
+SW5mb3JtYXRpb24AU3lzdGVtLkNvbmZpZ3VyYXRpb24AR2V0RGF0YVJldGVudGlvbkNvbmZpZ3Vy
+YXRpb24AU3lzdGVtLkdsb2JhbGl6YXRpb24Ac2V0X1RyYW5zYWN0aW9uAE9sZURiVHJhbnNhY3Rp
+b24AQmVnaW5UcmFuc2FjdGlvbgBTeXN0ZW0uUmVmbGVjdGlvbgBPbGVEYkNvbm5lY3Rpb24AR2V0
+Q29ubmVjdGlvbgBFeGNlcHRpb24AU3lzdGVtLkRhdGEuQ29tbW9uAEN1bHR1cmVJbmZvAFN0b3AA
+U3lzdGVtLkxpbnEAQ2hhcgBFeGVjdXRlU2NhbGFyAE9sZURiRGF0YVJlYWRlcgBFeGVjdXRlUmVh
+ZGVyAFN0cmluZ0J1aWxkZXIAZ2V0X1Jlc291cmNlTWFuYWdlcgBDb25uZWN0aW9uTWFuYWdlcgBF
+dmVudHNPYmplY3RXcmFwcGVyAFRvTG93ZXIARmlyZUVycm9yAC5jdG9yAC5jY3RvcgBHZXREYXRh
+YmFzZUFsaWFzAGRhdGFiYXNlQWxpYXMAU3lzdGVtLkRpYWdub3N0aWNzAGdldF9TZWNvbmRzAFN5
+c3RlbS5SdW50aW1lLkNvbXBpbGVyU2VydmljZXMAU3lzdGVtLlJlc291cmNlcwBTVF8xNjY4NTFk
+N2E3MWM0ZWVjYTQ2Mjg3ZGYxYWVlN2JiOS5Qcm9wZXJ0aWVzLlJlc291cmNlcy5yZXNvdXJjZXMA
+RGVidWdnaW5nTW9kZXMAU1RfMTY2ODUxZDdhNzFjNGVlY2E0NjI4N2RmMWFlZTdiYjkuUHJvcGVy
+dGllcwBQdXJnZVRhYmxlcwBHZXRUYWJsZXMAZ2V0X1ZhcmlhYmxlcwBTZXR0aW5ncwBDb250YWlu
+cwBHZXRUYWJsZUNvbHVtbnMAdGFibGVDb2x1bW5zAHRpbWVzdGFtcENvbHVtbnMAZ2V0X0Nvbm5l
+Y3Rpb25zAGdldF9DaGFycwBTdWNjZXNzAGdldF9EdHMAU2NyaXB0UmVzdWx0cwBnZXRfRXZlbnRz
+AHJldGVudGlvbkRheXMAQ29uY2F0AEZvcm1hdABPYmplY3QAU3BsaXQAQ29tbWl0AGdldF9EZWZh
+dWx0AEdldFZhbHVlT3JEZWZhdWx0AHNldF9UYXNrUmVzdWx0AFN0YXJ0AHNldF9Db21tYW5kVGlt
+ZW91dABTeXN0ZW0uVGV4dABzZXRfQ29tbWFuZFRleHQAZ2V0X05vdwBUb0FycmF5AGdldF9Bc3Nl
+bWJseQBQcmVwYXJlUHVyZ2VRdWVyeQBwdXJnZVF1ZXJ5AFByZXBhcmVUYWJsZVF1ZXJ5AHVwZGF0
+ZUxvZ1RhYmxlUXVlcnkAcmVmcmVzaExvZ1RhYmxlUXVlcnkAdGFibGVRdWVyeQBjb2x1bW5RdWVy
+eQBFeGVjdXRlTm9uUXVlcnkAcXVlcnkAb3BfRXF1YWxpdHkAAAAAACckAFAAYQBjAGsAYQBnAGUA
+OgA6AFQAYQBiAGwAZQBUAHkAcABlAAApVQBzAGUAcgA6ADoAcwBxAGwAXwBUAGEAYgBsAGUAUQB1
+AGUAcgB5AABBVQBzAGUAcgA6ADoAcwBxAGwAXwBUAGEAYgBsAGUAUQB1AGUAcgB5AF8AUwB0AGcA
+XwBTAHQAYQBnAGkAbgBnAAA3VQBzAGUAcgA6ADoAcwBxAGwAXwBUAGEAYgBsAGUAUQB1AGUAcgB5
+AF8ARAB3AF8ARQBzAGIAADFVAHMAZQByADoAOgBzAHEAbABfAFAAdQByAGcAZQBEAGEAdABhAFEA
+dQBlAHIAeQAASVUAcwBlAHIAOgA6AHMAcQBsAF8AUAB1AHIAZwBlAEQAYQB0AGEAUQB1AGUAcgB5
+AF8AUwB0AGcAXwBTAHQAYQBnAGkAbgBnAAA/VQBzAGUAcgA6ADoAcwBxAGwAXwBQAHUAcgBnAGUA
+RABhAHQAYQBRAHUAZQByAHkAXwBEAHcAXwBFAHMAYgAAK1UAcwBlAHIAOgA6AHMAcQBsAF8AQwBv
+AG4AZgBpAGcAUQB1AGUAcgB5AAArVQBzAGUAcgA6ADoAcwBxAGwAXwBDAG8AbAB1AG0AbgBRAHUA
+ZQByAHkAAD1VAHMAZQByADoAOgBzAHEAbABfAFIAZQBmAHIAZQBzAGgATABvAGcAVABhAGIAbABl
+AFEAdQBlAHIAeQAAO1UAcwBlAHIAOgA6AHMAcQBsAF8AVQBwAGQAYQB0AGUATABvAGcAVABhAGIA
+bABlAFEAdQBlAHIAeQAACU0AYQBpAG4AAEVUAGEAYgBsAGUAIAB0AHkAcABlACAAJwB7ADAAfQAn
+ACAAaQBzACAAbgBvAHQAIABzAHUAcABwAG8AcgB0AGUAZAAuAAEBAB9SAGUAZgByAGUAcwBoAEwA
+bwBnAFQAYQBiAGwAZQAAQVIAZQBmAHIAZQBzAGgAaQBuAGcAIABsAG8AZwAgAHQAYQBiAGwAZQAg
+AGkAbgAgACcAewAwAH0AJwAuAC4ALgABC1MAUQBMADoAIAAAF1AAdQByAGcAZQBUAGEAYgBsAGUA
+cwAAdVQAaABlACAAcgBlAHQAZQBuAHQAaQBvAG4AIABwAGUAcgBpAG8AZAAgAGYAbwByACAAdABh
+AGIAbABlAHMAIABvAGYAIAB0AHkAcABlACAAJwB7ADAAfQAnACAAaQBzACAAewAxAH0AIABkAGEA
+eQBzAC4AARNUAGEAYgBsAGUATgBhAG0AZQAALVAAdQByAGcAaQBuAGcAIAB0AGEAYgBsAGUAIAAn
+AHsAMAB9ACcALgAuAC4AAWFUAHIAeQBpAG4AZwAgAHQAaQBtAGUAcwB0AGEAbQBwACAAYwBvAGwA
+dQBtAG4AIAAnAHsAMAB9ACcAIABmAG8AcgAgAHQAYQBiAGwAZQAgACcAewAxAH0AJwAuAC4ALgAB
+AywAAGtEAG8AbgBlAC4AIABEAGUAbABlAHQAZQBkACAAewAwAH0AIAByAG8AdwBzACAAaQBuACAA
+ewAxAH0AIABzAGUAYwBvAG4AZABzACAAaQBuACAAdABhAGIAbABlACAAJwB7ADIAfQAnAC4AARlF
+AHIAcgBvAHIAIAAjAHsAMAB9ADoAIAAAP1UAcABkAGEAdABpAG4AZwAgAGwAbwBnACAAZgBvAHIA
+IAB0AGEAYgBsAGUAIAAnAHsAMAB9ACcALgAuAC4AAQMnAAEDbwAACU4AVQBMAEwAAAUnACcAARdz
+AHQAZwAuAHMAdABhAGcAaQBuAGcAAA1kAHcALgBlAHMAYgAAB3MAdABnAAAFZABzAAAFZAB3AAAn
+bwBsAGUAZABiACAASQBDAF8ARABNAF8AUwB0AGEAZwBpAG4AZwAAK28AbABlAGQAYgAgAEkAQwBf
+AEQATQBfAEQAYQB0AGEAUwB0AG8AcgBlAAAzbwBsAGUAZABiACAASQBDAF8ARABNAF8ARABhAHQA
+YQBXAGEAcgBlAGgAbwB1AHMAZQAAGWQAcwAuAGMAbABlAGEAbgBzAGkAbgBnAAAVZABzAC4AdwBv
+AHIAawBpAG4AZwAAE2QAcwAuAHIAZQBqAGUAYwB0AAAXZABzAC4AbQBhAHQAYwBoAGkAbgBnAAAV
+ZAB3AC4AdwBvAHIAawBpAG4AZwAAD2QAdwAuAGkAbgBmAG8AABdMAG8AYQBkAGkAbgBnAEQAYQB0
+AGUAAClJAEMAXwBEAE0AXwBDAEwARQBBAE4AUwBJAE4ARwBfAEQAQQBUAEUAACVJAEMAXwBEAE0A
+XwBMAE8AQQBEAEkATgBHAF8ARABBAFQARQAALUkAQwBfAEQATQBfAFQASQBNAEUAUwBUAEEATQBQ
+AF8ASQBOAFMARQBSAFQAACNJAEMAXwBEAE0AXwBSAEUASgBFAEMAVABfAEQAQQBUAEUAACdJAEMA
+XwBEAE0AXwBNAEEAVABDAEgASQBOAEcAXwBEAEEAVABFAAAfSQBDAF8ARABNAF8ASQBOAEYATwBf
+AEQAQQBUAEUAACVJAEMAXwBEAE0AXwBNAEUAUwBTAEEARwBFAF8ARABBAFQARQAAE0cAZQB0AFQA
+YQBiAGwAZQBzAABLRwBlAHQAdABpAG4AZwAgACcAewAwAH0AJwAgAHQAYQBiAGwAZQBzACAAbwBm
+ACAAdAB5AHAAZQAgACcAewAxAH0AJwAuAC4ALgABH0cAZQB0AFQAYQBiAGwAZQBDAG8AbAB1AG0A
+bgBzAABpRwBlAHQAdABpAG4AZwAgAGMAbwBsAHUAbQBuAHMAIABmAG8AcgAgAHQAYQBiAGwAZQAg
+ACcAewAwAH0AJwAgAGkAbgAgAGQAYQB0AGEAYgBhAHMAZQAgACcAewAxAH0AJwAuAC4ALgABA1sA
+ABVDAG8AbAB1AG0AbgBOAGEAbQBlAAADXQAAO0cAZQB0AEQAYQB0AGEAUgBlAHQAZQBuAHQAaQBv
+AG4AQwBvAG4AZgBpAGcAdQByAGEAdABpAG8AbgAAaVIAZQBhAGQAaQBuAGcAIAByAGUAdABlAG4A
+dABpAG8AbgAgAHAAZQByAGkAbwBkACAAYwBvAG4AZgBpAGcAdQByAGEAdABpAG8AbgAgAGYAcgBv
+AG0AIAAnAHsAMAB9ACcALgAuAC4AASNEAE0AXwBEAGEAdABhAF8AUgBlAHQAZQBuAHQAaQBvAG4A
+ABtQAGEAcgBhAG0AZQB0AGUAcgBDAG8AZABlAAADLgAAHVAAYQByAGEAbQBlAHQAZQByAFYAYQBs
+AHUAZQAAcVMAVABfADEANgA2ADgANQAxAGQANwBhADcAMQBjADQAZQBlAGMAYQA0ADYAMgA4ADcA
+ZABmADEAYQBlAGUANwBiAGIAOQAuAFAAcgBvAHAAZQByAHQAaQBlAHMALgBSAGUAcwBvAHUAcgBj
+AGUAcwAAAAAAf2C9NzvbuEu6g6DtVUoCrwAEIAEBCAMgAAEFIAEBEREEIAEBDgYgAQERgIEVBw4O
+Dg4ODg4ODg4ODhUSQQIODg4OBSAAEoCRBSAAEoCVBiABEoCZHAMgABwDIAAOBhUSgKEBDgUgAQIT
+AAUgABKApQUAAg4OHAggBQIIDg4OCAoHBgIODg4SRRJJCiAGAQgODg4IEAIFIAASgK0GIAEBEYC1
+AyAACAUAAg4ODg8HCQIODh0ODhJFEk0OHQ4GFRJBAg4OBiABEwETAAYAAw4OHBwEIAEcDgMgAAIl
+BxYSUQICDhJVDhFZFRFdARFZCAgSYRJFHQ4IDg4RZQ4OEVkODgQAABFZBhURXQERWQYAAg4OHQ4G
+AAIODh0cByABElERgMEFIAEBElEEIAARZQcABA4OHBwcBSABARMACCAFAQgODg4IBSABEmEOBCAB
+Dg4GAAMODg4OBCAAEwAFIAIODg4FAAICDg4GIAEdDh0DAwcBDgUgABKA0QYgARKA1RwFBwIdDgkI
+BwQCDhJNEkkEIAASTQ8HBhUSaQEOAg4STR0OEkkFFRJpAQ4FIAAdEwAaBwoCDhJFFRJBAg4OEk0d
+Dg4OFRJBAg4OEkkREAEBFRKA3QEeABUSgN0BHgADCgEOEhABAhUSgN0BHgAVEoDdAR4ACA0QAQEd
+HgAVEoDdAR4AByACARMAEwEIAAESgOERgOUFIAASgOkHIAIBDhKA6QQHAgkIBCABAwgIt3pcVhk0
+4IkIiYRdzYCAzJEybwBsAGUAZABiACAASQBDAF8ARABNAF8ARABhAHQAYQBXAGEAcgBlAGgAbwB1
+AHMAZQAqbwBsAGUAZABiACAASQBDAF8ARABNAF8ARABhAHQAYQBTAHQAbwByAGUAJm8AbABlAGQA
+YgAgAEkAQwBfAEQATQBfAFMAdABhAGcAaQBuAGcABAAAAAAEAQAAAAIGDgYGFRI9AQ4DBhJ5AwYS
+fQMGEhACBggDBhEYBiADAQ4ODg4gBgEODg4OFRJBAg4ODgwgBwEODg4dDh0ODg4HIAQODg4ODgUg
+ARJFDgUgAR0ODgggAxJNEkUODgggAx0OEkUODgkgARUSQQIODg4DAAABBAAAEnkEAAASfQUAAQES
+fQQAABIQBAABCQ4ECAASeQQIABJ9BAgAEhAIAQAIAAAAAAAeAQABAFQCFldyYXBOb25FeGNlcHRp
+b25UaHJvd3MBCAEAAgAAAAAAKAEAI1NUXzE2Njg1MWQ3YTcxYzRlZWNhNDYyODdkZjFhZWU3YmI5
+AAAFAQAAAAAWAQARQ29weXJpZ2h0IEAgIDIwMTgAAEkBABouTkVURnJhbWV3b3JrLFZlcnNpb249
+djQuNQEAVA4URnJhbWV3b3JrRGlzcGxheU5hbWUSLk5FVCBGcmFtZXdvcmsgNC41AAAAtAAAAM7K
+774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVy
+c2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkz
+NGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQ
+QURQtAAAABBSAAAAAAAAAAAAACpSAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcUgAAAAAAAAAA
+AAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAYAACAAAAA
+AAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAAAABIAAAAWGAAABoEAAAAAAAA
+AAAAABoENAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBPAAAAAAC9BO/+AAABAAAAAQCS
+TfAZAAABAJJN8Bk/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAARAAAAAEAVgBhAHIARgBpAGwA
+ZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBvAG4AAAAAAAAAsAR6AwAAAQBT
+AHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAABWAwAAAQAwADAAMAAwADAANABiADAAAAAaAAEA
+AQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEAQwBvAG0AcABhAG4AeQBOAGEAbQBlAAAAAAAA
+AAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAAFMAVABfADEANgA2ADgA
+NQAxAGQANwBhADcAMQBjADQAZQBlAGMAYQA0ADYAMgA4ADcAZABmADEAYQBlAGUANwBiAGIAOQAA
+AD4ADwABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAALgA2ADYANAAwAC4AMQA5ADgA
+NQA4AAAAAABwACgAAQBJAG4AdABlAHIAbgBhAGwATgBhAG0AZQAAAFMAVABfADEANgA2ADgANQAx
+AGQANwBhADcAMQBjADQAZQBlAGMAYQA0ADYAMgA4ADcAZABmADEAYQBlAGUANwBiAGIAOQAuAGQA
+bABsAAAASAASAAEATABlAGcAYQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAQwBvAHAAeQByAGkAZwBo
+AHQAIABAACAAIAAyADAAMQA4AAAAKgABAAEATABlAGcAYQBsAFQAcgBhAGQAZQBtAGEAcgBrAHMA
+AAAAAAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBuAGEAbQBlAAAAUwBUAF8AMQA2
+ADYAOAA1ADEAZAA3AGEANwAxAGMANABlAGUAYwBhADQANgAyADgANwBkAGYAMQBhAGUAZQA3AGIA
+YgA5AC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0AE4AYQBtAGUAAAAAAFMAVABfADEANgA2
+ADgANQAxAGQANwBhADcAMQBjADQAZQBlAGMAYQA0ADYAMgA4ADcAZABmADEAYQBlAGUANwBiAGIA
+OQAAAEIADwABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4ANgA2ADQAMAAu
+ADEAOQA4ADUAOAAAAAAARgAPAAEAQQBzAHMAZQBtAGIAbAB5ACAAVgBlAHIAcwBpAG8AbgAAADEA
+LgAwAC4ANgA2ADQAMAAuADEAOQA4ADUAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAwAAAA8MgAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\SCR - Purge Data"
+          TopLeft="202,100" />
+        <AnnotationLayout
+          Text="Valeurs valides pour le paramètre TableType:&#xA;&#xA;stg.staging&#xA;ds.cleansing&#xA;ds.reject&#xA;ds.working&#xA;ds.matching&#xA;dw.info&#xA;dw.working&#xA;dw.esb"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="266,184"
+          Id="57e7dc4d-cd24-45e9-bef4-c00b6588416c"
+          TopLeft="388,25" />
+        <AnnotationLayout
+          Text="Les paramètres de rétention pour chaque type de table se trouvent dans&#xA;la table IC_DM_DataWarehouse.config.Parameter (DM_Data_Retention*)."
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="411,56"
+          Id="7c23dc6f-4551-41cd-8116-6f95882d9c7c"
+          TopLeft="386,201" />
+        <AnnotationLayout
+          Text="Les informations sur le dernier &quot;data purge&quot; se trouvent dans la table monitoring.Table_DataPurgeLog&#xA;dans chaque base de données (IC_DM_Staging, IC_DM_DataStore et IC_DM_DataWarehouse)."
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="567,56"
+          Id="3d902ecf-de48-473e-bf56-d937e8007a7c"
+          TopLeft="386,253" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

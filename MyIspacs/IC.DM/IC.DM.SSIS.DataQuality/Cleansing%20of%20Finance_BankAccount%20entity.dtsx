@@ -1,0 +1,2199 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2016 9:36:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{72C86E7D-A344-49A7-BC1E-DCC8BEFCB357}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Cleansing of Finance_BankAccount entity"
+  DTS:PackageType="5"
+  DTS:VersionBuild="674"
+  DTS:VersionGUID="{E6CD253A-06E7-45C6-AADB-283EBD9B4B48}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{26BE8C45-507A-4DC4-87F9-0D1596813AC3}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">2726</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{00534C40-F761-4C06-BB2D-EB452842F8A2}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{240B54BC-D6E9-48D7-8633-AF8C4A73E626}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D3A20FC1-6F7D-4524-A81E-8AEB6BA85834}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">BankAccount</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4D284F30-5D86-4BA2-97B7-3F0A67AF45B9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Finance_BankAccount</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FE0E5502-C66E-4F39-BCAE-5904D1B395D6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_KBName">
+      <DTS:VariableValue
+        DTS:DataType="8">DM_Cleansing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2800EFAB-1D24-43EB-9C5E-1ACF9B0A3385}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT * FROM entity.&quot;+ @[User::md_EntityFullName] +&quot;&#xA;WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT * FROM entity.Finance_BankAccount
+WHERE IC_DM_BUSINESS_PROCESS_INSTANCE_ID = '2726'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4D151AA8-347F-4A9E-828A-425381A9224D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT [PUBLISH_DATE] &#xA;FROM &#xA;[dbo].[A_KNOWLEDGEBASE] &#xA;WHERE NAME= '&quot; + @[User::var_KBName]  + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDQSKBLastPublishedDate">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [PUBLISH_DATE] 
+FROM 
+[dbo].[A_KNOWLEDGEBASE] 
+WHERE NAME= 'DM_Cleansing'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{44C6167A-3473-42F0-9130-4B07C2E159FD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [cleansing].[sp_Load_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadCleansedData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '2726'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [cleansing].[sp_Load_Finance_BankAccount]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{89FB05BE-9180-4DDA-91BD-8E78181D09CF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&quot;&#xA; +&#xA;&quot;DELETE FROM [reject].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]+&#xA;&quot;DELETE FROM [cleansing].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateExistingDataQuality">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Finance_BankAccount]DELETE FROM [reject].[Finance_BankAccount]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '2726'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1DELETE FROM [cleansing].[Finance_BankAccount]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '2726'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A60F6D3F-E899-463B-8524-B711186499EB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [working].[sp_Validate_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '2726'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [working].[sp_Validate_Finance_BankAccount]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DD199F63-1D09-403D-96AC-2911FC2C14E5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">2726_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{600F842B-38BA-4CE0-964A-F090252DBBC0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/8/2018 12:24:37 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7EA819A2-59A7-4972-8127-8BD146AC2FF3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-08 12:24:36</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Name of the DQS Knowledgebase considerated in the validation process"
+      DTS:DTSID="{FA89797B-564A-422D-95AE-A1A43F30943D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_KBName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_KBName">
+      <DTS:VariableValue
+        DTS:DataType="8">DM_Cleansing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Last date the DQS KB has been published"
+      DTS:DTSID="{3EABAE00-3DAE-43F7-BE07-3973DE604823}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LastKBPublishDate">
+      <DTS:VariableValue
+        DTS:DataType="7">1/1/1900</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load Finance_BankAccount - Working"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8761DED2-EFA4-4D30-9B0B-6A233EAC57B1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load Finance_BankAccount - Working"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                      name="IC_DM_CLEANSING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_CleansingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_CleansingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze cleansing &amp; lookup results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Core_Currency_Code_IsFound]"
+                      cachedDataType="bool"
+                      cachedName="Core_Currency_Code_IsFound"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_IsFound]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[MDSCurrencyCode_ValidationStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="MDSCurrencyCode_ValidationStatus"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode_ValidationStatus]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_CleansingStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_CleansingStatus]"
+                      name="Core_Currency_Code_CleansingStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(!#{Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_IsFound]} || #{Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode_ValidationStatus]} != "Validation Succeeded") ? "NOT FOUND" : "OK"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(!Core_Currency_Code_IsFound || MDSCurrencyCode_ValidationStatus != "Validation Succeeded") ? "NOT FOUND" : "OK"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze cleansing results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Analyze lookup results"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Inputs[Derived Column Input].Columns[MDSCurrencyCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="MDSCurrencyCode"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_IsFound]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_IsFound]"
+                      name="Core_Currency_Code_IsFound"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode]}) ?  FALSE  :  TRUE </property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(MDSCurrencyCode) ?  FALSE  :  TRUE </property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Handle empty currency code"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - MDS - Finance_Currency - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">Select TRY_CAST(code as nvarchar(3)) as Code, ValidationStatus from [mdm].[vw_DM_MDM_Finance_Currency]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (Select TRY_CAST(code as nvarchar(3)) as Code, ValidationStatus from [mdm].[vw_DM_MDM_Finance_Currency]) [refTable]
+where [refTable].[Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Code" dataType="DT_WSTR" length="3" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ValidationStatus" dataType="DT_WSTR" length="250" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{8108D27E-5293-4B95-873E-E2B475C000AB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Inputs[Lookup Input].Columns[Finance_Currency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_Code"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="3"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode]"
+                      name="MDSCurrencyCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode_ValidationStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="250"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode_ValidationStatus]"
+                      name="MDSCurrencyCode_ValidationStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ValidationStatus</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Finance_BankAccount]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_CLEANSING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_CLEANSING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[BankName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BankName"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[BankName]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[BankName]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[Finance_Currency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Finance_Currency_Code"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code_Source]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[MDSCurrencyCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="MDSCurrencyCode"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code_Output]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output].Columns[MDSCurrencyCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[Core_Currency_Code_CleansingStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Core_Currency_Code_CleansingStatus"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code_CleansingStatus]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Core_Currency_Code_CleansingStatus]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[GLAccountCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GLAccountCode"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[GLAccountCode]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[GLAccountCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[TransitNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="TransitNumber"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[TransitNumber]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[TransitNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[AccountNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="AccountNumber"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[AccountNumber]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[AccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IBAN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IBAN"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IBAN]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IBAN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[SWIFT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SWIFT"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[SWIFT]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[SWIFT]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[LegalName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LegalName"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[LegalName]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[LegalName]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[Finance_BankAccountType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Finance_BankAccountType_Code"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_BankAccountType_Code]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_BankAccountType_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[Finance_Bank_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Finance_Bank_Code"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Bank_Code]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Bank_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[Finance_BankAccount_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Finance_BankAccount_Code"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_BankAccount_Code]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_BankAccount_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[CompanyNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="CompanyNumber"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[CompanyNumber]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[CompanyNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="IC_DM_TIMESTAMP_DELETE"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].Columns[AccountCloseDate]"
+                      cachedDataType="dbDate"
+                      cachedName="AccountCloseDate"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[AccountCloseDate]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[AccountCloseDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_CLEANSING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[BankName]"
+                      dataType="wstr"
+                      length="255"
+                      name="BankName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code_Source]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_Code_Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code_Output]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_Code_Output" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code_CleansingStatus]"
+                      dataType="wstr"
+                      length="100"
+                      name="Finance_Currency_Code_CleansingStatus" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_BankAccount_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_BankAccount_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[GLAccountCode]"
+                      dataType="wstr"
+                      length="255"
+                      name="GLAccountCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Bank_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_Bank_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[TransitNumber]"
+                      dataType="wstr"
+                      length="10"
+                      name="TransitNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IBAN]"
+                      dataType="wstr"
+                      length="255"
+                      name="IBAN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[SWIFT]"
+                      dataType="wstr"
+                      length="255"
+                      name="SWIFT" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[LegalName]"
+                      dataType="wstr"
+                      length="255"
+                      name="LegalName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[Finance_BankAccountType_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_BankAccountType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[CompanyNumber]"
+                      dataType="wstr"
+                      length="10"
+                      name="CompanyNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input].ExternalColumns[AccountCloseDate]"
+                      dataType="dbDate"
+                      name="AccountCloseDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromEntity</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Connections[OleDbConnection]"
+                  connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[BankName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[BankName]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[BankName]"
+                      name="BankName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_Code]"
+                      length="3"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]"
+                      name="Finance_Currency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_BankAccount_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_BankAccount_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_BankAccount_Code]"
+                      name="Finance_BankAccount_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[GLAccountCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[GLAccountCode]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[GLAccountCode]"
+                      name="GLAccountCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Bank_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_Bank_Code]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_Bank_Code]"
+                      name="Finance_Bank_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[TransitNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[TransitNumber]"
+                      length="10"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[TransitNumber]"
+                      name="TransitNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[AccountNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[AccountNumber]"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[AccountNumber]"
+                      name="AccountNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IBAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IBAN]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IBAN]"
+                      name="IBAN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[SWIFT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[SWIFT]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[SWIFT]"
+                      name="SWIFT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[LegalName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[LegalName]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[LegalName]"
+                      name="LegalName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_BankAccountType_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_BankAccountType_Code]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[Finance_BankAccountType_Code]"
+                      name="Finance_BankAccountType_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[CompanyNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[CompanyNumber]"
+                      length="10"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[CompanyNumber]"
+                      name="CompanyNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[AccountCloseDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[AccountCloseDate]"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].Columns[AccountCloseDate]"
+                      name="AccountCloseDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[BankName]"
+                      dataType="wstr"
+                      length="255"
+                      name="BankName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      name="Finance_Currency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_BankAccount_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="Finance_BankAccount_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[GLAccountCode]"
+                      dataType="wstr"
+                      length="255"
+                      name="GLAccountCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_Bank_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_Bank_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[TransitNumber]"
+                      dataType="wstr"
+                      length="10"
+                      name="TransitNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      name="AccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IBAN]"
+                      dataType="wstr"
+                      length="255"
+                      name="IBAN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[SWIFT]"
+                      dataType="wstr"
+                      length="255"
+                      name="SWIFT" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[LegalName]"
+                      dataType="wstr"
+                      length="255"
+                      name="LegalName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[Finance_BankAccountType_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_BankAccountType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[CompanyNumber]"
+                      dataType="wstr"
+                      length="10"
+                      name="CompanyNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output].ExternalColumns[AccountCloseDate]"
+                      dataType="dbDate"
+                      name="AccountCloseDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_BankAccount_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_BankAccount_Code]"
+                      name="Finance_BankAccount_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[GLAccountCode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[GLAccountCode]"
+                      name="GLAccountCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_Bank_Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_Bank_Code]"
+                      name="Finance_Bank_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[BankName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[BankName]"
+                      name="BankName" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[LegalName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[LegalName]"
+                      name="LegalName" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_BankAccountType_Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_BankAccountType_Code]"
+                      name="Finance_BankAccountType_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_Code]"
+                      name="Finance_Currency_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[TransitNumber]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[TransitNumber]"
+                      name="TransitNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[AccountNumber]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[AccountNumber]"
+                      name="AccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IBAN]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IBAN]"
+                      name="IBAN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[SWIFT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[SWIFT]"
+                      name="SWIFT" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[CompanyNumber]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[CompanyNumber]"
+                      name="CompanyNumber" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[AccountCloseDate]"
+                      dataType="dbDate"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[AccountCloseDate]"
+                      name="AccountCloseDate" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output2]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output3]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output4]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Finance_BankAccount - Working.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Finance_BankAccount - existing Dataquality process"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8F7F02ED-2FF3-45E7-8ACF-6BC5BDE681C2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Finance_BankAccount - existing Dataquality process"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateExistingDataQuality" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Finance_BankAccount- Cleansing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{19F3A2FE-60D8-46A3-BAE8-B373BC906928}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Finance_BankAccount- Cleansing"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadCleansedData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Validate Finance_BankAccount - Rejects"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CCE5227E-1B27-47FE-A96C-F7E664A0EA86}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Validate Finance_BankAccount - Rejects"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateWorkingData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{6393567E-AA37-4551-86E6-D3FDF0F72F8A}"
+      DTS:From="Package\SQL - Delete Finance_BankAccount - existing Dataquality process"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - Load Finance_BankAccount - Working" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{58A4C2FE-FC4C-4F25-B491-55594071DEAB}"
+      DTS:From="Package\DFT - Load Finance_BankAccount - Working"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL - Validate Finance_BankAccount - Rejects" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{6F25D5E6-68A8-4359-89FC-7426081B17E7}"
+      DTS:From="Package\SQL - Validate Finance_BankAccount - Rejects"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SQL - Load Finance_BankAccount- Cleansing" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="286,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working"
+          TopLeft="29.5,205.5" />
+        <NodeLayout
+          Size="386,42"
+          Id="Package\SQL - Delete Finance_BankAccount - existing Dataquality process"
+          TopLeft="10.5,72.5" />
+        <NodeLayout
+          Size="289,42"
+          Id="Package\SQL - Load Finance_BankAccount- Cleansing"
+          TopLeft="25.5000000000001,424.5" />
+        <NodeLayout
+          Size="296,42"
+          Id="Package\SQL - Validate Finance_BankAccount - Rejects"
+          TopLeft="27.5,310.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="203.5,114.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-31,91"
+              Start="0,0"
+              End="-31,83.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,41.5"
+                    Point2="0,45.5"
+                    Point3="-4,45.5" />
+                  <mssgle:LineSegment
+                    End="-27,45.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-27,45.5"
+                    Point2="-31,45.5"
+                    Point3="-31,49.5" />
+                  <mssgle:LineSegment
+                    End="-31,83.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="174,247.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,63"
+              Start="0,0"
+              End="0,55.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="172.75,352.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72"
+              Start="0,0"
+              End="0,64.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load Finance_BankAccount - Working">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="385,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount"
+          TopLeft="16,865" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\DER - Add metadata"
+          TopLeft="100.888888888889,734.166666666667" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze lookup results"
+          TopLeft="95.5,487.722222222222" />
+        <NodeLayout
+          Size="368,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount"
+          TopLeft="32.5,5.5" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current"
+          TopLeft="77.5,316.5" />
+        <NodeLayout
+          Size="227,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing results"
+          TopLeft="91.777777777778,405.611111111111" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\DER - Handle empty currency code"
+          TopLeft="93.5,96.5" />
+        <NodeLayout
+          Size="272,42"
+          Id="Package\DFT - Load Finance_BankAccount - Working\DER - Analyze cleansing &amp; lookup results"
+          TopLeft="58.5,614.833333333333" />
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[OLE DB Source Output]"
+          TopLeft="216,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[Lookup Match Output]"
+          TopLeft="208.388888888889,358.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47.111111111111"
+              Start="0,0"
+              End="0,39.611111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.611111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,14.0008680555555,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output3]"
+          TopLeft="188.388888888889,776.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="20.111111111111,88.833333333333"
+              Start="0,0"
+              End="20.111111111111,81.333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.4166666666665" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.4166666666665"
+                    Point2="0,44.4166666666665"
+                    Point3="4,44.4166666666665" />
+                  <mssgle:LineSegment
+                    End="16.111111111111,44.4166666666665" />
+                  <mssgle:CubicBezierSegment
+                    Point1="16.111111111111,44.4166666666665"
+                    Point2="20.111111111111,44.4166666666665"
+                    Point3="20.111111111111,48.4166666666665" />
+                  <mssgle:LineSegment
+                    End="20.111111111111,81.333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output2]"
+          TopLeft="191.444444444445,656.833333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77.3333333333339"
+              Start="0,0"
+              End="0,69.8333333333339">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.8333333333339" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output1]"
+          TopLeft="202.5,529.722222222222">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8,85.1111111111111"
+              Start="0,0"
+              End="-8,77.6111111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5555555555555" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38.5555555555555"
+                    Point2="0,42.5555555555555"
+                    Point3="-4,42.5555555555555" />
+                  <mssgle:LineSegment
+                    End="-4,42.5555555555555" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4,42.5555555555555"
+                    Point2="-8,42.5555555555555"
+                    Point3="-8,46.5555555555555" />
+                  <mssgle:LineSegment
+                    End="-8,77.6111111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output]"
+          TopLeft="203.888888888889,447.611111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.111111111111"
+              Start="0,0"
+              End="0,32.611111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.611111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Finance_BankAccount - Working.Paths[Derived Column Output4]"
+          TopLeft="213.5,138.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,178"
+              Start="0,0"
+              End="0,170.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,170.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_BankAccount - Working\OLE_DST - IC_DM_DataStore - Working - Financial_BankAccount">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_BankAccount - Working\OLE_SRC - IC_DM_DataStore - Entity - Finance_BankAccount">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Finance_BankAccount - Working\LKP - MDS - Finance_Currency - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

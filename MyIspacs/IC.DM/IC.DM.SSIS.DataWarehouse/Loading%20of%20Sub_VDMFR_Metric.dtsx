@@ -1,0 +1,1179 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{058E3063-4B66-440F-B6F5-AC8B128BDD56}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Sub_VDMFR_Metric"
+  DTS:PackageType="5"
+  DTS:VersionBuild="123"
+  DTS:VersionGUID="{67A490AC-9A65-4A47-A21A-B8AA3BEEEA9D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{9806C2C9-E8F5-48FB-BE86-309EE6BCB2A9}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20161116-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{8CDFB009-F0C1-4F62-8E47-24B487B8ED13}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1367ADE4-76F0-4950-A9A6-864DA84EF893}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">VDMFR</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{49ADD74D-8A15-4AC7-8EF0-052F5ACD8C5B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">Metric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E69DE99B-2861-460C-863E-BD611F30B59F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; + @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Sub_VDMFR_Metric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{38903D93-BCFB-440A-9419-5FE599EC897D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">VDMFR_Metric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4EC95BA3-F6B4-458C-8A5D-4644112C423D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Sub</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{73AE6BC7-B8AF-4F70-9BE6-77119961F927}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [usr].[sp_Get_&quot; + @[User::md_EntityFullName] + &quot;_Entity]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromMDM">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [usr].[sp_Get_Sub_VDMFR_Metric_Entity]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E4046457-0052-4D55-8E0B-A9072F367D45}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [sub].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;_SCD2] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20161116-01-EL'
+DECLARE @BusinessProcessInstanceIteration int = 1
+
+EXECUTE [sub].[sp_Load_Sub_VDMFR_Metric_SCD2] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{41DA2D37-856D-4E08-AFD0-B5E896C8F897}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;'&#xA;&#x9;AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = &quot;+(DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [working].[Sub_VDMFR_Metric]
+WHERE [IC_DM_BUSINESS_PROCESS_INSTANCE_ID] = '20161116-01-EL'
+	AND [IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION] = 1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AD913B6A-8375-42BF-9545-13483E1E6A37}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20161116-01-EL_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{38B0EA6F-2DF0-4EF4-9A2D-E5D335054D26}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:26 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1C893614-AACB-456B-A93F-3F6B20D031F3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:26</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{271C9C20-D471-4DC1-AC37-6190FF9E5B21}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load Sub Working VDMFR_Metric Entity from MDS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Sub_VDMFR_Metric - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT VDMFR_Metric_Code, VDMFR_Metric_DK FROM [sub].[VDMFR_Metric] WHERE IC_DM_IS_CURRENT = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT VDMFR_Metric_Code, VDMFR_Metric_DK FROM [sub].[VDMFR_Metric] WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[VDMFR_Metric_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="VDMFR_Metric_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VDMFR_Metric_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\1087:invalid};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Inputs[Lookup Input].Columns[VDMFR_Metric_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="VDMFR_Metric_Code"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[VDMFR_Metric_Code]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">VDMFR_Metric_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Match Output].Columns[VDMFR_Metric_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Match Output].Columns[VDMFR_Metric_DK]"
+                      name="VDMFR_Metric_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">VDMFR_Metric_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[working].[Sub_VDMFR_Metric]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[ValidationSucceeded]"
+                      cachedDataType="i4"
+                      cachedName="ValidationSucceeded"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[VDMFR_Metric_DK]"
+                      cachedDataType="i4"
+                      cachedName="VDMFR_Metric_DK"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Metric_DK]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Match Output].Columns[VDMFR_Metric_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[VDMFR_Metric_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="VDMFR_Metric_Code"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Metric_Code]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[VDMFR_Metric_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[NameEN]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="NameEN"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[NameEN]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[NameEN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[NameFR]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="NameFR"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[NameFR]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[NameFR]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[DescriptionEN]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="DescriptionEN"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionEN]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[DescriptionEN]" />
+                    <inputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].Columns[DescriptionFR]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="DescriptionFR"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionFR]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[DescriptionFR]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSucceeded]"
+                      dataType="bool"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Metric_DK]"
+                      dataType="i4"
+                      name="VDMFR_Metric_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[VDMFR_Metric_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="VDMFR_Metric_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="DescriptionEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="DescriptionFR" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromMDM</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Connections[OleDbConnection]"
+                  connectionManagerID="{26FCB80F-4859-4366-8B2F-37D07352E510}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb MDS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[NameFR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[NameFR]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[NameFR]"
+                      name="NameFR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[DescriptionFR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[DescriptionFR]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[DescriptionFR]"
+                      name="DescriptionFR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[VDMFR_Metric_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[VDMFR_Metric_Code]"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[VDMFR_Metric_Code]"
+                      name="VDMFR_Metric_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[NameEN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[NameEN]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[NameEN]"
+                      name="NameEN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[DescriptionEN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[DescriptionEN]"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].Columns[DescriptionEN]"
+                      name="DescriptionEN"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[ValidationSucceeded]"
+                      dataType="i4"
+                      name="ValidationSucceeded" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="NameFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[DescriptionFR]"
+                      dataType="wstr"
+                      length="250"
+                      name="DescriptionFR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[VDMFR_Metric_Code]"
+                      dataType="wstr"
+                      length="30"
+                      name="VDMFR_Metric_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="NameEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output].ExternalColumns[DescriptionEN]"
+                      dataType="wstr"
+                      length="250"
+                      name="DescriptionEN" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[VDMFR_Metric_Code]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[VDMFR_Metric_Code]"
+                      name="VDMFR_Metric_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[NameEN]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[NameEN]"
+                      name="NameEN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[DescriptionEN]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[DescriptionEN]"
+                      name="DescriptionEN" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[NameFR]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[NameFR]"
+                      name="NameFR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[DescriptionFR]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[DescriptionFR]"
+                      name="DescriptionFR" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[ValidationSucceeded]"
+                      name="ValidationSucceeded" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Sub Working VDMFR_Metric Entity"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D91BEC2F-339F-44FD-B353-457BBF2DF283}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Sub Working VDMFR_Metric Entity"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC2; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Sub VDMFR_Metric Entity - SCD2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AE24EBC8-0DCB-48CB-9867-7F2A6F8E88FF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Sub VDMFR_Metric Entity - SCD2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 CTP3.3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_LoadEntity_SCD" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3DAC4235-2CF6-430F-8867-67DE39BC5584}"
+      DTS:From="Package\SQL - Delete Sub Working VDMFR_Metric Entity"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{BBAACFE5-25C6-46DC-B7B9-57D218A2D322}"
+      DTS:From="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Load Sub VDMFR_Metric Entity - SCD2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="346,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS"
+          TopLeft="9.5,107.5" />
+        <NodeLayout
+          Size="304,42"
+          Id="Package\SQL - Delete Sub Working VDMFR_Metric Entity"
+          TopLeft="30.5,5.5" />
+        <NodeLayout
+          Size="290,42"
+          Id="Package\SQL - Load Sub VDMFR_Metric Entity - SCD2"
+          TopLeft="33.5,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="182.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="180.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="340,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric"
+          TopLeft="35,18" />
+        <NodeLayout
+          Size="245,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current"
+          TopLeft="79,106.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\DER - Add metadata"
+          TopLeft="133,209.5" />
+        <NodeLayout
+          Size="398,42"
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric"
+          TopLeft="20.5000000000001,292.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS.Paths[OLE DB Source Output]"
+          TopLeft="203.25,60">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5"
+              Start="0,0"
+              End="0,39">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS.Paths[Lookup Match Output]"
+          TopLeft="201.5,148.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="19,61"
+              Start="0,0"
+              End="19,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.5"
+                    Point2="0,30.5"
+                    Point3="4,30.5" />
+                  <mssgle:LineSegment
+                    End="15,30.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15,30.5"
+                    Point2="19,30.5"
+                    Point3="19,34.5" />
+                  <mssgle:LineSegment
+                    End="19,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-38.69138671875,35.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS.Paths[Derived Column Output]"
+          TopLeft="220,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_SRC - MDS DB - DM_Subscription - VDMFR_Metric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\LKP - Sub_VDMFR_Metric - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load Sub Working VDMFR_Metric Entity from MDS\OLE_DST - IC_DM_DataWarehouse - Working - Sub_VDMFR_Metric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

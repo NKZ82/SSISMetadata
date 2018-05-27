@@ -1,0 +1,3436 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/30/2017 10:11:46 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{B2319C20-8DE5-4043-AA32-F60D380C726A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Load Entities from UN_LOCODE"
+  DTS:PackageType="5"
+  DTS:VersionBuild="93"
+  DTS:VersionGUID="{9094120C-F04E-4F94-B501-A9662DA57379}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{56A4B435-D182-402D-99EF-5E7C31A35A2A}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20171221-EL-01</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{F9F6F51A-04EB-466A-B627-CEEC259E72B5}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{267A67B0-CF4D-4318-8C44-B17502883C96}"
+      DTS:ObjectName="UnLocodeZipFileURL">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">file://corp/appsbur/IC_DM/dev/input/UNECE/LOCODE/loc171csv.zip</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4EB77798-B656-475E-8203-D9C1182AB506}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;TRUNCATE TABLE entity.Core_City&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateCoreCity">
+      <DTS:VariableValue
+        DTS:DataType="8">TRUNCATE TABLE entity.Core_City</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9D61D4C6-F975-43AF-9E85-FBA7830546CC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;TRUNCATE TABLE entity.Core_State&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateCoreState">
+      <DTS:VariableValue
+        DTS:DataType="8">TRUNCATE TABLE entity.Core_State</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DF11A1C6-A6FF-4D5E-8B25-A9DD2BBB3C2F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:39 AM</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Download UN LOCODE Data and Load the DataStore"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{3BE62ADF-E848-405C-97B1-B1AE7F226B1D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Download UN LOCODE Data and Load the DataStore"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="CSPL - Ignore country separator lines"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[LocationCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LocationCode"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[LocationCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[SubDiv]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SubDiv"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[Function]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Function"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Function]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[Status]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Status"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Status]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[Date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Date"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[IATA]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IATA"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[IATA]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[Coordinates]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Coordinates"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Coordinates]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[Remarks]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Remarks"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Remarks]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Country Separator Line Or Equivalent Location]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Country Separator Line Or Equivalent Location"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">([LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[LocationCode]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Function]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Status]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Date]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[IATA]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Coordinates]}) == 0 &amp;&amp; [LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Remarks]}) == 0) || [FINDSTRING](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]},"=",1) != 0</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">(LEN(LocationCode) == 0 &amp;&amp; LEN(SubDiv) == 0 &amp;&amp; LEN(Function) == 0 &amp;&amp; LEN(Status) == 0 &amp;&amp; LEN(Date) == 0 &amp;&amp; LEN(IATA) == 0 &amp;&amp; LEN(Coordinates) == 0 &amp;&amp; LEN(Remarks) == 0) || FINDSTRING(Name,"=",1) != 0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Location Data]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Location Data"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City)"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata (Core_City)"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Inputs[Derived Column Input].Columns[FileName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FileName"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[FileName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"UN"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"UN"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"LOCODE"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"LOCODE"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[FileName]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">FileName</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State)"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata (Core_State)"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Inputs[Derived Column Input].Columns[FileName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FileName"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[FileName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"UN"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"UN"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"LOCODE"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"LOCODE"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[FileName]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">FileName</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City)"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Preprocess data (Core_City)"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input].Columns[CountryCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CountryCode"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input].Columns[LocationCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LocationCode"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[LocationCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input].Columns[SubDiv]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SubDiv"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Core_State_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Core_State_Code]"
+                      name="Core_State_Code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]}) == 0 ? "9D" + #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]} : #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]} + "-" + #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(SubDiv) == 0 ? "9D" + CountryCode : CountryCode + "-" + SubDiv</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Name</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Name_FR]"
+                      name="Name_FR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Name</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Core_City_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Core_City_Code]"
+                      name="Core_City_Code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]} + "-" + ([LEN](#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]}) == 0 ? "9D" + #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]} : #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]}) + "-" + #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[LocationCode]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">CountryCode + "-" + (LEN(SubDiv) == 0 ? "9D" + CountryCode : SubDiv) + "-" + LocationCode</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State)"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Preprocess data (Core_State)"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input].Columns[CountryCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CountryCode"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[CountryCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input].Columns[SubdivisionCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SubdivisionCode"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[SubdivisionCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Core_State_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Core_State_Code]"
+                      name="Core_State_Code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[CountryCode]} + "-" + #{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[SubdivisionCode]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">CountryCode + "-" + SubdivisionCode</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Name_EN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Name_EN]"
+                      name="Name_EN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[Name]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Name</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Name_FR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Name_FR]"
+                      name="Name_FR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[Name]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Name</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Core_Country_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Core_Country_Code]"
+                      name="Core_Country_Code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[CountryCode]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">CountryCode</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Entity - Core_City"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Core_City]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[Core_State_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Core_State_Code"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_Code]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Core_State_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[Name_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name_FR"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Name_FR]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[Core_City_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Core_City_Code"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Core_City_Code]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output].Columns[Core_City_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Core_City_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Core_City_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Core_State_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Entity - Core_State"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Core_State]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[CountryCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CountryCode"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_Country_Code]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[CountryCode]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[Core_State_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="511"
+                      cachedName="Core_State_Code"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_Code]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Core_State_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name_EN"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Name_EN]" />
+                    <inputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].Columns[Name_FR]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name_FR"
+                      externalMetadataColumnId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output].Columns[Name_FR]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_State_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Core_State_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name_EN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name_FR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[Core_Country_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Core_Country_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+              description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+              name="SCR - Download and Parse UN LOCODE Files"
+              version="10">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Stores the source code of the component"
+                  isArray="true"
+                  name="SourceCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="33">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public LocationBuffer LocationBuffer;
+
+    public SubdivisionBuffer SubdivisionBuffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != LocationBuffer)
+        {
+            LocationBuffer.SetEndOfRowset();
+            LocationBuffer = null;
+        }
+
+        if (null != SubdivisionBuffer)
+        {
+            SubdivisionBuffer.SetEndOfRowset();
+            SubdivisionBuffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"Location"))
+            {
+                LocationBuffer = new LocationBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"Subdivision"))
+            {
+                SubdivisionBuffer = new SubdivisionBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+        }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
+    }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public String TaskName
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["TaskName"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public String UnLocodeZipFileURL
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["UnLocodeZipFileURL"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[#region Namespaces
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
+using System.Text;
+using System.Collections.Generic;
+using System.Data;
+using Microsoft.VisualBasic.FileIO;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    private static class LocationFileColumns 
+    {
+        public const int Ch = 0;
+        public const int CountryCode = 1;
+        public const int LocationCode = 2;
+        public const int Name = 3;
+        public const int NameWoDiacritics = 4;
+        public const int SubDiv = 5;
+        public const int Function = 6;
+        public const int Status = 7;
+        public const int Date = 8;
+        public const int IATA = 9;
+        public const int Coordinates = 10;
+        public const int Remarks = 11;
+    }
+
+    private static class SubdivisionFileColumns
+    {
+        public const int CountryCode = 0;
+        public const int SubdivisionCode = 1;
+        public const int Name = 2;
+        public const int SubdivisionType = 3;
+    }
+
+    public override void PreExecute()
+    {
+        base.PreExecute();
+    }
+
+    public override void PostExecute()
+    {
+        base.PostExecute();
+    }
+
+    public override void CreateNewOutputRows()
+    {
+        string unzipPath = DownloadAndUnzipFile(Variables.UnLocodeZipFileURL);
+        AddLocationOutputRows(unzipPath, LocationBuffer);
+        AddSubdivisionOutputRows(unzipPath, SubdivisionBuffer);
+    }
+
+    private string DownloadAndUnzipFile(string fileURL)
+    {
+        bool fireAgain = true;
+        string tempPath = Path.GetTempPath();
+        string filePath = Path.Combine(tempPath, Path.ChangeExtension(Path.GetRandomFileName(), "zip"));
+        string unzipPath = Path.Combine(tempPath, Path.GetFileNameWithoutExtension(filePath));
+
+        ComponentMetaData.FireInformation(10, String.Format("Downloading '{0}' to '{1}'...", fileURL, filePath), Variables.TaskName, "", 0, fireAgain);        
+
+        // Configuration du Web proxy
+        var proxy = WebRequest.GetSystemWebProxy();
+        proxy.Credentials = CredentialCache.DefaultCredentials;
+
+        // Téléchargement du fichier dans fichier temporaire
+        WebClient client = new WebClient();
+        client.Proxy = proxy;
+        client.DownloadFile(fileURL, filePath);
+
+        ComponentMetaData.FireInformation(10, String.Format("Unzipping '{0}' to '{1}'...", filePath, unzipPath), Variables.TaskName, "", 0, fireAgain);
+
+        // Unzip du fichier dans répertoire temporaire
+        ZipFile.ExtractToDirectory(filePath, unzipPath);
+
+        return unzipPath;
+    }
+
+    private void AddLocationOutputRows(string unzipPath, LocationBuffer outputBuffer)
+    {
+        bool fireAgain = true;
+        string[] files = Directory.GetFiles(unzipPath);
+        foreach (var file in files)
+        {
+            // Prend seulement les fichiers csv qui contient le mot "CodeList"
+            var isCsv = Path.GetExtension(file).EndsWith("csv", StringComparison.CurrentCultureIgnoreCase);
+            var isCodeList = file.Contains("CodeList");
+            if (!(isCsv && isCodeList))
+                continue;
+
+            ComponentMetaData.FireInformation(10, String.Format("Parsing '{0}'...", file), Variables.TaskName, "", 0, fireAgain);
+
+            // Parsing du fichier + ajout des registres dans le output buffer
+            using (var reader = new TextFieldParser(file, Encoding.Default)) // ANSI encoding
+            {
+                reader.TextFieldType = FieldType.Delimited;
+                reader.HasFieldsEnclosedInQuotes = true;
+                reader.SetDelimiters(new string[] { "," });
+
+                while (!reader.EndOfData)
+                {
+                    string[] fields = reader.ReadFields();
+
+                    outputBuffer.AddRow();
+                    outputBuffer.Ch = fields[LocationFileColumns.Ch];
+                    outputBuffer.CountryCode = fields[LocationFileColumns.CountryCode];
+                    outputBuffer.LocationCode = fields[LocationFileColumns.LocationCode];
+                    outputBuffer.Name = fields[LocationFileColumns.Name];
+                    outputBuffer.NameWoDiacritics = fields[LocationFileColumns.NameWoDiacritics];
+                    outputBuffer.SubDiv = fields[LocationFileColumns.SubDiv];
+                    outputBuffer.Function= fields[LocationFileColumns.Function];
+                    outputBuffer.Status = fields[LocationFileColumns.Status];
+                    outputBuffer.Date = fields[LocationFileColumns.Date];
+                    outputBuffer.IATA = fields[LocationFileColumns.IATA];
+                    outputBuffer.Coordinates = fields[LocationFileColumns.Coordinates];
+                    outputBuffer.Remarks = fields[LocationFileColumns.Remarks];
+                    outputBuffer.FileName = Path.GetFileName(file);
+                }
+            }
+        }
+    }
+
+    private void AddSubdivisionOutputRows(string unzipPath, SubdivisionBuffer outputBuffer)
+    {
+        bool fireAgain = true;
+        string[] files = Directory.GetFiles(unzipPath);
+        foreach (var file in files)
+        {
+            // Prend seulement les fichiers csv qui contient le mot "SubdivisionCodes"
+            var isCsv = Path.GetExtension(file).EndsWith("csv", StringComparison.CurrentCultureIgnoreCase);
+            var isSubdivisionCodes = file.Contains("SubdivisionCodes");
+            if (!(isCsv && isSubdivisionCodes))
+                continue;
+
+            ComponentMetaData.FireInformation(10, String.Format("Parsing '{0}'...", file), Variables.TaskName, "", 0, fireAgain);
+
+            // Parsing du fichier + ajout des registres dans le output buffer
+            using (var reader = new TextFieldParser(file, Encoding.Default)) // ANSI encoding
+            {
+                reader.TextFieldType = FieldType.Delimited;
+                reader.HasFieldsEnclosedInQuotes = true;
+                reader.SetDelimiters(new string[] { "," });
+
+                while (!reader.EndOfData)
+                {
+                    string[] fields = reader.ReadFields();
+
+                    outputBuffer.AddRow();
+                    outputBuffer.CountryCode = fields[SubdivisionFileColumns.CountryCode];
+                    outputBuffer.SubdivisionCode = fields[SubdivisionFileColumns.SubdivisionCode];
+                    outputBuffer.Name = fields[SubdivisionFileColumns.Name];
+                    outputBuffer.SubdivisionType = fields[SubdivisionFileColumns.SubdivisionType];
+                    outputBuffer.FileName = Path.GetFileName(file);
+                }
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class LocationBuffer: ScriptBuffer
+
+{
+    public LocationBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String Ch
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool Ch_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String CountryCode
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool CountryCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String LocationCode
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool LocationCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Name
+    {
+        set
+        {
+            this[3] = value;
+        }
+    }
+    public bool Name_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(3);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String NameWoDiacritics
+    {
+        set
+        {
+            this[4] = value;
+        }
+    }
+    public bool NameWoDiacritics_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(4);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String SubDiv
+    {
+        set
+        {
+            this[5] = value;
+        }
+    }
+    public bool SubDiv_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(5);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Function
+    {
+        set
+        {
+            this[6] = value;
+        }
+    }
+    public bool Function_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(6);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Status
+    {
+        set
+        {
+            this[7] = value;
+        }
+    }
+    public bool Status_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(7);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Date
+    {
+        set
+        {
+            this[8] = value;
+        }
+    }
+    public bool Date_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(8);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String IATA
+    {
+        set
+        {
+            this[9] = value;
+        }
+    }
+    public bool IATA_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(9);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Coordinates
+    {
+        set
+        {
+            this[10] = value;
+        }
+    }
+    public bool Coordinates_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(10);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Remarks
+    {
+        set
+        {
+            this[11] = value;
+        }
+    }
+    public bool Remarks_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(11);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String FileName
+    {
+        set
+        {
+            this[12] = value;
+        }
+    }
+    public bool FileName_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(12);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+
+public class SubdivisionBuffer: ScriptBuffer
+
+{
+    public SubdivisionBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String CountryCode
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool CountryCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String SubdivisionCode
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool SubdivisionCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Name
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool Name_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String SubdivisionType
+    {
+        set
+        {
+            this[3] = value;
+        }
+    }
+    public bool SubdivisionType_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(3);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String FileName
+    {
+        set
+        {
+            this[4] = value;
+        }
+    }
+    public bool FileName_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(4);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_caf85e4e113a47ad8c5728350e3b7a87.Properties.Settings.get_Default():SC_caf85e4e113a47ad8c5728350e3b7a87.Properties.Sett" +
+    "ings")]
+
+namespace SC_caf85e4e113a47ad8c5728350e3b7a87.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_caf85e4e113a47ad8c5728350e3b7a87.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6049684B-F232-4609-81D5-2CA05A451420}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_caf85e4e113a47ad8c5728350e3b7a87</RootNamespace>
+    <AssemblyName>SC_caf85e4e113a47ad8c5728350e3b7a87</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptComponent" IconIndex="0" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC130</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Project]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>SC_caf85e4e113a47ad8c5728350e3b7a87</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>SC_caf85e4e113a47ad8c5728350e3b7a87</msb:DisplayName>
+		<msb:ProjectId>{99AFA585-C5E0-4FEA-9128-AD8FB04F758B}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_caf85e4e113a47ad8c5728350e3b7a87.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_caf85e4e113a47ad8c5728350e3b7a87")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_caf85e4e113a47ad8c5728350e3b7a87")]
+[assembly: AssemblyCopyright("Copyright @  2017")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_caf85e4e113a47ad8c5728350e3b7a87.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_caf85e4e113a47ad8c5728350e3b7a87.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_caf85e4e113a47ad8c5728350e3b7a87.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_caf85e4e113a47ad8c5728350e3b7a87.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_caf85e4e113a47ad8c5728350e3b7a87.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[App.config]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<system.net>
+		<defaultProxy useDefaultCredentials="true" />
+	</system.net>
+</configuration>]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Stores the binary representation of the component"
+                  isArray="true"
+                  name="BinaryCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="2">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_caf85e4e113a47ad8c5728350e3b7a87.dll]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAEDRO1oAAAAAAAAAAOAAIiALATAAACgAAAAIAAAAAAAANkcA
+AAAgAAAAYAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACgAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAORGAABPAAAAAGAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAIAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAPCcAAAAgAAAAKAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAYAAAAAYAAAAqAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAIAAAAACAAAAMAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAY
+RwAAAAAAAEgAAAACAAUAeCcAALQeAAABAAAAAAAAACxGAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKBAAAAoqHgIoEQAACioTMAMALQAAAAEAABECAnsCAAAE
+bzwAAAYoBAAABgoCBgJ7AwAABCgFAAAGAgYCewQAAAQoBgAABioAAAATMAcAtAAAAAIAABEXCigS
+AAAKJSgTAAAKcgEAAHAoFAAACigVAAAKCwcoFgAACigVAAAKDAIoFwAACh8KcgkAAHADBygYAAAK
+AnsCAAAEbzsAAAZyRQAAcBYGEwQSBG8ZAAAKKBoAAAoNCSgbAAAKbxwAAApzHQAACiUJbx4AAAoD
+B28fAAAKAigXAAAKHwpyRwAAcAcIKBgAAAoCewIAAARvOwAABnJFAABwFgYTBBIEbxkAAAoHCCgg
+AAAKCCobMAcAXQEAAAMAABEXCgMoIQAACgsWDDhDAQAABwiaDQkoIgAACnJ/AABwF28jAAAKCXKH
+AABwbyQAAAoTBBEEXzkVAQAAAigXAAAKHwpymQAAcAkoJQAACgJ7AgAABG87AAAGckUAAHAWBhMF
+EgVvGQAACgkoJgAACnMnAAAKEwYRBhZvKAAAChEGF28pAAAKEQYXjR4AAAElFnK7AABwom8qAAAK
+OJYAAAARBm8rAAAKEwcEbyMAAAYEEQcWmm8JAAAGBBEHF5pvCwAABgQRBxiabw0AAAYEEQcZmm8P
+AAAGBBEHGppvEQAABgQRBxuabxMAAAYEEQccmm8VAAAGBBEHHZpvFwAABgQRBx6abxkAAAYEEQcf
+CZpvGwAABgQRBx8Kmm8dAAAGBBEHHwuabx8AAAYECSgsAAAKbyEAAAYRBm8tAAAKOV7////eDBEG
+LAcRBm8uAAAK3AgXWAwIB45pP7T+//8qAAAAARAAAAIAdQDOQwEMAAAAABswBwAEAQAAAwAAERcK
+AyghAAAKCxYMOOoAAAAHCJoNCSgiAAAKcn8AAHAXbyMAAAoJcr8AAHBvJAAAChMEEQRfObwAAAAC
+KBcAAAofCnKZAABwCSglAAAKAnsCAAAEbzsAAAZyRQAAcBYGEwUSBW8ZAAAKCSgmAAAKcycAAAoT
+BhEGFm8oAAAKEQYXbykAAAoRBheNHgAAASUWcrsAAHCibyoAAAorQxEGbysAAAoTBwRvMQAABgQR
+BxaabycAAAYEEQcXmm8pAAAGBBEHGJpvKwAABgQRBxmaby0AAAYECSgsAAAKby8AAAYRBm8tAAAK
+LLTeDBEGLAcRBm8uAAAK3AgXWAwIB45pPw3///8qARAAAAIAdQB16gAMAAAAAB4CKDQAAAYqKgID
+BAUoLwAACiomAhYDKDAAAAoqWgMsCAIWKDEAAAoqcuEAAHBzMgAACnomAhcDKDAAAAoqWgMsCAIX
+KDEAAAoqcuEAAHBzMgAACnomAhgDKDAAAAoqWgMsCAIYKDEAAAoqcuEAAHBzMgAACnomAhkDKDAA
+AAoqWgMsCAIZKDEAAAoqcuEAAHBzMgAACnomAhoDKDAAAAoqWgMsCAIaKDEAAAoqcuEAAHBzMgAA
+CnomAhsDKDAAAAoqWgMsCAIbKDEAAAoqcuEAAHBzMgAACnomAhwDKDAAAAoqWgMsCAIcKDEAAAoq
+cuEAAHBzMgAACnomAh0DKDAAAAoqWgMsCAIdKDEAAAoqcuEAAHBzMgAACnomAh4DKDAAAAoqWgMs
+CAIeKDEAAAoqcuEAAHBzMgAACnoqAh8JAygwAAAKKl4DLAkCHwkoMQAACipy4QAAcHMyAAAKeioC
+HwoDKDAAAAoqXgMsCQIfCigxAAAKKnLhAABwczIAAAp6KgIfCwMoMAAACipeAywJAh8LKDEAAAoq
+cuEAAHBzMgAACnoqAh8MAygwAAAKKl4DLAkCHwwoMQAACipy4QAAcHMyAAAKeh4CKDMAAAoqHgIo
+NAAACioeAig1AAAKKn4CKDYAAAoCAnM5AAAGfQEAAAQCAnM6AAAGfQIAAAQqBirWAnsDAAAELBIC
+ewMAAARvJAAABgIUfQMAAAQCewQAAAQsEgJ7BAAABG8yAAAGAhR9BAAABCoTMAUAcwAAAAQAABEW
+CitYBAaUDgRyfgEAcCg3AAAKMxkCBQaaAgQGlCg4AAAKDgRzCAAABn0DAAAEBAaUDgRykAEAcCg3
+AAAKMxkCBQaaAgQGlCg4AAAKDgRzJgAABn0EAAAEBhdYCgYDMqQCbzgAAAYCbzUAAAYCKDYAAAYq
+OgIoOQAACgIDfQUAAAQqOgIoOQAACgIDfQYAAAQqlgJ7BgAABG86AAAKcqgBAHBvOwAACig8AAAK
+bz0AAAp0HgAAASqWAnsGAAAEbzoAAApyugEAcG87AAAKKDwAAApvPQAACnQeAAABKh4CKDkAAAoq
+rn4HAAAELR5y4AEAcNAIAAACKD4AAApvPwAACnNAAAAKgAcAAAR+BwAABCoafggAAAQqHgKACAAA
+BCoafgkAAAQqHgIoQQAACiouc0IAAAaACQAABCoAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAzMTkA
+AAAABQBsAAAAxAwAACN+AAAwDQAAeAwAACNTdHJpbmdzAAAAAKgZAABUAgAAI1VTAPwbAAAQAAAA
+I0dVSUQAAAAMHAAAqAIAACNCbG9iAAAAAAAAAAIAAAFXHaIBCQMAAAD6ATMAFgAAAQAAADAAAAAL
+AAAAGQAAAEMAAAA2AAAAQQAAABAAAAAQAAAABAAAAAUAAAApAAAAKgAAAAEAAAAIAAAAAQAAAAIA
+AAAAAPgEAQAAAAAABgDDA+4IBgBXBO4IBgAPA9AIDwBiCQAABgA8AzAHBgCmAzAHBgCHAzAHBgA+
+BDAHBgDjAzAHBgD8AzAHBgBTAzAHBgBuA5sECgAXBCoCDgBaDBsLEgCUCL4ABgAUC4kGCgAVCCoC
+FgDlByoCCgCGByoCCgBpCyoCBgDyAtAIBgAzCA4JBgB6BxsHDgDCAuIEDgAjA+IEDgCZAgYHBgDX
+Au4IBgDUBLQAGgABAGsIBgC1BIkGDgCWCxsLDgB3ARsLDgAnChsLDgBBCxsLHgDEAeAGBgBGDLQA
+BgBpB4kGBgCSBM4LEgBTAr4ABgCHAYkGBgBPB4kGIgAqAEMIIgAaAEMIUwDuCwAAIgA7AEMIBgBs
+AokGBgCTAYkGBgA0DDAHAAAAAHcAAAAAAAEAAQABABAAnAYAABQAAQABAAEAEAAGCAAARQABAAgA
+AQAQAPQHAABFAAEAJgABABAASwsAAFEAAQA0AAEAEACPCgAAQQAFADkAAQAQAKwJAABBAAYAOgAA
+ABAAFQlxCUEABwA9AAABEAASCnEJaQAJAEEAgwEQAHsKAABBAAoARACDARAAZAoAAEEAFgBEAAYA
+jwprAQYArAlvAQYABghzAQYA9Ad3AQEAWQt7AQEAWQt7AREAkAZ/AREAiQKDAREAMgGHAVaAwASL
+AVaAawGLAVaAWgGLAVaAHQKLAVaAvwiLAVaAIgyLAVaARgeLAVaAwwqLAVaAvQKLAVaAhACLAVaA
+wwmLAVaAHwqLAVaAawGLAVaARgGLAVaAHQKLAVaAYQKLAVAgAAAAAMYAdQQGAAEAWCAAAAAAxgCA
+BAYAAQBgIAAAAADGAPkKBgABAJwgAAAAAIEAzAGOAQEAXCEAAAAAgQDjCpMBAgDYIgAAAACBAMoK
+mgEEAPgjAAAAAIYYpAgGAAYAACQAAAAAhhikCMIABgALJAAAAACGCLwEEAAJABUkAAAAAIYIyQWu
+AAoALCQAAAAAhghnARAACwA2JAAAAACGCGMFrgAMAE0kAAAAAIYIVgEQAA0AVyQAAAAAhghLBa4A
+DgBuJAAAAACGCOEBEAAPAHgkAAAAAIYIegWuABAAjyQAAAAAhgi7CBAAEQCZJAAAAACGCOsFrgAS
+ALAkAAAAAIYIHgwQABMAuiQAAAAAhghDBq4AFADRJAAAAACGCEIHEAAVANskAAAAAIYI1wWuABYA
+8iQAAAAAhgi/ChAAFwD8JAAAAACGCDEGrgAYABMlAAAAAIYIuQIQABkAHSUAAAAAhgi5Ba4AGgA0
+JQAAAACGCIAAEAAbAD8lAAAAAIYIIAWuABwAVyUAAAAAhgi/CRAAHQBiJQAAAACGCAcGrgAeAHol
+AAAAAIYIGwoQAB8AhSUAAAAAhggeBq4AIACdJQAAAACGCOoBEAAhAKglAAAAAIYIigWuACIAwCUA
+AAAAhgApDAYAIwDIJQAAAACGACYLBgAjANAlAAAAAIYAKQu+ACMAACQAAAAAhhikCMIAIwALJAAA
+AACGCGcBEAAmABUkAAAAAIYIYwWuACcALCQAAAAAhghCARAAKAA2JAAAAACGCDAFrgApAE0kAAAA
+AIYI4QEQACoAVyQAAAAAhgh6Ba4AKwBuJAAAAACGCF0CEAAsAHgkAAAAAIYIngWuAC0AjyQAAAAA
+hgjqARAALgCZJAAAAACGCIoFrgAvAMAlAAAAAIYAKQwGADAAyCUAAAAAhgAmCwYAMADQJQAAAACG
+ACkLvgAwANglAAAAAIYYpAgGADAA+CUAAAAAxgGxCgYAMAD6JQAAAACBAB4BBgAwADAmAAAAAMYA
+wguhATAA+CUAAAAAxgH5CgYANACvJgAAAACGGKQIrQE0AL4mAAAAAIYYpAitATUAzSYAAAAAhggV
+ArMBNgDzJgAAAACGCJUAswE2ABknAAAAAIMYpAgGADYAIScAAAAAkwgvCLcBNgBNJwAAAACTCHEC
+vAE2AFQnAAAAAJMIfQLBATYAXCcAAAAAlgg1C8cBNwBjJwAAAACGGKQIBgA3AGsnAAAAAJEYqgjM
+ATcAAAABAKwAAAABAMMEAAACACIIAAABAMMEAAACACIIAAABACgIAAACAO0JAAADAJQHAAABAIwE
+AAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAAB
+AIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwE
+AAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABACgIAAACAO0JAAADAJQHAAAB
+AIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwEAAABAIwE
+AAABALcKAAACALEIAAADAJsKAAAEAJQHAAABAG8LAAABAG8LAAABAIwECQCkCAEAEQCkCAYAGQCk
+CAoAKQCkCBAAMQCkCBAAOQCkCBAAQQCkCBAASQCkCBAAUQCkCBAAWQCkCBAAYQCkCBAAaQCkCAYA
+qQCkCAYAyQCkCBUA2QCkCAYAoQB1BAYAoQCABAYA4QDNBCgA4QD3ASgA4QCnBiwA4QAiAiwA4QDE
+BjIAoQDbADcA8QANCzwA6QD2BkMA+QBkDE4AAQFEClMAcQA0ClkAEQGkCAYAEQFQDGAAEQG3AWYA
+GQE9DGwAIQG2CYAA4QC3BjIA8QDZBIYA8QBbCo4A8QANC5MAMQE1C5kAeQCkCJ8AeQBLAqcAeQDP
+Ca4AeQCjCrMAeQDjCLkA4QAJAjIAeQDxAL4AQQGxAgYAiQCkCMIAiQBmBswAiQBVBgEASQGkCBAA
+iQApDAYAiQAmCwYAiQApC74AoQCkCAYAoQCJANYAoQABCt0AgQCkCAYAoQCgCeMAUQFdBukAoQAJ
+DPAAWQHaC/YAcQGlAf0AcQEwDAYBsQCkCAwB0QCkCAYACAAoAC8BCAAsADQBCAAwADkBCAA0AD4B
+CAA4AEMBCAA8AEgBCABAAE0BCABEAFIBCABIAFcBCABMAFwBCABQAGEBCABUAGYBCABYAC8BCABc
+ADQBCABgADkBCABkAD4BLgALAOcBLgATAPABLgAbAA8CLgAjABgCLgArAEECLgAzAEECLgA7AEEC
+LgBDABgCLgBLAEcCLgBTAEECLgBbAF4CQwBjADQBAwFrADQBIQF7ADQB6QRzAA8CCQVzAA8CGwAf
+AHIA0gADAAEABAAbAAcAJQAIACcACQApAAAAwATQAQAAzQXUAQAAawHQAQAAZwXUAQAAWgHQAQAA
+TwXUAQAAHQLQAQAAkgXUAQAAvwjQAQAA7wXUAQAAIgzQAQAARwbUAQAARgfQAQAA2wXUAQAAwwrQ
+AQAANQbUAQAAvQLQAQAAvQXUAQAAhADQAQAAJAXUAQAAwwnQAQAACwbUAQAAHwrQAQAAIgbUAQAA
+DALQAQAAjgXUAQAAawHQAQAAZwXUAQAARgHQAQAANAXUAQAAHQLQAQAAkgXUAQAAYQLQAQAAogXU
+AQAADALQAQAAjgXUAQAAGQLQAQAAmQDQAQAAMwjYAQAAkQLdAQAAOQviAQEACQADAAEACgAFAAEA
+CwAHAAEADAAJAAEADQALAAEADgANAAEADwAPAAEAEAARAAEAEQATAAEAEgAVAAEAEwAXAAEAFAAZ
+AAEAFQAbAAEAFgAdAAEAFwAfAAEAGAAhAAEAGQAjAAEAGgAlAAEAGwAnAAEAHAApAAEAHQArAAEA
+HgAtAAEAHwAvAAEAIAAxAAEAIQAzAAEAIgA1AAEAJwA3AAEAKAA5AAEAKQA7AAEAKgA9AAEAKwA/
+AAEALABBAAEALQBDAAEALgBFAAEALwBHAAEAMABJAAIAOwBLAAIAPABNAAIAPgBPAAIAPwBRAAEA
+QABRAAIAQQBTAASAAAABAAAAAAAAAAAAAAAAAFMAAAAEAAAAAAAAAAAAAAAUAf8AAAAAAA0AAAAA
+AAAAAAAAAB0BeQsAAAAABAAAAAAAAAAAAAAAFAGJBgAAAAAKAAAAAAAAAAAAAAAmAQgBAAAAAA0A
+AAAAAAAAAAAAAB0BoQsAAAAADQAAAAAAAAAAAAAAHQHBBwAAAAAEAAAAAAAAAAAAAAAUAW8GAAAA
+AA0AAAAAAAAAAAAAAB0BngcAAAAAAAAAAAEAAAAfCQAACgACAAsAAgAAAABJRFRTQ29tcG9uZW50
+TWV0YURhdGExMDAASURUU1ZhcmlhYmxlMTAwAElEVFNWYXJpYWJsZXMxMDAASURUU0V2YWx1YXRv
+ckNvbnRleHQxMDAAU0NfY2FmODVlNGUxMTNhNDdhZDhjNTcyODM1MGUzYjdhODcAPE1vZHVsZT4A
+c2V0X0lBVEEAR2V0T3V0cHV0SUQAZ2V0X1VuTG9jb2RlWmlwRmlsZVVSTABmaWxlVVJMAFN5c3Rl
+bS5JTwBNaWNyb3NvZnQuVmlzdWFsQmFzaWMuRmlsZUlPAGdldF9Db21wb25lbnRNZXRhRGF0YQBn
+ZXRfRW5kT2ZEYXRhAG1zY29ybGliAE1pY3Jvc29mdC5WaXN1YWxCYXNpYwBNYXJrT3V0cHV0c0Zp
+bmlzaGVkAGRlZmF1bHRJbnN0YW5jZQBzZXRfU3ViZGl2aXNpb25Db2RlAHNldF9Mb2NhdGlvbkNv
+ZGUAc2V0X0NvdW50cnlDb2RlAENyZWRlbnRpYWxDYWNoZQBJRGlzcG9zYWJsZQBSdW50aW1lVHlw
+ZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBEb3dubG9hZEZpbGUAWmlwRmlsZQBEb3dubG9hZEFu
+ZFVuemlwRmlsZQBzZXRfTmFtZQBzZXRfRmlsZU5hbWUAR2V0UmFuZG9tRmlsZU5hbWUAR2V0Rmls
+ZU5hbWUAZ2V0X1Rhc2tOYW1lAENvbWJpbmUATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUGlwZWxp
+bmUAc2V0X1RleHRGaWVsZFR5cGUAc2V0X1N1YmRpdmlzaW9uVHlwZQBnZXRfQ3VsdHVyZQBzZXRf
+Q3VsdHVyZQByZXNvdXJjZUN1bHR1cmUAQXBwbGljYXRpb25TZXR0aW5nc0Jhc2UARGlzcG9zZQBz
+ZXRfRGF0ZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBE
+ZWJ1Z2dlck5vblVzZXJDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJv
+d3NhYmxlQXR0cmlidXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtB
+dHRyaWJ1dGUAVGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0
+dHJpYnV0ZQBBc3NlbWJseURlc2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlv
+bnNBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0QXR0
+cmlidXRlAFNTSVNTY3JpcHRDb21wb25lbnRFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29t
+cGFueUF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRlAFBv
+c3RFeGVjdXRlAHZhbHVlAEVuY29kaW5nAFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcAU3RyaW5n
+AHNldF9DaAB1bnppcFBhdGgAR2V0VGVtcFBhdGgARW5kc1dpdGgAU3lzdGVtLkNvbXBvbmVudE1v
+ZGVsAFNDX2NhZjg1ZTRlMTEzYTQ3YWQ4YzU3MjgzNTBlM2I3YTg3LmRsbABzZXRfSUFUQV9Jc051
+bGwAc2V0X1N1YmRpdmlzaW9uQ29kZV9Jc051bGwAc2V0X0xvY2F0aW9uQ29kZV9Jc051bGwAc2V0
+X0NvdW50cnlDb2RlX0lzTnVsbABzZXRfTmFtZV9Jc051bGwAc2V0X0ZpbGVOYW1lX0lzTnVsbABz
+ZXRfU3ViZGl2aXNpb25UeXBlX0lzTnVsbABzZXRfRGF0ZV9Jc051bGwAc2V0X0NoX0lzTnVsbABz
+ZXRfRnVuY3Rpb25fSXNOdWxsAHNldF9OYW1lV29EaWFjcml0aWNzX0lzTnVsbABzZXRfQ29vcmRp
+bmF0ZXNfSXNOdWxsAHNldF9SZW1hcmtzX0lzTnVsbABzZXRfU3RhdHVzX0lzTnVsbABzZXRfU3Vi
+RGl2X0lzTnVsbABTZXROdWxsAGdldF9JdGVtAHNldF9JdGVtAFN5c3RlbS5JTy5Db21wcmVzc2lv
+bi5GaWxlU3lzdGVtAHJlc291cmNlTWFuAFNjcmlwdE1haW4AQ2hhbmdlRXh0ZW5zaW9uAEdldEV4
+dGVuc2lvbgBHZXRGaWxlTmFtZVdpdGhvdXRFeHRlbnNpb24AU3lzdGVtLklPLkNvbXByZXNzaW9u
+AEZpcmVJbmZvcm1hdGlvbgBTeXN0ZW0uQ29uZmlndXJhdGlvbgBTeXN0ZW0uR2xvYmFsaXphdGlv
+bgBTeXN0ZW0uUmVmbGVjdGlvbgBzZXRfRnVuY3Rpb24ASW52YWxpZE9wZXJhdGlvbkV4Y2VwdGlv
+bgBTdHJpbmdDb21wYXJpc29uAEN1bHR1cmVJbmZvAE91dHB1dE5hbWVNYXAAT3V0cHV0TWFwAE1p
+Y3Jvc29mdC5TcWxTZXJ2ZXIuRFRTUnVudGltZVdyYXAATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNQ
+aXBlbGluZVdyYXAAUGlwZWxpbmVCdWZmZXIAU3ViZGl2aXNpb25CdWZmZXIATG9jYXRpb25CdWZm
+ZXIAU2NyaXB0QnVmZmVyAG91dHB1dEJ1ZmZlcgBnZXRfUmVzb3VyY2VNYW5hZ2VyAE1pY3Jvc29m
+dC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUuV3JhcHBlcgBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5Q
+aXBlbGluZS5XcmFwcGVyAFRleHRGaWVsZFBhcnNlcgAuY3RvcgAuY2N0b3IAT3V0cHV0SURzAHNl
+dF9OYW1lV29EaWFjcml0aWNzAFN5c3RlbS5EaWFnbm9zdGljcwBSZWFkRmllbGRzAFN5c3RlbS5S
+dW50aW1lLkNvbXBpbGVyU2VydmljZXMAU3lzdGVtLlJlc291cmNlcwBTQ19jYWY4NWU0ZTExM2E0
+N2FkOGM1NzI4MzUwZTNiN2E4Ny5Qcm9wZXJ0aWVzLlJlc291cmNlcy5yZXNvdXJjZXMARGVidWdn
+aW5nTW9kZXMAU0NfY2FmODVlNGUxMTNhNDdhZDhjNTcyODM1MGUzYjdhODcuUHJvcGVydGllcwBn
+ZXRfUmVhZE9ubHlWYXJpYWJsZXMAR2V0RmlsZXMAc2V0X0Nvb3JkaW5hdGVzAHNldF9IYXNGaWVs
+ZHNFbmNsb3NlZEluUXVvdGVzAEJ1ZmZlckNvbHVtbkluZGV4ZXMAR2V0Q29sdW1uSW5kZXhlcwBT
+ZXR0aW5ncwBzZXRfUmVtYXJrcwBJQ3JlZGVudGlhbHMAc2V0X0NyZWRlbnRpYWxzAGdldF9EZWZh
+dWx0Q3JlZGVudGlhbHMAQ29udGFpbnMAU3ViZGl2aXNpb25GaWxlQ29sdW1ucwBMb2NhdGlvbkZp
+bGVDb2x1bW5zAENvbm5lY3Rpb25zAEJ1ZmZlcnMAU2V0RGVsaW1pdGVycwBGaW5pc2hPdXRwdXRz
+AHNldF9TdGF0dXMAQWRkU3ViZGl2aXNpb25PdXRwdXRSb3dzAEFkZExvY2F0aW9uT3V0cHV0Um93
+cwBDcmVhdGVOZXdPdXRwdXRSb3dzAEZvcm1hdABPYmplY3QAU3lzdGVtLk5ldABTZXRFbmRPZlJv
+d3NldABnZXRfRGVmYXVsdABXZWJDbGllbnQAVXNlckNvbXBvbmVudABQYXJlbnRDb21wb25lbnQA
+U2NyaXB0Q29tcG9uZW50AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuVHhTY3JpcHQAV2ViUmVxdWVzdABN
+aWNyb3NvZnQuU3FsU2VydmVyLlBpcGVsaW5lSG9zdABQcmltZU91dHB1dABTeXN0ZW0uVGV4dABH
+ZXRWYWx1ZVdpdGhDb250ZXh0AFNjcmlwdENvbXBvbmVudEV2YWxDb250ZXh0AGdldF9FdmFsdWF0
+b3JDb250ZXh0AHNldF9TdWJEaXYAQWRkUm93AGdldF9Bc3NlbWJseQBFeHRyYWN0VG9EaXJlY3Rv
+cnkAc2V0X1Byb3h5AElXZWJQcm94eQBHZXRTeXN0ZW1XZWJQcm94eQAAAAAHegBpAHAAADtEAG8A
+dwBuAGwAbwBhAGQAaQBuAGcAIAAnAHsAMAB9ACcAIAB0AG8AIAAnAHsAMQB9ACcALgAuAC4AAQEA
+N1UAbgB6AGkAcABwAGkAbgBnACAAJwB7ADAAfQAnACAAdABvACAAJwB7ADEAfQAnAC4ALgAuAAEH
+YwBzAHYAABFDAG8AZABlAEwAaQBzAHQAACFQAGEAcgBzAGkAbgBnACAAJwB7ADAAfQAnAC4ALgAu
+AAEDLAAAIVMAdQBiAGQAaQB2AGkAcwBpAG8AbgBDAG8AZABlAHMAAICbSQBzAE4AdQBsAGwAIABw
+AHIAbwBwAGUAcgB0AHkAIABjAGEAbgBuAG8AdAAgAGIAZQAgAHMAZQB0ACAAdABvACAARgBhAGwA
+cwBlAC4AIABBAHMAcwBpAGcAbgAgAGEAIAB2AGEAbAB1AGUAIAB0AG8AIAB0AGgAZQAgAGMAbwBs
+AHUAbQBuACAAaQBuAHMAdABlAGEAZAAuAAARTABvAGMAYQB0AGkAbwBuAAAXUwB1AGIAZABpAHYA
+aQBzAGkAbwBuAAARVABhAHMAawBOAGEAbQBlAAAlVQBuAEwAbwBjAG8AZABlAFoAaQBwAEYAaQBs
+AGUAVQBSAEwAAHFTAEMAXwBjAGEAZgA4ADUAZQA0AGUAMQAxADMAYQA0ADcAYQBkADgAYwA1ADcA
+MgA4ADMANQAwAGUAMwBiADcAYQA4ADcALgBQAHIAbwBwAGUAcgB0AGkAZQBzAC4AUgBlAHMAbwB1
+AHIAYwBlAHMAAAAAeGkaQB1qJEKeJppAWCHtZAAEIAEBCAMgAAEFIAEBEREEIAEBDgUgAQERYQMH
+AQ4IBwUCDg4SOQIDAAAOBQACDg4OBAABDg4EIAASdQYAAw4OHBwKIAYBCA4ODggQAgQAABI5BQAA
+EoCFBiABARKAhQUgAQESOQUgAgEODgUAAgEODg0HCAIdDggOAgISPR0OBQABHQ4OByACAg4RgJUE
+IAECDgUAAg4OHAUAABKAmQcgAgEOEoCZBiABARGAnQQgAQECBSABAR0OBCAAHQ4DIAACCSADARJJ
+HQgSTQUgAgEIHAMHAQgGAAIIEk0OBSABHQgIBSAAEoCpBiABEoCtHAUAABKAsQYgARwSgLUIAAES
+gLkRgL0FIAASgMEHIAIBDhKAwQi3elxWGTTgiQiJhF3NgIDMkQiwP19/EdUKOgQAAAAABAEAAAAE
+AgAAAAQDAAAABAQAAAAEBQAAAAQGAAAABAcAAAAECAAAAAQJAAAABAoAAAAECwAAAAMGEhgDBhIc
+AwYSDAMGEhADBhJRAwYSWQMGEl0DBhIkAgYIBCABDg4GIAIBDhIMBiACAQ4SEAsgBAEIHQgdEkkS
+TQUgAQESUQMgAA4EAAASWQQAABJdBQABARJdBAAAEiQDAAABAygADgMoAAIECAASWQQIABJdBAgA
+EiQIAQAIAAAAAAAeAQABAFQCFldyYXBOb25FeGNlcHRpb25UaHJvd3MBCAEAAgAAAAAAKAEAI1ND
+X2NhZjg1ZTRlMTEzYTQ3YWQ4YzU3MjgzNTBlM2I3YTg3AAAFAQAAAAAWAQARQ29weXJpZ2h0IEAg
+IDIwMTcAAEkBABouTkVURnJhbWV3b3JrLFZlcnNpb249djQuNQEAVA4URnJhbWV3b3JrRGlzcGxh
+eU5hbWUSLk5FVCBGcmFtZXdvcmsgNC41tAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2Vz
+LlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRy
+YWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50
+aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAAxHAAAAAAAAAAAAACZHAAAAIAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAYRwAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxs
+AAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAY
+AACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAAAABIAAAAWGAAAOwD
+AAAAAAAAAAAAAOwDNAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBPAAAAAAC9BO/+AAAB
+AAAAAQAAAAAAAAABAAAAAAA/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAARAAAAAEAVgBhAHIA
+RgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBvAG4AAAAAAAAAsARM
+AwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAAAoAwAAAQAwADAAMAAwADAANABiADAA
+AAAaAAEAAQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEAQwBvAG0AcABhAG4AeQBOAGEAbQBl
+AAAAAAAAAAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAAFMAQwBfAGMA
+YQBmADgANQBlADQAZQAxADEAMwBhADQANwBhAGQAOABjADUANwAyADgAMwA1ADAAZQAzAGIANwBh
+ADgANwAAADAACAABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAALgAwAC4AMAAAAHAA
+KAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBDAF8AYwBhAGYAOAA1AGUANABlADEAMQAz
+AGEANAA3AGEAZAA4AGMANQA3ADIAOAAzADUAMABlADMAYgA3AGEAOAA3AC4AZABsAGwAAABIABIA
+AQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8AcAB5AHIAaQBnAGgAdAAgAEAAIAAg
+ADIAMAAxADcAAAAqAAEAAQBMAGUAZwBhAGwAVAByAGEAZABlAG0AYQByAGsAcwAAAAAAAAAAAHgA
+KAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABlAG4AYQBtAGUAAABTAEMAXwBjAGEAZgA4ADUAZQA0
+AGUAMQAxADMAYQA0ADcAYQBkADgAYwA1ADcAMgA4ADMANQAwAGUAMwBiADcAYQA4ADcALgBkAGwA
+bAAAAGgAJAABAFAAcgBvAGQAdQBjAHQATgBhAG0AZQAAAAAAUwBDAF8AYwBhAGYAOAA1AGUANABl
+ADEAMQAzAGEANAA3AGEAZAA4AGMANQA3ADIAOAAzADUAMABlADMAYgA3AGEAOAA3AAAANAAIAAEA
+UAByAG8AZAB1AGMAdABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4AMAAAADgACAABAEEAcwBz
+AGUAbQBiAGwAeQAgAFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAwAAAA4NwAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                  name="VSTAProjectName"
+                  typeConverter="NOTBROWSABLE">SC_caf85e4e113a47ad8c5728350e3b7a87</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the programming language used by the script."
+                  name="ScriptLanguage"
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read-only variables."
+                  name="ReadOnlyVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg">System::TaskName,$Package::UnLocodeZipFileURL</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read/write variables."
+                  name="ReadWriteVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                <property
+                  dataType="System.String"
+                  description="List of breakpoints present on the script."
+                  isArray="true"
+                  name="BreakpointCollection"
+                  typeConverter="NOTBROWSABLE">
+                  <arrayElements
+                    arrayElementCount="0" />
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataChecksum"
+                  typeConverter="NOTBROWSABLE">a78f2da76db3da3e134a18dedcb9e4d1</property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataShaChecksum"
+                  typeConverter="NOTBROWSABLE">8ef3a484a496d86003065bf902716f6c21d8e227</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+              </properties>
+              <outputs>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location]"
+                  hasSideEffects="true"
+                  name="Location">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Ch]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Ch]"
+                      name="Ch" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[CountryCode]"
+                      name="CountryCode" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[LocationCode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[LocationCode]"
+                      name="LocationCode" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[NameWoDiacritics]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[NameWoDiacritics]"
+                      name="NameWoDiacritics" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[SubDiv]"
+                      name="SubDiv" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Function]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Function]"
+                      name="Function" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Status]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Status]"
+                      name="Status" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[IATA]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[IATA]"
+                      name="IATA" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Coordinates]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Coordinates]"
+                      name="Coordinates" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Remarks]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[Remarks]"
+                      name="Remarks" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[FileName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location].Columns[FileName]"
+                      name="FileName" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision]"
+                  hasSideEffects="true"
+                  name="Subdivision">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[CountryCode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[CountryCode]"
+                      name="CountryCode" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[SubdivisionCode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[SubdivisionCode]"
+                      name="SubdivisionCode" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[SubdivisionType]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[SubdivisionType]"
+                      name="SubdivisionType" />
+                    <outputColumn
+                      refId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[FileName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision].Columns[FileName]"
+                      name="FileName" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output1]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State).Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output2]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output3]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City).Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Location]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Inputs[Conditional Split Input]"
+              name="Location"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Location]" />
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Location Data]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City).Inputs[Derived Column Input]"
+              name="Location Data"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines.Outputs[Location Data]" />
+            <path
+              refId="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Subdivision]"
+              endId="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State).Inputs[Derived Column Input]"
+              name="Subdivision"
+              startId="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files.Outputs[Subdivision]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Truncate Entity Core_City"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5BB4D79E-8A8C-4C07-842F-C8EF91241966}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Truncate Entity Core_City"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateCoreCity" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Truncate Entity Core_State"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3F226EEB-1757-48C9-AAFE-A45D1C93B5B0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Truncate Entity Core_State"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateCoreState" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{A7B0C040-0DCF-47D9-90A9-1FC1345FFC95}"
+      DTS:From="Package\SQL - Truncate Entity Core_State"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - Download UN LOCODE Data and Load the DataStore" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{B554C98F-37A3-4609-BC7C-C1531D7459EA}"
+      DTS:From="Package\SQL - Truncate Entity Core_City"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - Download UN LOCODE Data and Load the DataStore" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="357,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore"
+          TopLeft="237.5,107.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\SQL - Truncate Entity Core_City"
+          TopLeft="301.5,5.5" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\SQL - Truncate Entity Core_State"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="123,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="234.833333333333,60"
+              Start="0,0"
+              End="234.833333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.8393753485778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.8393753485778"
+                    Point2="0,35.8393753485778"
+                    Point3="4,35.8393753485778" />
+                  <mssgle:LineSegment
+                    End="230.833333333333,35.8393753485778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="230.833333333333,35.8393753485778"
+                    Point2="234.833333333333,35.8393753485778"
+                    Point3="234.833333333333,39.8393753485778" />
+                  <mssgle:LineSegment
+                    End="234.833333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="99.4234244791667,40.8393753485778,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="416,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="58.1666666666666,60"
+              Start="0,0"
+              End="58.1666666666666,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.8393753485778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.8393753485778"
+                    Point2="0,35.8393753485778"
+                    Point3="4,35.8393753485778" />
+                  <mssgle:LineSegment
+                    End="54.1666666666666,35.8393753485778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="54.1666666666666,35.8393753485778"
+                    Point2="58.1666666666666,35.8393753485778"
+                    Point3="58.1666666666666,39.8393753485778" />
+                  <mssgle:LineSegment
+                    End="58.1666666666666,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="11.0900911458333,40.8393753485778,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Pour rafraichir les données&#xA;&#xA;1) Téléchargez la dernière version du fichier zip avec les locodes:&#xA;&#xA;ex. http://www.unece.org/fileadmin/DAM/cefact/locode/loc171csv.zip&#xA;&#xA;Dans le répertoire suivant:&#xA;&#xA;ex. file://corp/appsbur/IC_DM/dev/input/UNECE/LOCODE/loc171csv.zip&#xA;&#xA;2) Mettez à jour le paramètre UnLocodeZipFileURL&#xA;3) Lancez manuellement le package."
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="408,216"
+          Id="12785dc7-a51a-4e0d-8ff6-ec780c138dec"
+          TopLeft="629,12" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Download UN LOCODE Data and Load the DataStore">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="318,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State"
+          TopLeft="5.50000000000006,311.5" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_State)"
+          TopLeft="69,209.5" />
+        <NodeLayout
+          Size="311,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City"
+          TopLeft="345,413.5" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_State)"
+          TopLeft="64.5,107.5" />
+        <NodeLayout
+          Size="290,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\SCR - Download and Parse UN LOCODE Files"
+          TopLeft="355.5,5.49999999999989" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Add metadata (Core_City)"
+          TopLeft="384.5,311.5" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\DER - Preprocess data (Core_City)"
+          TopLeft="380,209.5" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore\CSPL - Ignore country separator lines"
+          TopLeft="373,107.5" />
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output]"
+          TopLeft="188.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-23.9999999999999,60"
+              Start="0,0"
+              End="-23.9999999999999,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-19.9999999999999,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19.9999999999999,30"
+                    Point2="-23.9999999999999,30"
+                    Point3="-23.9999999999999,34" />
+                  <mssgle:LineSegment
+                    End="-23.9999999999999,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Subdivision]"
+          TopLeft="453.5,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-265,60"
+              Start="0,0"
+              End="-265,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1975308641975" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1975308641975"
+                    Point2="0,24.1975308641975"
+                    Point3="-4,24.1975308641975" />
+                  <mssgle:LineSegment
+                    End="-261,24.1975308641975" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-261,24.1975308641975"
+                    Point2="-265,24.1975308641975"
+                    Point3="-265,28.1975308641975" />
+                  <mssgle:LineSegment
+                    End="-265,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-157.76259765625,29.1975308641975,50.5251953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Location Data]"
+          TopLeft="500.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-30.648359375,21.5146484375,61.29671875,9.470703125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Location]"
+          TopLeft="547.5,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-47,60"
+              Start="0,0"
+              End="-47,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1975308641975" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1975308641975"
+                    Point2="0,24.1975308641975"
+                    Point3="-4,24.1975308641975" />
+                  <mssgle:LineSegment
+                    End="-43,24.1975308641975" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-43,24.1975308641975"
+                    Point2="-47,24.1975308641975"
+                    Point3="-47,28.1975308641975" />
+                  <mssgle:LineSegment
+                    End="-47,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-42.27193359375,29.1975308641975,37.5438671875,9.470703125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output3]"
+          TopLeft="500.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output2]"
+          TopLeft="500.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Download UN LOCODE Data and Load the DataStore.Paths[Derived Column Output1]"
+          TopLeft="188.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_State">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Download UN LOCODE Data and Load the DataStore\OLE_DST - IC_DM_DataStore - Entity - Core_City">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

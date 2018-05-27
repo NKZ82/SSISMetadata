@@ -1,0 +1,1313 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/21/2016 3:55:50 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSHP15"
+  DTS:CreatorName="CORP\adm1neh"
+  DTS:DTSID="{990FF219-87D6-4521-A2DA-DB5450C4599D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="MARKETDATA_EXCHANGERATE_VIEW"
+  DTS:PackageType="5"
+  DTS:VersionBuild="78"
+  DTS:VersionGUID="{23E2CD2F-EA84-443D-8509-166931BC245D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F876017D-EE4D-40B5-A6D3-A9A87F3D8BC0}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::var_OutputFileFullPath]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="4105"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\corp\appsbur\IC_DM\dev\output\MARKETDATA_EXCHANGERATE\IC_Rates_OUT_180525112115.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CurrencyFrom"
+              DTS:DTSID="{A210B748-C745-4660-9A9A-0F69EDF02EAE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CurrencyTo"
+              DTS:DTSID="{38DAE779-3E51-4CE4-AFDD-95322D57EECB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:DataScale="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="FXRate"
+              DTS:DTSID="{8FDD66CA-FC10-417F-85F9-A47177C9F196}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="StartDate"
+              DTS:DTSID="{92E61785-D0FA-4A1B-9733-2DA16B704FF2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Source"
+              DTS:DTSID="{1D0B08A9-FB35-4449-990B-CA42E00639B8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Scenario"
+              DTS:DTSID="{88BE34CE-0C1D-4752-B40C-0CCA13C14B31}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Multiply_Divide"
+              DTS:DTSID="{F52BA5ED-A564-435A-816D-B293C114C971}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{D4D8162C-C6BA-4C01-8213-0605B897F9E4}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">'test'</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{2AD8EAC6-3422-42D9-9241-FAD5BE2A0679}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{1699F07A-F71A-48DF-BAEF-2898CD0C153A}"
+      DTS:ObjectName="Message_ID_List">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">15,16</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{915638BC-5972-4627-99B0-6FE5A938037A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">MARKETDATA_EXCHANGERATE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AE692BD1-FF4A-4E5B-90BD-EAFFEF65F747}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="RIGHT(&quot;0&quot; + (DT_STR,4,1252) DatePart(&quot;yyyy&quot;,getdate()),2)  +&#xA;RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;mm&quot;,GetDate()) ,2) +&#xA;RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;dd&quot;,GetDate()),2)  +&#xA;RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;hh&quot;,GetDate()),2)+&#xA;RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;mi&quot;,GetDate()),2)+ &#xA;RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;ss&quot;,GetDate()),2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CurrentTimestamp">
+      <DTS:VariableValue
+        DTS:DataType="8">180525112115</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5FD90CBC-D307-4566-8E38-5E3A4F7B9E1C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;IC_Rates_OUT_&quot; +   @[User::var_CurrentTimestamp] + &quot;.csv&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_fileName">
+      <DTS:VariableValue
+        DTS:DataType="8">IC_Rates_OUT_180525112115.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9FC75F5A-F910-484C-AE22-487DF13AA3BC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot; &#x9;&#x9;SELECT ISNULL(MIN(LastStartingDateSucceded), DATEFROMPARTS(1900,01,01)) as LastPublishedDate&#xA;  FROM [IC_DM_DataWarehouse].[esb].[v_EventLastNotification] with (nolock) &#xA;  INNER JOIN [IC_DM_DataWarehouse].esb.v_Message on v_Message.Event_ID = [IC_DM_DataWarehouse].[esb].[v_EventLastNotification].Event_ID&#xA;  where Message_ID in (&quot; + @[$Package::Message_ID_List]  + &quot;)&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_GetLatestPublishedDate">
+      <DTS:VariableValue
+        DTS:DataType="8"> 		SELECT ISNULL(MIN(LastStartingDateSucceded), DATEFROMPARTS(1900,01,01)) as LastPublishedDate
+  FROM [IC_DM_DataWarehouse].[esb].[v_EventLastNotification] with (nolock) 
+  INNER JOIN [IC_DM_DataWarehouse].esb.v_Message on v_Message.Event_ID = [IC_DM_DataWarehouse].[esb].[v_EventLastNotification].Event_ID
+  where Message_ID in (15,16)</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CFD24BE1-6EB1-4548-BF57-6D74C66187C3}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_lastPublishedDate">
+      <DTS:VariableValue
+        DTS:DataType="7">11/13/2016 1:44:11 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1593D484-B57F-4035-BBE4-17E0871F3669}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yyyy&quot;, @[User::var_lastPublishedDate]) + &quot;-&quot; +&#xA;&#xA;(DT_STR, 2, 1252) DATEPART(&quot;mm&quot;, @[User::var_lastPublishedDate]) + &quot;-&quot; +&#xA;&#xA;(DT_STR, 2, 1252) DATEPART(&quot;dd&quot;, @[User::var_lastPublishedDate]) + &quot; &quot; +&#xA;&#xA;(DT_STR, 2, 1252) DATEPART(&quot;hh&quot;, @[User::var_lastPublishedDate]) + &quot;:&quot; +&#xA;&#xA;(DT_STR, 2, 1252) DATEPART(&quot;mi&quot;, @[User::var_lastPublishedDate]) + &quot;:&quot; +&#xA;&#xA;(DT_STR, 2, 1252) DATEPART(&quot;ss&quot;, @[User::var_lastPublishedDate]) + &quot;.&quot; +&#xA;&#xA;(DT_STR, 3, 1252) DATEPART(&quot;ms&quot;, @[User::var_lastPublishedDate])"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_lastPublishedDateStr">
+      <DTS:VariableValue
+        DTS:DataType="8">2016-11-13 13:44:11.0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AC3A7D24-A9F5-48FD-B366-1C9783DBAE8B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::IC_DM_Files_Folder] + &quot;\\output\\&quot; +  @[User::md_Data] + &quot;\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_OutputDirectory">
+      <DTS:VariableValue
+        DTS:DataType="8">\\corp\appsbur\IC_DM\dev\output\MARKETDATA_EXCHANGERATE\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{101F7E0C-A7DD-4BE5-BB92-28345387B3AA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::var_OutputDirectory]  +  @[User::var_fileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_OutputFileFullPath">
+      <DTS:VariableValue
+        DTS:DataType="8">\\corp\appsbur\IC_DM\dev\output\MARKETDATA_EXCHANGERATE\IC_Rates_OUT_180525112115.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9B1B911E-E95C-4F25-93D2-84638A5E9202}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_rowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{62922093-8C23-47F7-9160-66E1B3FBF51F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT * FROM &quot; +  @[User::var_SubscriptionView] + &quot; WHERE IC_DM_TIMESTAMP_UPDATE &gt; '&quot; + @[User::var_lastPublishedDateStr]  + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_sourceSQLQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT * FROM sub.v_Ref_MarketData_ExchangeRate_GT WHERE IC_DM_TIMESTAMP_UPDATE &gt; '2016-11-13 13:44:11.0'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6889982A-F334-4B71-B3D8-E6FBBF4EB5C3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;sub.v_Ref_MarketData_ExchangeRate_GT&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_SubscriptionView">
+      <DTS:VariableValue
+        DTS:DataType="8">sub.v_Ref_MarketData_ExchangeRate_GT</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Get Rows Count"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{1652be7e-361f-42ff-9641-9c52b0454a0e}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Get Rows Count"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Get Rows Count\Row Count"
+              componentClassID="Microsoft.RowCount"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Row Count">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::var_rowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - Get Rows Count\Row Count.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Get Rows Count\Row Count.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\DFT - Get Rows Count\Row Count.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Get Rows Count\SRC - subscriptionView"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="SRC - subscriptionView"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sub].[v_Met_JDE_Finance_Forecast_GT]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable">User::var_SubscriptionView</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::var_sourceSQLQuery</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Connections[OleDbConnection]"
+                  connectionManagerID="{A81991BE-9342-43D6-8B8B-F0BCF9BBDE2E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      length="10"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Multiply_Divide]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Multiply_Divide]"
+                      length="1"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Multiply_Divide]"
+                      name="Multiply_Divide"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[CurrencyFrom]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[CurrencyFrom]"
+                      length="3"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[CurrencyFrom]"
+                      name="CurrencyFrom"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[CurrencyTo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[CurrencyTo]"
+                      length="3"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[CurrencyTo]"
+                      name="CurrencyTo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[FXRate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[FXRate]"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[FXRate]"
+                      name="FXRate"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Source]"
+                      length="7"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Source]"
+                      name="Source"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Scenario]"
+                      length="7"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].Columns[Scenario]"
+                      name="Scenario"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="i8"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Multiply_Divide]"
+                      dataType="wstr"
+                      length="1"
+                      name="Multiply_Divide" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[CurrencyFrom]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyFrom" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[CurrencyTo]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyTo" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[FXRate]"
+                      dataType="numeric"
+                      name="FXRate"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output].ExternalColumns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="Scenario" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="i8"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[CurrencyFrom]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[CurrencyFrom]"
+                      name="CurrencyFrom" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[CurrencyTo]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[CurrencyTo]"
+                      name="CurrencyTo" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[FXRate]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[FXRate]"
+                      name="FXRate"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[StartDate]"
+                      name="StartDate" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Source]"
+                      name="Source" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Scenario]"
+                      name="Scenario" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Multiply_Divide]"
+                      dataType="wstr"
+                      length="1"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[Multiply_Divide]"
+                      name="Multiply_Divide" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Get Rows Count.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Get Rows Count\Row Count.Inputs[Row Count Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Get Rows Count\SRC - subscriptionView.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5DF09992-444E-48E1-993C-6773C6FF046B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - MARKETDATA_EXCHANGERATE_EXTRACT"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Flat File Destination"
+              localeId="4105"
+              name="GT Rates">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"
+                  name="Header" />
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input]"
+                  hasSideEffects="true"
+                  name="Flat File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[StartDate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[StartDate]" />
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[CurrencyFrom]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="CurrencyFrom"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[CurrencyFrom]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[CurrencyFrom]" />
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[CurrencyTo]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="CurrencyTo"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[CurrencyTo]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[CurrencyTo]" />
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[FXRate]"
+                      cachedDataType="numeric"
+                      cachedName="FXRate"
+                      cachedPrecision="18"
+                      cachedScale="9"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[FXRate]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[FXRate]" />
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[Source]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="7"
+                      cachedName="Source"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[Source]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Source]" />
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[Scenario]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="7"
+                      cachedName="Scenario"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[Scenario]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Scenario]" />
+                    <inputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].Columns[Multiply_Divide]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="Multiply_Divide"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[Multiply_Divide]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Multiply_Divide]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[CurrencyFrom]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyFrom" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[CurrencyTo]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyTo" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[FXRate]"
+                      dataType="numeric"
+                      name="FXRate"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="Scenario" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input].ExternalColumns[Multiply_Divide]"
+                      dataType="wstr"
+                      length="50"
+                      name="Multiply_Divide" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="SRC - subscription view market data"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::var_sourceSQLQuery</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Connections[OleDbConnection]"
+                  connectionManagerID="{A81991BE-9342-43D6-8B8B-F0BCF9BBDE2E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      length="10"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Multiply_Divide]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Multiply_Divide]"
+                      length="1"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Multiply_Divide]"
+                      name="Multiply_Divide"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[CurrencyFrom]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[CurrencyFrom]"
+                      length="3"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[CurrencyFrom]"
+                      name="CurrencyFrom"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[CurrencyTo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[CurrencyTo]"
+                      length="3"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[CurrencyTo]"
+                      name="CurrencyTo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[FXRate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[FXRate]"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[FXRate]"
+                      name="FXRate"
+                      precision="18"
+                      scale="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Source]"
+                      length="7"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Source]"
+                      name="Source"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Scenario]"
+                      length="7"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Scenario]"
+                      name="Scenario"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Action]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Action]"
+                      length="1"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[Action]"
+                      name="Action"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[ExternalId]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[ExternalId]"
+                      length="14"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].Columns[ExternalId]"
+                      name="ExternalId"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="i8"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Multiply_Divide]"
+                      dataType="wstr"
+                      length="1"
+                      name="Multiply_Divide" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[CurrencyFrom]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyFrom" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[CurrencyTo]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyTo" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[FXRate]"
+                      dataType="numeric"
+                      name="FXRate"
+                      precision="18"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="Scenario" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[Action]"
+                      dataType="wstr"
+                      length="1"
+                      name="Action" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output].ExternalColumns[ExternalId]"
+                      dataType="wstr"
+                      length="14"
+                      name="ExternalId" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="i8"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Action]"
+                      dataType="wstr"
+                      length="1"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Action]"
+                      name="Action" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[ExternalId]"
+                      dataType="wstr"
+                      length="14"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[ExternalId]"
+                      name="ExternalId" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[CurrencyFrom]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[CurrencyFrom]"
+                      name="CurrencyFrom" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[CurrencyTo]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[CurrencyTo]"
+                      name="CurrencyTo" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[FXRate]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[FXRate]"
+                      name="FXRate"
+                      precision="18"
+                      scale="9" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[StartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[StartDate]"
+                      name="StartDate" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Source]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Source]"
+                      name="Source" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Scenario]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Scenario]"
+                      name="Scenario" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Multiply_Divide]"
+                      dataType="wstr"
+                      length="1"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[Multiply_Divide]"
+                      name="Multiply_Divide" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT.Paths[OLE DB Source Output]"
+              endId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates.Inputs[Flat File Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - GetLastProcessingDate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6ee7dd19-f1c5-42fd-aea8-26ec615ffd2e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - GetLastProcessingDate"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A81991BE-9342-43D6-8B8B-F0BCF9BBDE2E}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::var_GetLatestPublishedDate"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="LastPublishedDate"
+            SQLTask:DtsVariableName="User::var_lastPublishedDate" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6D1CFE4E-F2FA-4B43-ABCA-59958CE5A5AD}"
+      DTS:EvalOp="1"
+      DTS:Expression="@[User::var_rowCount] &gt; 0"
+      DTS:From="Package\DFT - Get Rows Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{a793cbc3-96a3-47dc-8bc8-212d50731605}"
+      DTS:From="Package\SQL - GetLastProcessingDate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\DFT - Get Rows Count" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="184,42"
+          Id="Package\DFT - Get Rows Count"
+          TopLeft="172,180.5" />
+        <NodeLayout
+          Size="308,42"
+          Id="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT"
+          TopLeft="114,306" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\SQL - GetLastProcessingDate"
+          TopLeft="154,45" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="266,222.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,83.5"
+              Start="0,0"
+              End="0,76">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,76" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,30,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="263,87">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,93.5"
+              Start="0,0"
+              End="0,86">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,86" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Get Rows Count">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\DFT - Get Rows Count\SRC - subscriptionView"
+          TopLeft="345,131" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\DFT - Get Rows Count\Row Count"
+          TopLeft="406,317" />
+        <EdgeLayout
+          Id="Package\DFT - Get Rows Count.Paths[OLE DB Source Output]"
+          TopLeft="438.5,173">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="32.5,144"
+              Start="0,0"
+              End="32.5,136.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,68"
+                    Point2="0,72"
+                    Point3="4,72" />
+                  <mssgle:LineSegment
+                    End="28.5,72" />
+                  <mssgle:CubicBezierSegment
+                    Point1="28.5,72"
+                    Point2="32.5,72"
+                    Point3="32.5,76" />
+                  <mssgle:LineSegment
+                    End="32.5,136.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Get Rows Count\SRC - subscriptionView">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="250,42"
+          Id="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data"
+          TopLeft="406,206" />
+        <NodeLayout
+          Size="122,42"
+          Id="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\GT Rates"
+          TopLeft="493,398" />
+        <EdgeLayout
+          Id="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT.Paths[OLE DB Source Output]"
+          TopLeft="531,248">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="23,150"
+              Start="0,0"
+              End="23,142.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,71"
+                    Point2="0,75"
+                    Point3="4,75" />
+                  <mssgle:LineSegment
+                    End="19,75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="19,75"
+                    Point2="23,75"
+                    Point3="23,79" />
+                  <mssgle:LineSegment
+                    End="23,142.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - MARKETDATA_EXCHANGERATE_EXTRACT\SRC - subscription view market data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

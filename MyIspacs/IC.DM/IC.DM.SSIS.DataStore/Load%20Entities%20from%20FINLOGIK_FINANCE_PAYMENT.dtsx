@@ -1,0 +1,987 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/25/2016 1:01:22 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{0B08C560-FCFC-4A25-86C4-2C9B1D25D02B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load Entities from FINLOGIK_FINANCE_PAYMENT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="416"
+  DTS:VersionGUID="{4C845284-2719-4897-B9A9-81F4035BFE04}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{E33842B0-C1D6-407A-883E-768B98B2A12C}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">SSUT-201704240928187-adm1ned</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="19"
+      DTS:DTSID="{86F73628-9218-493C-A565-D4F61714D7DF}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="19"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BCCD54E5-AF08-440E-963F-8C325A572D5E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">FINANCE_PAYMENT</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E35B3756-54B9-4C6C-AAA0-107E29AAB37F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">FINLOGIK</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8F7CF83D-6BDD-4799-A007-2725E38D9FB8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Get_&quot;+ @[User::md_Source] +&quot;_&quot;+ @[User::md_Data] +&quot;_FinancialInstrumentPayment '&quot;+ @[$Package::BusinessProcessInstanceID]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromSource_FinancialInstrumentPayment">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Get_FINLOGIK_FINANCE_PAYMENT_FinancialInstrumentPayment 'SSUT-201704240928187-adm1ned'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{69FA610A-D467-4F12-9C7F-87F0F886026F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">SSUT-201704240928187-adm1ned_1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8B4F4006-82A2-4558-921B-834725666D31}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/25/2018 11:17:36 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{35333F9D-FAD0-4015-BE4F-7C8C671C4D88}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:17:36</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7ACEF9CF-0795-45E4-9DA9-6278B1EE2694}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[entity].[Finance_FinancialInstrumentPayment]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Connections[OleDbConnection]"
+                  connectionManagerID="{4618C56B-E082-4B0A-9963-7A1DF04C0DF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                      cachedDataType="ui4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Finance_Currency_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Finance_Currency_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="IC_DM_LINEAGE_INFO"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_DATA_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="IC_DM_SOURCE_CODE"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Core_Date_PaymentDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="Core_Date_PaymentDate"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_PaymentDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Finance_FlowType_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Finance_FlowType_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_FlowType_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_FlowType_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Finance_PaymentStatus_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Finance_PaymentStatus_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_PaymentStatus_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_PaymentStatus_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="38"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[OutstandingBalance]"
+                      cachedDataType="numeric"
+                      cachedName="OutstandingBalance"
+                      cachedPrecision="38"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[OutstandingBalance]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[OutstandingBalance]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Finance_FinancialInstrument_Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Finance_FinancialInstrument_Code"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_FinancialInstrument_Code]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_FinancialInstrument_Code]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Core_Date_PaymentBeginDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="Core_Date_PaymentBeginDate"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_PaymentBeginDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentBeginDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].Columns[Core_Date_PaymentEndDate]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="Core_Date_PaymentEndDate"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_PaymentEndDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentEndDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_Currency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="300"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_PaymentDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_PaymentDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_FlowType_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_FlowType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_PaymentStatus_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_PaymentStatus_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[OutstandingBalance]"
+                      dataType="numeric"
+                      name="OutstandingBalance"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Finance_FinancialInstrument_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_FinancialInstrument_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_PaymentBeginDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_PaymentBeginDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_PaymentEndDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_PaymentEndDate"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetDataFromSource_FinancialInstrumentPayment</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Connections[OleDbConnection]"
+                  connectionManagerID="{C51B9A87-74A5-465E-A10B-9B96E6A9E5CB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb.IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="300"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_Code]"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_Currency_Code]"
+                      name="Finance_Currency_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_FlowType_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_FlowType_Code]"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_FlowType_Code]"
+                      name="Finance_FlowType_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_PaymentStatus_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_PaymentStatus_Code]"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_PaymentStatus_Code]"
+                      name="Finance_PaymentStatus_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Amount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Amount]"
+                      name="Amount"
+                      precision="38"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[OutstandingBalance]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[OutstandingBalance]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[OutstandingBalance]"
+                      name="OutstandingBalance"
+                      precision="38"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_PaymentDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentDate]"
+                      name="Core_Date_PaymentDate"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_FinancialInstrument_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_FinancialInstrument_Code]"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Finance_FinancialInstrument_Code]"
+                      name="Finance_FinancialInstrument_Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentBeginDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_PaymentBeginDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentBeginDate]"
+                      name="Core_Date_PaymentBeginDate"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentEndDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_PaymentEndDate]"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].Columns[Core_Date_PaymentEndDate]"
+                      name="Core_Date_PaymentEndDate"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_Currency_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="300"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_FlowType_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_FlowType_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_PaymentStatus_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_PaymentStatus_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="38"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[OutstandingBalance]"
+                      dataType="numeric"
+                      name="OutstandingBalance"
+                      precision="38"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_PaymentDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_PaymentDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Finance_FinancialInstrument_Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Finance_FinancialInstrument_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_PaymentBeginDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_PaymentBeginDate"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output].ExternalColumns[Core_Date_PaymentEndDate]"
+                      dataType="dbTimeStamp2"
+                      name="Core_Date_PaymentEndDate"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_FinancialInstrument_Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_FinancialInstrument_Code]"
+                      name="Finance_FinancialInstrument_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Core_Date_PaymentDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Core_Date_PaymentDate]"
+                      name="Core_Date_PaymentDate"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Core_Date_PaymentBeginDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Core_Date_PaymentBeginDate]"
+                      name="Core_Date_PaymentBeginDate"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Core_Date_PaymentEndDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Core_Date_PaymentEndDate]"
+                      name="Core_Date_PaymentEndDate"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_FlowType_Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_FlowType_Code]"
+                      name="Finance_FlowType_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_PaymentStatus_Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_PaymentStatus_Code]"
+                      name="Finance_PaymentStatus_Code" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      name="Amount"
+                      precision="38"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[OutstandingBalance]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[OutstandingBalance]"
+                      name="OutstandingBalance"
+                      precision="38"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Error Output].Columns[Finance_Currency_Code]"
+                      name="Finance_Currency_Code" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Paths[Derived Column Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="620,42"
+          Id="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="550,42"
+          Id="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="441,42"
+          Id="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment"
+          TopLeft="60.0000000000001,209.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\DER - Add metadata"
+          TopLeft="193,107.5" />
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Paths[OLE DB Source Output]"
+          TopLeft="280.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment.Paths[Derived Column Output]"
+          TopLeft="280.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_SRC - IC_DM_Staging - FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load DataStore Entities from Staging FINLOGIK_FINANCE_PAYMENT - Finance_FinancialInstrumentPayment\OLE_DST - IC_DM_DataStore - Entity - Finance_FinancialInstrumentPayment">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

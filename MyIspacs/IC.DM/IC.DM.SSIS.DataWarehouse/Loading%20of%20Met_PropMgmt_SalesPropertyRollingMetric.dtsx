@@ -1,0 +1,2462 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/1/2016 1:34:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{7C58A88F-4884-46AF-B9DF-5E86E82A4FEC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Loading of Met_PropMgmt_SalesPropertyRollingMetric"
+  DTS:PackageType="5"
+  DTS:VersionBuild="993"
+  DTS:VersionGUID="{A97DE53F-76B1-4859-A5CB-6FACCE2E27A4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{B3D8C317-15E0-4F31-8294-40C4C649FE4E}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20171017_MG_Deployment</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{F1EA0ECF-03D9-475E-898B-2416D714368A}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A5363ABD-2D1E-471F-A4E9-DD2D2F96F1EB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">PropMgmt</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CC7F9C96-7151-4298-9088-AD2096960B4A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">SalesPropertyRollingMetric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4E608DA4-25A4-48DB-8B10-14A1A5DF9BE1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_Prefix]  + &quot;_&quot; +  @[User::md_EntityName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Met_PropMgmt_SalesPropertyRollingMetric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{53BD6BB9-8C6F-4305-AD05-E11F04D1E0A5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">PropMgmt_SalesPropertyRollingMetric</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{578FCD5E-DF52-4697-BBE1-F9450C093BE2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Prefix">
+      <DTS:VariableValue
+        DTS:DataType="8">Met</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{07B13787-00A6-459E-9494-C62B2B121286}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [Cleansing].[sp_Get_&quot; + @[User::md_EntityName] + &quot;_Entity] '&quot; +  @[$Package::BusinessProcessInstanceID] + &quot;',&quot; +  (DT_WSTR,20) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetSalesPropertyRollingMetricDataFromDS">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [Cleansing].[sp_Get_PropMgmt_SalesPropertyRollingMetric_Entity] '20171017_MG_Deployment',0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{58A67AA5-F7C6-4CB8-A226-1ABE1BC91194}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 50) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Load_&quot; + @[User::md_EntityFullName]  + &quot;] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadEntity_SCD">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20171017_MG_Deployment'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [edw].[sp_Load_Met_PropMgmt_SalesPropertyRollingMetric] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7A48A6E3-C721-4B31-9D09-2F5B4E173DFE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Transform_&quot; + @[User::md_EntityFullName]  + &quot;] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TransformWorkingStep">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20171017_MG_Deployment'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [edw].[sp_Transform_Met_PropMgmt_SalesPropertyRollingMetric] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2C16FC39-B1B0-48C6-AF5D-F3B27B3A7A28}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;TRUNCATE TABLE [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&#xA;;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">TRUNCATE TABLE [working].[Met_PropMgmt_SalesPropertyRollingMetric]
+;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{64D46F50-A951-4C4F-BDF8-90144991417F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 6) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [edw].[sp_Validate_&quot; + @[User::md_EntityFullName]  + &quot;] &#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '20171017_MG_Deployment'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [edw].[sp_Validate_Met_PropMgmt_SalesPropertyRollingMetric] 
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1248E0E8-2043-4CB6-AA96-0645748C61F6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">20171017_MG_Deployment_0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C849EEB0-A22D-428F-9966-5AE2B0E4530E}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_FatalRowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{92D81EEF-6CF7-4D45-90FB-CABEBC4E5912}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018 4:12:29 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0C1A8C87-4DA0-4E09-8228-A9E9C1EE4D8D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_DATE) ((DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2))"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_day">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B1CE9916-4D99-40FF-A0FC-54493F82CB73}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-09 16:12:29</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{39B9E082-B332-4CD0-9C47-6C7F9078D2AF}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add metadata"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)@[$Package::BusinessProcessInstanceID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_LoadingDate]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_LoadingDate]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[Is_Last_Version]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[Is_Last_Version]"
+                      name="Is_Last_Version"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_BOOL) TRUE </property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_BOOL) TRUE </property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Replace Null Keys"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Inputs[Derived Column Input].Columns[Finance_CostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_CostCenter_DK"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]},-1)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(Finance_CostCenter_DK,-1)</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Inputs[Derived Column Input].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      cachedDataType="i4"
+                      cachedName="PropMgmt_SalesAmountScenario_DK"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]},-1)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(PropMgmt_SalesAmountScenario_DK,-1)</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Met_SalesPropertyRollingMetric"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [Core_Date_ReportingDate_SK]
+	  ,[Core_Date_ReportingDate_DK]
+	  ,[Finance_CostCenter_DK]
+	  ,[PropMgmt_SalesAmountScenario_DK]
+FROM [edw].[Met_PropMgmt_SalesPropertyRollingMetric]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT [Core_Date_ReportingDate_SK]
+	  ,[Core_Date_ReportingDate_DK]
+	  ,[Finance_CostCenter_DK]
+	  ,[PropMgmt_SalesAmountScenario_DK]
+FROM [edw].[Met_PropMgmt_SalesPropertyRollingMetric]) [refTable]
+where [refTable].[Finance_CostCenter_DK] = ? and [refTable].[Core_Date_ReportingDate_SK] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Core_Date_ReportingDate_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Core_Date_ReportingDate_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_CostCenter_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PropMgmt_SalesAmountScenario_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]};#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output].Columns[Core_Date_ReportingDate_SK]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input].Columns[Finance_CostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_CostCenter_DK"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_CostCenter_DK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input].Columns[Core_Date_ReportingDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate_SK"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output].Columns[Core_Date_ReportingDate_SK]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Core_Date_ReportingDate_SK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      name="PropMgmt_SalesAmountScenario_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PropMgmt_SalesAmountScenario_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Core_ReportingDate"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select Core_Date_SK AS Core_Date_ReportingDate_SK, Core_Date_SK AS Core_Date_ReportingDate_DK from [edw].[Ref_Core_Date]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select Core_Date_SK AS Core_Date_ReportingDate_SK, Core_Date_SK AS Core_Date_ReportingDate_DK from [edw].[Ref_Core_Date]) [refTable]
+where [refTable].[Core_Date_ReportingDate_DK] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Core_Date_ReportingDate_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Core_Date_ReportingDate_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Inputs[Lookup Input].Columns[ReportingDate]"
+                      cachedDataType="i4"
+                      cachedName="ReportingDate"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Core_Date_ReportingDate_DK</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output].Columns[Core_Date_ReportingDate_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output].Columns[Core_Date_ReportingDate_SK]"
+                      name="Core_Date_ReportingDate_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Core_Date_ReportingDate_SK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_Finance_CostCenter - Current"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [Finance_CostCenter_SK]
+      ,[Finance_CostCenter_DK]
+      ,LTRIM(RTRIM([Finance_CostCenter_Code])) [Finance_CostCenter_Code]
+  FROM [edw].[Ref_Finance_CostCenter]
+  WHERE [IC_DM_IS_CURRENT] = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT [Finance_CostCenter_SK]
+      ,[Finance_CostCenter_DK]
+      ,LTRIM(RTRIM([Finance_CostCenter_Code])) [Finance_CostCenter_Code]
+  FROM [edw].[Ref_Finance_CostCenter]
+  WHERE [IC_DM_IS_CURRENT] = 1) [refTable]
+where [refTable].[Finance_CostCenter_Code] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_CostCenter_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_CostCenter_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_CostCenter_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input].Columns[CostCenterCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="CostCenterCode"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Finance_CostCenter_Code</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]"
+                      name="Finance_CostCenter_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Finance_CostCenter_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP - Ref_SalesAmountScenario"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [PropMgmt_SalesAmountScenario_SK]
+	  ,[PropMgmt_SalesAmountScenario_DK]
+	  ,[SalesAmountScenarioKey]
+FROM  [edw].[Ref_PropMgmt_SalesAmountScenario]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT [PropMgmt_SalesAmountScenario_SK]
+	  ,[PropMgmt_SalesAmountScenario_DK]
+	  ,[SalesAmountScenarioKey]
+FROM  [edw].[Ref_PropMgmt_SalesAmountScenario]) [refTable]
+where [refTable].[SalesAmountScenarioKey] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PropMgmt_SalesAmountScenario_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PropMgmt_SalesAmountScenario_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SalesAmountScenarioKey" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Inputs[Lookup Input].Columns[SalesAmountScenarioCode]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="SalesAmountScenarioCode"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">SalesAmountScenarioKey</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_SK]"
+                      name="PropMgmt_SalesAmountScenario_SK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PropMgmt_SalesAmountScenario_SK</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      name="PropMgmt_SalesAmountScenario_DK"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PropMgmt_SalesAmountScenario_DK</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">  UPDATE [edw].[Met_PropMgmt_SalesPropertyRollingMetric]
+  set ChargeAmount = ?,
+       SaleAmount = ?,
+       AverageMonthlyGLA = ?,
+       IC_DM_TIMESTAMP_UPDATE = ?
+Where   Core_Date_ReportingDate_DK = ?
+AND     Finance_CostCenter_DK = ?
+AND PropMgmt_SalesAmountScenario_DK= ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[Charges]"
+                      cachedDataType="numeric"
+                      cachedName="Charges"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[Sales]"
+                      cachedDataType="cy"
+                      cachedName="Sales"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[AverageMonthlyGLA]"
+                      cachedDataType="numeric"
+                      cachedName="AverageMonthlyGLA"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[Core_Date_ReportingDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate_SK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output].Columns[Core_Date_ReportingDate_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[Finance_CostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_CostCenter_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      cachedDataType="i4"
+                      cachedName="PropMgmt_SalesAmountScenario_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="numeric"
+                      name="Param_0"
+                      precision="18"
+                      scale="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="numeric"
+                      name="Param_1"
+                      precision="18"
+                      scale="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="numeric"
+                      name="Param_2"
+                      precision="18"
+                      scale="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      dataType="dbTimeStamp2"
+                      name="Param_3"
+                      scale="3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">1073741889</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      dataType="i4"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      dataType="i4"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      dataType="i4"
+                      name="Param_6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[edw].[Met_PropMgmt_SalesPropertyRollingMetric]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Connections[OleDbConnection]"
+                  connectionManagerID="{2848A60C-7C00-4F0D-B4EE-35DB99F91127}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[AverageMonthlyGLA]"
+                      cachedDataType="numeric"
+                      cachedName="AverageMonthlyGLA"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[AverageMonthlyGLA]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[Finance_CostCenter_DK]"
+                      cachedDataType="i4"
+                      cachedName="Finance_CostCenter_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_DK]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[Core_Date_ReportingDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="Core_Date_ReportingDate_SK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_ReportingDate_SK]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output].Columns[Core_Date_ReportingDate_SK]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[Charges]"
+                      cachedDataType="numeric"
+                      cachedName="Charges"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[ChargeAmount]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[Sales]"
+                      cachedDataType="cy"
+                      cachedName="Sales"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[SaleAmount]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      cachedDataType="i4"
+                      cachedName="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[IC_DM_LOADING_DATE]"
+                      cachedDataType="date"
+                      cachedName="IC_DM_LOADING_DATE"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_INSERT]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_LOADING_DATE]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[ReportingDate]"
+                      cachedDataType="i4"
+                      cachedName="ReportingDate"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_ReportingDate_DK]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]" />
+                    <inputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].Columns[PropMgmt_SalesAmountScenario_DK]"
+                      cachedDataType="i4"
+                      cachedName="PropMgmt_SalesAmountScenario_DK"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_SalesAmountScenario_DK]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output].Columns[PropMgmt_SalesAmountScenario_DK]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_SalesPropertyRollingMetric_SK]"
+                      dataType="i4"
+                      name="PropMgmt_SalesPropertyRollingMetric_SK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_ReportingDate_SK]"
+                      dataType="i4"
+                      name="Core_Date_ReportingDate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Core_Date_ReportingDate_DK]"
+                      dataType="i4"
+                      name="Core_Date_ReportingDate_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_DK]"
+                      dataType="i4"
+                      name="Finance_CostCenter_DK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[ChargeAmount]"
+                      dataType="numeric"
+                      name="ChargeAmount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[SaleAmount]"
+                      dataType="numeric"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[AverageMonthlyGLA]"
+                      dataType="numeric"
+                      name="AverageMonthlyGLA"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="i4"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_INSERT]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_INSERT"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_UPDATE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_SalesAmountScenario_DK]"
+                      dataType="i4"
+                      name="PropMgmt_SalesAmountScenario_DK" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_GetSalesPropertyRollingMetricDataFromDS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Connections[OleDbConnection]"
+                  connectionManagerID="{E42CAA2C-954B-4D73-A9BD-61150566E851}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[ReportingDate]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[ReportingDate]"
+                      name="ReportingDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[SalesAmountScenarioCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[SalesAmountScenarioCode]"
+                      name="SalesAmountScenarioCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[CostCenterCode]"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[CostCenterCode]"
+                      name="CostCenterCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Charges]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Charges]"
+                      name="Charges"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Sales]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[Sales]"
+                      name="Sales"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[AverageMonthlyGLA]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[AverageMonthlyGLA]"
+                      name="AverageMonthlyGLA"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      length="66"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      length="66"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      length="255"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[ReportingDate]"
+                      dataType="i4"
+                      name="ReportingDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[SalesAmountScenarioCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="SalesAmountScenarioCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[CostCenterCode]"
+                      dataType="wstr"
+                      length="30"
+                      name="CostCenterCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Charges]"
+                      dataType="numeric"
+                      name="Charges"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[Sales]"
+                      dataType="cy"
+                      name="Sales" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[AverageMonthlyGLA]"
+                      dataType="numeric"
+                      name="AverageMonthlyGLA"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_BK" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_SOURCE_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_DATA_CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      name="IC_DM_LINEAGE_INFO" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ReportingDate]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ReportingDate]"
+                      name="ReportingDate" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[SalesAmountScenarioCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[SalesAmountScenarioCode]"
+                      name="SalesAmountScenarioCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[CostCenterCode]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[CostCenterCode]"
+                      name="CostCenterCode" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Charges]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Charges]"
+                      name="Charges"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Sales]"
+                      dataType="cy"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[Sales]"
+                      name="Sales" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[AverageMonthlyGLA]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[AverageMonthlyGLA]"
+                      name="AverageMonthlyGLA"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                      name="IC_DM_HASHKEY_BK" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="66"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_ATTR]"
+                      name="IC_DM_HASHKEY_ATTR" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                      name="IC_DM_SOURCE_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                      name="IC_DM_DATA_CODE" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                      name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LOADING_DATE]"
+                      name="IC_DM_LOADING_DATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                      name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                      name="IC_DM_TIMESTAMP_DELETE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                      name="IC_DM_LINEAGE_INFO" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Derived Column Output]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Derived Column Output1]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output1]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output2]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output3]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA.Inputs[OLE DB Command Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup No Match Output]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[OLE DB Source Output]"
+              endId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="434,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS"
+          TopLeft="105,93" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="404,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric"
+          TopLeft="171,625" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric"
+          TopLeft="517,529" />
+        <NodeLayout
+          Size="335,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric"
+          TopLeft="464,16" />
+        <NodeLayout
+          Size="224,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate"
+          TopLeft="519,272" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario"
+          TopLeft="523,354" />
+        <NodeLayout
+          Size="459,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_CMD - DWH - Met_SalesPropertyRollingMetric- Update ChargeAmount, SaleAmount, AverageMonthGLA"
+          TopLeft="673,625" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Replace Null Keys"
+          TopLeft="548,441" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\DER - Add metadata"
+          TopLeft="537.777777777778,93.3333333333332" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current"
+          TopLeft="497,175" />
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[OLE DB Source Output]"
+          TopLeft="628.388888888889,58">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.3333333333332"
+              Start="0,0"
+              End="0,27.8333333333332">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.8333333333332" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup No Match Output]"
+          TopLeft="603,571">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-230,54"
+              Start="0,0"
+              End="-230,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.8028169014084" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.8028169014084"
+                    Point2="0,21.8028169014084"
+                    Point3="-4,21.8028169014084" />
+                  <mssgle:LineSegment
+                    End="-226,21.8028169014084" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-226,21.8028169014084"
+                    Point2="-230,21.8028169014084"
+                    Point3="-230,25.8028169014084" />
+                  <mssgle:LineSegment
+                    End="-230,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-170.80638671875,26.8028169014084,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output3]"
+          TopLeft="685,571">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="217.5,54"
+              Start="0,0"
+              End="217.5,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.8028169014084" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.8028169014084"
+                    Point2="0,21.8028169014084"
+                    Point3="4,21.8028169014084" />
+                  <mssgle:LineSegment
+                    End="213.5,21.8028169014084" />
+                  <mssgle:CubicBezierSegment
+                    Point1="213.5,21.8028169014084"
+                    Point2="217.5,21.8028169014084"
+                    Point3="217.5,25.8028169014084" />
+                  <mssgle:LineSegment
+                    End="217.5,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="60.55861328125,26.8028169014084,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output2]"
+          TopLeft="641.25,396">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,12.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output1]"
+          TopLeft="634.5,314">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,10.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Lookup Match Output]"
+          TopLeft="631,217">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55"
+              Start="0,0"
+              End="0,47.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,17.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Derived Column Output1]"
+          TopLeft="644.25,483">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS.Paths[Derived Column Output]"
+          TopLeft="628.138888888889,135.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.6666666666668"
+              Start="0,0"
+              End="0,32.1666666666668">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.1666666666668" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_DST - IC_DM_DataWarehouse - Met_SalesPropertyRollingMetric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Met_SalesPropertyRollingMetric">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\OLE_SRC - DS - PropMgmt_SalesPropertyRollingMetric">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Core_ReportingDate">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_SalesAmountScenario">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - Load EDW Met_PropMgmt_SalesPropertyRollingMetric Entity from DS\LKP - Ref_Finance_CostCenter - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

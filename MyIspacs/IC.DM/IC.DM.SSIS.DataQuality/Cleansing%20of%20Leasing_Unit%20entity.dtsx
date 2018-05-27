@@ -1,0 +1,2296 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2016 9:36:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{E1929B79-8147-4FB1-B8DC-68F4F734E9EF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Cleansing of PropMgmt_SaleCategory entity"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1369"
+  DTS:VersionGUID="{40CE9013-E6A3-4A7C-B816-D877EFB4D0F8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{65401B49-6295-4B00-9DB6-110DE88BB284}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">54092</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{BBE6E002-08D3-4EB6-8AC7-595FFE916733}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4FAB67B2-7A5E-4D7A-B7C6-A460511C3BB3}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataSubject">
+      <DTS:VariableValue
+        DTS:DataType="8">Leasing</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0B585ECF-4B07-42AB-A186-68027E2E0D09}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Entity">
+      <DTS:VariableValue
+        DTS:DataType="8">Unit</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{30B3F5E9-0485-4286-8079-F04C03C6EC1B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::md_DataSubject]  + &quot;_&quot; + @[User::md_Entity]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_EntityFullName">
+      <DTS:VariableValue
+        DTS:DataType="8">Leasing_Unit</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{31C75127-3ABB-47E4-BE15-6C85E7D41790}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC [entity].[sp_Get_&quot; + @[User::md_EntityFullName] + &quot;_Entity] '&quot;+@[$Package::BusinessProcessInstanceID]+&quot;', &quot;+ (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_GetDataFromEntity">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC [entity].[sp_Get_Leasing_Unit_Entity] '54092', 0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AF2BD51E-A18F-45BA-89F3-8F70A631D11F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [cleansing].[sp_Load_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_LoadCleansedData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '54092'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [cleansing].[sp_Load_Leasing_Unit]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{954A6A18-6746-48C2-90E4-7DCF5A811B9F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;TRUNCATE TABLE [working].[&quot; + @[User::md_EntityFullName]  + &quot;]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateWorkingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">TRUNCATE TABLE [working].[Leasing_Unit]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F13B7DD7-D42F-4298-B387-D38ED040AC22}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;DECLARE @BusinessProcessInstanceID nvarchar(max) = '&quot; + @[$Package::BusinessProcessInstanceID]  + &quot;'&#xA;DECLARE @BusinessProcessInstanceIteration int = &quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]  + &quot;&#xA;&#xA;EXECUTE [working].[sp_Validate_&quot; + @[User::md_EntityFullName] + &quot;]&#xA;   @BusinessProcessInstanceID&#xA;  ,@BusinessProcessInstanceIteration&#xA;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateWorkingData">
+      <DTS:VariableValue
+        DTS:DataType="8">
+DECLARE @BusinessProcessInstanceID nvarchar(max) = '54092'
+DECLARE @BusinessProcessInstanceIteration int = 0
+
+EXECUTE [working].[sp_Validate_Leasing_Unit]
+   @BusinessProcessInstanceID
+  ,@BusinessProcessInstanceIteration
+</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1CA6AD3D-9064-4326-BF99-9585E8CF0A79}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::BusinessProcessInstanceID] + &quot;_&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_BusinessProcessInstanceID_Iteration">
+      <DTS:VariableValue
+        DTS:DataType="8">54092_0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9E88198A-EFBC-42AB-9C7B-F8880EEE2B5D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate">
+      <DTS:VariableValue
+        DTS:DataType="7">5/8/2018 12:24:47 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F4A4321E-3AF1-4559-A46C-68038D3D9E89}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CleansingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-08 12:24:46</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{62E44F35-992A-4EF2-95D9-837AD5D0BD3F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_MDS_Domain_Validation_Failed">
+      <DTS:VariableValue
+        DTS:DataType="8">MDS DOMAIN VALIDATION ISSUE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F4BC9B1A-30F7-4A32-BE08-4E20DE779771}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_MDS_MDM_Validation_Failed">
+      <DTS:VariableValue
+        DTS:DataType="8">MDS MDM VALIDATION ISSUE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{09F6A577-084F-43E8-8F80-F5248DF2B2BF}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RejectedRowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2" />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Cleanse Leasing_Unit"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{B5046C9E-6E1C-4FFF-A8D9-0B70BECA2C30}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Cleanse Leasing_Unit">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{BB30D5CC-2C71-4A0F-B1AE-D2F0C262A5FC}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - Load Leasing_Unit - Working"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0"
+            DTS:LoggingMode="1">
+            <DTS:Property
+              DTS:DataType="8"
+              DTS:Name="EventFilter">2,16,BufferSizeTuning,18,PipelineBufferLeak</DTS:Property>
+            <DTS:Property
+              DTS:EventName="BufferSizeTuning"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+            <DTS:Property
+              DTS:EventName="PipelineBufferLeak"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+            <DTS:Property
+              DTS:EventName="PipelineExecutionPlan"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+            <DTS:Property
+              DTS:EventName="PipelineExecutionTrees"
+              DTS:Name="ColumnFilter">
+              <DTS:Property
+                DTS:Name="Computer">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="Operator">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceName">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="SourceID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="ExecutionID">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="MessageText">-1</DTS:Property>
+              <DTS:Property
+                DTS:Name="DataBytes">-1</DTS:Property>
+            </DTS:Property>
+          </DTS:LoggingOptions>
+          <DTS:PropertyExpression
+            DTS:Name="Name">"DFT - Load " +  @[User::md_EntityFullName] +" - Working"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <pipeline
+              defaultBufferSize="157286400"
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="DER - Add metadata"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]"
+                          name="IC_DM_CLEANSING_DATE"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[User::var_CleansingDate]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[User::var_CleansingDate]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                          name="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,100)@[$Package::BusinessProcessInstanceID]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                          dataType="ui4"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                          name="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[$Package::BusinessProcessInstanceIteration]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[$Package::BusinessProcessInstanceIteration]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_IS_EDW_PUBLISHED]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_IS_EDW_PUBLISHED]"
+                          name="IC_DM_IS_EDW_PUBLISHED"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_BOOL)(0)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_BOOL)(0)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="DER - Analyze cleansing &amp; lookup results"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Finance_CostCenter_DK]"
+                          cachedDataType="i4"
+                          cachedName="Finance_CostCenter_DK"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input].Columns[Leasing_UnitType_DK]"
+                          cachedDataType="i4"
+                          cachedName="Leasing_UnitType_DK"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Match Output].Columns[Leasing_UnitType_DK]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Finance_CostCenter_Code_CleansingStatus]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Finance_CostCenter_Code_CleansingStatus]"
+                          name="Finance_CostCenter_Code_CleansingStatus"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_WSTR,100)(![ISNULL](#{Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]}) ? "OK" : "NOT FOUND")</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,100)(!ISNULL(Finance_CostCenter_DK) ? "OK" : "NOT FOUND")</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[UnitType_Code_CleansingStatus]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[UnitType_Code_CleansingStatus]"
+                          name="UnitType_Code_CleansingStatus"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_WSTR,100)(![ISNULL](#{Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Match Output].Columns[Leasing_UnitType_DK]}) ? "OK" : "NOT FOUND")</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,100)(!ISNULL(Leasing_UnitType_DK) ? "OK" : "NOT FOUND")</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="LKP - Ref_Finance_CostCenter - Current"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [Finance_CostCenter_SK]
+      ,[Finance_CostCenter_DK]
+      ,[Finance_CostCenter_Code]  FROM [edw].[Ref_Finance_CostCenter]
+  WHERE [IC_DM_IS_CURRENT] = 1</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT [Finance_CostCenter_SK]
+      ,[Finance_CostCenter_DK]
+      ,[Finance_CostCenter_Code]  FROM [edw].[Ref_Finance_CostCenter]
+  WHERE [IC_DM_IS_CURRENT] = 1) [refTable]
+where [refTable].[Finance_CostCenter_Code] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Finance_CostCenter_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_CostCenter_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Finance_CostCenter_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Connections[OleDbConnection]"
+                      connectionManagerID="{675D950A-A2D9-406E-B826-570B7415834D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input].Columns[Finance_CostCenter_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="12"
+                          cachedName="Finance_CostCenter_Code"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">Finance_CostCenter_Code</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Copy Column"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output].Columns[Finance_CostCenter_DK]"
+                          name="Finance_CostCenter_DK"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn">Finance_CostCenter_DK</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="LKP - Ref_Leasing_Unit Type - Current"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Leasing_UnitType_Code, Leasing_UnitType_SK , Leasing_UnitType_DK
+FROM  [edw].[Ref_Leasing_UnitType]
+ WHERE IC_DM_IS_CURRENT = 1</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT Leasing_UnitType_Code, Leasing_UnitType_SK , Leasing_UnitType_DK
+FROM  [edw].[Ref_Leasing_UnitType]
+ WHERE IC_DM_IS_CURRENT = 1) [refTable]
+where [refTable].[Leasing_UnitType_Code] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Leasing_UnitType_Code" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Leasing_UnitType_SK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Leasing_UnitType_DK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitType_Code]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Connections[OleDbConnection]"
+                      connectionManagerID="{675D950A-A2D9-406E-B826-570B7415834D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataWarehouse]"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Inputs[Lookup Input].Columns[UnitType_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="UnitType_Code"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitType_Code]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">Leasing_UnitType_Code</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Match Output].Columns[Leasing_UnitType_DK]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Copy Column"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Match Output].Columns[Leasing_UnitType_DK]"
+                          name="Leasing_UnitType_DK"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn">Leasing_UnitType_DK</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST - IC_DM_DataStore - Working - Leasing_Unit"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[working].[Leasing_Unit]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Connections[OleDbConnection]"
+                      connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_CLEANSING_DATE]"
+                          cachedDataType="date"
+                          cachedName="IC_DM_CLEANSING_DATE"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_CLEANSING_DATE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ID"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ID]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]"
+                          cachedDataType="ui4"
+                          cachedName="IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_BUSINESS_PROCESS_INTANCE_ITERATION]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_SOURCE_CODE]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_SOURCE_CODE"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_CODE]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="IC_DM_DATA_CODE"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          cachedDataType="i4"
+                          cachedName="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_LINEAGE_INFO]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="IC_DM_LINEAGE_INFO"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Description_EN]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="Description_EN"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description_EN]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Description_EN]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Description_FR]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="Description_FR"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description_FR]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Description_FR]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="IC_DM_TIMESTAMP_DELETE"
+                          cachedScale="3"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Finance_CostCenter_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="12"
+                          cachedName="Finance_CostCenter_Code"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_Code]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Leasing_Unit_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="8"
+                          cachedName="Leasing_Unit_Code"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_Unit_Code]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Leasing_Unit_Code]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Name_EN]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Name_EN"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Name_EN]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Name_FR]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Name_FR"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Name_FR]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[PropMgmt_Floor_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="4"
+                          cachedName="PropMgmt_Floor_Code"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_Floor_Code]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[PropMgmt_Floor_Code]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[PropMgmt_Block_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PropMgmt_Block_Code"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_Block_Code]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[PropMgmt_Block_Code]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[UnitTypeDescription_EN]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="UnitTypeDescription_EN"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitTypeDescription_EN]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeDescription_EN]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[UnitTypeDescription_FR]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="UnitTypeDescription_FR"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitTypeDescription_FR]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeDescription_FR]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[ISFictive]"
+                          cachedDataType="bool"
+                          cachedName="ISFictive"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[ISFictive]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[ISFictive]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[UnitTypeIsExcludedFromSalesReport]"
+                          cachedDataType="bool"
+                          cachedName="UnitTypeIsExcludedFromSalesReport"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitTypeIsExcludedFromSalesReport]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeIsExcludedFromSalesReport]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[UnitType_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="UnitType_Code"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitType_Code]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitType_Code]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="IC_DM_TIMESTAMP_UPDATE"
+                          cachedScale="3"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_HASHKEY_BK]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="66"
+                          cachedName="IC_DM_HASHKEY_BK"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[Finance_CostCenter_Code_CleansingStatus]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Finance_CostCenter_Code_CleansingStatus"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_Code_CleansingStatus]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[Finance_CostCenter_Code_CleansingStatus]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[UnitType_Code_CleansingStatus]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="UnitType_Code_CleansingStatus"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitType_Code_CleansingStatus]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output].Columns[UnitType_Code_CleansingStatus]" />
+                        <inputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].Columns[IC_DM_IS_EDW_PUBLISHED]"
+                          cachedDataType="bool"
+                          cachedName="IC_DM_IS_EDW_PUBLISHED"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_IS_EDW_PUBLISHED]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output].Columns[IC_DM_IS_EDW_PUBLISHED]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_SOURCE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_DATA_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_CLEANSING_DATE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_CLEANSING_DATE"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          length="255"
+                          name="IC_DM_LINEAGE_INFO" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description_EN]"
+                          dataType="wstr"
+                          length="500"
+                          name="Description_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description_FR]"
+                          dataType="wstr"
+                          length="500"
+                          name="Description_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Leasing_Unit_Code]"
+                          dataType="wstr"
+                          length="8"
+                          name="Leasing_Unit_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_Code]"
+                          dataType="wstr"
+                          length="12"
+                          name="Finance_CostCenter_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Finance_CostCenter_Code_CleansingStatus]"
+                          dataType="wstr"
+                          length="100"
+                          name="Finance_CostCenter_Code_CleansingStatus" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitType_Code]"
+                          dataType="wstr"
+                          length="5"
+                          name="UnitType_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitType_Code_CleansingStatus]"
+                          dataType="wstr"
+                          length="100"
+                          name="UnitType_Code_CleansingStatus" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name_EN]"
+                          dataType="wstr"
+                          length="100"
+                          name="Name_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name_FR]"
+                          dataType="wstr"
+                          length="100"
+                          name="Name_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_Floor_Code]"
+                          dataType="wstr"
+                          length="4"
+                          name="PropMgmt_Floor_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[PropMgmt_Block_Code]"
+                          dataType="wstr"
+                          length="3"
+                          name="PropMgmt_Block_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitTypeDescription_EN]"
+                          dataType="wstr"
+                          length="500"
+                          name="UnitTypeDescription_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitTypeDescription_FR]"
+                          dataType="wstr"
+                          length="500"
+                          name="UnitTypeDescription_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[ISFictive]"
+                          dataType="bool"
+                          name="ISFictive" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[UnitTypeIsExcludedFromSalesReport]"
+                          dataType="bool"
+                          name="UnitTypeIsExcludedFromSalesReport" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_TIMESTAMP_UPDATE"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_IS_EDW_PUBLISHED]"
+                          dataType="bool"
+                          name="IC_DM_IS_EDW_PUBLISHED" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          name="IC_DM_HASHKEY_BK" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable">User::sql_GetDataFromEntity</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Connections[OleDbConnection]"
+                      connectionManagerID="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_DataStore]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Description_EN]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_EN]"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Description_EN]"
+                          name="Description_EN"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Description_FR]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_FR]"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Description_FR]"
+                          name="Description_FR"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Finance_CostCenter_Code]"
+                          length="12"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Finance_CostCenter_Code]"
+                          name="Finance_CostCenter_Code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Leasing_Unit_Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Leasing_Unit_Code]"
+                          length="8"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Leasing_Unit_Code]"
+                          name="Leasing_Unit_Code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Name_EN]"
+                          name="Name_EN"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[Name_FR]"
+                          name="Name_FR"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[PropMgmt_Floor_Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[PropMgmt_Floor_Code]"
+                          length="4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[PropMgmt_Floor_Code]"
+                          name="PropMgmt_Floor_Code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[PropMgmt_Block_Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[PropMgmt_Block_Code]"
+                          length="3"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[PropMgmt_Block_Code]"
+                          name="PropMgmt_Block_Code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeDescription_EN]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitTypeDescription_EN]"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeDescription_EN]"
+                          name="UnitTypeDescription_EN"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeDescription_FR]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitTypeDescription_FR]"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeDescription_FR]"
+                          name="UnitTypeDescription_FR"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[ISFictive]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[ISFictive]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[ISFictive]"
+                          name="ISFictive"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeIsExcludedFromSalesReport]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitTypeIsExcludedFromSalesReport]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitTypeIsExcludedFromSalesReport]"
+                          name="UnitTypeIsExcludedFromSalesReport"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitType_Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitType_Code]"
+                          length="5"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[UnitType_Code]"
+                          name="UnitType_Code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_SOURCE_CODE]"
+                          name="IC_DM_SOURCE_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_CODE]"
+                          name="IC_DM_DATA_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          length="255"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_LINEAGE_INFO]"
+                          name="IC_DM_LINEAGE_INFO"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                          name="IC_DM_TIMESTAMP_UPDATE"
+                          scale="3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          length="66"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].Columns[IC_DM_HASHKEY_BK]"
+                          name="IC_DM_HASHKEY_BK"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_EN]"
+                          dataType="wstr"
+                          length="500"
+                          name="Description_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_FR]"
+                          dataType="wstr"
+                          length="500"
+                          name="Description_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Finance_CostCenter_Code]"
+                          dataType="wstr"
+                          length="12"
+                          name="Finance_CostCenter_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Leasing_Unit_Code]"
+                          dataType="wstr"
+                          length="8"
+                          name="Leasing_Unit_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Name_EN]"
+                          dataType="wstr"
+                          length="100"
+                          name="Name_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[Name_FR]"
+                          dataType="wstr"
+                          length="100"
+                          name="Name_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[PropMgmt_Floor_Code]"
+                          dataType="wstr"
+                          length="4"
+                          name="PropMgmt_Floor_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[PropMgmt_Block_Code]"
+                          dataType="wstr"
+                          length="3"
+                          name="PropMgmt_Block_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitTypeDescription_EN]"
+                          dataType="wstr"
+                          length="500"
+                          name="UnitTypeDescription_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitTypeDescription_FR]"
+                          dataType="wstr"
+                          length="500"
+                          name="UnitTypeDescription_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[ISFictive]"
+                          dataType="bool"
+                          name="ISFictive" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitTypeIsExcludedFromSalesReport]"
+                          dataType="bool"
+                          name="UnitTypeIsExcludedFromSalesReport" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[UnitType_Code]"
+                          dataType="wstr"
+                          length="5"
+                          name="UnitType_Code" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_SOURCE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="IC_DM_DATA_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          length="255"
+                          name="IC_DM_LINEAGE_INFO" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_UPDATE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_TIMESTAMP_UPDATE"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output].ExternalColumns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          name="IC_DM_HASHKEY_BK" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Finance_CostCenter_Code]"
+                          dataType="wstr"
+                          length="12"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Finance_CostCenter_Code]"
+                          name="Finance_CostCenter_Code" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Leasing_Unit_Code]"
+                          dataType="wstr"
+                          length="8"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Leasing_Unit_Code]"
+                          name="Leasing_Unit_Code" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitType_Code]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitType_Code]"
+                          name="UnitType_Code" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Name_EN]"
+                          name="Name_EN" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Description_EN]"
+                          dataType="wstr"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Description_EN]"
+                          name="Description_EN" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Name_FR]"
+                          name="Name_FR" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Description_FR]"
+                          dataType="wstr"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[Description_FR]"
+                          name="Description_FR" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[PropMgmt_Floor_Code]"
+                          dataType="wstr"
+                          length="4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[PropMgmt_Floor_Code]"
+                          name="PropMgmt_Floor_Code" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[PropMgmt_Block_Code]"
+                          dataType="wstr"
+                          length="3"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[PropMgmt_Block_Code]"
+                          name="PropMgmt_Block_Code" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitTypeDescription_EN]"
+                          dataType="wstr"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitTypeDescription_EN]"
+                          name="UnitTypeDescription_EN" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitTypeDescription_FR]"
+                          dataType="wstr"
+                          length="500"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitTypeDescription_FR]"
+                          name="UnitTypeDescription_FR" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[ISFictive]"
+                          dataType="bool"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[ISFictive]"
+                          name="ISFictive" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitTypeIsExcludedFromSalesReport]"
+                          dataType="bool"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[UnitTypeIsExcludedFromSalesReport]"
+                          name="UnitTypeIsExcludedFromSalesReport" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_SOURCE_CODE]"
+                          name="IC_DM_SOURCE_CODE" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_CODE]"
+                          name="IC_DM_DATA_CODE" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_DATA_SOURCE_ROW_NUMBER]"
+                          name="IC_DM_DATA_SOURCE_ROW_NUMBER" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_LINEAGE_INFO]"
+                          name="IC_DM_LINEAGE_INFO" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_UPDATE]"
+                          name="IC_DM_TIMESTAMP_UPDATE"
+                          scale="3" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_TIMESTAMP_DELETE]"
+                          name="IC_DM_TIMESTAMP_DELETE"
+                          scale="3" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                          codePage="1252"
+                          dataType="str"
+                          length="66"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[IC_DM_HASHKEY_BK]"
+                          name="IC_DM_HASHKEY_BK" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Derived Column Output]"
+                  endId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Derived Column Output1]"
+                  endId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata.Inputs[Derived Column Input]"
+                  name="Derived Column Output"
+                  startId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Lookup Match Output]"
+                  endId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Inputs[Lookup Input]"
+                  name="Lookup Match Output"
+                  startId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Outputs[Lookup Match Output]" />
+                <path
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Lookup Match Output1]"
+                  endId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results.Inputs[Derived Column Input]"
+                  name="Lookup Match Output"
+                  startId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current.Outputs[Lookup Match Output]" />
+                <path
+                  refId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[OLE DB Source Output]"
+                  endId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current.Inputs[Lookup Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Cleanse Leasing_Unit\SQL - Load Leasing_Unit - Cleansing"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BB727330-E7D0-4F1A-985E-BE218805D90C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - Load Leasing_Unit - Cleansing"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Name">"SQL - Load " +  @[User::md_EntityFullName] +" - Cleansing"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_LoadCleansedData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Cleanse Leasing_Unit\SQL - Validate Leasing_Unit - Rejects"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{B7AEF5D7-B5C8-45DD-B89F-83D6B4FE960F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - Validate Leasing_Unit - Rejects"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Name">"SQL - Validate " +  @[User::md_EntityFullName] +" - Rejects"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateWorkingData"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="InsertedRowCount"
+                SQLTask:DtsVariableName="User::var_RejectedRowCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Cleanse Leasing_Unit.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{18B11E1A-22CE-4622-A5B0-C28B8E38543E}"
+          DTS:From="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Cleanse Leasing_Unit\SQL - Validate Leasing_Unit - Rejects" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Cleanse Leasing_Unit.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{36166970-6CB7-49CC-844F-EF470FBB62B1}"
+          DTS:From="Package\SEQC - Cleanse Leasing_Unit\SQL - Validate Leasing_Unit - Rejects"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Cleanse Leasing_Unit\SQL - Load Leasing_Unit - Cleansing" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Leasing_Unit - Working (End)"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{C2005B9D-3550-4D2D-BA85-71A5DA7B7258}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Leasing_Unit - Working (End)"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Delete " +  @[User::md_EntityFullName] +" - Working (End)"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Leasing_Unit - Working (Start)"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{47B99BAE-D43D-49A3-987D-88AE937EC7C7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Leasing_Unit - Working (Start)"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="Name">"SQL - Delete " + @[User::md_EntityFullName]  + " - Working (Start)"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3327B2C3-303B-4B8C-B916-BB9DBEE518DB}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateWorkingTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{2E242E95-B89C-4197-9872-8C62A31F92B1}"
+      DTS:From="Package\SQL - Delete Leasing_Unit - Working (Start)"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC - Cleanse Leasing_Unit" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{DDB2A173-0805-4ED0-825D-7DEDBF5B0B3F}"
+      DTS:From="Package\SEQC - Cleanse Leasing_Unit"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - Delete Leasing_Unit - Working (End)"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="299,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working"
+          TopLeft="35,25" />
+        <NodeLayout
+          Size="305,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\SQL - Load Leasing_Unit - Cleansing"
+          TopLeft="32,227" />
+        <NodeLayout
+          Size="309,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\SQL - Validate Leasing_Unit - Rejects"
+          TopLeft="30,126" />
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit.PrecedenceConstraints[Constraint]"
+          TopLeft="184.5,67">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184.5,168">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="407,324"
+          Size="407,367"
+          Id="Package\SEQC - Cleanse Leasing_Unit"
+          TopLeft="101,137" />
+        <NodeLayout
+          Size="336,42"
+          Id="Package\SQL - Delete Leasing_Unit - Working (End)"
+          TopLeft="133.916666666667,572.5" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\SQL - Delete Leasing_Unit - Working (Start)"
+          TopLeft="152.25,40.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="303.125,82.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,54.5"
+              Start="0,0"
+              End="0,47">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="303.208333333333,504">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,68.5"
+              Start="0,0"
+              End="0,61">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,24.6953125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="338,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit"
+          TopLeft="217.666666666667,523.333333333333" />
+        <NodeLayout
+          Size="326,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit"
+          TopLeft="226.666666666667,27" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current"
+          TopLeft="259.166666666667,225.533333333333" />
+        <NodeLayout
+          Size="272,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Analyze cleansing &amp; lookup results"
+          TopLeft="253.666666666667,324.8" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\DER - Add metadata"
+          TopLeft="302.166666666667,424.066666666667" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current"
+          TopLeft="255.666666666667,126.266666666667" />
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[OLE DB Source Output]"
+          TopLeft="389.666666666667,69">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,57.2666666666667"
+              Start="0,0"
+              End="0,49.7666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.7666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Lookup Match Output1]"
+          TopLeft="389.666666666667,267.533333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,57.2666666666667"
+              Start="0,0"
+              End="0,49.7666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.7666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,19.0786458333334,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Lookup Match Output]"
+          TopLeft="389.666666666667,168.266666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,57.2666666666667"
+              Start="0,0"
+              End="0,49.7666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.7666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,19.0786458333334,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Derived Column Output1]"
+          TopLeft="389.666666666667,366.8">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,57.2666666666667"
+              Start="0,0"
+              End="0,49.7666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.7666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working.Paths[Derived Column Output]"
+          TopLeft="388.166666666667,466.066666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,57.2666666666667"
+              Start="0,0"
+              End="0,49.7666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.7666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_DST - IC_DM_DataStore - Working - Leasing_Unit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\OLE_SRC - IC_DM_DataStore - Entity - Leasing_Unit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Leasing_Unit Type - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Cleanse Leasing_Unit\DFT - Load Leasing_Unit - Working\LKP - Ref_Finance_CostCenter - Current">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
