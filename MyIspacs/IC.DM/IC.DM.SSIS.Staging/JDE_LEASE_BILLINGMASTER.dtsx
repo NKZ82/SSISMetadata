@@ -1,0 +1,2166 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/8/2016 10:28:40 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI07"
+  DTS:CreatorName="CORP\adm1niea"
+  DTS:DTSID="{0B138C03-78DD-43FE-B293-E1B7FC28D763}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="JDE_LEASE_BILLINGMASTER"
+  DTS:PackageType="5"
+  DTS:VersionBuild="106"
+  DTS:VersionGUID="{86AAFB7C-7FCA-454D-9BD4-F3D309DA909D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{9A6E068C-40AC-4C32-9A11-FEAD25B1829D}"
+      DTS:ObjectName="BusinessProcessInstanceID"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">KS-2017092601</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{ABA7C164-A703-474B-80EF-396EB952EC10}"
+      DTS:ObjectName="BusinessProcessInstanceIteration"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{436B9C6B-1CB0-49AB-8CB3-8B2A4642DAC5}"
+      DTS:ObjectName="Type">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{9824E2A0-514A-4227-82B1-AF038C33366C}"
+      DTS:ObjectName="YearToLoad">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">-10</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{68CFC14F-311C-4D72-B371-F6095FDB3D1B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">LEASE_BILLINGMASTER</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6EB8BB8C-3946-49EC-950E-116D8CF3215E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{66D84638-1C91-4067-B3BE-8E977951DED4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO [staging].[DataLoading]&#xA;           ([DataID]&#xA;           ,[LoadingDate]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]&#xA;           )&#xA;SELECT&#xA;&#x9;d.DataID,&#xA;&#x9;'&quot; + @[User::var_LoadingDate_str] + &quot;',&#xA;&#x9;'&quot; + @[$Package::BusinessProcessInstanceID] + &quot;',&#xA;&#x9;&quot; + (DT_WSTR, 32) @[$Package::BusinessProcessInstanceIteration] + &quot;&#xA;FROM config.Source s&#xA;JOIN config.Data d&#xA;&#x9;ON s.SourceID = d.SourceID&#xA;JOIN config.DataProvider dp&#xA;&#x9;ON d.DataID = dp.DataID&#xA;JOIN config.Provider p&#xA;&#x9;ON dp.ProviderID = p.ProviderID&#xA;WHERE s.SourceCode = '&quot;+ @[User::md_Source]  +&quot;'&#xA;&#x9;and d.DataCode = '&quot;+ @[User::md_Data]  +&quot;'&#xA;SELECT SCOPE_IDENTITY() AS DataLoadingID;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO [staging].[DataLoading]
+           ([DataID]
+           ,[LoadingDate]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]
+           )
+SELECT
+	d.DataID,
+	'2018-05-25 11:20:40',
+	'KS-2017092601',
+	0
+FROM config.Source s
+JOIN config.Data d
+	ON s.SourceID = d.SourceID
+JOIN config.DataProvider dp
+	ON d.DataID = dp.DataID
+JOIN config.Provider p
+	ON dp.ProviderID = p.ProviderID
+WHERE s.SourceCode = 'JDE'
+	and d.DataCode = 'LEASE_BILLINGMASTER'
+SELECT SCOPE_IDENTITY() AS DataLoadingID;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5E12C451-2C74-448F-9633-FAD069E57FC8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;delete from staging.JDE_LEASE_BILLINGMASTER_Detail&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateStaging">
+      <DTS:VariableValue
+        DTS:DataType="8">delete from staging.JDE_LEASE_BILLINGMASTER_Detail</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{32D0EFBA-DBF7-483A-B1A5-A536D7AE18C7}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE d&#xA;SET ValidationSucceeded = 1,&#xA;&#x9;ValidationDate = SYSDATETIME()&#xA;FROM staging.DataLoading d&#xA;WHERE d.DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot;&#xA;&#x9;AND NOT EXISTS(&#xA;&#x9;&#x9;SELECT * &#xA;&#x9;&#x9;FROM staging.ValidationResult &#xA;&#x9;&#x9;WHERE DataLoadingID = d.DataLoadingID&#xA;&#x9;&#x9;&#x9;AND ValidationSeverity = 'FATAL'&#xA;&#x9;)&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDataLoadingValidationFlag">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE d
+SET ValidationSucceeded = 1,
+	ValidationDate = SYSDATETIME()
+FROM staging.DataLoading d
+WHERE d.DataLoadingID = 0
+	AND NOT EXISTS(
+		SELECT * 
+		FROM staging.ValidationResult 
+		WHERE DataLoadingID = d.DataLoadingID
+			AND ValidationSeverity = 'FATAL'
+	)</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E78A9BC2-BDAA-4E47-8472-7B8C65F9AC1C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='CONNECTION'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateConnectionInfo">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='LEASE_BILLINGMASTER', @ProviderCodeParam='IC', @DataLoadingID=0, @ValidationScopeParam='CONNECTION'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7ABF4756-06D7-4483-A508-E7AC32C0BAAD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='DETAIL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='LEASE_BILLINGMASTER', @ProviderCodeParam='IC', @DataLoadingID=0, @ValidationScopeParam='DETAIL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6E2022C3-81E8-476D-B014-4E8DE6A1D51A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='LEASE_BILLINGMASTER', @ProviderCodeParam='IC', @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateSP">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='LEASE_BILLINGMASTER', @ProviderCodeParam='IC', @DataLoadingID=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{949E9495-1ADA-4FCB-A55B-D608A27F2EC3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT &#x9;[GenerationType]&#xA;&#x9;,[BatchNumber]&#xA;&#x9;,[InvoiceNo]&#xA;&#x9;,[DocumentPayItem]&#xA;&#x9;,[DocumentCompany]&#xA;&#x9;,[BusinessUnit]&#xA;&#x9;,[Unit]&#xA;&#x9;,[LeaseNumber]&#xA;&#x9;,[BillingPeriodNumber]&#xA;&#x9;,[BillingYear]&#xA;&#x9;,[Amount]&#xA;&#x9;,[S.O.BillType]&#xA;&#x9;,[Description]&#xA;&#x9;,[BillCode]&#xA;&#x9;,[Date-Service/Tax]&#xA;&#x9;,[ProductCode]&#xA;&#x9;,[BillingControlID]&#xA;,[DoingBusinessAs]&#x9;,[LastModifiedDate]&#xA;&#x9;,[LastModifiedTime] &#xA;FROM &quot; + @[User::var_schema] + &quot;.vDWH_LeaseBillingMaster Where [dbo].[JDE_Date_To_Date]([Date-Service/Tax]) &gt; dateadd(YY,&quot; +  (DT_WSTR,3) @[User::var_YearToLoad] + &quot;,getdate()) &quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_vLeaseBillingMaster">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT 	[GenerationType]
+	,[BatchNumber]
+	,[InvoiceNo]
+	,[DocumentPayItem]
+	,[DocumentCompany]
+	,[BusinessUnit]
+	,[Unit]
+	,[LeaseNumber]
+	,[BillingPeriodNumber]
+	,[BillingYear]
+	,[Amount]
+	,[S.O.BillType]
+	,[Description]
+	,[BillCode]
+	,[Date-Service/Tax]
+	,[ProductCode]
+	,[BillingControlID]
+,[DoingBusinessAs]	,[LastModifiedDate]
+	,[LastModifiedTime] 
+FROM CRPDTA.vDWH_LeaseBillingMaster Where [dbo].[JDE_Date_To_Date]([Date-Service/Tax]) &gt; dateadd(YY,-10,getdate()) </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{22109D6E-BC4C-4F12-A745-1730D0A47ED6}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B83E5735-0758-41C0-BFB2-365B30F5305C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_isReadable">
+      <DTS:VariableValue
+        DTS:DataType="11">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{081155CE-4BB3-4E73-9F40-72CB301301D1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:20:40</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2B797BC9-A258-4183-8949-417975D4A5D8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_protocol">
+      <DTS:VariableValue
+        DTS:DataType="8">SQL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7791F77B-2B74-4AE2-A1B2-7BB4A87144EC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DF21C8CB-BBFA-4E61-84D1-C97E78487564}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowNumber">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AFFD4FB9-5927-4FD9-876B-CFB7E6096B66}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::JDESchema]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_schema">
+      <DTS:VariableValue
+        DTS:DataType="8">CRPDTA</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FA2EDB9A-6A1B-428E-9970-AB904702FD4A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::YearToLoad]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_YearToLoad">
+      <DTS:VariableValue
+        DTS:DataType="3">-10</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8E7DE1A6-36E3-43EE-B3E2-BB68DFBE8521}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:EventHandlers>
+        <DTS:EventHandler
+          DTS:refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.EventHandlers[OnError]"
+          DTS:CreationName="OnError"
+          DTS:DTSID="{E721C8E5-7C61-4109-8BBC-B3E71B080729}"
+          DTS:EventID="0"
+          DTS:EventName="OnError"
+          DTS:LocaleID="-1">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:Description="The propagate property of the event"
+              DTS:DTSID="{9332129B-5A44-445C-8A08-C5BD2CE5DF1A}"
+              DTS:IncludeInDebugDump="6789"
+              DTS:Namespace="System"
+              DTS:ObjectName="Propagate">
+              <DTS:VariableValue
+                DTS:DataType="11">0</DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:Executables />
+        </DTS:EventHandler>
+      </DTS:EventHandlers>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="DCONV - NVARCHAR"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[GenerationType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="GenerationType"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[GenerationType]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[DocumentPayItem]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="DocumentPayItem"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentPayItem]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[S.O.BillType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="S.O.BillType"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[S.O.BillType]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Description]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Description"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[BillCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="BillCode"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[DocumentCompany]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="DocumentCompany"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentCompany]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Unit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Unit"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Unit]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[ProductCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="ProductCode"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[ProductCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[BusinessUnit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="BusinessUnit"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BusinessUnit]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[GenerationType_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[GenerationType_nvarchar]"
+                      name="GenerationType_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[GenerationType]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[DocumentPayItem_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[DocumentPayItem_nvarchar]"
+                      name="DocumentPayItem_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentPayItem]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[S.O.BillType_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[S.O.BillType_nvarchar]"
+                      name="S.O.BillType_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[S.O.BillType]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description_nvarchar]"
+                      name="Description_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Description]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BillCode_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BillCode_nvarchar]"
+                      name="BillCode_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillCode]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[DocumentCompany_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[DocumentCompany_nvarchar]"
+                      name="DocumentCompany_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentCompany]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Unit_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Unit_nvarchar]"
+                      name="Unit_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Unit]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[ProductCode_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[ProductCode_nvarchar]"
+                      name="ProductCode_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[ProductCode]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnit_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnit_nvarchar]"
+                      name="BusinessUnit_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BusinessUnit]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add columns required by Detail"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                      name="DataLoadingID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_DataLoadingID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[staging].[JDE_LEASE_BILLINGMASTER_Detail]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Connections[OleDbConnection]"
+                  connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                      cachedDataType="i4"
+                      cachedName="DataLoadingID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[LastModifiedDate]"
+                      cachedDataType="numeric"
+                      cachedName="LastModifiedDate"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LastModifiedDate]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[LastModifiedTime]"
+                      cachedDataType="r8"
+                      cachedName="LastModifiedTime"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedTime]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LastModifiedTime]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[GenerationType_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="GenerationType_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[GenerationType]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[GenerationType_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[BatchNumber]"
+                      cachedDataType="r8"
+                      cachedName="BatchNumber"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BatchNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BatchNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[InvoiceNo]"
+                      cachedDataType="r8"
+                      cachedName="InvoiceNo"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[InvoiceNo]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[InvoiceNo]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[DocumentPayItem_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="DocumentPayItem_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DocumentPayItem]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[DocumentPayItem_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[LeaseNumber]"
+                      cachedDataType="r8"
+                      cachedName="LeaseNumber"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[LeaseNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LeaseNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[BillingPeriodNumber]"
+                      cachedDataType="r8"
+                      cachedName="BillingPeriodNumber"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillingPeriodNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingPeriodNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[BillingYear]"
+                      cachedDataType="r8"
+                      cachedName="BillingYear"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillingYear]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingYear]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[Amount]"
+                      cachedDataType="cy"
+                      cachedName="Amount"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[S.O.BillType_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="S.O.BillType_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[S.O.BillType]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[S.O.BillType_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[Description_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Description_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[BillCode_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="BillCode_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BillCode_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[Date-Service/Tax]"
+                      cachedDataType="numeric"
+                      cachedName="Date-Service/Tax"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Date-Service/Tax]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Date-Service/Tax]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[Unit_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="Unit_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Unit]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Unit_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[BusinessUnit_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="BusinessUnit_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnit]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnit_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[DocumentCompany_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="DocumentCompany_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DocumentCompany]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[DocumentCompany_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[ProductCode_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="ProductCode_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[ProductCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[ProductCode_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[BillingControlID]"
+                      cachedDataType="r8"
+                      cachedName="BillingControlID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillingControlID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingControlID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].Columns[DoingBusinessAs]"
+                      cachedDataType="r8"
+                      cachedName="DoingBusinessAs"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DoingBusinessAs]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DoingBusinessAs]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="i4"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                      dataType="i4"
+                      name="DataLoadingID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
+                      dataType="numeric"
+                      name="LastModifiedDate"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedTime]"
+                      dataType="r8"
+                      name="LastModifiedTime" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[GenerationType]"
+                      dataType="wstr"
+                      length="1"
+                      name="GenerationType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BatchNumber]"
+                      dataType="r8"
+                      name="BatchNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[InvoiceNo]"
+                      dataType="r8"
+                      name="InvoiceNo" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DocumentPayItem]"
+                      dataType="wstr"
+                      length="3"
+                      name="DocumentPayItem" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[LeaseNumber]"
+                      dataType="r8"
+                      name="LeaseNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillingPeriodNumber]"
+                      dataType="r8"
+                      name="BillingPeriodNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillingYear]"
+                      dataType="r8"
+                      name="BillingYear" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="cy"
+                      name="Amount" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[S.O.BillType]"
+                      dataType="wstr"
+                      length="2"
+                      name="S.O.BillType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="30"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillCode]"
+                      dataType="wstr"
+                      length="4"
+                      name="BillCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Date-Service/Tax]"
+                      dataType="numeric"
+                      name="Date-Service/Tax"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DocumentCompany]"
+                      dataType="wstr"
+                      length="5"
+                      name="DocumentCompany" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnit]"
+                      dataType="wstr"
+                      length="12"
+                      name="BusinessUnit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[Unit]"
+                      dataType="wstr"
+                      length="8"
+                      name="Unit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[ProductCode]"
+                      dataType="wstr"
+                      length="4"
+                      name="ProductCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[BillingControlID]"
+                      dataType="r8"
+                      name="BillingControlID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input].ExternalColumns[DoingBusinessAs]"
+                      dataType="r8"
+                      name="DoingBusinessAs" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Read from JDE vDWH_LeaseBillingMaster"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sql_vLeaseBillingMaster</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Connections[OleDbConnection]"
+                  connectionManagerID="{E43798EE-94AE-40E3-B2FE-B03C177063B8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb JDE]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LastModifiedDate]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedDate]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LastModifiedDate]"
+                      name="LastModifiedDate"
+                      precision="18"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LastModifiedTime]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedTime]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LastModifiedTime]"
+                      name="LastModifiedTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[GenerationType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[GenerationType]"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[GenerationType]"
+                      name="GenerationType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BatchNumber]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BatchNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BatchNumber]"
+                      name="BatchNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[InvoiceNo]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[InvoiceNo]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[InvoiceNo]"
+                      name="InvoiceNo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentPayItem]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[DocumentPayItem]"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentPayItem]"
+                      name="DocumentPayItem"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LeaseNumber]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[LeaseNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[LeaseNumber]"
+                      name="LeaseNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingPeriodNumber]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillingPeriodNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingPeriodNumber]"
+                      name="BillingPeriodNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingYear]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillingYear]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingYear]"
+                      name="BillingYear"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Amount]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Amount]"
+                      name="Amount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[S.O.BillType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[S.O.BillType]"
+                      length="2"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[S.O.BillType]"
+                      name="S.O.BillType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillCode]"
+                      length="4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillCode]"
+                      name="BillCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Date-Service/Tax]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Date-Service/Tax]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Date-Service/Tax]"
+                      name="Date-Service/Tax"
+                      precision="18"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentCompany]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[DocumentCompany]"
+                      length="5"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DocumentCompany]"
+                      name="DocumentCompany"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BusinessUnit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnit]"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BusinessUnit]"
+                      name="BusinessUnit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Unit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Unit]"
+                      length="8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[Unit]"
+                      name="Unit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[ProductCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[ProductCode]"
+                      length="4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[ProductCode]"
+                      name="ProductCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingControlID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillingControlID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[BillingControlID]"
+                      name="BillingControlID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DoingBusinessAs]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[DoingBusinessAs]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].Columns[DoingBusinessAs]"
+                      name="DoingBusinessAs"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedDate]"
+                      dataType="numeric"
+                      name="LastModifiedDate"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedTime]"
+                      dataType="r8"
+                      name="LastModifiedTime" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[GenerationType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="GenerationType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BatchNumber]"
+                      dataType="r8"
+                      name="BatchNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[InvoiceNo]"
+                      dataType="r8"
+                      name="InvoiceNo" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[DocumentPayItem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="DocumentPayItem" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[LeaseNumber]"
+                      dataType="r8"
+                      name="LeaseNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillingPeriodNumber]"
+                      dataType="r8"
+                      name="BillingPeriodNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillingYear]"
+                      dataType="r8"
+                      name="BillingYear" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      dataType="cy"
+                      name="Amount" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[S.O.BillType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="S.O.BillType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="BillCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Date-Service/Tax]"
+                      dataType="numeric"
+                      name="Date-Service/Tax"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[DocumentCompany]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="DocumentCompany" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="BusinessUnit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[Unit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="Unit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[ProductCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="ProductCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[BillingControlID]"
+                      dataType="r8"
+                      name="BillingControlID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output].ExternalColumns[DoingBusinessAs]"
+                      dataType="r8"
+                      name="DoingBusinessAs" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[GenerationType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[GenerationType]"
+                      name="GenerationType" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BatchNumber]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BatchNumber]"
+                      name="BatchNumber" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[InvoiceNo]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[InvoiceNo]"
+                      name="InvoiceNo" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[DocumentPayItem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[DocumentPayItem]"
+                      name="DocumentPayItem" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[DocumentCompany]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[DocumentCompany]"
+                      name="DocumentCompany" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BusinessUnit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BusinessUnit]"
+                      name="BusinessUnit" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Unit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Unit]"
+                      name="Unit" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[LeaseNumber]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[LeaseNumber]"
+                      name="LeaseNumber" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillingPeriodNumber]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillingPeriodNumber]"
+                      name="BillingPeriodNumber" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillingYear]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillingYear]"
+                      name="BillingYear" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      dataType="cy"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      name="Amount" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[S.O.BillType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[S.O.BillType]"
+                      name="S.O.BillType" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillCode]"
+                      name="BillCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Date-Service/Tax]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[Date-Service/Tax]"
+                      name="Date-Service/Tax"
+                      precision="18" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[ProductCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[ProductCode]"
+                      name="ProductCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillingControlID]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[BillingControlID]"
+                      name="BillingControlID" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[DoingBusinessAs]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[DoingBusinessAs]"
+                      name="DoingBusinessAs" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[LastModifiedDate]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[LastModifiedDate]"
+                      name="LastModifiedDate"
+                      precision="18" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[LastModifiedTime]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[LastModifiedTime]"
+                      name="LastModifiedTime" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.Paths[Data Conversion Output]"
+              endId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.Paths[Derived Column Output]"
+              endId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.Paths[OLE DB Source Output]"
+              endId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\EST - Load Connexion Info"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{44D5C932-AB63-4DCE-83E2-A1D48E226AA5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EST - Load Connexion Info"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStatementSource="Insert into staging.ConnectionInfo (Protocol, IsReadable, NumRecords,DataLoadingID, ConnectionString ) Values(?,?,?,?,?)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::var_protocol"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::var_isReadable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="17"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::var_RowCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="User::var_DataLoadingID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="4"
+            SQLTask:DtsVariableName="$Project::JDEConnectionString"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ET - Set isReadable to false"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Description="Expression Task"
+      DTS:DTSID="{8377B166-CFF7-48AF-8089-7D41D50EE0A3}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ET - Set isReadable to false"
+      DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::var_isReadable] = false" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Load DataLoading"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{74C3D2EC-EF18-455A-9186-8AD23812F3B4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Load DataLoading"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_InsertDataLoading"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="DataLoadingID"
+            SQLTask:DtsVariableName="User::var_DataLoadingID" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{135E7EAA-0E55-43BD-916D-3BE78AD93592}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_UpdateDataLoadingValidationFlag" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Validate Connection Info"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7C2B5FDC-C8CC-41AF-8D18-9974BE1B2401}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Validate Connection Info"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateConnectionInfo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Validate JDE_LEASE_BilingMaster_Detail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B11507E1-FECE-4454-AA64-5D0B0A01BB7F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Validate JDE_LEASE_BilingMaster_Detail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateDetail" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - truncate Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DA561B8A-9A99-4CBC-9103-4469EE9B629B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - truncate Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3B30D8E0-9E2A-4B56-9694-5B362BEFEFE9}"
+      DTS:From="Package\SQL - DM_Staging - Load DataLoading"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL - truncate Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A463BD60-C2DD-4CAD-A8CF-858E3ACF1BD2}"
+      DTS:From="Package\SQL - truncate Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{CB7143D9-927B-4BA6-B0A9-E3CC01FC5BE8}"
+      DTS:From="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\ET - Set isReadable to false"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{62DFE62A-BEBD-49D1-B914-9341C6319F15}"
+      DTS:From="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\EST - Load Connexion Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{66895224-0B25-4233-B4AC-149F3B4449AA}"
+      DTS:From="Package\ET - Set isReadable to false"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\EST - Load Connexion Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{E83B7F77-964B-4D63-A2F5-5D1439096197}"
+      DTS:From="Package\EST - Load Connexion Info"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\SQL - DM_Staging - Validate Connection Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{109362F1-E855-443A-AD6D-DCF37A3114AE}"
+      DTS:From="Package\SQL - DM_Staging - Validate Connection Info"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\SQL - DM_Staging - Validate JDE_LEASE_BilingMaster_Detail" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{BBBF7A66-5442-47DC-8095-99BE4D087154}"
+      DTS:From="Package\SQL - DM_Staging - Validate JDE_LEASE_BilingMaster_Detail"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\SQL - DM_Staging - Update DataLoading validation flag" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="339,42"
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER"
+          TopLeft="207,219" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\EST - Load Connexion Info"
+          TopLeft="299,365" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\ET - Set isReadable to false"
+          TopLeft="607,274" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\SQL - DM_Staging - Load DataLoading"
+          TopLeft="248,51" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\SQL - DM_Staging - Update DataLoading validation flag"
+          TopLeft="233,613" />
+        <NodeLayout
+          Size="291,42"
+          Id="Package\SQL - DM_Staging - Validate Connection Info"
+          TopLeft="255,440" />
+        <NodeLayout
+          Size="365,42"
+          Id="Package\SQL - DM_Staging - Validate JDE_LEASE_BilingMaster_Detail"
+          TopLeft="225,525" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\SQL - truncate Staging"
+          TopLeft="281,127" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="376,93">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="375.25,169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="546,240">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,55"
+              Start="0,0"
+              End="53.5,55">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="26.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="26.5,0"
+                    Point2="30.5,0"
+                    Point3="30.5,4" />
+                  <mssgle:LineSegment
+                    End="30.5,51" />
+                  <mssgle:CubicBezierSegment
+                    Point1="30.5,51"
+                    Point2="30.5,55"
+                    Point3="34.5,55" />
+                  <mssgle:LineSegment
+                    End="53.5,55" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="15.25865234375,-15.7490234375,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="372.583333333333,261">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,104"
+              Start="0,0"
+              End="0,96.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,96.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="711.5,316">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-277.166666666667,49"
+              Start="0,0"
+              End="-277.166666666667,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.1723136495644" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.1723136495644"
+                    Point2="0,29.1723136495644"
+                    Point3="-4,29.1723136495644" />
+                  <mssgle:LineSegment
+                    End="-273.166666666667,29.1723136495644" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-273.166666666667,29.1723136495644"
+                    Point2="-277.166666666667,29.1723136495644"
+                    Point3="-277.166666666667,33.1723136495644" />
+                  <mssgle:LineSegment
+                    End="-277.166666666667,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="401,407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="404,482">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="405.25,567">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="332,42"
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER"
+          TopLeft="29.5,351" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DER - Add columns required by Detail"
+          TopLeft="67,129.666666666667" />
+        <NodeLayout
+          Size="274,42"
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster"
+          TopLeft="58.5,19" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\DCONV - NVARCHAR"
+          TopLeft="107,240.333333333333" />
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.Paths[Data Conversion Output]"
+          TopLeft="195.5,282.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68.6666666666667"
+              Start="0,0"
+              End="0,61.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.Paths[OLE DB Source Output]"
+          TopLeft="195.5,61">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68.6666666666667"
+              Start="0,0"
+              End="0,61.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.Paths[Derived Column Output]"
+          TopLeft="195.5,171.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68.6666666666667"
+              Start="0,0"
+              End="0,61.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <DtsEventHandler
+    design-time-name="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <AnnotationLayout
+          Text="Empty OnError event handler, but with system variable Propagate set to false.&#xA;This will prevent propgating the event to the parent (loop) container."
+          ParentId="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER.EventHandlers[OnError]"
+          FontInfo="{assembly:Null}"
+          Size="438,NaN"
+          Id="0caa4fd6-511d-4306-bd90-cbcce6233210"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\OLE_DST - DM_Staging - JDE_LEASEBILLINGMASTER">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - DM_Staging - Load JDE_LEASE_BILLINGMASTER\Read from JDE vDWH_LeaseBillingMaster">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

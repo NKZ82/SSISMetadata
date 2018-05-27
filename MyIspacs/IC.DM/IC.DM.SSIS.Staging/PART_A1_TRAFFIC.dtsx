@@ -1,0 +1,3071 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/18/2016 2:31:49 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{8694CA08-98C9-4AE8-A4C9-BB3520D5E2B0}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="PART_A1_TRAFFIC"
+  DTS:PackageType="5"
+  DTS:VersionBuild="601"
+  DTS:VersionGUID="{95BDF1DB-CCC7-4BA3-9B6C-FED98F66AE99}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{0F34D5C9-591C-4B2A-8F93-8E426C1956F6}"
+      DTS:ObjectName="BusinessProcessInstanceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20171108-EL-03</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{C74001DF-A1D6-4DB7-ADF5-84B7D00BC55A}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{123C2EB5-530F-42D0-A326-F724F0AF7A45}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_DataCode">
+      <DTS:VariableValue
+        DTS:DataType="8">TRAFFIC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{ADD3BC47-690B-4C95-ABB5-04FD5B4FF66D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_ProviderCode">
+      <DTS:VariableValue
+        DTS:DataType="8">A1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A343DA3F-1FBC-49AE-B8F8-B17913876FBA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_SourceCode">
+      <DTS:VariableValue
+        DTS:DataType="8">PART</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{70919173-C633-45EF-89CA-FA57DC87AE8C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_WebServiceTimeout">
+      <DTS:VariableValue
+        DTS:DataType="3">300</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{59F95420-6817-4454-9601-D16A82D1E8A9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM [staging].[&quot;+@[User::md_SourceCode]+&quot;_&quot;+@[User::md_ProviderCode]+&quot;_&quot;+@[User::md_DataCode]+&quot;_Detail];&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_DeleteDetailData">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM [staging].[PART_A1_TRAFFIC_Detail];</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1AD085A2-9D55-44A2-A5EC-EEA8D9CBC3C9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO staging.DataLoading&#xA;           (DataID&#xA;           ,LoadingDate&#xA;           ,IC_DM_LINEAGE_INFO&#xA;           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ID&#xA;           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;           )&#xA;SELECT&#xA;&#x9;COALESCE(d.DataID, -1),&#xA;&#x9;p.LoadingDate,&#xA;&#x9;NULL,&#xA;&#x9;p.IC_DM_BUSINESS_PROCESS_INSTANCE_ID,&#xA;&#x9;p.IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;FROM (&#xA;&#x9;SELECT&#xA;&#x9;&#x9;'&quot; + @[User::md_SourceCode] + &quot;' AS SourceCode,&#xA;&#x9;&#x9;'&quot; + @[User::md_DataCode] + &quot;' AS DataCode,&#xA;&#x9;&#x9;'&quot; + @[User::md_ProviderCode] + &quot;' AS ProviderCode,&#xA;&#x9;&#x9;'&quot; + @[User::var_LoadingDate_str] + &quot;' AS LoadingDate,&#xA;&#x9;&#x9;'&quot; + @[$Package::BusinessProcessInstanceID] + &quot;' AS IC_DM_BUSINESS_PROCESS_INSTANCE_ID,&#xA;&#x9;&#x9;&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration] + &quot; AS IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;) p&#xA;LEFT JOIN config.vw_ProviderSourceDataInfo d&#xA;&#x9;ON p.SourceCode = d.SourceCode&#xA;&#x9;&#x9;AND p.DataCode = d.DataCode&#xA;&#x9;&#x9;AND p.ProviderCode = d.ProviderCode;&#xA;SELECT SCOPE_IDENTITY() AS DataLoadingID;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO staging.DataLoading
+           (DataID
+           ,LoadingDate
+           ,IC_DM_LINEAGE_INFO
+           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ID
+           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+           )
+SELECT
+	COALESCE(d.DataID, -1),
+	p.LoadingDate,
+	NULL,
+	p.IC_DM_BUSINESS_PROCESS_INSTANCE_ID,
+	p.IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+FROM (
+	SELECT
+		'PART' AS SourceCode,
+		'TRAFFIC' AS DataCode,
+		'A1' AS ProviderCode,
+		'2018-05-25 11:20:50' AS LoadingDate,
+		'20171108-EL-03' AS IC_DM_BUSINESS_PROCESS_INSTANCE_ID,
+		1 AS IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+) p
+LEFT JOIN config.vw_ProviderSourceDataInfo d
+	ON p.SourceCode = d.SourceCode
+		AND p.DataCode = d.DataCode
+		AND p.ProviderCode = d.ProviderCode;
+SELECT SCOPE_IDENTITY() AS DataLoadingID;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9FE7E7DF-9011-45B9-A4D0-E7D8BD92300A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE d&#xA;SET ValidationSucceeded = (&#xA;&#x9;&#x9;SELECT CASE WHEN COUNT(*) = 0 THEN 1 ELSE 0 END&#xA;&#x9;&#x9;FROM staging.ValidationResult &#xA;&#x9;&#x9;WHERE DataLoadingID = d.DataLoadingID&#xA;&#x9;&#x9;&#x9;AND ValidationSeverity = 'FATAL'&#xA;&#x9;),&#xA;&#x9;ValidationDate = SYSDATETIME()&#xA;FROM staging.DataLoading d&#xA;WHERE d.DataLoadingID = &quot;+(DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDataLoadingValidationFlag">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE d
+SET ValidationSucceeded = (
+		SELECT CASE WHEN COUNT(*) = 0 THEN 1 ELSE 0 END
+		FROM staging.ValidationResult 
+		WHERE DataLoadingID = d.DataLoadingID
+			AND ValidationSeverity = 'FATAL'
+	),
+	ValidationDate = SYSDATETIME()
+FROM staging.DataLoading d
+WHERE d.DataLoadingID = 0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2267A43C-230A-4922-9E69-999F7ACB5F56}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] + &quot;, @ValidationCodeParam='PARM-01'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @DataLoadingID=0, @ValidationCodeParam='PARM-01'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9A8DF3DB-C6E9-442B-BB8C-5542032BFC4C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='DETAIL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='PART', @DataCodeParam='TRAFFIC', @ProviderCodeParam='A1', @DataLoadingID=0, @ValidationScopeParam='DETAIL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7EBC789F-4B4F-46E1-9F28-B2225053CAA6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @SourceCodeParam='&quot;+ @[User::md_SourceCode]  +&quot;', @DataCodeParam='&quot;+ @[User::md_DataCode]  +&quot;', @ProviderCodeParam='&quot;+ @[User::md_ProviderCode]  +&quot;', @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateSP">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='PART', @DataCodeParam='TRAFFIC', @ProviderCodeParam='A1', @DataLoadingID=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0EE8AFA0-F3D0-4132-A6A2-975DD0ED88CD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot; AND ValidationSeverity = 'FATAL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_VerifyValidationResult">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = 0 AND ValidationSeverity = 'FATAL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F114306-F04C-47B9-858E-9FB5A7D4E61E}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_ControlDataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{954881E8-9FA2-45C2-B79C-7C6BB39F7913}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7AC0245B-D959-4202-BC0C-14C0FE6BDEDC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_FailedDataLoadingValidationCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{81C1CEEA-EB91-4A1C-9397-B5F0ED12EED0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:20:50</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2" />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Create and Validate DataLoading record"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{6A810F0D-448D-4EE3-9DD3-BEEDECF68285}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Create and Validate DataLoading record">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{7FCC6953-565F-4123-AF15-C490DEA33C8E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Load DataLoading"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_InsertDataLoading"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="DataLoadingID"
+                SQLTask:DtsVariableName="User::var_DataLoadingID" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{418C44AB-5784-4DBC-864E-D73901F834DC}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateDataLoading" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BAE279BB-0B1F-4018-B99E-489E899FB779}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_VerifyValidationResult"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FailedValidationCount"
+                SQLTask:DtsVariableName="User::var_FailedDataLoadingValidationCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{BD87589C-FD5C-41DE-A76A-F899ED2E8063}"
+          DTS:From="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{C41B7199-83C0-4342-8A85-26EAB0AEFE7D}"
+          DTS:From="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Load and Validate Detail"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{BAA67461-344F-4207-B906-BD4636181E11}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Load and Validate Detail">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load and Validate Detail\DFT - Dummy"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{BD77CFAB-CE7E-4E72-B5FB-5D9F7CB31A02}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - Dummy"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <pipeline
+              version="1" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Sequence Container"
+          DTS:DTSID="{E2C65AEA-BC0A-4D84-8D58-C48D259B50DE}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SEQC - Load A1_TRAFFIC (Detail)">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{CCEF9786-4B26-41A3-93AF-66BE1772B57C}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0"
+                DTS:LoggingMode="1">
+                <DTS:Property
+                  DTS:DataType="8"
+                  DTS:Name="EventFilter">2,16,BufferSizeTuning,18,PipelineBufferLeak</DTS:Property>
+                <DTS:Property
+                  DTS:EventName="BufferSizeTuning"
+                  DTS:Name="ColumnFilter">
+                  <DTS:Property
+                    DTS:Name="Computer">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="Operator">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceName">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="ExecutionID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="MessageText">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="DataBytes">-1</DTS:Property>
+                </DTS:Property>
+                <DTS:Property
+                  DTS:EventName="PipelineBufferLeak"
+                  DTS:Name="ColumnFilter">
+                  <DTS:Property
+                    DTS:Name="Computer">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="Operator">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceName">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="ExecutionID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="MessageText">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="DataBytes">-1</DTS:Property>
+                </DTS:Property>
+                <DTS:Property
+                  DTS:EventName="PipelineExecutionPlan"
+                  DTS:Name="ColumnFilter">
+                  <DTS:Property
+                    DTS:Name="Computer">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="Operator">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceName">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="ExecutionID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="MessageText">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="DataBytes">-1</DTS:Property>
+                </DTS:Property>
+                <DTS:Property
+                  DTS:EventName="PipelineExecutionTrees"
+                  DTS:Name="ColumnFilter">
+                  <DTS:Property
+                    DTS:Name="Computer">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="Operator">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceName">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="SourceID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="ExecutionID">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="MessageText">-1</DTS:Property>
+                  <DTS:Property
+                    DTS:Name="DataBytes">-1</DTS:Property>
+                </DTS:Property>
+              </DTS:LoggingOptions>
+              <DTS:ObjectData>
+                <pipeline
+                  defaultBufferSize="18242450"
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail"
+                      componentClassID="Microsoft.DerivedColumn"
+                      contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                      name="DER - Add columns required by Detail"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                          description="Input to the Derived Column Transformation"
+                          name="Derived Column Input">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output]"
+                          description="Default Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          name="Derived Column Output"
+                          synchronousInputId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Computation"
+                              errorRowDisposition="FailComponent"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                              name="DataLoadingID"
+                              truncationRowDisposition="FailComponent">
+                              <properties>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Expression"
+                                  name="Expression">@[User::var_DataLoadingID]</property>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Friendly Expression"
+                                  expressionType="Notify"
+                                  name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output]"
+                          description="Error Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Derived Column Error Output"
+                          synchronousInputId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult"
+                      componentClassID="Microsoft.DerivedColumn"
+                      contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                      name="DER - Add columns required by ValidationResult"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]"
+                          description="Input to the Derived Column Transformation"
+                          name="Derived Column Input">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output]"
+                          description="Default Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          name="Derived Column Output"
+                          synchronousInputId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Computation"
+                              errorRowDisposition="FailComponent"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                              name="DataLoadingID"
+                              truncationRowDisposition="FailComponent">
+                              <properties>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Expression"
+                                  name="Expression">@[User::var_DataLoadingID]</property>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Friendly Expression"
+                                  expressionType="Notify"
+                                  name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output]"
+                          description="Error Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Derived Column Error Output"
+                          synchronousInputId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[staging].[PART_A1_TRAFFIC_Detail]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Connections[OleDbConnection]"
+                          connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                              cachedDataType="i4"
+                              cachedName="DataLoadingID"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].Columns[SiteKey]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="SiteKey"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SiteKey]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[SiteKey]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].Columns[Timestamp]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Timestamp"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Timestamp]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Timestamp]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].Columns[CountZone]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="CountZone"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[CountZone]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[CountZone]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].Columns[Forward]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Forward"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Forward]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Forward]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].Columns[Backward]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Backward"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Backward]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Backward]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                              dataType="i4"
+                              name="ID" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                              dataType="i4"
+                              name="DataLoadingID" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SiteKey]"
+                              dataType="wstr"
+                              length="255"
+                              name="SiteKey" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Timestamp]"
+                              dataType="wstr"
+                              length="255"
+                              name="Timestamp" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[CountZone]"
+                              dataType="wstr"
+                              length="255"
+                              name="CountZone" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Forward]"
+                              dataType="wstr"
+                              length="255"
+                              name="Forward" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Backward]"
+                              dataType="wstr"
+                              length="255"
+                              name="Backward" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="OLE_DST - DM_Staging - ValidationResult"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[staging].[ValidationResult]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Connections[OleDbConnection]"
+                          connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                              cachedDataType="i4"
+                              cachedName="DataLoadingID"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[TableName]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="TableName"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[TableName]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[TableName]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationScope]"
+                              cachedDataType="wstr"
+                              cachedLength="20"
+                              cachedName="ValidationScope"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationScope]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationScope]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationCode]"
+                              cachedDataType="wstr"
+                              cachedLength="20"
+                              cachedName="ValidationCode"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationCode]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationCode]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationMessage_EN]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="ValidationMessage_EN"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_EN]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationMessage_EN]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationSeverity]"
+                              cachedDataType="wstr"
+                              cachedLength="20"
+                              cachedName="ValidationSeverity"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSeverity]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationSeverity]" />
+                            <inputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationMessage_FR]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="ValidationMessage_FR"
+                              externalMetadataColumnId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_FR]"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationMessage_FR]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                              dataType="i4"
+                              name="DataLoadingID" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationResultID]"
+                              dataType="i4"
+                              name="ValidationResultID" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[TableName]"
+                              dataType="wstr"
+                              length="255"
+                              name="TableName" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[TableRowID]"
+                              dataType="i4"
+                              name="TableRowID" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ColumnName]"
+                              dataType="wstr"
+                              length="255"
+                              name="ColumnName" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationType]"
+                              dataType="wstr"
+                              length="20"
+                              name="ValidationType" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationScope]"
+                              dataType="wstr"
+                              length="20"
+                              name="ValidationScope" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationCode]"
+                              dataType="wstr"
+                              length="20"
+                              name="ValidationCode" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_EN]"
+                              dataType="nText"
+                              name="ValidationMessage_EN" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_FR]"
+                              dataType="nText"
+                              name="ValidationMessage_FR" />
+                            <externalMetadataColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSeverity]"
+                              dataType="wstr"
+                              length="20"
+                              name="ValidationSeverity" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data"
+                      componentClassID="Microsoft.ManagedComponentHost"
+                      contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+                      description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+                      name="SCR - A1 Web Service - Get Traffic Data"
+                      version="10">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Stores the source code of the component"
+                          isArray="true"
+                          name="SourceCode"
+                          state="cdata">
+                          <arrayElements
+                            arrayElementCount="33">
+                            <arrayElement
+                              dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public DetailDataBuffer DetailDataBuffer;
+
+    public ErrorDataBuffer ErrorDataBuffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != DetailDataBuffer)
+        {
+            DetailDataBuffer.SetEndOfRowset();
+            DetailDataBuffer = null;
+        }
+
+        if (null != ErrorDataBuffer)
+        {
+            ErrorDataBuffer.SetEndOfRowset();
+            ErrorDataBuffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"DetailData"))
+            {
+                DetailDataBuffer = new DetailDataBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"ErrorData"))
+            {
+                ErrorDataBuffer = new ErrorDataBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+        }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
+    }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public IDTSConnectionManager100 ICDMStaging
+    {
+        get
+        {
+            return ParentComponent.ComponentMetaData.RuntimeConnectionCollection.GetRuntimeConnectionByName(@"IC_DM_Staging").ConnectionManager;
+        }
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public String A1ServiceURL
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["A1ServiceURL"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public String mdDataCode
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["md_DataCode"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public String mdSourceCode
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["md_SourceCode"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public Int32 mdWebServiceTimeout
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["md_WebServiceTimeout"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public String TaskName
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["TaskName"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[#region Namespaces
+using System;
+using System.IO;
+using System.Data;
+using System.Data.OleDb;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Web.Script.Serialization;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    private const string PARAMETER_CODE_FILTER     = "A1.TRAFFIC.SITE_KEY";
+    private const string ERROR_TABLE_NAME          = "staging.PART_A1_TRAFFIC_Detail";
+    private const string ERROR_VALIDATION_SCOPE    = "WEBSERVICE";
+    private const string ERROR_VALIDATION_CODE     = "WSTF-01";
+    private const string ERROR_VALIDATION_SEVERITY = "FATAL";
+
+    Queue<string> siteKeysQueue;
+    Exception preExecuteException;
+
+    public override void PreExecute()
+    {
+        preExecuteException = null;
+        try
+        {
+            // Récupére la liste des "sites" a télécharger
+            var siteKeys = ReadSiteKeysToFetch(Connections.ICDMStaging, PARAMETER_CODE_FILTER);
+            siteKeysQueue = new Queue<string>(siteKeys);
+        }
+        catch (Exception e)
+        {
+            ComponentMetaData.FireWarning(-2, Variables.TaskName, "**ERROR** " + e.Message, "", 0); // Pour ne pas faire tomber le package en erreur, on fait un warning por logger l'erreur
+            preExecuteException = e;
+        }
+    }
+
+    public override void CreateNewOutputRows()
+    {
+        try
+        {
+            if (preExecuteException != null) // S'il y a eu une exception dans l'étape PreExecute, il faut la relancer ici pour
+                throw preExecuteException;   // que les données de l'erreur soient écrites dans l'ErrorData buffer
+
+            // Période de temps à récupérer
+            var startDate = DateTime.Today.AddDays(-7);  // Recule 7 jours
+            var endDate = DateTime.Today;                // Date du jour
+
+            while (siteKeysQueue.Count > 0)
+            {
+                var siteKey = siteKeysQueue.Dequeue();
+                var result = FetchSiteData(Variables.A1ServiceURL, Variables.mdWebServiceTimeout, siteKey, startDate, endDate);
+                CreateDetailRows(siteKey, result);
+            }
+        }
+        catch (Exception e)
+        {
+            ComponentMetaData.FireWarning(-2, Variables.TaskName, "**ERROR** " + e.Message, "", 0); // Pour ne pas faire tomber le package en erreur, on fait un warning por logger l'erreur
+            CreateErrorRows(e.Message, ERROR_TABLE_NAME, ERROR_VALIDATION_CODE); // Données sur l'erreur pour stocker dans ValidationResult
+        }
+    }
+
+    private void CreateDetailRows(string siteKey, Dictionary<string, List<Dictionary<string, string>>> data)
+    {
+        // Structure des données dans le résultat
+        // Dictionary<string, List<Dictionary<string, string>>>
+        foreach (KeyValuePair<string, List<Dictionary<string, string>>> entry in data)
+        {
+            var timestamp = entry.Key;
+            foreach (Dictionary<string, string> dataPoint in entry.Value)
+            {
+                var countZone = Convert.ToString(dataPoint["count_zone"]);
+                var forward = Convert.ToString(dataPoint["forward"]);
+                var backward = Convert.ToString(dataPoint["backward"]);
+
+                // Ajoute les données dans le output buffer
+                DetailDataBuffer.AddRow();
+                DetailDataBuffer.SiteKey = siteKey;
+                DetailDataBuffer.Timestamp = timestamp;
+                DetailDataBuffer.CountZone = countZone;
+                DetailDataBuffer.Forward = forward;
+                DetailDataBuffer.Backward = backward;
+            }
+        }
+    }
+
+    private Dictionary<string, List<Dictionary<string, string>>> FetchSiteData(string webServiceURL, int webServiceTimeout, 
+                                                                                string siteKey, DateTime startDate, DateTime endDate)
+    {
+        // Formattage de l'URL
+        var startDateStr = startDate.ToString("yyyy-MM-dd");
+        var endDateStr = endDate.ToString("yyyy-MM-dd");
+        var url = String.Format(webServiceURL + "?key={0}&from_date={1}&to_date={2}", siteKey, startDateStr, endDateStr);
+
+        // Configuration du Web proxy
+        var proxy = WebRequest.GetSystemWebProxy();
+        proxy.Credentials = CredentialCache.DefaultCredentials;
+
+        // Envoie de la requête
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        request.Timeout = webServiceTimeout * 1000; // Conversion de secondes à milisecondes
+        request.Proxy = proxy;
+        using (var response = (HttpWebResponse)request.GetResponse())
+        {
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new ApplicationException("HTTP status code inattendu: " + response.StatusCode + " " + response.StatusDescription);
+
+            using (var reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+            {
+                var serializer = new JavaScriptSerializer();
+                var json = reader.ReadToEnd();
+                var result = serializer.DeserializeObject(json);
+
+                if (result.GetType().IsArray) // Réponse Ok, mais pas de données
+                    return new Dictionary<string, List<Dictionary<string, string>>>(); // Retourne un dictionaire vide
+                else
+                    return serializer.Deserialize<Dictionary<string, List<Dictionary<string, string>>>>(json); // Desérialisation du json en dictionnaire
+            }
+        }
+    }
+
+    private List<string> ReadSiteKeysToFetch(IDTSConnectionManager100 connectionManager, string parameterCodeFilter)
+    {
+        List<string> siteKeys = new List<string>();
+        string sql = @"select ParameterValue 
+                       from config.Parameter
+                       where ParameterCode like ?";
+
+        using (OleDbConnection connection = new OleDbConnection(connectionManager.ConnectionString))
+        {
+            OleDbCommand command = new OleDbCommand(sql, connection);
+            command.CommandType = CommandType.Text;
+            command.Parameters.Add(new OleDbParameter("@ParameterCodeFilter", parameterCodeFilter+"%"));
+
+            connection.Open();
+            using (OleDbDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    siteKeys.Add(reader.GetString(0));
+                }
+            }
+        }
+
+        return siteKeys;
+    }
+
+    private void CreateErrorRows(string validationMessage, string tableName, string validationCode)
+    {
+        ErrorDataBuffer.AddRow();
+        ErrorDataBuffer.TableName = tableName;
+        ErrorDataBuffer.ValidationScope = ERROR_VALIDATION_SCOPE;
+        ErrorDataBuffer.ValidationCode = validationCode;
+        ErrorDataBuffer.ValidationSeverity = ERROR_VALIDATION_SEVERITY;
+        ErrorDataBuffer.ValidationMessageEN = validationMessage;
+        ErrorDataBuffer.ValidationMessageFR = validationMessage;
+    }
+}
+]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[SC_d5ffe599a38043e99230f1788aa942db.csproj]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EBC0AB7E-BCA8-4163-99DA-DD633F96A431}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_d5ffe599a38043e99230f1788aa942db</RootNamespace>
+    <AssemblyName>SC_d5ffe599a38043e99230f1788aa942db</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptComponent" IconIndex="0" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC130</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d5ffe599a38043e99230f1788aa942db.Properties.Settings.get_Default():SC_d5ffe599a38043e99230f1788aa942db.Properties.Sett" +
+    "ings")]
+
+namespace SC_d5ffe599a38043e99230f1788aa942db.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class DetailDataBuffer: ScriptBuffer
+
+{
+    public DetailDataBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String SiteKey
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool SiteKey_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Timestamp
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool Timestamp_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String CountZone
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool CountZone_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Forward
+    {
+        set
+        {
+            this[3] = value;
+        }
+    }
+    public bool Forward_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(3);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String Backward
+    {
+        set
+        {
+            this[4] = value;
+        }
+    }
+    public bool Backward_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(4);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+
+public class ErrorDataBuffer: ScriptBuffer
+
+{
+    public ErrorDataBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String TableName
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool TableName_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationScope
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool ValidationScope_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationCode
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool ValidationCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationMessageEN
+    {
+        set
+        {
+            this[3] = value;
+        }
+    }
+    public bool ValidationMessageEN_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(3);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationMessageFR
+    {
+        set
+        {
+            this[4] = value;
+        }
+    }
+    public bool ValidationMessageFR_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(4);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationSeverity
+    {
+        set
+        {
+            this[5] = value;
+        }
+    }
+    public bool ValidationSeverity_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(5);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[Project]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>SC_d5ffe599a38043e99230f1788aa942db</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>SC_d5ffe599a38043e99230f1788aa942db</msb:DisplayName>
+		<msb:ProjectId>{468B08C6-7B88-4378-A64D-D9DE96C831AE}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_d5ffe599a38043e99230f1788aa942db.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_d5ffe599a38043e99230f1788aa942db")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_d5ffe599a38043e99230f1788aa942db")]
+[assembly: AssemblyCopyright("Copyright @  2016")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d5ffe599a38043e99230f1788aa942db.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d5ffe599a38043e99230f1788aa942db.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d5ffe599a38043e99230f1788aa942db.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_d5ffe599a38043e99230f1788aa942db.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_d5ffe599a38043e99230f1788aa942db.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[A1CountingResult.cs]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[using System;
+
+namespace SC_d5ffe599a38043e99230f1788aa942db
+{
+    [Serializable]
+    public class A1CountingResult
+    {
+        public string count_zone { get; set; }
+        public string forward { get; set; }
+        public string backward { get; set; }
+    }
+}
+]]></arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          dataType="System.String"
+                          description="Stores the binary representation of the component"
+                          isArray="true"
+                          name="BinaryCode"
+                          state="cdata">
+                          <arrayElements
+                            arrayElementCount="2">
+                            <arrayElement
+                              dataType="System.String"><![CDATA[SC_d5ffe599a38043e99230f1788aa942db.dll]]></arrayElement>
+                            <arrayElement
+                              dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAF1wA1oAAAAAAAAAAOAAIiALATAAADAAAAAIAAAAAAAAhk4A
+AAAgAAAAYAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACgAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAADROAABPAAAAAGAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAIAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAjC4AAAAgAAAAMAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAYAAAAAYAAAAyAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAIAAAAACAAAAOAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABo
+TgAAAAAAAEgAAAACAAUAQCgAADwlAAABAAAAAAAAAHxNAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABswBgBlAAAAAQAAEQIUfQcAAAQCAnsIAAAEbywAAAZyAQAA
+cCgFAAAGCgIGcxAAAAp9BgAABN44CwIoEQAACh/+AnsJAAAEbzIAAAZyKQAAcAdvEgAACigTAAAK
+cj8AAHAWbxQAAAoCB30HAAAE3gAqAAAAARAAAAAABwAlLAA4DwAAARswBgC/AAAAAgAAEQJ7BwAA
+BCwHAnsHAAAEeigVAAAKDBICIwAAAAAAABzAKBYAAAoKKBUAAAoLKzYCewYAAARvFwAACg0CAnsJ
+AAAEby4AAAYCewkAAARvMQAABgkGBygEAAAGEwQCCREEKAMAAAYCewYAAARvGAAAChYwvN5KEwUC
+KBEAAAof/gJ7CQAABG8yAAAGcikAAHARBW8SAAAKKBMAAApyPwAAcBZvFAAACgIRBW8SAAAKckEA
+AHByfwAAcCgGAAAG3gAqAAEQAAAAAAAAdHQASg8AAAEbMAMA7QAAAAMAABEEbxkAAAoKOMQAAAAS
+ACgaAAAKCxIBKBsAAAoMEgEoHAAACm8dAAAKDTiGAAAAEgMoHgAACiVyjwAAcG8fAAAKKCAAAAoT
+BCVypQAAcG8fAAAKKCAAAAoTBXK1AABwbx8AAAooIAAAChMGAnsKAAAEbxMAAAYCewoAAAQDbwkA
+AAYCewoAAAQIbwsAAAYCewoAAAQRBG8NAAAGAnsKAAAEEQVvDwAABgJ7CgAABBEGbxEAAAYSAygh
+AAAKOm7////eDhID/hYGAAAbbyIAAArcEgAoIwAACjow////3g4SAP4WAwAAG28iAAAK3CoAAAAB
+HAAAAgApAJnCAA4AAAAAAgAHANfeAA4AAAAAGzAEABIBAAAEAAARDwRyxwAAcCgkAAAKCg8FcscA
+AHAoJAAACgsDct0AAHAoEwAACgUGByglAAAKKCYAAAoMCCgnAAAKbygAAAooKQAACnQxAAABJQQg
+6AMAAFpvKgAACiUIbysAAApvLAAACnQXAAABDQlvLQAACiDIAAAALjgajSEAAAElFnIjAQBwoiUX
+CW8tAAAKjDMAAAGiJRhyXQEAcKIlGQlvLgAACqIoLwAACnMwAAAKeglvMQAACigyAAAKczMAAAoT
+BHM0AAAKEwURBG81AAAKEwYRBREGbzYAAApvNwAACm84AAAKLAlzOQAAChMH3iMRBREGbwEAACsT
+B94WEQQsBxEEbyIAAArcCSwGCW8iAAAK3BEHKgAAARwAAAIAvgA7+QAMAAAAAAIAZwCeBQEKAAAA
+ABswBQCCAAAABQAAEXM7AAAKCnJhAQBwCwNvPAAACnM9AAAKDAcIcz4AAAolF28/AAAKJW9AAAAK
+ck4CAHAEcngCAHAoEwAACnNBAAAKb0IAAAomCG9DAAAKb0QAAAoNKw0GCRZvRQAACm9GAAAKCW9H
+AAAKLeveFAksBglvIgAACtwILAYIbyIAAArcBioAAAEcAAACAFMAGWwACgAAAAACABgAXnYACgAA
+AAATMAIAXAAAAAAAAAACewsAAARvIwAABgJ7CwAABARvFwAABgJ7CwAABHJ8AgBwbxkAAAYCewsA
+AAQFbxsAAAYCewsAAARykgIAcG8hAAAGAnsLAAAEA28dAAAGAnsLAAAEA28fAAAGKh4CKCYAAAYq
+KgIDBAUoSAAACiomAhYDKEkAAAoqWgMsCAIWKEoAAAoqcp4CAHBzSwAACnomAhcDKEkAAAoqWgMs
+CAIXKEoAAAoqcp4CAHBzSwAACnomAhgDKEkAAAoqWgMsCAIYKEoAAAoqcp4CAHBzSwAACnomAhkD
+KEkAAAoqWgMsCAIZKEoAAAoqcp4CAHBzSwAACnomAhoDKEkAAAoqWgMsCAIaKEoAAAoqcp4CAHBz
+SwAACnoeAihMAAAKKh4CKE0AAAoqHgIoTgAACiomAhsDKEkAAAoqWgMsCAIbKEoAAAoqcp4CAHBz
+SwAACnp+AihPAAAKAgJzKwAABn0IAAAEAgJzLQAABn0JAAAEKgYq1gJ7CgAABCwSAnsKAAAEbxQA
+AAYCFH0KAAAEAnsLAAAELBICewsAAARvJAAABgIUfQsAAAQqAAAAEzAFAHMAAAAGAAARFgorWAQG
+lA4EcjsDAHAoUAAACjMZAgUGmgIEBpQoUQAACg4EcwgAAAZ9CgAABAQGlA4EclEDAHAoUAAACjMZ
+AgUGmgIEBpQoUQAACg4EcxYAAAZ9CwAABAYXWAoGAzKkAm8qAAAGAm8nAAAGAigoAAAGKjoCKFIA
+AAoCA30MAAAEKoICewwAAARvEQAACm9TAAAKcmUDAHBvVAAACm9VAAAKKjoCKFIAAAoCA30NAAAE
+KpYCew0AAARvVgAACnKBAwBwb1cAAAooWAAACm9ZAAAKdCsAAAEqlgJ7DQAABG9WAAAKcpsDAHBv
+VwAACihYAAAKb1kAAAp0KwAAASqWAnsNAAAEb1YAAApyswMAcG9XAAAKKFgAAApvWQAACnQrAAAB
+KpYCew0AAARvVgAACnLPAwBwb1cAAAooWAAACm9ZAAAKpUcAAAEqlgJ7DQAABG9WAAAKcvkDAHBv
+VwAACihYAAAKb1kAAAp0KwAAASoeAihSAAAKKq5+DgAABC0ecgsEAHDQCAAAAihaAAAKb1sAAApz
+XAAACoAOAAAEfg4AAAQqGn4PAAAEKh4CgA8AAAQqGn4QAAAEKh4CKF0AAAoqLnM4AAAGgBAAAAQq
+AABCU0pCAQABAAAAAAAMAAAAdjQuMC4zMDMxOQAAAAAFAGwAAABYDAAAI34AAMQMAABADwAAI1N0
+cmluZ3MAAAAABBwAAIAEAAAjVVMAhCAAABAAAAAjR1VJRAAAAJQgAACoBAAAI0Jsb2IAAAAAAAAA
+AgAAAVcdogkJCQAAAPoBMwAWAAABAAAASQAAAAkAAAAQAAAAOQAAAC8AAABdAAAABQAAABAAAAAG
+AAAABgAAAB8AAAAgAAAACAAAAAEAAAAIAAAAAQAAAAEAAAAAABgHAQAAAAAABgCYBZMLBgAsBpML
+BgDkBIALDwAHDAAABgARBeMIBgB7BeMIBgBcBeMIBgATBuMIBgC4BeMIBgDRBeMIBgAoBeMIBgBD
+BaAGCgDsBb8DDgC2AEACBgB3CXYIBgC+AEACBgC2A3YIBgDaAEACSwBeCwAABgDLAEACQwBeCwAA
+DgAiD2ENDgBaBGENBgBBCnoBEgBGC8MIFgBmANIKGgAuCQECGgAjCgECCgCJCr8DHgB6Cr8DCgC2
+Cb8DCgClDb8DBgBaDXYIBgDHBIALBgCaCrMLBgCqCa4IDgCXBAIHDgD4BAIHDgBCBJkIBgCsBJML
+BgCoAEACIgABAPoKBgDnBnYIBgDoDXYIBgBGA3YIDgD0DWENDgA2A2ENDgCJDGENDgDwDWENDgBe
+BGENDgAJA2ENBgBSCXYIBgBdCHoBBgCHBmsOBgBOCnoBBgAVBHYIGgCCAgECGgCFApcJGgAGBMwB
+GgAVCQECGgAjCwECGgAxCZcJGgAmCpcJBgBnCXYIIgAqAPoKIgBNAPoKFgB/ANIKFgAaANIKgwCL
+DgAAFgCQANIKBgDFAHYIBgBSA3YIBgD4DuMIAAAAAPAAAAAAAAEAAQABABAAjggAABQAAQABAAEA
+EABZCgAAdQAIAAgAAQAQAGoKAAB1AAgAFgABABAAhw0AAIEACAAmAAEAEADTDAAAhQAMACsAAQAQ
+AFEMAACFAA0ALQAAABAAugsWDIUADgAzAAABEACADBYMnQAQADcAUYCEARwDUYAbARwDUYAsARwD
+UYAFARwDUYCyARwDAQBVBh8DAQA+CSYDBgDTDCoDBgBRDC4DBgBZCjIDBgBqCjYDAQCVDToDAQCV
+DToDEQB9CD8DEQAyBEQDEQCoAkkDUCAAAAAAxgBKBgYAAQDUIAAAAADGACUNBgABALAhAAAAAIEA
+BA1NAwEAyCIAAAAAgQDuAWEDAwAEJAAAAACBAO4GegMIALAkAAAAAIEAFQ2FAwoAGCUAAAAAhhhp
+CwYADQAgJQAAAACGGGkLCgINACslAAAAAIYI4A4QABAANSUAAAAAhggZCIwDEQBMJQAAAACGCBUK
+EAASAFYlAAAAAIYIBAiMAxMAbSUAAAAAhgjgAxAAFAB3JQAAAACGCNQHjAMVAI4lAAAAAIYInAIQ
+ABYAmCUAAAAAhgiSB4wDFwCvJQAAAACGCI8CEAAYALklAAAAAIYIfgeMAxkA0CUAAAAAhgC7DgYA
+GgDYJQAAAACGAGwNBgAaAOAlAAAAAIYAbw0rARoAICUAAAAAhhhpCwoCGgArJQAAAACGCHYDEAAd
+ADUlAAAAAIYIvweMAx4ATCUAAAAAhgjuAxAAHwBWJQAAAACGCOkHjAMgAG0lAAAAAIYI2AIQACEA
+dyUAAAAAhgilB4wDIgCOJQAAAACGCGIBEAAjAJglAAAAAIYIQAeMAyQAryUAAAAAhgiaARAAJQC5
+JQAAAACGCF8HjAMmAOglAAAAAIYIAQ8QACcA8iUAAAAAhggsCIwDKADQJQAAAACGALsOBgApANgl
+AAAAAIYAbA0GACkA4CUAAAAAhgBvDSsBKQAJJgAAAACGGGkLBgApACkmAAAAAMYB9gwGACkAKyYA
+AAAAgQBkAgYAKQBkJgAAAADGAFYOkQMpACkmAAAAAMYBJQ0GAC0A4yYAAAAAhhhpC50DLQDyJgAA
+AACGCJAGOAIuABMnAAAAAIYYaQudAy4AIicAAAAAhghDAT0ALwBIJwAAAACGCLgCPQAvAG4nAAAA
+AIYIxwI9AC8AlCcAAAAAhggsDnsALwC6JwAAAACGCI4DPQAvAOAnAAAAAIMYaQsGAC8A6CcAAAAA
+kwiWCqQDLwAUKAAAAACTCBoEqgMvABsoAAAAAJMIJgSwAy8AIygAAAAAlgh7DbcDMAAqKAAAAACG
+GGkLBgAwADIoAAAAAJEYbwu8AzAAAAABAOwOAAACAPwBAAABAFQBAAACAEQOAAADAOwOAAAEAIYE
+AAAFAH4EAAABAMAKAAACADILAAABACQDAAACAIQDAAADAOsCAAABAI8KAAACAFsMAAADAMQJAAAB
+AHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUG
+AAABAI8KAAACAFsMAAADAMQJAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAAB
+AHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAHUGAAABAPwMAAACAHYLAAADAN8MAAAEAMQJ
+AAABAKsNAAABAKsNAAABAHUGCQBpCwEAEQBpCwYAGQBpCwoAKQBpCxAAMQBpCxAAOQBpCxAAQQBp
+CxAASQBpCxAAUQBpCxAAWQBpCxAAYQBpCxAAaQBpCwYAEQFpCwYAMQFpCxUAQQFpCwYADABpCywA
+AQHYATcAeQAYAz0AWQFBDUEAUQG6BkcAiQDCDmsAiQA5DXAADABjBnYADADBDXsAFABbC74AHAC1
+DdkAJADYDnYAJABrBvQALABbCwQBNAC1DXYAPABkCB8BYQHbBiYBNABiDisBaQF2BAYAHABiDisB
+iQDbBkwBWQFIDVEBcQEsD1kBeQGmDF4BsQCWDGQBcQGQBGsBcQEgDgEAcQEYD3IBcQFqBHgBuQD6
+An4BuQCBCT0AWQFBDYQBoQFpCxAAkQFSCIoBsQHnAJABwQBpC5YByQBpCwYAuQF4Aj0AyQBPDaAB
+CQESBKUBwQHMDisBFABpCwYAyQB7BqsBRABpCwYA0QDGBj0A2QBpCxAAyQFpC9cB0QECBN4ByQHn
+DOUB6QFpC+sB4QFgAvEB8QGJCAYAyQEzCvoB+QHkBv8BRABgAgQC+QFbAisB6QBpCwoC6QBtCBQC
+6QBKCAEAAQJpCxAA6QC7DgYA6QBsDQYA6QBvDSsBAQFpCwYAAQH5AB4CAQFvDCUCCQFpCwYAUQH1
+CCsCCQKbAzECEQKqCjgCAQFFDD0CGQJkCEMCAQGmDkoCIQJ3DlACwQFkA1cCwQH0DmACGQFpC2YC
+OQFpCwYADgAEAIkCDgAIALACDgAMAO0CDgAQAAIDDgAUABEDLgALAOIDLgATAOsDLgAbAAoELgAj
+ABMELgArADwELgAzADwELgA7ADwELgBDABMELgBLAEIELgBTADwELgBbAFkEQwBjAKMEAwFrAKME
+AQJ7AKMEqQNzAAoEyQNzAAoEHABQAH8ALwHEARoCAwABAAQACwAGABcABwAYAAgAHQAJAB8AAADk
+DsADAAAdCMQDAAAZCsADAAAICMQDAADkA8ADAADYB8QDAACgAsADAACWB8QDAACTAsADAACCB8QD
+AAB6A8ADAADDB8QDAADyA8ADAADtB8QDAADcAsADAACpB8QDAABmAcADAABEB8QDAACeAcADAABj
+B8QDAAAFD8ADAAAwCMQDAACUBsgDAABHAcADAAC8AsADAADLAsADAAAwDs0DAACSA8ADAACaCtED
+AAA6BNcDAAB/Dd0DAQAJAAMAAQAKAAUAAQALAAcAAQAMAAkAAQANAAsAAQAOAA0AAQAPAA8AAQAQ
+ABEAAQARABMAAQASABUAAQAXABcAAQAYABkAAQAZABsAAQAaAB0AAQAbAB8AAQAcACEAAQAdACMA
+AQAeACUAAQAfACcAAQAgACkAAQAhACsAAQAiAC0AAgAsAC8AAgAuADEAAgAvADMAAgAwADUAAgAx
+ADcAAgAyADkAAgA0ADsAAgA1AD0AAQA2AD0AAgA3AD8AJgCuAMkA5AD5AA0BGAHRAQSAAAABAAAA
+AAAAAAAAAAAAABMCAAAEAAAAAAAAAAAAAABuAjcCAAAAAA0AAAAAAAAAAAAAAHcCyw0AAAAABAAA
+AAAAAAAAAAAAbgJ2CAAAAAAEAAAAAAAAAAAAAACAAr0MAAAAAA0AAAAAAAAAAAAAAHcCzgkAAAAA
+BAAAAAAAAAAAAAAAbgLMAQAAAAANAAAAAAAAAAAAAAB3Av8NAAAAAA0AAAAAAAAAAAAAAHcC8QkA
+AAAAAAAAAAEAAADECwAAdQCyAQAAAElEVFNDb21wb25lbnRNZXRhRGF0YTEwMABJRFRTVmFyaWFi
+bGUxMDAASURUU1J1bnRpbWVDb25uZWN0aW9uQ29sbGVjdGlvbjEwMABJRFRTUnVudGltZUNvbm5l
+Y3Rpb24xMDAASURUU0Nvbm5lY3Rpb25NYW5hZ2VyMTAwAElEVFNWYXJpYWJsZXMxMDAASURUU0V2
+YWx1YXRvckNvbnRleHQxMDAASUVudW1lcmFibGVgMQBRdWV1ZWAxAExpc3RgMQBJbnQzMgBLZXlW
+YWx1ZVBhaXJgMgBEaWN0aW9uYXJ5YDIAZ2V0X1VURjgAPE1vZHVsZT4AR2V0T3V0cHV0SUQARVJS
+T1JfVkFMSURBVElPTl9DT0RFAEVSUk9SX1RBQkxFX05BTUUARVJST1JfVkFMSURBVElPTl9TQ09Q
+RQBnZXRfQTFTZXJ2aWNlVVJMAHdlYlNlcnZpY2VVUkwAc2V0X1ZhbGlkYXRpb25NZXNzYWdlRU4A
+U3lzdGVtLklPAFBBUkFNRVRFUl9DT0RFX0ZJTFRFUgBzZXRfVmFsaWRhdGlvbk1lc3NhZ2VGUgBF
+UlJPUl9WQUxJREFUSU9OX1NFVkVSSVRZAFN5c3RlbS5EYXRhAGdldF9Db21wb25lbnRNZXRhRGF0
+YQBGZXRjaFNpdGVEYXRhAGRhdGEAU3lzdGVtLkRhdGEuT2xlRGIAU0NfZDVmZmU1OTlhMzgwNDNl
+OTkyMzBmMTc4OGFhOTQyZGIAbXNjb3JsaWIAU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMAUmVh
+ZABBZGQATWFya091dHB1dHNGaW5pc2hlZABSZWFkVG9FbmQAT2xlRGJDb21tYW5kAHNldF9CYWNr
+d2FyZABzZXRfRm9yd2FyZABkZWZhdWx0SW5zdGFuY2UAZ2V0X21kRGF0YUNvZGUAZ2V0X21kU291
+cmNlQ29kZQBzZXRfVmFsaWRhdGlvbkNvZGUAdmFsaWRhdGlvbkNvZGUAZ2V0X1N0YXR1c0NvZGUA
+SHR0cFN0YXR1c0NvZGUAZ2V0X01lc3NhZ2UAdmFsaWRhdGlvbk1lc3NhZ2UAQ3JlZGVudGlhbENh
+Y2hlAElEaXNwb3NhYmxlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9tSGFuZGxlAHNldF9U
+YWJsZU5hbWUAdGFibGVOYW1lAGdldF9UYXNrTmFtZQBHZXRSdW50aW1lQ29ubmVjdGlvbkJ5TmFt
+ZQBEYXRlVGltZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5QaXBlbGluZQBzZXRfQ291bnRab25l
+AHNldF9WYWxpZGF0aW9uU2NvcGUAc2V0X0NvbW1hbmRUeXBlAEdldFR5cGUAZ2V0X0N1bHR1cmUA
+c2V0X0N1bHR1cmUAcmVzb3VyY2VDdWx0dXJlAEFwcGxpY2F0aW9uU2V0dGluZ3NCYXNlAEh0dHBX
+ZWJSZXNwb25zZQBHZXRSZXNwb25zZQBEaXNwb3NlAGVuZERhdGUAc3RhcnREYXRlAENyZWF0ZQBF
+ZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBEZWJ1Z2dlck5v
+blVzZXJDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJvd3NhYmxlQXR0
+cmlidXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRyaWJ1dGUA
+VGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0dHJpYnV0ZQBB
+c3NlbWJseURlc2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRyaWJ1
+dGUAQXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0QXR0cmlidXRlAFNT
+SVNTY3JpcHRDb21wb25lbnRFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJp
+YnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRlAHNpdGVLZXlzUXVl
+dWUARGVxdWV1ZQBnZXRfVmFsdWUAdmFsdWUARGVzZXJpYWxpemUARW5jb2RpbmcAZ2V0X0lDRE1T
+dGFnaW5nAFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcARmlyZVdhcm5pbmcAZ2V0X0Nvbm5lY3Rp
+b25TdHJpbmcAVG9TdHJpbmcAR2V0U3RyaW5nAFJlYWRTaXRlS2V5c1RvRmV0Y2gAU3lzdGVtLkNv
+bXBvbmVudE1vZGVsAFNDX2Q1ZmZlNTk5YTM4MDQzZTk5MjMwZjE3ODhhYTk0MmRiLmRsbABzZXRf
+VmFsaWRhdGlvbk1lc3NhZ2VFTl9Jc051bGwAc2V0X1ZhbGlkYXRpb25NZXNzYWdlRlJfSXNOdWxs
+AHNldF9CYWNrd2FyZF9Jc051bGwAc2V0X0ZvcndhcmRfSXNOdWxsAHNldF9WYWxpZGF0aW9uQ29k
+ZV9Jc051bGwAc2V0X1RhYmxlTmFtZV9Jc051bGwAc2V0X0NvdW50Wm9uZV9Jc051bGwAc2V0X1Zh
+bGlkYXRpb25TY29wZV9Jc051bGwAc2V0X1RpbWVzdGFtcF9Jc051bGwAc2V0X1NpdGVLZXlfSXNO
+dWxsAHNldF9WYWxpZGF0aW9uU2V2ZXJpdHlfSXNOdWxsAFNldE51bGwAR2V0UmVzcG9uc2VTdHJl
+YW0AZ2V0X0l0ZW0Ac2V0X0l0ZW0AU3lzdGVtAHJlc291cmNlTWFuAE9wZW4AU2NyaXB0TWFpbgBT
+eXN0ZW0uQ29uZmlndXJhdGlvbgBTeXN0ZW0uR2xvYmFsaXphdGlvbgBTeXN0ZW0uV2ViLlNjcmlw
+dC5TZXJpYWxpemF0aW9uAFN5c3RlbS5SZWZsZWN0aW9uAGdldF9SdW50aW1lQ29ubmVjdGlvbkNv
+bGxlY3Rpb24AT2xlRGJQYXJhbWV0ZXJDb2xsZWN0aW9uAE9sZURiQ29ubmVjdGlvbgBwcmVFeGVj
+dXRlRXhjZXB0aW9uAEFwcGxpY2F0aW9uRXhjZXB0aW9uAEludmFsaWRPcGVyYXRpb25FeGNlcHRp
+b24AZ2V0X1N0YXR1c0Rlc2NyaXB0aW9uAFN5c3RlbS5EYXRhLkNvbW1vbgBDdWx0dXJlSW5mbwBP
+dXRwdXROYW1lTWFwAE91dHB1dE1hcABNaWNyb3NvZnQuU3FsU2VydmVyLkRUU1J1bnRpbWVXcmFw
+AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRFRTUGlwZWxpbmVXcmFwAHNldF9UaW1lc3RhbXAAT2xlRGJE
+YXRhUmVhZGVyAEV4ZWN1dGVSZWFkZXIAU3RyZWFtUmVhZGVyAFRleHRSZWFkZXIARGV0YWlsRGF0
+YUJ1ZmZlcgBFcnJvckRhdGFCdWZmZXIAUGlwZWxpbmVCdWZmZXIAU2NyaXB0QnVmZmVyAGdldF9S
+ZXNvdXJjZU1hbmFnZXIAZ2V0X0Nvbm5lY3Rpb25NYW5hZ2VyAGNvbm5lY3Rpb25NYW5hZ2VyAE1p
+Y3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUuV3JhcHBlcgBNaWNyb3NvZnQuU3FsU2VydmVy
+LkR0cy5QaXBlbGluZS5XcmFwcGVyAE9sZURiUGFyYW1ldGVyAHBhcmFtZXRlckNvZGVGaWx0ZXIA
+SmF2YVNjcmlwdFNlcmlhbGl6ZXIAR2V0RW51bWVyYXRvcgAuY3RvcgAuY2N0b3IAT3V0cHV0SURz
+AFN5c3RlbS5EaWFnbm9zdGljcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAFN5c3Rl
+bS5SZXNvdXJjZXMAU0NfZDVmZmU1OTlhMzgwNDNlOTkyMzBmMTc4OGFhOTQyZGIuUHJvcGVydGll
+cy5SZXNvdXJjZXMucmVzb3VyY2VzAERlYnVnZ2luZ01vZGVzAFNDX2Q1ZmZlNTk5YTM4MDQzZTk5
+MjMwZjE3ODhhYTk0MmRiLlByb3BlcnRpZXMAZ2V0X1JlYWRPbmx5VmFyaWFibGVzAEJ1ZmZlckNv
+bHVtbkluZGV4ZXMAR2V0Q29sdW1uSW5kZXhlcwBTZXR0aW5ncwBJQ3JlZGVudGlhbHMAc2V0X0Ny
+ZWRlbnRpYWxzAGdldF9EZWZhdWx0Q3JlZGVudGlhbHMAU3lzdGVtLldlYi5FeHRlbnNpb25zAENv
+bm5lY3Rpb25zAEJ1ZmZlcnMAZ2V0X1BhcmFtZXRlcnMARmluaXNoT3V0cHV0cwBDcmVhdGVEZXRh
+aWxSb3dzAENyZWF0ZUVycm9yUm93cwBDcmVhdGVOZXdPdXRwdXRSb3dzAEFkZERheXMAQ29uY2F0
+AEZvcm1hdABEZXNlcmlhbGl6ZU9iamVjdABTeXN0ZW0uTmV0AFNldEVuZE9mUm93c2V0AGdldF9E
+ZWZhdWx0AFVzZXJDb21wb25lbnQAUGFyZW50Q29tcG9uZW50AFNjcmlwdENvbXBvbmVudABnZXRf
+Q3VycmVudABnZXRfQ291bnQATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABDb252ZXJ0AEh0
+dHBXZWJSZXF1ZXN0AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuUGlwZWxpbmVIb3N0AHNldF9UaW1lb3V0
+AGdldF9tZFdlYlNlcnZpY2VUaW1lb3V0AHdlYlNlcnZpY2VUaW1lb3V0AFByaW1lT3V0cHV0AE1v
+dmVOZXh0AFN5c3RlbS5UZXh0AEdldFZhbHVlV2l0aENvbnRleHQAU2NyaXB0Q29tcG9uZW50RXZh
+bENvbnRleHQAZ2V0X0V2YWx1YXRvckNvbnRleHQAQWRkUm93AGdldF9Ub2RheQBnZXRfSXNBcnJh
+eQBnZXRfS2V5AHNldF9TaXRlS2V5AHNpdGVLZXkAZ2V0X0Fzc2VtYmx5AHNldF9WYWxpZGF0aW9u
+U2V2ZXJpdHkAc2V0X1Byb3h5AElXZWJQcm94eQBHZXRTeXN0ZW1XZWJQcm94eQAAAAAnQQAxAC4A
+VABSAEEARgBGAEkAQwAuAFMASQBUAEUAXwBLAEUAWQAAFSoAKgBFAFIAUgBPAFIAKgAqACAAAAEA
+PXMAdABhAGcAaQBuAGcALgBQAEEAUgBUAF8AQQAxAF8AVABSAEEARgBGAEkAQwBfAEQAZQB0AGEA
+aQBsAAAPVwBTAFQARgAtADAAMQABFWMAbwB1AG4AdABfAHoAbwBuAGUAAA9mAG8AcgB3AGEAcgBk
+AAARYgBhAGMAawB3AGEAcgBkAAAVeQB5AHkAeQAtAE0ATQAtAGQAZAABRT8AawBlAHkAPQB7ADAA
+fQAmAGYAcgBvAG0AXwBkAGEAdABlAD0AewAxAH0AJgB0AG8AXwBkAGEAdABlAD0AewAyAH0AADlI
+AFQAVABQACAAcwB0AGEAdAB1AHMAIABjAG8AZABlACAAaQBuAGEAdAB0AGUAbgBkAHUAOgAgAAAD
+IAAAgOtzAGUAbABlAGMAdAAgAFAAYQByAGEAbQBlAHQAZQByAFYAYQBsAHUAZQAgAAoAIAAgACAA
+IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAGYAcgBvAG0AIABjAG8AbgBm
+AGkAZwAuAFAAYQByAGEAbQBlAHQAZQByAAoAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAA
+IAAgACAAIAAgACAAIAAgAHcAaABlAHIAZQAgAFAAYQByAGEAbQBlAHQAZQByAEMAbwBkAGUAIABs
+AGkAawBlACAAPwAAKUAAUABhAHIAYQBtAGUAdABlAHIAQwBvAGQAZQBGAGkAbAB0AGUAcgAAAyUA
+ABVXAEUAQgBTAEUAUgBWAEkAQwBFAAALRgBBAFQAQQBMAACAm0kAcwBOAHUAbABsACAAcAByAG8A
+cABlAHIAdAB5ACAAYwBhAG4AbgBvAHQAIABiAGUAIABzAGUAdAAgAHQAbwAgAEYAYQBsAHMAZQAu
+ACAAQQBzAHMAaQBnAG4AIABhACAAdgBhAGwAdQBlACAAdABvACAAdABoAGUAIABjAG8AbAB1AG0A
+bgAgAGkAbgBzAHQAZQBhAGQALgAAFUQAZQB0AGEAaQBsAEQAYQB0AGEAABNFAHIAcgBvAHIARABh
+AHQAYQAAG0kAQwBfAEQATQBfAFMAdABhAGcAaQBuAGcAABlBADEAUwBlAHIAdgBpAGMAZQBVAFIA
+TAAAF20AZABfAEQAYQB0AGEAQwBvAGQAZQAAG20AZABfAFMAbwB1AHIAYwBlAEMAbwBkAGUAAClt
+AGQAXwBXAGUAYgBTAGUAcgB2AGkAYwBlAFQAaQBtAGUAbwB1AHQAABFUAGEAcwBrAE4AYQBtAGUA
+AHFTAEMAXwBkADUAZgBmAGUANQA5ADkAYQAzADgAMAA0ADMAZQA5ADkAMgAzADAAZgAxADcAOAA4
+AGEAYQA5ADQAMgBkAGIALgBQAHIAbwBwAGUAcgB0AGkAZQBzAC4AUgBlAHMAbwB1AHIAYwBlAHMA
+AAAAAE9TJrcG1kBBiI+/flvcOscABCABAQgDIAABBSABARERBCABAQ4GIAEBEYCVCQcCFRJBAQ4S
+PQUVEjkBDgogAQEVEoClARMABSAAEoCpAyAADgUAAg4ODgggBQEIDg4OCBoHBhFFEUURRQ4VEkkC
+DhUSQQEVEkkCDg4SPQQAABFFBSABEUUNBCAAEwADIAAILgcHFRFNAg4VEkEBFRJJAg4OFRFRAg4V
+EkEBFRJJAg4ODhURVQEVEkkCDg4ODg4PFRJJAg4VEkEBFRJJAg4OCiAAFRFNAhMAEwEPFRFNAg4V
+EkEBFRJJAg4OCiAAFRFRAhMAEwEPFRFRAg4VEkEBFRJJAg4OBCAAEwEKFRJBARUSSQIODgggABUR
+VQETAAoVEVUBFRJJAg4OBhUSSQIODgYgARMBEwAEAAEODgMgAAIcBwgODhJZEl0SYRJlDhUSSQIO
+FRJBARUSSQIODgQgAQ4OBwAEDg4cHBwEAAASWQUAABKAwQYgAQESgMEGAAESgLkOBSABARJZBSAA
+EoDJBSAAEYDNBQABDh0cBSAAEoDVBQAAEoDZCSACARKA1RKA2QQgARwOBSAAEoDhBjABAR4ADhEK
+ARUSSQIOFRJBARUSSQIODgwHBBUSQQEODhJtEnEFFRJBAQ4GIAIBDhJtBiABARGA7QUgABKA8QUg
+AgEOHAggARKA9RKA9QQgABJxBCABDggFIAEBEwAJIAMBEnkdCBJ9BSACAQgcAwcBCAYAAggSfQ4F
+IAEdCAgFIAASgQUGIAESgQkOBCAAEmkFIAASgQ0GIAESgREcBQAAEoEVBiABHBKBGQgAARKA4RGB
+IQUgABKBJQcgAgEOEoElCLd6XFYZNOCJCImEXc2AgMyRCDG/OFatNk41JkEAMQAuAFQAUgBBAEYA
+RgBJAEMALgBTAEkAVABFAF8ASwBFAFkAPHMAdABhAGcAaQBuAGcALgBQAEEAUgBUAF8AQQAxAF8A
+VABSAEEARgBGAEkAQwBfAEQAZQB0AGEAaQBsABRXAEUAQgBTAEUAUgBWAEkAQwBFAA5XAFMAVABG
+AC0AMAAxAApGAEEAVABBAEwAAgYOBgYVEjkBDgMGEj0DBhIYAwYSHAMGEgwDBhIQBAYSgIEEBhKA
+jQQGEoCRAwYSJBMgAgEOFRJJAg4VEkEBFRJJAg4OGCAFFRJJAg4VEkEBFRJJAg4ODggOEUURRQog
+AhUSQQEOEmkOBiADAQ4ODgQgAQECCyAEAQgdCB0SeRJ9BiABARKAgQUAABKAjQUAABKAkQYAAQES
+gJEEAAASJAMAAAEDKAAOAygAAgQoABJpAygACAUIABKAjQUIABKAkQQIABIkCAEACAAAAAAAHgEA
+AQBUAhZXcmFwTm9uRXhjZXB0aW9uVGhyb3dzAQgBAAIAAAAAACgBACNTQ19kNWZmZTU5OWEzODA0
+M2U5OTIzMGYxNzg4YWE5NDJkYgAABQEAAAAAFgEAEUNvcHlyaWdodCBAICAyMDE2AABJAQAaLk5F
+VEZyYW1ld29yayxWZXJzaW9uPXY0LjUBAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEi5ORVQgRnJh
+bWV3b3JrIDQuNQQBAAAAtAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291cmNl
+UmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1Ymxp
+Y0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50aW1lUmVzb3Vy
+Y2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAFxOAAAAAAAAAAAAAHZOAAAAIAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAABoTgAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAg
+ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAABgAAIAA
+AAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgAAABYYAAA7AMAAAAA
+AAAAAAAA7AM0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAAAL0E7/4AAAEAAAAB
+AAAAAAAAAAEAAAAAAD8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAAAQBWAGEAcgBGAGkA
+bABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAAAAAAAACwBEwDAAAB
+AFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAACgDAAABADAAMAAwADAAMAA0AGIAMAAAABoA
+AQABAEMAbwBtAG0AZQBuAHQAcwAAAAAAAAAiAAEAAQBDAG8AbQBwAGEAbgB5AE4AYQBtAGUAAAAA
+AAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAUwBDAF8AZAA1AGYA
+ZgBlADUAOQA5AGEAMwA4ADAANAAzAGUAOQA5ADIAMwAwAGYAMQA3ADgAOABhAGEAOQA0ADIAZABi
+AAAAMAAIAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADAALgAwAAAAcAAoAAEA
+SQBuAHQAZQByAG4AYQBsAE4AYQBtAGUAAABTAEMAXwBkADUAZgBmAGUANQA5ADkAYQAzADgAMAA0
+ADMAZQA5ADkAMgAzADAAZgAxADcAOAA4AGEAYQA5ADQAMgBkAGIALgBkAGwAbAAAAEgAEgABAEwA
+ZQBnAGEAbABDAG8AcAB5AHIAaQBnAGgAdAAAAEMAbwBwAHkAcgBpAGcAaAB0ACAAQAAgACAAMgAw
+ADEANgAAACoAAQABAEwAZQBnAGEAbABUAHIAYQBkAGUAbQBhAHIAawBzAAAAAAAAAAAAeAAoAAEA
+TwByAGkAZwBpAG4AYQBsAEYAaQBsAGUAbgBhAG0AZQAAAFMAQwBfAGQANQBmAGYAZQA1ADkAOQBh
+ADMAOAAwADQAMwBlADkAOQAyADMAMABmADEANwA4ADgAYQBhADkANAAyAGQAYgAuAGQAbABsAAAA
+aAAkAAEAUAByAG8AZAB1AGMAdABOAGEAbQBlAAAAAABTAEMAXwBkADUAZgBmAGUANQA5ADkAYQAz
+ADgAMAA0ADMAZQA5ADkAMgAzADAAZgAxADcAOAA4AGEAYQA5ADQAMgBkAGIAAAA0AAgAAQBQAHIA
+bwBkAHUAYwB0AFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAOAAIAAEAQQBzAHMAZQBt
+AGIAbAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAADAAAAIg+AAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                          name="VSTAProjectName"
+                          typeConverter="NOTBROWSABLE">SC_d5ffe599a38043e99230f1788aa942db</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the programming language used by the script."
+                          name="ScriptLanguage"
+                          typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies a comma-separated list of read-only variables."
+                          name="ReadOnlyVariables"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg">System::TaskName,User::md_DataCode,User::md_SourceCode,User::md_WebServiceTimeout,$Project::A1ServiceURL</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies a comma-separated list of read/write variables."
+                          name="ReadWriteVariables"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                        <property
+                          dataType="System.String"
+                          description="List of breakpoints present on the script."
+                          isArray="true"
+                          name="BreakpointCollection"
+                          typeConverter="NOTBROWSABLE">
+                          <arrayElements
+                            arrayElementCount="0" />
+                        </property>
+                        <property
+                          dataType="System.String"
+                          description="Checksum to match component metedata against compiled codes."
+                          name="MetadataChecksum"
+                          typeConverter="NOTBROWSABLE">f5f0f8ddefd02a2a1d5adf9a13823e33</property>
+                        <property
+                          dataType="System.String"
+                          description="Checksum to match component metedata against compiled codes."
+                          name="MetadataShaChecksum"
+                          typeConverter="NOTBROWSABLE">993f720b942ae9fe1d5cecf22a0106c114177d9a</property>
+                        <property
+                          dataType="System.String"
+                          name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Connections[IC_DM_Staging]"
+                          connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                          name="IC_DM_Staging" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData]"
+                          hasSideEffects="true"
+                          name="DetailData">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[SiteKey]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[SiteKey]"
+                              name="SiteKey" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Timestamp]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Timestamp]"
+                              name="Timestamp" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[CountZone]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[CountZone]"
+                              name="CountZone" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Forward]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Forward]"
+                              name="Forward" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Backward]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData].Columns[Backward]"
+                              name="Backward" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData]"
+                          hasSideEffects="true"
+                          name="ErrorData">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[TableName]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[TableName]"
+                              name="TableName" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationScope]"
+                              dataType="wstr"
+                              length="20"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationScope]"
+                              name="ValidationScope" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationCode]"
+                              dataType="wstr"
+                              length="20"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationCode]"
+                              name="ValidationCode" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationMessage_EN]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationMessage_EN]"
+                              name="ValidationMessage_EN" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationMessage_FR]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationMessage_FR]"
+                              name="ValidationMessage_FR" />
+                            <outputColumn
+                              refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationSeverity]"
+                              dataType="wstr"
+                              length="20"
+                              lineageId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData].Columns[ValidationSeverity]"
+                              name="ValidationSeverity" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[Derived Column Output]"
+                      endId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail.Inputs[OLE DB Destination Input]"
+                      name="Derived Column Output"
+                      startId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output]" />
+                    <path
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[Derived Column Output1]"
+                      endId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input]"
+                      name="Derived Column Output"
+                      startId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output]" />
+                    <path
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[DetailData]"
+                      endId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                      name="DetailData"
+                      startId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[DetailData]" />
+                    <path
+                      refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[ErrorData]"
+                      endId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]"
+                      name="ErrorData"
+                      startId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data.Outputs[ErrorData]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\SQL - DM_Staging - Delete PART_A1_TRAFFIC (Detail)"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{49BED0A6-CA69-4D76-A6A5-78AEF5F814EC}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="SQL - DM_Staging - Delete PART_A1_TRAFFIC (Detail)"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+                  SQLTask:SqlStmtSourceType="Variable"
+                  SQLTask:SqlStatementSource="User::sql_DeleteDetailData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail).PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{A56D608B-4887-4345-A3E2-7A944BC474AF}"
+              DTS:From="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\SQL - DM_Staging - Delete PART_A1_TRAFFIC (Detail)"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)" />
+          </DTS:PrecedenceConstraints>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Validate Detail"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{CB87115B-FD1B-4C25-8E40-054CC5CC1479}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Validate Detail"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateDetail" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E5A61E65-42C9-4DE1-BDFB-D369B79FECF9}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_VerifyValidationResult"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FailedValidationCount"
+                SQLTask:DtsVariableName="User::var_FailedDataLoadingValidationCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load and Validate Detail.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{DB3FFCDB-5D69-4B33-9C3A-520983BD0DCB}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::var_FailedDataLoadingValidationCount] == 0"
+          DTS:From="Package\SEQC - Load and Validate Detail\DFT - Dummy"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load and Validate Detail.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{F2240A9A-73FB-4B77-B77C-862FCDA786BF}"
+          DTS:From="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Validate Detail"
+          DTS:Value="2" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load and Validate Detail.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{4BC986E2-DED4-4ADE-B650-3C2330943612}"
+          DTS:From="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Validate Detail"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Verify DataLoading validation result" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B507BEA6-F159-4752-87F8-6F6BBC9EA9B9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_UpdateDataLoadingValidationFlag" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{946F5AC5-2310-4E05-9F77-3C1ED0B9E635}"
+      DTS:Expression="@[$Package::BusinessProcessInstanceIteration] == 2"
+      DTS:From="Package\SEQC - Create and Validate DataLoading record"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC - Load and Validate Detail" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{43F0FE3A-2C24-4A50-AF3B-519FA572794D}"
+      DTS:From="Package\SEQC - Load and Validate Detail"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="260,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          TopLeft="54,5.5" />
+        <NodeLayout
+          Size="357,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result"
+          TopLeft="13,209.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint]"
+          TopLeft="184,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="368,307"
+          Size="368,350"
+          Id="Package\SEQC - Create and Validate DataLoading record"
+          TopLeft="5.50000000000006,5.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\SEQC - Load and Validate Detail\DFT - Dummy"
+          TopLeft="107,5.5" />
+        <NodeLayout
+          Size="330,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)"
+          TopLeft="9.00000000000003,107.5" />
+        <NodeLayout
+          Size="337,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\SQL - DM_Staging - Delete PART_A1_TRAFFIC (Detail)"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail).PrecedenceConstraints[Constraint]"
+          TopLeft="174,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="348,205"
+          Size="348,248"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)"
+          TopLeft="5.50000000000006,107.5" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Validate Detail"
+          TopLeft="58.0000000000001,415.5" />
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC - Load and Validate Detail\SQL - DM_Staging - Verify DataLoading validation result"
+          TopLeft="8.50000000000011,517.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail.PrecedenceConstraints[Constraint]"
+          TopLeft="179.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.68123046875,18.25,53.3624609375,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail.PrecedenceConstraints[Constraint 1]"
+          TopLeft="179.5,355.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,20.4453125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail.PrecedenceConstraints[Constraint 2]"
+          TopLeft="179.5,457.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="359,615"
+          Size="359,658"
+          Id="Package\SEQC - Load and Validate Detail"
+          TopLeft="10.0000000000001,415.5" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\SQL - DM_Staging - Update DataLoading validation flag"
+          TopLeft="19.5000000000002,1133.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="189.5,355.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="189.5,1073.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,20.4453125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="276,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult"
+          TopLeft="389,209.5" />
+        <NodeLayout
+          Size="305,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by ValidationResult"
+          TopLeft="374.5,107.5" />
+        <NodeLayout
+          Size="323,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail"
+          TopLeft="5.50000000000006,209.5" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\DER - Add columns required by Detail"
+          TopLeft="56.5000000000001,107.5" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\SCR - A1 Web Service - Get Traffic Data"
+          TopLeft="393,5.49999999999989" />
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[Derived Column Output1]"
+          TopLeft="527,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[Derived Column Output]"
+          TopLeft="185,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-18,60"
+              Start="0,0"
+              End="-18,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-14,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-14,30"
+                    Point2="-18,30"
+                    Point3="-18,34" />
+                  <mssgle:LineSegment
+                    End="-18,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[ErrorData]"
+          TopLeft="570.333333333333,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-43.3333333333333,60"
+              Start="0,0"
+              End="-43.3333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2136498516321" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2136498516321"
+                    Point2="0,24.2136498516321"
+                    Point3="-4,24.2136498516321" />
+                  <mssgle:LineSegment
+                    End="-39.3333333333333,24.2136498516321" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-39.3333333333333,24.2136498516321"
+                    Point2="-43.3333333333333,24.2136498516321"
+                    Point3="-43.3333333333333,28.2136498516321" />
+                  <mssgle:LineSegment
+                    End="-43.3333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-43.2150260416666,29.2136498516321,43.09671875,9.421875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail).Paths[DetailData]"
+          TopLeft="483.666666666667,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-298.666666666667,60"
+              Start="0,0"
+              End="-298.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.213649851632" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.213649851632"
+                    Point2="0,24.213649851632"
+                    Point3="-4,24.213649851632" />
+                  <mssgle:LineSegment
+                    End="-294.666666666667,24.213649851632" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-294.666666666667,24.213649851632"
+                    Point2="-298.666666666667,24.213649851632"
+                    Point3="-298.666666666667,28.213649851632" />
+                  <mssgle:LineSegment
+                    End="-298.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-172.566692708333,29.213649851632,46.46671875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - PART_A1_TRAFFIC_Detail">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Load and Validate Detail\SEQC - Load A1_TRAFFIC (Detail)\DFT - DM_Staging - Load PART_A1_TRAFFIC (Detail)\OLE_DST - DM_Staging - ValidationResult">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

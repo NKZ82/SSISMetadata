@@ -1,0 +1,2872 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/5/2016 8:54:56 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{5D91E234-327E-4B7A-BD85-1EA9D8EAEB2B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="JDE_ELECTRONICPAYMENT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="530"
+  DTS:VersionGUID="{434D71EE-FCDD-4446-AF3B-FDBCD49AC8A6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{3275DEA4-AFE9-4CDD-A632-8A101D52078A}"
+      DTS:ObjectName="BusinessProcessInstanceID"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20171102-KS01</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{6DF580A0-3B9C-490F-AD24-F777D159E4C5}"
+      DTS:ObjectName="BusinessProcessInstanceIteration"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DCCF3AB6-8397-4821-9216-527E13D3E742}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CountAccount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4C006722-613F-4BD2-9CC8-869A7BA4667F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">ELECTRONICPAYMENT</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D9C11F4E-9347-479B-971C-F1E34F4F2A90}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Provider">
+      <DTS:VariableValue
+        DTS:DataType="8">IC</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5062D897-5D86-45CC-B7D0-BBEE34A7ADB0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B56659F7-8AA9-415F-86A3-23A54FFDC2A3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO [staging].[DataLoading]&#xA;           ([DataID]&#xA;           ,[LoadingDate]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]&#xA;)&#xA;SELECT&#xA;&#x9;d.DataID,&#xA;&#x9;'&quot; + @[User::var_LoadingDate_str] + &quot;',&#xA;&#x9;'&quot; + @[$Package::BusinessProcessInstanceID] + &quot;',&#xA;&#x9;&quot; + (DT_WSTR, 32) @[$Package::BusinessProcessInstanceIteration] + &quot;&#xA;FROM config.Source s&#xA;JOIN config.Data d&#xA;&#x9;ON s.SourceID = d.SourceID&#xA;JOIN config.DataProvider dp&#xA;&#x9;ON d.DataID = dp.DataID&#xA;JOIN config.Provider p&#xA;&#x9;ON dp.ProviderID = p.ProviderID&#xA;WHERE s.SourceCode = '&quot;+ @[User::md_Source]  +&quot;'&#xA;&#x9;and d.DataCode = '&quot;+ @[User::md_Data]  +&quot;'&#xA;SELECT SCOPE_IDENTITY() AS DataLoadingID;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO [staging].[DataLoading]
+           ([DataID]
+           ,[LoadingDate]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]
+)
+SELECT
+	d.DataID,
+	'2018-05-25 11:20:50',
+	'20171102-KS01',
+	0
+FROM config.Source s
+JOIN config.Data d
+	ON s.SourceID = d.SourceID
+JOIN config.DataProvider dp
+	ON d.DataID = dp.DataID
+JOIN config.Provider p
+	ON dp.ProviderID = p.ProviderID
+WHERE s.SourceCode = 'JDE'
+	and d.DataCode = 'ELECTRONICPAYMENT'
+SELECT SCOPE_IDENTITY() AS DataLoadingID;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{039A8EA1-CECA-42B7-B159-B5514DC5C70D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM staging.&quot;+ @[User::md_Source] + &quot;_&quot; + @[User::md_Data] + &quot;_Detail&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateStaging">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM staging.JDE_ELECTRONICPAYMENT_Detail</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8DB5B407-09E8-44F7-A6C8-FA2DD54CE804}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE d&#xA;SET ValidationSucceeded = 1,&#xA;&#x9;ValidationDate = SYSDATETIME()&#xA;FROM staging.DataLoading d&#xA;WHERE d.DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot;&#xA;&#x9;AND NOT EXISTS(&#xA;&#x9;&#x9;SELECT * &#xA;&#x9;&#x9;FROM staging.ValidationResult &#xA;&#x9;&#x9;WHERE DataLoadingID = d.DataLoadingID&#xA;&#x9;&#x9;&#x9;AND ValidationSeverity = 'FATAL'&#xA;&#x9;)&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDataLoadingValidationFlag">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE d
+SET ValidationSucceeded = 1,
+	ValidationDate = SYSDATETIME()
+FROM staging.DataLoading d
+WHERE d.DataLoadingID = 2424
+	AND NOT EXISTS(
+		SELECT * 
+		FROM staging.ValidationResult 
+		WHERE DataLoadingID = d.DataLoadingID
+			AND ValidationSeverity = 'FATAL'
+	)</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{61422118-FED5-4114-9757-88482D9488C6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='CONNECTION'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateConnectionInfo">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE' , @DataCodeParam= 'ELECTRONICPAYMENT' , @ProviderCodeParam='IC', @DataLoadingID=2424, @ValidationScopeParam='CONNECTION'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9BC7F457-ADEF-4918-95BF-1148558F81A4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] + &quot;, @ValidationCodeParam='PARM-01'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @DataLoadingID=2424, @ValidationCodeParam='PARM-01'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0A8A861B-C2DE-4A93-B894-A0A8CB020EAF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='DETAIL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE' , @DataCodeParam= 'ELECTRONICPAYMENT' , @ProviderCodeParam='IC', @DataLoadingID=2424, @ValidationScopeParam='DETAIL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{95AA6095-A137-4C97-8ED5-F9F2055C9700}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @SourceCodeParam='&quot;+ @[User::md_Source] +&quot;' , @DataCodeParam= '&quot;+ @[User::md_Data] +&quot;' , @ProviderCodeParam='&quot;+ @[User::md_Provider] +&quot;', @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateSP">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE' , @DataCodeParam= 'ELECTRONICPAYMENT' , @ProviderCodeParam='IC', @DataLoadingID=2424</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A00AD34D-CCAE-48D9-9705-D5D96EA9041A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot; AND ValidationSeverity = 'FATAL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_VerifyValidationResult">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = 2424 AND ValidationSeverity = 'FATAL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E6A2CC97-D42B-435B-BC00-AFE8F2B694E8}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">2424</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B9A2B576-8D1C-45BA-BE6E-5562328AB74A}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_FailedDataLoadingValidationCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{ED62FEAF-8F1E-4CE5-BB2F-3EA555740EB5}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_isReadable">
+      <DTS:VariableValue
+        DTS:DataType="11">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E89B4164-1795-4A69-BC66-E5BB93560C0A}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_IsReadable">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{43E6709C-F28C-4B2D-B798-2D642F5F8314}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:20:50</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{77453CF6-B8CE-414C-8AC7-F05BF40B92AC}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_protocol">
+      <DTS:VariableValue
+        DTS:DataType="8">SQL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BF65DAB0-B40E-49B8-AD06-CCFCC3E77633}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B7A8C16F-4768-4D47-8034-F39226E6A35B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowNumber">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6ABC68C2-5C42-4F69-88C8-80B0CA285BE8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::JDESchema]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_schema">
+      <DTS:VariableValue
+        DTS:DataType="8">CRPDTA</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0811B4B9-F614-4E90-A2E3-3A535CAA6CCD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT [PaymentGroup]&#xA;      ,[PaymentID]&#xA;      ,[SourceAccountID]&#xA;      ,[SourceAccountDomesticRoutingCode]&#xA;      ,[SourceAccountSwiftCode]&#xA;      ,[SourceAccountNumber]&#xA;      ,[DestinationAccountNumber]&#xA;      ,[PaymentInstrument]&#xA;      ,[SourceCountry]&#xA;      ,[DestinationCountry]&#xA;      ,[IsCrossCurrency]&#xA;      ,[SupplierID]&#xA;      ,[Amount]&#xA;      ,[Invoices]&#xA;      ,[Currency]&#xA;      ,[TransactionDate]&#xA;      ,[SupplierType]&#xA;      ,[ValueDate] from &quot; +  @[User::var_schema] + &quot;.vDM_ElectronicPayment&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_vDM_ElectronicPayment">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [PaymentGroup]
+      ,[PaymentID]
+      ,[SourceAccountID]
+      ,[SourceAccountDomesticRoutingCode]
+      ,[SourceAccountSwiftCode]
+      ,[SourceAccountNumber]
+      ,[DestinationAccountNumber]
+      ,[PaymentInstrument]
+      ,[SourceCountry]
+      ,[DestinationCountry]
+      ,[IsCrossCurrency]
+      ,[SupplierID]
+      ,[Amount]
+      ,[Invoices]
+      ,[Currency]
+      ,[TransactionDate]
+      ,[SupplierType]
+      ,[ValueDate] from CRPDTA.vDM_ElectronicPayment</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B681F55E-148A-44E0-80BB-5196458F6262}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          defaultBufferMaxRows="100000"
+          defaultBufferSize="1048576000"
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add columns required by Detail"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                      name="DataLoadingID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_DataLoadingID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[staging].[JDE_ELECTRONICPAYMENT_Detail]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 13720355</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Connections[OleDbConnection]"
+                  connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                      cachedDataType="i4"
+                      cachedName="DataLoadingID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[PaymentGroup]"
+                      cachedDataType="i4"
+                      cachedName="PaymentGroup"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[PaymentGroup]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentGroup]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[PaymentID]"
+                      cachedDataType="i4"
+                      cachedName="PaymentID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[PaymentID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SourceAccountID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="SourceAccountID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SourceAccountNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="34"
+                      cachedName="SourceAccountNumber"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[DestinationAccountNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="34"
+                      cachedName="DestinationAccountNumber"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DestinationAccountNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[DestinationAccountNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[PaymentInstrument]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PaymentInstrument"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[PaymentInstrument]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentInstrument]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SourceCountry]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="SourceCountry"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceCountry]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceCountry]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[DestinationCountry]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="DestinationCountry"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DestinationCountry]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[DestinationCountry]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[IsCrossCurrency]"
+                      cachedDataType="i4"
+                      cachedName="IsCrossCurrency"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[IsCrossCurrency]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[IsCrossCurrency]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SupplierID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="SupplierID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SupplierID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SupplierID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="15"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[Invoices]"
+                      cachedDataType="nText"
+                      cachedName="Invoices"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Invoices]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Invoices]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[Currency]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="Currency"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Currency]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Currency]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[TransactionDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransactionDate"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[TransactionDate]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[TransactionDate]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SupplierType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="SupplierType"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SupplierType]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SupplierType]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[ValueDate]"
+                      cachedDataType="dbDate"
+                      cachedName="ValueDate"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[ValueDate]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[ValueDate]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SourceAccountDomesticRoutingCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="SourceAccountDomesticRoutingCode"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountDomesticRoutingCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountDomesticRoutingCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].Columns[SourceAccountSwiftCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="SourceAccountSwiftCode"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountSwiftCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountSwiftCode]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                      dataType="i4"
+                      name="DataLoadingID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="i4"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[PaymentGroup]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="PaymentGroup" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[PaymentID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="PaymentID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="SourceAccountID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="SourceAccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DestinationAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="DestinationAccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[PaymentInstrument]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PaymentInstrument" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="SourceCountry" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DestinationCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="DestinationCountry" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[IsCrossCurrency]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IsCrossCurrency" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SupplierID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="SupplierID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="15"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Invoices]"
+                      dataType="nText"
+                      name="Invoices" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[Currency]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="Currency" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[TransactionDate]"
+                      dataType="dbDate"
+                      name="TransactionDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SupplierType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="SupplierType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[ValueDate]"
+                      dataType="dbDate"
+                      name="ValueDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountDomesticRoutingCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="SourceAccountDomesticRoutingCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input].ExternalColumns[SourceAccountSwiftCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="SourceAccountSwiftCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Read from JDE vDM_ElectronicPayment"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::var_vDM_ElectronicPayment</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Connections[OleDbConnection]"
+                  connectionManagerID="{E43798EE-94AE-40E3-B2FE-B03C177063B8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb JDE]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentGroup]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[PaymentGroup]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentGroup]"
+                      name="PaymentGroup"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[PaymentID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentID]"
+                      name="PaymentID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountID]"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountID]"
+                      name="SourceAccountID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountNumber]"
+                      length="34"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountNumber]"
+                      name="SourceAccountNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[DestinationAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[DestinationAccountNumber]"
+                      length="34"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[DestinationAccountNumber]"
+                      name="DestinationAccountNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentInstrument]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[PaymentInstrument]"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[PaymentInstrument]"
+                      name="PaymentInstrument"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceCountry]"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceCountry]"
+                      name="SourceCountry"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[DestinationCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[DestinationCountry]"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[DestinationCountry]"
+                      name="DestinationCountry"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[IsCrossCurrency]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[IsCrossCurrency]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[IsCrossCurrency]"
+                      name="IsCrossCurrency"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                      length="8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                      name="SupplierID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Amount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Amount]"
+                      name="Amount"
+                      precision="15"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Invoices]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[Invoices]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Invoices]"
+                      name="Invoices"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Currency]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[Currency]"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[Currency]"
+                      name="Currency"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[TransactionDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[TransactionDate]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[TransactionDate]"
+                      name="TransactionDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SupplierType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SupplierType]"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SupplierType]"
+                      name="SupplierType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[ValueDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[ValueDate]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[ValueDate]"
+                      name="ValueDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountDomesticRoutingCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountDomesticRoutingCode]"
+                      length="20"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountDomesticRoutingCode]"
+                      name="SourceAccountDomesticRoutingCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountSwiftCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountSwiftCode]"
+                      length="15"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].Columns[SourceAccountSwiftCode]"
+                      name="SourceAccountSwiftCode"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[PaymentGroup]"
+                      dataType="i4"
+                      name="PaymentGroup" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[PaymentID]"
+                      dataType="i4"
+                      name="PaymentID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="SourceAccountID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="34"
+                      name="SourceAccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[DestinationAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="34"
+                      name="DestinationAccountNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[PaymentInstrument]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PaymentInstrument" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="SourceCountry" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[DestinationCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="DestinationCountry" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[IsCrossCurrency]"
+                      dataType="i4"
+                      name="IsCrossCurrency" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="SupplierID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="15"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[Invoices]"
+                      dataType="nText"
+                      name="Invoices" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[Currency]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="Currency" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[TransactionDate]"
+                      dataType="dbDate"
+                      name="TransactionDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SupplierType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="SupplierType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[ValueDate]"
+                      dataType="dbDate"
+                      name="ValueDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountDomesticRoutingCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="SourceAccountDomesticRoutingCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output].ExternalColumns[SourceAccountSwiftCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="SourceAccountSwiftCode" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[PaymentGroup]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[PaymentGroup]"
+                      name="PaymentGroup" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[PaymentID]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[PaymentID]"
+                      name="PaymentID" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountID]"
+                      name="SourceAccountID" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountDomesticRoutingCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountDomesticRoutingCode]"
+                      name="SourceAccountDomesticRoutingCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountSwiftCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountSwiftCode]"
+                      name="SourceAccountSwiftCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="34"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceAccountNumber]"
+                      name="SourceAccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[DestinationAccountNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="34"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[DestinationAccountNumber]"
+                      name="DestinationAccountNumber" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[PaymentInstrument]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[PaymentInstrument]"
+                      name="PaymentInstrument" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SourceCountry]"
+                      name="SourceCountry" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[DestinationCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[DestinationCountry]"
+                      name="DestinationCountry" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[IsCrossCurrency]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[IsCrossCurrency]"
+                      name="IsCrossCurrency" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                      name="SupplierID" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      name="Amount"
+                      precision="15"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[Invoices]"
+                      dataType="nText"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[Invoices]"
+                      name="Invoices" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[Currency]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[Currency]"
+                      name="Currency" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[TransactionDate]"
+                      dataType="dbDate"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[TransactionDate]"
+                      name="TransactionDate" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SupplierType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[SupplierType]"
+                      name="SupplierType" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[ValueDate]"
+                      dataType="dbDate"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[ValueDate]"
+                      name="ValueDate" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+              description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+              name="SCR - Get Row Number"
+              version="10">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Stores the source code of the component"
+                  isArray="true"
+                  name="SourceCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="30">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public override void ProcessInput(int InputID, string InputName, PipelineBuffer Buffer, OutputNameMap OutputMap)
+    {
+
+        if (InputName.Equals(@"Input 0", StringComparison.Ordinal))
+        {
+            Input0_ProcessInput(new Input0Buffer(Buffer, GetColumnIndexes(InputID), OutputMap));
+        }
+
+    }
+
+    public virtual void Input0_ProcessInput(Input0Buffer Buffer)
+    {
+        while (Buffer.NextRow())
+        {
+            Input0_ProcessInputRow(Buffer);
+        }
+    }
+
+    public virtual void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Int32 varRowCount
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadWriteVariables["var_RowCount"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+        set
+        {
+            ParentComponent.ReadWriteVariables["var_RowCount"].Value = value;
+        }
+    }
+
+    public Int32 varRowNumber
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadWriteVariables["var_RowNumber"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+        set
+        {
+            ParentComponent.ReadWriteVariables["var_RowNumber"].Value = value;
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow.
+ *
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script component. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+
+    #region Help:  Using Integration Services variables and parameters
+    /* To use a variable in this script, first ensure that the variable has been added to
+     * either the list contained in the ReadOnlyVariables property or the list contained in
+     * the ReadWriteVariables property of this script component, according to whether or not your
+     * code needs to write into the variable.  To do so, save this script, close this instance of
+     * Visual Studio, and update the ReadOnlyVariables and ReadWriteVariables properties in the
+     * Script Transformation Editor window.
+     * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+     *
+     * Example of reading from a variable or parameter:
+     *  DateTime startTime = Variables.MyStartTime;
+     *
+     * Example of writing to a variable:
+     *  Variables.myStringVariable = "new value";
+     */
+    #endregion
+
+    #region Help:  Using Integration Services Connnection Managers
+    /* Some types of connection managers can be used in this script component.  See the help topic
+     * "Working with Connection Managers Programatically" for details.
+     *
+     * To use a connection manager in this script, first ensure that the connection manager has
+     * been added to either the list of connection managers on the Connection Managers page of the
+     * script component editor.  To add the connection manager, save this script, close this instance of
+     * Visual Studio, and add the Connection Manager to the list.
+     *
+     * If the component needs to hold a connection open while processing rows, override the
+     * AcquireConnections and ReleaseConnections methods.
+     * 
+     * Example of using an ADO.Net connection manager to acquire a SqlConnection:
+     *  object rawConnection = Connections.SalesDB.AcquireConnection(transaction);
+     *  SqlConnection salesDBConn = (SqlConnection)rawConnection;
+     *
+     * Example of using a File connection manager to acquire a file path:
+     *  object rawConnection = Connections.Prices_zip.AcquireConnection(transaction);
+     *  string filePath = (string)rawConnection;
+     *
+     * Example of releasing a connection manager:
+     *  Connections.SalesDB.ReleaseConnection(rawConnection);
+     */
+    #endregion
+
+    #region Help:  Firing Integration Services Events
+    /* This script component can fire events.
+     *
+     * Example of firing an error event:
+     *  ComponentMetaData.FireError(10, "Process Values", "Bad value", "", 0, out cancel);
+     *
+     * Example of firing an information event:
+     *  ComponentMetaData.FireInformation(10, "Process Values", "Processing has started", "", 0, fireAgain);
+     *
+     * Example of firing a warning event:
+     *  ComponentMetaData.FireWarning(10, "Process Values", "No rows were received", "", 0);
+     */
+    #endregion
+
+    private int m_rowNumber;
+    private int m_rowCount;
+    public override void PreExecute()
+    {
+        base.PreExecute();
+        /*
+         * Add your code here
+         */
+        // Initialize the row number
+        m_rowNumber = 0;
+        m_rowCount = 0;
+    }
+
+    /// <summary>
+    /// This method is called after all the rows have passed through this component.
+    ///
+    /// You can delete this method if you don't need to do anything here.
+    /// </summary>
+    public override void PostExecute()
+    {
+        base.PostExecute();
+        /*
+         * Add your code here
+         */
+        this.Variables.varRowNumber = m_rowNumber;
+        this.Variables.varRowCount = m_rowCount;
+    }
+
+    /// <summary>
+    /// This method is called once for every row that passes through the component from Input0.
+    ///
+    /// Example of reading a value from a column in the the row:
+    ///  string zipCode = Row.ZipCode
+    ///
+    /// Example of writing a value to a column in the row:
+    ///  Row.ZipCode = zipCode
+    /// </summary>
+    /// <param name="Row">The row that is currently passing through the component</param>
+    public override void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+        /*
+         * Add your code here
+         */
+        // Increase  the row number  and assign  the value  to the output column
+        m_rowNumber++;
+        Row.RowNumber = m_rowNumber;
+        m_rowCount++;
+        Row.RowCount = m_rowNumber;
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class Input0Buffer: ScriptBuffer
+
+{
+    public Input0Buffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public Int32 RowCount
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool RowCount_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Int32 RowNumber
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool RowNumber_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public bool NextRow()
+    {
+        return base.NextRow();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Settings.get_Default():SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Sett" +
+    "ings")]
+
+namespace SC_cf88bddbfe674c53b7064ae0757f9548.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_cf88bddbfe674c53b7064ae0757f9548.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{d84a8d02-4bc3-48f0-b3a0-b2cf2f4e360c}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>Properties</AppDesignerFolder><RootNamespace>SC_cf88bddbfe674c53b7064ae0757f9548</RootNamespace><AssemblyName>SC_E1689139699A4540AB2E9AAAA935DDD7</AssemblyName><TargetFrameworkVersion>v4.5</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>DEBUG;TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Compile Include="main.cs" /><Compile Include="BufferWrapper.cs" /><Compile Include="ComponentWrapper.cs" /></ItemGroup><ItemGroup><AppDesigner Include="Properties\" /><Compile Include="Properties\AssemblyInfo.cs"><SubType>Code</SubType></Compile><EmbeddedResource Include="Properties\Resources.resx"><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.cs</LastGenOutput></EmbeddedResource><Compile Include="Properties\Resources.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Resources.resx</DependentUpon></Compile><None Include="Properties\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.cs</LastGenOutput></None><Compile Include="Properties\Settings.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon></Compile></ItemGroup><!-- Include the build rules for a C# project.--><Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /><!-- This section defines VSTA properties that describe the host-changable project properties. --><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="ScriptComponent" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" /><Host Name="ScriptComponent" GeneratedNamespace="SC_cf88bddbfe674c53b7064ae0757f9548" IconIndex="0"></Host><ProjectClient><HostIdentifier>SSIS_SC130</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Project]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:Language>msBuild</msb:Language>
+		<msb:CodeName>SC_cf88bddbfe674c53b7064ae0757f9548</msb:CodeName>
+		<msb:DisplayName>SC_cf88bddbfe674c53b7064ae0757f9548</msb:DisplayName>
+		<msb:ProjectId>{EE4657A5-9614-4C5F-AB8D-41134CF70023}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_cf88bddbfe674c53b7064ae0757f9548.csproj"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_cf88bddbfe674c53b7064ae0757f9548")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_cf88bddbfe674c53b7064ae0757f9548")]
+[assembly: AssemblyCopyright("Copyright @  2016")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_cf88bddbfe674c53b7064ae0757f9548.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Stores the binary representation of the component"
+                  isArray="true"
+                  name="BinaryCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="2">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_E1689139699A4540AB2E9AAAA935DDD7.dll]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAKe561gAAAAAAAAAAOAAIiALATAAABYAAAAIAAAAAAAAyjQA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAHg0AABPAAAAAEAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAA0BQAAAAgAAAAFgAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAQAAAAAYAAAAYAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAHgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAACs
+NAAAAAAAAEgAAAACAAUAnCIAACQRAAABAAAAAAAAAMAzAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAFYCKBAAAAoCFn0BAAAEAhZ9AgAABCqmAigRAAAKAnsEAAAE
+AnsBAAAEbxUAAAYCewQAAAQCewIAAARvEwAABirWAgJ7AQAABBdYfQEAAAQDAnsBAAAEbwgAAAYC
+AnsCAAAEF1h9AgAABAMCewEAAARvBgAABioeAigMAAAGKioCAwQFKBIAAAoqOgIWA4waAAABKBMA
+AAoqWgMsCAIWKBQAAAoqcgEAAHBzFQAACno6AhcDjBoAAAEoEwAACipaAywIAhcoFAAACipyAQAA
+cHMVAAAKeh4CKBYAAAoqHgIoFwAACip+AigYAAAKAgJzEAAABn0DAAAEAgJzEQAABn0EAAAEKpIE
+cp4AAHAabxkAAAosFQIFAgMoGgAACg4EcwUAAAZvDgAABipKKwcCA28PAAAGA28KAAAGLfEqBio6
+AigbAAAKAgN9BQAABCo6AigbAAAKAgN9BgAABCqWAnsGAAAEbxwAAApyrgAAcG8dAAAKKB4AAApv
+HwAACqUaAAABKoYCewYAAARvHAAACnKuAABwbx0AAAoDjBoAAAFvIAAACiqWAnsGAAAEbxwAAApy
+yAAAcG8dAAAKKB4AAApvHwAACqUaAAABKoYCewYAAARvHAAACnLIAABwbx0AAAoDjBoAAAFvIAAA
+CioeAigbAAAKKq5+BwAABC0ecuQAAHDQBwAAAighAAAKbyIAAApzIwAACoAHAAAEfgcAAAQqGn4I
+AAAEKh4CgAgAAAQqGn4JAAAEKh4CKCQAAAoqLnMbAAAGgAkAAAQqAEJTSkIBAAEAAAAAAAwAAAB2
+NC4wLjMwMzE5AAAAAAUAbAAAACAGAAAjfgAAjAYAAHwHAAAjU3RyaW5ncwAAAAAIDgAAWAEAACNV
+UwBgDwAAEAAAACNHVUlEAAAAcA8AALQBAAAjQmxvYgAAAAAAAAACAAABVxWgAQkBAAAA+gEzABYA
+AAEAAAAkAAAACAAAAAkAAAAcAAAAEwAAACQAAAAQAAAABAAAAAkAAAAMAAAAAQAAAAUAAAABAAAA
+AAAzAwEAAAAAAAYAIwIrBQYAtwIrBQYAbwEYBQ8AnwUAAAYAnAHmAwYABgLmAwYA5wHmAwYAngLm
+AwYAQwLmAwYAXALmAwYAswHmAwYAzgH8AgoAdwK8AAoAwgS8AA4AswS8AAoALwS8AAoAcga8AAYA
+NQaeAwYAUgEYBQYA0wRLBQYAIwTRAxIAIgEdAxIAgwEdAxIACgG8AwYANwErBQYAOgCeAwYA+AOe
+AwYAFgOeAwYAEgSeAxYAEQDjBBYAAQDjBEcAIAcAABYAIgDjBAYA3QCeAwYAjgCeAwYAcwfmAwAA
+AABkAAAAAAABAAEAAQAQALEDAAAQAAEAAQABABAApgQAADkAAwAFAAEAEABUBgAARQADAAwAAQAQ
+ACkGAABJAAUAEAABABAA6gUAAEkABgARAAAAEABSBa4FSQAHABYAAAEQABkGrgVhAAkAGgABAJoE
+ggABAK8GggAGACkGhQAGAOoFiQABAGIGjQABAGIGjQARAKUDkQARAPoAlQARAH4AmQBQIAAAAADG
+ANUCBgABAGYgAAAAAMYA4AIGAAEAkCAAAAAAxgBQB50AAQDGIAAAAACGGAsFBgACAM4gAAAAAIYY
+CwUbAAIA2SAAAAAAhgiCBgEABQDoIAAAAACGCHADowAGAP8gAAAAAIYIagQBAAcADiEAAAAAhghb
+A6MACAAlIQAAAACGAGcHKwAJAC0hAAAAAIYAPAYrAAkANSEAAAAAhhgLBQYACQBVIQAAAADGAP8G
+qAAJAHohAAAAAMYB+AadAA0AjSEAAAAAxgFQB50ADgCPIQAAAACGGAsFsgAPAJ4hAAAAAIYYCwWy
+ABAArSEAAAAAhgiPBrgAEQDTIQAAAACGCJ8GAQARAPUhAAAAAIYIeAS4ABIAGyIAAAAAhgiJBAEA
+EgA9IgAAAACDGAsFBgATAEUiAAAAAJMIzwS8ABMAcSIAAAAAkwjiAMEAEwB4IgAAAACTCO4AxgAT
+AIAiAAAAAJYISAbMABQAhyIAAAAAhhgLBQYAFACPIgAAAACRGBEF0QAUAAAAAQBrBwAAAQDIBAAA
+AgD0BQAAAwA9BAAAAQD2AgAAAQD2AgAAAQD2AgAAAQD2AgAAAQBtAAAAAgCyAAAAAwDIBAAABAA9
+BAAAAQDIBAAAAQBrBwAAAQB4BgAAAQB4BgAAAQD2AgAAAQD2AgAAAQD2AgkACwUBABEACwUGABkA
+CwUKACkACwUQADEACwUQADkACwUQAEEACwUQAEkACwUQAFEACwUQAFkACwUQAGEACwUQAGkACwUG
+AJkACwUGALkACwUVAMkACwUGAIkA1QIGAIkA4AIGAHEACwUbAHEAlQMlAHEAhAMBANkACwUQAHEA
+ZwcrAHEAPAYrAIkACwUGAOEAIgYvAIkACAY2AJEACwUGAIkA3QU8APEAjANBAIkAOwdHAPkADAdN
+APkA7AJUABEBoABZABEBbwdiAKEACwVoAMEACwUGAC4ACwDsAC4AEwD1AC4AGwAUAS4AIwAdAS4A
+KwBGAS4AMwBGAS4AOwBGAS4AQwAdAS4ASwBMAS4AUwBGAS4AWwBjAUMAYwCtAeMAawCtAekAcwAU
+AQkBcwAUASEBewCtAQMAAQAGAAUABwAHAAgACQAAAKYG1QAAAHQD2QAAAJAE1QAAAF8D2QAAAKMG
+1QAAAI0E1QAAANME3QAAAAIB4gAAAEwG5wABAAYAAwABAAcABQABAAgABwABAAkACQACABIACwAB
+ABMACwACABQADQABABUADQACABcADwACABgAEQABABkAEQACABoAEwAEgAAAAQAAAAAAAAAAAAAA
+AABAAAAABAAAAAAAAAAAAAAAcAB1AAAAAAANAAAAAAAAAAAAAAB5ALoGAAAAAA0AAAAAAAAAAAAA
+AHkA1wYAAAAABAAAAAAAAAAAAAAAcACeAwAAAAANAAAAAAAAAAAAAAB5AEcEAAAAAAAAAAABAAAA
+XAUAAAAAAElEVFNWYXJpYWJsZTEwMABJRFRTVmFyaWFibGVzMTAwAElEVFNFdmFsdWF0b3JDb250
+ZXh0MTAwAEludDMyAFNDX0UxNjg5MTM5Njk5QTQ1NDBBQjJFOUFBQUE5MzVEREQ3ADxNb2R1bGU+
+AElucHV0SUQAbXNjb3JsaWIAZGVmYXVsdEluc3RhbmNlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5
+cGVGcm9tSGFuZGxlAElucHV0TmFtZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5QaXBlbGluZQBU
+eXBlAGdldF9DdWx0dXJlAHNldF9DdWx0dXJlAHJlc291cmNlQ3VsdHVyZQBBcHBsaWNhdGlvblNl
+dHRpbmdzQmFzZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0
+ZQBEZWJ1Z2dlck5vblVzZXJDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9y
+QnJvd3NhYmxlQXR0cmlidXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1h
+cmtBdHRyaWJ1dGUAVGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlv
+bkF0dHJpYnV0ZQBBc3NlbWJseURlc2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhh
+dGlvbnNBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0
+QXR0cmlidXRlAFNTSVNTY3JpcHRDb21wb25lbnRFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5
+Q29tcGFueUF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRl
+AFBvc3RFeGVjdXRlAHNldF9WYWx1ZQB2YWx1ZQBTeXN0ZW0uUnVudGltZS5WZXJzaW9uaW5nAFN0
+cmluZwBTeXN0ZW0uQ29tcG9uZW50TW9kZWwAU0NfRTE2ODkxMzk2OTlBNDU0MEFCMkU5QUFBQTkz
+NURERDcuZGxsAHNldF9Sb3dOdW1iZXJfSXNOdWxsAHNldF9Sb3dDb3VudF9Jc051bGwAU2V0TnVs
+bABnZXRfSXRlbQBzZXRfSXRlbQBTeXN0ZW0AcmVzb3VyY2VNYW4AU2NyaXB0TWFpbgBTeXN0ZW0u
+Q29uZmlndXJhdGlvbgBTeXN0ZW0uR2xvYmFsaXphdGlvbgBTeXN0ZW0uUmVmbGVjdGlvbgBJbnZh
+bGlkT3BlcmF0aW9uRXhjZXB0aW9uAFN0cmluZ0NvbXBhcmlzb24AQ3VsdHVyZUluZm8AT3V0cHV0
+TmFtZU1hcABPdXRwdXRNYXAATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNSdW50aW1lV3JhcABzZXRf
+Um93TnVtYmVyAGdldF92YXJSb3dOdW1iZXIAc2V0X3ZhclJvd051bWJlcgBtX3Jvd051bWJlcgBJ
+bnB1dDBCdWZmZXIAUGlwZWxpbmVCdWZmZXIAU2NyaXB0QnVmZmVyAGdldF9SZXNvdXJjZU1hbmFn
+ZXIATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZS5XcmFwcGVyAC5jdG9yAC5jY3RvcgBT
+eXN0ZW0uRGlhZ25vc3RpY3MAU3lzdGVtLlJ1bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0u
+UmVzb3VyY2VzAFNDX2NmODhiZGRiZmU2NzRjNTNiNzA2NGFlMDc1N2Y5NTQ4LlByb3BlcnRpZXMu
+UmVzb3VyY2VzLnJlc291cmNlcwBEZWJ1Z2dpbmdNb2RlcwBTQ19jZjg4YmRkYmZlNjc0YzUzYjcw
+NjRhZTA3NTdmOTU0OC5Qcm9wZXJ0aWVzAGdldF9SZWFkV3JpdGVWYXJpYWJsZXMAQnVmZmVyQ29s
+dW1uSW5kZXhlcwBHZXRDb2x1bW5JbmRleGVzAFNldHRpbmdzAEVxdWFscwBDb25uZWN0aW9ucwBP
+YmplY3QARW5kT2ZSb3dzZXQAZ2V0X0RlZmF1bHQAVXNlckNvbXBvbmVudABQYXJlbnRDb21wb25l
+bnQAU2NyaXB0Q29tcG9uZW50AHNldF9Sb3dDb3VudABnZXRfdmFyUm93Q291bnQAc2V0X3ZhclJv
+d0NvdW50AG1fcm93Q291bnQATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABNaWNyb3NvZnQu
+U3FsU2VydmVyLlBpcGVsaW5lSG9zdABJbnB1dDBfUHJvY2Vzc0lucHV0AEdldFZhbHVlV2l0aENv
+bnRleHQAU2NyaXB0Q29tcG9uZW50RXZhbENvbnRleHQAZ2V0X0V2YWx1YXRvckNvbnRleHQASW5w
+dXQwX1Byb2Nlc3NJbnB1dFJvdwBOZXh0Um93AGdldF9Bc3NlbWJseQAAgJtJAHMATgB1AGwAbAAg
+AHAAcgBvAHAAZQByAHQAeQAgAGMAYQBuAG4AbwB0ACAAYgBlACAAcwBlAHQAIAB0AG8AIABGAGEA
+bABzAGUALgAgAEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAgAHQAaABlACAAYwBv
+AGwAdQBtAG4AIABpAG4AcwB0AGUAYQBkAC4AAA9JAG4AcAB1AHQAIAAwAAAZdgBhAHIAXwBSAG8A
+dwBDAG8AdQBuAHQAABt2AGEAcgBfAFIAbwB3AE4AdQBtAGIAZQByAABxUwBDAF8AYwBmADgAOABi
+AGQAZABiAGYAZQA2ADcANABjADUAMwBiADcAMAA2ADQAYQBlADAANwA1ADcAZgA5ADUANAA4AC4A
+UAByAG8AcABlAHIAdABpAGUAcwAuAFIAZQBzAG8AdQByAGMAZQBzAAAAAB943CEtPKNChrBdW8Q2
+7MgABCABAQgDIAABBSABARERBCABAQ4FIAEBEVkJIAMBEj0dCBJBBSACAQgcAyAAAgYgAgIOEXUF
+IAEdCAgEIAASeQUgARJ9HAUAABKAgQYgARwSgIUEIAEBHAgAARKAiRGAjQUgABKAkQcgAgEOEoCR
+CLd6XFYZNOCJCImEXc2AgMyRAgYIAwYSFAMGEhgDBhJFAwYSUQMGElUDBhIgBSABARIMBCABAQIJ
+IAQBCA4SPRJBBSABARJFAyAACAQAABJRBAAAElUFAAEBElUEAAASIAMAAAEDKAAIAygAAgQIABJR
+BAgAElUECAASIAgBAAgAAAAAAB4BAAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEIAQACAAAA
+AAAoAQAjU0NfY2Y4OGJkZGJmZTY3NGM1M2I3MDY0YWUwNzU3Zjk1NDgAAAUBAAAAABYBABFDb3B5
+cmlnaHQgQCAgMjAxNgAASQEAGi5ORVRGcmFtZXdvcmssVmVyc2lvbj12NC41AQBUDhRGcmFtZXdv
+cmtEaXNwbGF5TmFtZRIuTkVUIEZyYW1ld29yayA0LjUEAQAAAAAAtAAAAM7K774BAAAAkQAAAGxT
+eXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4w
+LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVt
+LlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAKA0AAAA
+AAAAAAAAALo0AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsNAAAAAAAAAAAAAAAAF9Db3JEbGxN
+YWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAABABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAAAABI
+AAAAWEAAAOwDAAAAAAAAAAAAAOwDNAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBPAAAA
+AAC9BO/+AAABAAAAAQAAAAAAAAABAAAAAAA/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAARAAA
+AAEAVgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBvAG4A
+AAAAAAAAsARMAwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAAAoAwAAAQAwADAAMAAw
+ADAANABiADAAAAAaAAEAAQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEAQwBvAG0AcABhAG4A
+eQBOAGEAbQBlAAAAAAAAAAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAA
+AFMAQwBfAGMAZgA4ADgAYgBkAGQAYgBmAGUANgA3ADQAYwA1ADMAYgA3ADAANgA0AGEAZQAwADcA
+NQA3AGYAOQA1ADQAOAAAADAACAABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAALgAw
+AC4AMAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBDAF8ARQAxADYAOAA5ADEA
+MwA5ADYAOQA5AEEANAA1ADQAMABBAEIAMgBFADkAQQBBAEEAQQA5ADMANQBEAEQARAA3AC4AZABs
+AGwAAABIABIAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8AcAB5AHIAaQBnAGgA
+dAAgAEAAIAAgADIAMAAxADYAAAAqAAEAAQBMAGUAZwBhAGwAVAByAGEAZABlAG0AYQByAGsAcwAA
+AAAAAAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABlAG4AYQBtAGUAAABTAEMAXwBFADEA
+NgA4ADkAMQAzADkANgA5ADkAQQA0ADUANAAwAEEAQgAyAEUAOQBBAEEAQQBBADkAMwA1AEQARABE
+ADcALgBkAGwAbAAAAGgAJAABAFAAcgBvAGQAdQBjAHQATgBhAG0AZQAAAAAAUwBDAF8AYwBmADgA
+OABiAGQAZABiAGYAZQA2ADcANABjADUAMwBiADcAMAA2ADQAYQBlADAANwA1ADcAZgA5ADUANAA4
+AAAANAAIAAEAUAByAG8AZAB1AGMAdABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4AMAAAADgA
+CAABAEEAcwBzAGUAbQBiAGwAeQAgAFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAwAAADMNAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                  name="VSTAProjectName"
+                  typeConverter="NOTBROWSABLE">SC_e1689139699a4540ab2e9aaaa935ddd7</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the programming language used by the script."
+                  name="ScriptLanguage"
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read-only variables."
+                  name="ReadOnlyVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read/write variables."
+                  name="ReadWriteVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg">User::var_RowCount,User::var_RowNumber</property>
+                <property
+                  dataType="System.String"
+                  description="List of breakpoints present on the script."
+                  isArray="true"
+                  name="BreakpointCollection"
+                  typeConverter="NOTBROWSABLE">
+                  <arrayElements
+                    arrayElementCount="0" />
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataChecksum"
+                  typeConverter="NOTBROWSABLE">1576fbc69a80d8989f0136aa1b079751</property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataShaChecksum"
+                  typeConverter="NOTBROWSABLE">73b3ae628982862ce3f3b3cbc63d885f41aa4d36</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Inputs[Input 0]"
+                  hasSideEffects="true"
+                  name="Input 0">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Outputs[Output 0]"
+                  name="Output 0"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Inputs[Input 0]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Outputs[Output 0].Columns[RowCount]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Outputs[Output 0].Columns[RowCount]"
+                      name="RowCount" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Outputs[Output 0].Columns[RowNumber]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Outputs[Output 0].Columns[RowNumber]"
+                      name="RowNumber" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail).Paths[Derived Column Output]"
+              endId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Inputs[Input 0]"
+              name="Derived Column Output"
+              startId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail).Paths[OLE DB Source Output]"
+              endId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail).Paths[Output 0]"
+              endId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail.Inputs[OLE DB Destination Input]"
+              name="Output 0"
+              startId="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number.Outputs[Output 0]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\EST - Load Connexion Info Initial Load"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D81EF27A-AF3E-40C1-8414-26DC442DDA49}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EST - Load Connexion Info Initial Load"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStatementSource="Insert into staging.ConnectionInfo (Protocol, IsReadable, NumRecords,DataLoadingID, ConnectionString ) Values(?,?,?,?,?)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::var_protocol"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::var_isReadable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="17"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::var_RowCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="User::var_DataLoadingID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="4"
+            SQLTask:DtsVariableName="$Project::JDEConnectionString"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ET - Set isReadable to false"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Description="Expression Task"
+      DTS:DTSID="{A2907114-98A4-43F3-A337-3A101AA31D35}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ET - Set isReadable to false"
+      DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::var_IsReadable] = false" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Create and Validate DataLoading record"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{59466FE3-6028-4026-B228-7DF4CFC32856}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Create and Validate DataLoading record">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BB90F49F-C02A-4112-AC76-0E0728742BFF}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Load DataLoading"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_InsertDataLoading"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="DataLoadingID"
+                SQLTask:DtsVariableName="User::var_DataLoadingID" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5718BA9C-5638-4C7D-9562-F8F33C36EA28}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateDataLoading" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{FC8A5EB2-EF84-48BF-A9A0-3C069237CEC6}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_VerifyValidationResult"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FailedValidationCount"
+                SQLTask:DtsVariableName="User::var_FailedDataLoadingValidationCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{CF17615F-03B4-4F70-81F8-20C4EA294151}"
+          DTS:From="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{94102323-8281-4797-904A-11241CC380AC}"
+          DTS:From="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Truncate Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{62361BAC-4EA3-4C12-A8BC-2342A5F16016}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Truncate Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{87E48B87-A6C4-4222-A9BD-EE34FAB9FA30}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_UpdateDataLoadingValidationFlag" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Validate Connection Info"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5C1343F2-023A-44F4-AF90-E3951677DF9E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Validate Connection Info"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateConnectionInfo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Validate JDE_ELECTRONICPAYMENT_Detail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8F1F775C-133C-44A4-B615-D8234D530C86}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Validate JDE_ELECTRONICPAYMENT_Detail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateDetail" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{FA5C4857-E223-412C-B50F-7360A8B4065E}"
+      DTS:EvalOp="1"
+      DTS:Expression="@[User::var_FailedDataLoadingValidationCount]==0"
+      DTS:From="Package\SEQC - Create and Validate DataLoading record"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL - DM_Staging - Truncate Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E964334A-DC32-419E-BC40-1A574941D679}"
+      DTS:From="Package\SQL - DM_Staging - Truncate Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{DD10FD69-1E3F-4930-90E3-8550CACAC01E}"
+      DTS:From="Package\SQL - DM_Staging - Validate JDE_ELECTRONICPAYMENT_Detail"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL - DM_Staging - Update DataLoading validation flag" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{E9B4311C-302D-460D-9448-9E772E6BEEE0}"
+      DTS:From="Package\EST - Load Connexion Info Initial Load"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SQL - DM_Staging - Validate Connection Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{CAEF78E0-07F3-40DC-A6BB-05C131552339}"
+      DTS:From="Package\SQL - DM_Staging - Validate Connection Info"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\SQL - DM_Staging - Validate JDE_ELECTRONICPAYMENT_Detail" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{075C4270-80AE-45AB-9FAC-F496FCAA64FC}"
+      DTS:From="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\EST - Load Connexion Info Initial Load" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{1713CC19-6D2F-44B8-8F95-6E5FC38EEEFD}"
+      DTS:From="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\ET - Set isReadable to false"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{B9682EDF-CDCE-40B4-B2D6-BA91B17B7327}"
+      DTS:From="Package\ET - Set isReadable to false"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\EST - Load Connexion Info Initial Load" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="369,42"
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)"
+          TopLeft="11.0000000000001,517.5" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\EST - Load Connexion Info Initial Load"
+          TopLeft="59.5000000000001,721.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\ET - Set isReadable to false"
+          TopLeft="251.5,619.5" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          TopLeft="54,5.5" />
+        <NodeLayout
+          Size="357,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result"
+          TopLeft="13,209.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint]"
+          TopLeft="184,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="368,307"
+          Size="368,350"
+          Id="Package\SEQC - Create and Validate DataLoading record"
+          TopLeft="6,5.5" />
+        <NodeLayout
+          Size="256,42"
+          Id="Package\SQL - DM_Staging - Truncate Staging"
+          TopLeft="62,415.5" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\SQL - DM_Staging - Update DataLoading validation flag"
+          TopLeft="20.0000000000001,1027.5" />
+        <NodeLayout
+          Size="291,42"
+          Id="Package\SQL - DM_Staging - Validate Connection Info"
+          TopLeft="44.5000000000001,823.5" />
+        <NodeLayout
+          Size="380,42"
+          Id="Package\SQL - DM_Staging - Validate JDE_ELECTRONICPAYMENT_Detail"
+          TopLeft="5.50000000000009,925.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="190,355.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,18.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="192.75,457.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="192.75,967.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="190,763.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="192.75,865.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="135.333333333333,559.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12.5,162"
+              Start="0,0"
+              End="12.5,154.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,76.8206807490084" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,76.8206807490084"
+                    Point2="0,80.8206807490084"
+                    Point3="4,80.8206807490084" />
+                  <mssgle:LineSegment
+                    End="8.5,80.8206807490084" />
+                  <mssgle:CubicBezierSegment
+                    Point1="8.5,80.8206807490084"
+                    Point2="12.5,80.8206807490084"
+                    Point3="12.5,84.8206807490084" />
+                  <mssgle:LineSegment
+                    End="12.5,154.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="255.666666666667,559.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100.333333333333,60"
+              Start="0,0"
+              End="100.333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1554236373448" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1554236373448"
+                    Point2="0,24.1554236373448"
+                    Point3="4,24.1554236373448" />
+                  <mssgle:LineSegment
+                    End="96.3333333333332,24.1554236373448" />
+                  <mssgle:CubicBezierSegment
+                    Point1="96.3333333333332,24.1554236373448"
+                    Point2="100.333333333333,24.1554236373448"
+                    Point3="100.333333333333,28.1554236373448" />
+                  <mssgle:LineSegment
+                    End="100.333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="34.9253190104166,29.1554236373448,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="356,661.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-123.833333333333,60"
+              Start="0,0"
+              End="-123.833333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7806549885758" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7806549885758"
+                    Point2="0,35.7806549885758"
+                    Point3="-4,35.7806549885758" />
+                  <mssgle:LineSegment
+                    End="-119.833333333333,35.7806549885758" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-119.833333333333,35.7806549885758"
+                    Point2="-123.833333333333,35.7806549885758"
+                    Point3="-123.833333333333,39.7806549885758" />
+                  <mssgle:LineSegment
+                    End="-123.833333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="189,42"
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\SCR - Get Row Number"
+          TopLeft="86.5,186.833333333333" />
+        <NodeLayout
+          Size="364,42"
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail"
+          TopLeft="4,277.5" />
+        <NodeLayout
+          Size="265,42"
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment"
+          TopLeft="23,5.5" />
+        <NodeLayout
+          Size="323,42"
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\DER - Add columns required by Detail"
+          TopLeft="19.5,96.1666666666667" />
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail).Paths[Output 0]"
+          TopLeft="183.5,228.833333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.6666666666667"
+              Start="0,0"
+              End="0,41.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail).Paths[OLE DB Source Output]"
+          TopLeft="155.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="25.5,48.6666666666667"
+              Start="0,0"
+              End="25.5,41.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3333333333333"
+                    Point2="0,24.3333333333333"
+                    Point3="4,24.3333333333333" />
+                  <mssgle:LineSegment
+                    End="21.5,24.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="21.5,24.3333333333333"
+                    Point2="25.5,24.3333333333333"
+                    Point3="25.5,28.3333333333333" />
+                  <mssgle:LineSegment
+                    End="25.5,41.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail).Paths[Derived Column Output]"
+          TopLeft="181,138.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.6666666666667"
+              Start="0,0"
+              End="0,41.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\OLE_DST - DM_Staging - JDE_ELECTRONICPAYMENT_Detail">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - DM_Staging - Load JDE ELECTRONICPAYMENT (Detail)\Read from JDE vDM_ElectronicPayment">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

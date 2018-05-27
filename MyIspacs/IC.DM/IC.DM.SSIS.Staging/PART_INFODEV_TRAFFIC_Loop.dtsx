@@ -1,0 +1,2216 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/10/2017 11:12:08 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DTSID="{E4D1A637-F6A9-41FB-8FF7-54D1A9B65EF1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="PART_INFODEV_TRAFFIC_Loop"
+  DTS:PackageType="5"
+  DTS:VersionBuild="83"
+  DTS:VersionGUID="{7ED3CD2C-05D4-4E4C-86EA-B49C74AFDBE6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{5848A969-9050-4E71-A12F-980B1F02FA95}"
+      DTS:ObjectName="BusinessProcessInstanceID"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20171205-EL-02</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{C406199A-7FF8-494D-99FE-82C5313F727A}"
+      DTS:ObjectName="BusinessProcessInstanceIteration">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{27415D92-E7E2-4871-8EFF-10E3263D1CEC}"
+      DTS:ObjectName="DataCode">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">TRAFFIC</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{C2EE9BC4-FF02-4550-AFC0-0A3C7D68C13B}"
+      DTS:ObjectName="FileSpec">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">Infodev_*.xlsx</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{2788A865-0C10-45B4-95AE-153E7611567C}"
+      DTS:ObjectName="ProviderCode">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">IND</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{4CC5BBFF-53CE-4A6D-B6BD-0673832B9798}"
+      DTS:ObjectName="SourceCode">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">PART</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B7D56E43-7E82-4EF0-A102-5C358C0E1A7C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO staging.DataLoading&#xA;           (DataID&#xA;           ,LoadingDate&#xA;           ,IC_DM_LINEAGE_INFO&#xA;           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ID&#xA;           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;           )&#xA;SELECT&#xA;&#x9;COALESCE(d.DataID, -1),&#xA;&#x9;p.LoadingDate,&#xA;&#x9;p.FileToLoad,&#xA;&#x9;p.IC_DM_BUSINESS_PROCESS_INSTANCE_ID,&#xA;&#x9;p.IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;FROM (&#xA;&#x9;SELECT&#xA;&#x9;&#x9;'&quot; + @[$Package::SourceCode] + &quot;' AS SourceCode,&#xA;&#x9;&#x9;'&quot; + @[$Package::DataCode] + &quot;' AS DataCode,&#xA;&#x9;&#x9;'&quot; + @[$Package::ProviderCode] + &quot;' AS ProviderCode,&#xA;&#x9;&#x9;'&quot; + @[$Package::FileSpec] + &quot;' AS FileToLoad,&#xA;&#x9;&#x9;'&quot; + @[User::var_LoadingDate_str] + &quot;' AS LoadingDate,&#xA;&#x9;&#x9;'&quot; + @[$Package::BusinessProcessInstanceID] + &quot;' AS IC_DM_BUSINESS_PROCESS_INSTANCE_ID,&#xA;&#x9;&#x9;&quot; + (DT_WSTR, 255) @[$Package::BusinessProcessInstanceIteration] + &quot; AS IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION&#xA;) p&#xA;LEFT JOIN config.vw_ProviderSourceDataInfo d&#xA;&#x9;ON p.SourceCode = d.SourceCode&#xA;&#x9;&#x9;AND p.DataCode = d.DataCode&#xA;&#x9;&#x9;AND p.ProviderCode = d.ProviderCode;&#xA;SELECT SCOPE_IDENTITY() AS DataLoadingID;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO staging.DataLoading
+           (DataID
+           ,LoadingDate
+           ,IC_DM_LINEAGE_INFO
+           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ID
+           ,IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+           )
+SELECT
+	COALESCE(d.DataID, -1),
+	p.LoadingDate,
+	p.FileToLoad,
+	p.IC_DM_BUSINESS_PROCESS_INSTANCE_ID,
+	p.IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+FROM (
+	SELECT
+		'PART' AS SourceCode,
+		'TRAFFIC' AS DataCode,
+		'IND' AS ProviderCode,
+		'Infodev_*.xlsx' AS FileToLoad,
+		'2018-05-25 11:20:51' AS LoadingDate,
+		'20171205-EL-02' AS IC_DM_BUSINESS_PROCESS_INSTANCE_ID,
+		1 AS IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION
+) p
+LEFT JOIN config.vw_ProviderSourceDataInfo d
+	ON p.SourceCode = d.SourceCode
+		AND p.DataCode = d.DataCode
+		AND p.ProviderCode = d.ProviderCode;
+SELECT SCOPE_IDENTITY() AS DataLoadingID;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6E2976C5-A0ED-4C4E-88C0-E0ED74CA9169}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE d&#xA;SET ValidationSucceeded = (&#xA;&#x9;&#x9;SELECT CASE WHEN COUNT(*) = 0 THEN 1 ELSE 0 END&#xA;&#x9;&#x9;FROM staging.ValidationResult &#xA;&#x9;&#x9;WHERE DataLoadingID = d.DataLoadingID&#xA;&#x9;&#x9;&#x9;AND ValidationSeverity = 'FATAL'&#xA;&#x9;),&#xA;&#x9;ValidationDate = SYSDATETIME()&#xA;FROM staging.DataLoading d&#xA;WHERE d.DataLoadingID = &quot;+(DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDataLoadingValidationFlag">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE d
+SET ValidationSucceeded = (
+		SELECT CASE WHEN COUNT(*) = 0 THEN 1 ELSE 0 END
+		FROM staging.ValidationResult 
+		WHERE DataLoadingID = d.DataLoadingID
+			AND ValidationSeverity = 'FATAL'
+	),
+	ValidationDate = SYSDATETIME()
+FROM staging.DataLoading d
+WHERE d.DataLoadingID = 0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{02D0A0D5-02F2-43F5-B9F8-A6E8F3DA70D1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] + &quot;, @ValidationCodeParam='PARM-01'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @DataLoadingID=0, @ValidationCodeParam='PARM-01'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{998FBF20-3368-4BAA-8D10-87291F9221AE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='DETAIL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='PART', @DataCodeParam='TRAFFIC', @ProviderCodeParam='IND', @DataLoadingID=0, @ValidationScopeParam='DETAIL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A79CAF0F-62C2-4739-83A2-4280C1C08572}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @SourceCodeParam='&quot;+ @[$Package::SourceCode]  +&quot;', @DataCodeParam='&quot;+ @[$Package::DataCode]  +&quot;', @ProviderCodeParam='&quot;+ @[$Package::ProviderCode]  +&quot;', @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateSP">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='PART', @DataCodeParam='TRAFFIC', @ProviderCodeParam='IND', @DataLoadingID=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8A3DC760-0868-4D17-90B6-DB8EE18D2A95}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot; AND ValidationSeverity = 'FATAL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_VerifyValidationResult">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = 0 AND ValidationSeverity = 'FATAL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{95CB8068-BF5E-4BCF-AF4F-216F5BEB1154}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2AC78003-9834-49A6-97D7-C6B9B290C6F3}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_FailedDataLoadingValidationCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9F98298E-2D17-4121-B754-3D6B6752FC47}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::IC_DM_Files_Folder] + &quot;\\input\\&quot; + @[$Package::SourceCode]   + &quot;\\&quot; +  @[$Package::DataCode]  + &quot;\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_InputFileDirectory">
+      <DTS:VariableValue
+        DTS:DataType="8">\\corp\appsbur\IC_DM\dev\input\PART\TRAFFIC\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{898F10BE-998E-4E24-B0C8-71244FCA2C78}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::var_InputFileDirectory] + &quot;working\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_InputFileDirectoryWorking">
+      <DTS:VariableValue
+        DTS:DataType="8">\\corp\appsbur\IC_DM\dev\input\PART\TRAFFIC\working\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6D2BA5A0-8FAC-499C-BAB2-4DD2B036CAD8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_InputFileName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{54EE2C72-EACF-44D3-AF41-EBE8A14DDDF5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:20:51</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Create and Validate DataLoading record"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{C230D66C-CE75-421D-B98E-57E87E437AE0}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Create and Validate DataLoading record">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{8259FF20-7FBD-4C8B-96F2-BCC36B423811}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Load DataLoading"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_InsertDataLoading"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="DataLoadingID"
+                SQLTask:DtsVariableName="User::var_DataLoadingID" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6C0F3F8D-46F1-4229-9454-A1D20A0DFC57}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateDataLoading" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{FA2C9F73-9231-4C11-9D44-7010288509A2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_VerifyValidationResult"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FailedValidationCount"
+                SQLTask:DtsVariableName="User::var_FailedDataLoadingValidationCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{3FB6E45C-110E-4806-BEA3-599082378B2D}"
+          DTS:From="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{380E6E76-90B7-4BAA-9609-B311934A2653}"
+          DTS:From="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Load and Validate files"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{C0069DBB-9F56-4AA5-B94B-A1CF0892BBB7}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Load and Validate files">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load and Validate files\DFT - Dummy"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{A69A1A8E-3F23-4DB4-BA7E-4E492922FC45}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - Dummy"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load and Validate files\FELC - Loop through all files matching the file spec"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{24464C6A-9656-4F3A-AD7F-40B71C4873FF}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="FELC - Loop through all files matching the file spec">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachFileEnumerator"
+            DTS:DTSID="{BC52AC99-AA87-444D-B734-B7297C26F2D3}"
+            DTS:ObjectName="{42497A0F-2DC6-4F97-8376-D0F883C77477}">
+            <DTS:PropertyExpression
+              DTS:Name="Directory">@[User::var_InputFileDirectoryWorking]</DTS:PropertyExpression>
+            <DTS:PropertyExpression
+              DTS:Name="FileSpec">@[$Package::FileSpec]</DTS:PropertyExpression>
+            <DTS:ObjectData>
+              <ForEachFileEnumeratorProperties>
+                <FEFEProperty
+                  Folder="\\corp\appsbur\IC_DM\dev\input\PART\TRAFFIC\working\" />
+                <FEFEProperty
+                  FileSpec="Infodev_*.xlsx" />
+                <FEFEProperty
+                  FileNameRetrievalType="1" />
+                <FEFEProperty
+                  Recurse="0" />
+              </ForEachFileEnumeratorProperties>
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - Load and Validate files\FELC - Loop through all files matching the file spec\EPT - DM_Staging - PART_INFODEV_TRAFFIC"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{E52C0370-F18B-4E09-A772-069FB2ED988F}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - DM_Staging - PART_INFODEV_TRAFFIC"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>PART_INFODEV_TRAFFIC.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>DataCode</ParameterName>
+                    <BindedVariableOrParameterName>$Package::DataCode</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>FileToLoad</ParameterName>
+                    <BindedVariableOrParameterName>User::var_InputFileName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ProviderCode</ParameterName>
+                    <BindedVariableOrParameterName>$Package::ProviderCode</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>SourceCode</ParameterName>
+                    <BindedVariableOrParameterName>$Package::SourceCode</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{0D71AF8E-6B65-4635-8268-D8371F9074AD}"
+              DTS:ObjectName="{6DF856F6-C2F2-441D-8CBC-621F590F1D7F}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::var_InputFileName" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load and Validate files.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{A88D1940-2D26-4820-B4E8-BC2D295BCA5A}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::var_FailedDataLoadingValidationCount] == 0"
+          DTS:From="Package\SEQC - Load and Validate files\DFT - Dummy"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Load and Validate files\FELC - Loop through all files matching the file spec" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Validate files exist in folder"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{439066CB-27D8-4BDB-8B5B-F032812A577A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Validate files exist in folder">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Validate files exist in folder\DFT - Dummy"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{8E8795E4-5281-4247-9596-7B44240381D8}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - Dummy"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{82BC3F59-C990-43F3-B522-BF4C0073F988}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="DER - Add columns required by ValidationResult"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                          name="DataLoadingID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[User::var_DataLoadingID]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST - DM_Staging - ValidationResult"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[staging].[ValidationResult]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Connections[OleDbConnection]"
+                      connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[TableName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="TableName"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[TableName]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[TableName]" />
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationScope]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="ValidationScope"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationScope]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationScope]" />
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationCode]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="ValidationCode"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationCode]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationCode]" />
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationMessage_EN]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ValidationMessage_EN"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_EN]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationMessage_EN]" />
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationMessage_FR]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ValidationMessage_FR"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_FR]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationMessage_FR]" />
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[ValidationSeverity]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="ValidationSeverity"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSeverity]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationSeverity]" />
+                        <inputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                          cachedDataType="i4"
+                          cachedName="DataLoadingID"
+                          externalMetadataColumnId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                          dataType="i4"
+                          name="DataLoadingID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationResultID]"
+                          dataType="i4"
+                          name="ValidationResultID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[TableName]"
+                          dataType="wstr"
+                          length="255"
+                          name="TableName" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[TableRowID]"
+                          dataType="i8"
+                          name="TableRowID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ColumnName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ColumnName" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationType]"
+                          dataType="wstr"
+                          length="20"
+                          name="ValidationType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationScope]"
+                          dataType="wstr"
+                          length="20"
+                          name="ValidationScope" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationCode]"
+                          dataType="wstr"
+                          length="20"
+                          name="ValidationCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_EN]"
+                          dataType="nText"
+                          name="ValidationMessage_EN" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationMessage_FR]"
+                          dataType="nText"
+                          name="ValidationMessage_FR" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input].ExternalColumns[ValidationSeverity]"
+                          dataType="wstr"
+                          length="20"
+                          name="ValidationSeverity" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+                  description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+                  name="SCR - Verify files exists in working folder"
+                  version="10">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Stores the source code of the component"
+                      isArray="true"
+                      name="SourceCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="30">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public ErrorDataBuffer ErrorDataBuffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != ErrorDataBuffer)
+        {
+            ErrorDataBuffer.SetEndOfRowset();
+            ErrorDataBuffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"ErrorData"))
+            {
+                ErrorDataBuffer = new ErrorDataBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+        }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
+    }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public String FileSpec
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["FileSpec"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public String TaskName
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["TaskName"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public String varInputFileDirectoryWorking
+    {
+        get
+        {
+            return (String)(ParentComponent.ReadOnlyVariables["var_InputFileDirectoryWorking"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[#region Namespaces
+using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    public override void CreateNewOutputRows()
+    {
+        bool filesExist = Directory.EnumerateFiles(Variables.varInputFileDirectoryWorking, Variables.FileSpec).Any();
+        if (!filesExist)
+        {
+            ErrorDataBuffer.AddRow();
+            ErrorDataBuffer.TableName = "staging.PART_INFODEV_TRAFFIC_Detail";
+            ErrorDataBuffer.ValidationScope = "DETAIL";
+            ErrorDataBuffer.ValidationCode = "IDTF-40";
+            ErrorDataBuffer.ValidationMessageEN = String.Format("No file '{0}' was found in '{1}'", Variables.FileSpec, Variables.varInputFileDirectoryWorking);
+            ErrorDataBuffer.ValidationMessageFR = String.Format("Aucun fichier '{0}' a été trouvé dans le répertoire '{1}'", Variables.FileSpec, Variables.varInputFileDirectoryWorking);
+            ErrorDataBuffer.ValidationSeverity = "FATAL";
+        }
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class ErrorDataBuffer: ScriptBuffer
+
+{
+    public ErrorDataBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String TableName
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool TableName_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationScope
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool ValidationScope_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationCode
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool ValidationCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationMessageEN
+    {
+        set
+        {
+            this[3] = value;
+        }
+    }
+    public bool ValidationMessageEN_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(3);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationMessageFR
+    {
+        set
+        {
+            this[4] = value;
+        }
+    }
+    public bool ValidationMessageFR_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(4);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String ValidationSeverity
+    {
+        set
+        {
+            this[5] = value;
+        }
+    }
+    public bool ValidationSeverity_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(5);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d7c65fd1ae65409db8b36af830b74fda.Properties.Settings.get_Default():SC_d7c65fd1ae65409db8b36af830b74fda.Properties.Sett" +
+    "ings")]
+
+namespace SC_d7c65fd1ae65409db8b36af830b74fda.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_d7c65fd1ae65409db8b36af830b74fda.csproj]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{cf4ead89-5f3c-47fe-92c8-9b231377ec78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_d7c65fd1ae65409db8b36af830b74fda</RootNamespace>
+    <AssemblyName>SC_d7c65fd1ae65409db8b36af830b74fda</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptComponent" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptComponent" GeneratedNamespace="SC_d7c65fd1ae65409db8b36af830b74fda" IconIndex="0"></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC130</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Project]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>SC_d7c65fd1ae65409db8b36af830b74fda</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>SC_d7c65fd1ae65409db8b36af830b74fda</msb:DisplayName>
+		<msb:ProjectId>{5BC94E58-4EA5-4142-AD3B-21818868F46C}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_d7c65fd1ae65409db8b36af830b74fda.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_d7c65fd1ae65409db8b36af830b74fda")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_d7c65fd1ae65409db8b36af830b74fda")]
+[assembly: AssemblyCopyright("Copyright @  2017")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d7c65fd1ae65409db8b36af830b74fda.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d7c65fd1ae65409db8b36af830b74fda.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_d7c65fd1ae65409db8b36af830b74fda.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_d7c65fd1ae65409db8b36af830b74fda.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_d7c65fd1ae65409db8b36af830b74fda.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Stores the binary representation of the component"
+                      isArray="true"
+                      name="BinaryCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="2">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_d7c65fd1ae65409db8b36af830b74fda.dll]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAJ6/JloAAAAAAAAAAOAAIiALATAAABoAAAAIAAAAAAAAVjkA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAAQ5AABPAAAAAEAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAXBkAAAAgAAAAGgAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAQAAAAAYAAAAcAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAIgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAA4
+OQAAAAAAAEgAAAACAAUAmCMAALQUAAABAAAAAAAAAEw4AAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABMwBADHAAAAAAAAAAJ7AgAABG8cAAAGAnsCAAAEbxoAAAYo
+EAAACigBAAArOqEAAAACewMAAARvEAAABgJ7AwAABHIBAABwbwQAAAYCewMAAARySQAAcG8GAAAG
+AnsDAAAEclcAAHBvCAAABgJ7AwAABHJnAABwAnsCAAAEbxoAAAYCewIAAARvHAAABigSAAAKbwoA
+AAYCewMAAARyqQAAcAJ7AgAABG8aAAAGAnsCAAAEbxwAAAYoEgAACm8MAAAGAnsDAAAEch0BAHBv
+DgAABioeAigTAAAGKioCAwQFKBMAAAoqJgIWAygUAAAKKloDLAgCFigVAAAKKnIpAQBwcxYAAAp6
+JgIXAygUAAAKKloDLAgCFygVAAAKKnIpAQBwcxYAAAp6JgIYAygUAAAKKloDLAgCGCgVAAAKKnIp
+AQBwcxYAAAp6JgIZAygUAAAKKloDLAgCGSgVAAAKKnIpAQBwcxYAAAp6JgIaAygUAAAKKloDLAgC
+GigVAAAKKnIpAQBwcxYAAAp6JgIbAygUAAAKKloDLAgCGygVAAAKKnIpAQBwcxYAAAp6HgIoFwAA
+CioeAigYAAAKKh4CKBkAAAoqfgIoGgAACgICcxgAAAZ9AQAABAICcxkAAAZ9AgAABCoGKm4CewMA
+AAQsEgJ7AwAABG8RAAAGAhR9AwAABCoAABMwBQBJAAAAAQAAERYKKy4EBpQOBHLGAQBwKBsAAAoz
+GQIFBpoCBAaUKBwAAAoOBHMDAAAGfQMAAAQGF1gKBgMyzgJvFwAABgJvFAAABgIoFQAABio6Aigd
+AAAKAgN9BAAABCo6AigdAAAKAgN9BQAABCqWAnsFAAAEbx4AAApy2gEAcG8fAAAKKCAAAApvIQAA
+CnQdAAABKpYCewUAAARvHgAACnLsAQBwbx8AAAooIAAACm8hAAAKdB0AAAEqlgJ7BQAABG8eAAAK
+cv4BAHBvHwAACiggAAAKbyEAAAp0HQAAASoeAigdAAAKKq5+BgAABC0ecjoCAHDQBwAAAigiAAAK
+byMAAApzJAAACoAGAAAEfgYAAAQqGn4HAAAEKh4CgAcAAAQqGn4IAAAEKh4CKCUAAAoqLnMiAAAG
+gAgAAAQqAEJTSkIBAAEAAAAAAAwAAAB2NC4wLjMwMzE5AAAAAAUAbAAAABwHAAAjfgAAiAcAAKAI
+AAAjU3RyaW5ncwAAAAAoEAAArAIAACNVUwDUEgAAEAAAACNHVUlEAAAA5BIAANABAAAjQmxvYgAA
+AAAAAAACAAABVxWiAQkJAAAA+gEzABYAAAEAAAAlAAAACAAAAAgAAAAjAAAAFgAAACUAAAAQAAAA
+AQAAAAQAAAASAAAAEwAAAAEAAAAGAAAAAQAAAAEAAAAAAAQEAQAAAAAABgD0AkUGBgCIA0UGBgBA
+AjIGDwC5BgAABgBtAjQFBgDXAjQFBgC4AjQFBgBvAzQFBgAUAzQFBgAtAzQFBgCEAjQFBgCfAs0D
+CgBIA20BCgDSBW0BDgDDBW0BCgBsBW0BCgDHB20BBgCHB+wEBgAjAjIGBgDjBWUGBgBgBR8FEgDz
+Ae4DEgBUAu4DEgDbAQoFBgAIAkUGBgB9CHUABgA6ANEAFgAjAacFBgDnA+wEBgBGBewEGgARAPMF
+GgABAPMFRwA1CAAAGgAiAPMFBgCiAewEBgAuAewEBgBwCDQFAAAAAEgAAAAAAAEAAQABABAA/wQA
+ABAAAQABAAEAEACzBQAAOQABAAMAAQAQAKkHAABFAAEAEwABABAASgcAAEkABAAYAAEAEAADBwAA
+SQAFABkAAAAQAGwGyAZJAAYAHQAAARAAQQfIBmEACAAhAAYASgeiAAYAAwemAAYAswWqAAEAtweu
+AAEAtweuABEA8wSyABEAywG2ABEAAAG6AFAgAAAAAMYAbAcGAAEAIyEAAAAAhhgbBgYAAQArIQAA
+AACGGBsGOwABADYhAAAAAIYIUgEQAAQAQCEAAAAAhgiEBL4ABQBXIQAAAACGCI4BEAAGAGEhAAAA
+AIYImQS+AAcAeCEAAAAAhggQARAACACCIQAAAACGCGoEvgAJAJkhAAAAAIYIXQAQAAoAoyEAAAAA
+hggsBL4ACwC6IQAAAACGCH8AEAAMAMQhAAAAAIYISwS+AA0A2yEAAAAAhgiHCBAADgDlIQAAAACG
+CLQEvgAPAPwhAAAAAIYAZQgGABAABCIAAAAAhgCOBwYAEAAMIgAAAACGAJEHSwAQABQiAAAAAIYY
+GwYGABAANCIAAAAAxgFeBwYAEAA2IgAAAACBAOwABgAQAFQiAAAAAMYAFQjDABAANCIAAAAAxgFs
+BwYAFACpIgAAAACGGBsGzwAUALgiAAAAAIYYGwbPABUAxyIAAAAAhgjEANUAFgDtIgAAAACGCGAB
+1QAWABMjAAAAAIYIrAPVABYAOSMAAAAAgxgbBgYAFgBBIwAAAACTCN8F2QAWAG0jAAAAAJMIswHe
+ABYAdCMAAAAAkwi/AeMAFgB8IwAAAACWCJ0H6QAXAIMjAAAAAIYYGwYGABcAiyMAAAAAkRghBu4A
+FwAAAAEA2AUAAAIAHAcAAAMAegUAAAEApgMAAAEApgMAAAEApgMAAAEApgMAAAEApgMAAAEApgMA
+AAEApgMAAAEApgMAAAEApgMAAAEApgMAAAEApgMAAAEApgMAAAEAZAcAAAIAKAYAAAMAVgcAAAQA
+egUAAAEAzQcAAAEAzQcAAAEApgMJABsGAQARABsGBgAZABsGCgApABsGEAAxABsGEAA5ABsGEABB
+ABsGEABJABsGEABRABsGEABZABsGEABhABsGEABpABsGBgCZABsGBgC5ABsGFQDJABsGBgDRAA0H
+GwDhAHkIJQDpAIAHNABxABsGOwBxAOMERQBxANIEAQDxABsGEABxAGUIBgBxAI4HBgBxAJEHSwCJ
+ABsGBgCJAFEAUwCJADAHWgCRABsGBgCJAPcGYAD5ANoEZQCJAFAIbAABASEIcgAZAUABeQAZAWwI
+ggChABsGiADBABsGBgAuAAsACQEuABMAEgEuABsAMQEuACMAOgEuACsAYwEuADMAYwEuADsAYwEu
+AEMAOgEuAEsAaQEuAFMAYwEuAFsAgAFDAGMAygHjAGsAygEBAXsAygEJAnMAMQEpAnMAMQFPAAMA
+AQAGAA0ABwAQAAgAEgAAAFYB8gAAAIgE9gAAAJIB8gAAAJ0E9gAAABQB8gAAAG4E9gAAAGEA8gAA
+ADAE9gAAAIMA8gAAAE8E9gAAAIsI8gAAALgE9gAAAMgA8gAAAGQB8gAAALAD8gAAAOMF+gAAANMB
+/wAAAKEHBAEBAAQAAwABAAUABQABAAYABwABAAcACQABAAgACwABAAkADQABAAoADwABAAsAEQAB
+AAwAEwABAA0AFQABAA4AFwABAA8AGQACABoAGwACABsAHQACABwAHwACAB4AIQACAB8AIwABACAA
+IwACACEAJQAEgAAAAQAAAAAAAAAAAAAAAACXAAAABAAAAAAAAAAAAAAAkAC7AAAAAAANAAAAAAAA
+AAAAAACZANcHAAAAAA0AAAAAAAAAAAAAAJkA9AcAAAAABAAAAAAAAAAAAAAAkADsBAAAAAAEAAAA
+AAAAAAAAAACQAKcBAAAAAA0AAAAAAAAAAAAAAJkAhAUAAAAAAAAAAAEAAAB2BgAAIwAwAAAAAElE
+VFNWYXJpYWJsZTEwMABJRFRTVmFyaWFibGVzMTAwAElEVFNFdmFsdWF0b3JDb250ZXh0MTAwAElF
+bnVtZXJhYmxlYDEAPE1vZHVsZT4AR2V0T3V0cHV0SUQAc2V0X1ZhbGlkYXRpb25NZXNzYWdlRU4A
+U3lzdGVtLklPAHNldF9WYWxpZGF0aW9uTWVzc2FnZUZSAFNDX2Q3YzY1ZmQxYWU2NTQwOWRiOGIz
+NmFmODMwYjc0ZmRhAG1zY29ybGliAGdldF9GaWxlU3BlYwBTeXN0ZW0uQ29sbGVjdGlvbnMuR2Vu
+ZXJpYwBNYXJrT3V0cHV0c0ZpbmlzaGVkAGRlZmF1bHRJbnN0YW5jZQBzZXRfVmFsaWRhdGlvbkNv
+ZGUARW51bWVyYWJsZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBzZXRfVGFi
+bGVOYW1lAGdldF9UYXNrTmFtZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5QaXBlbGluZQBzZXRf
+VmFsaWRhdGlvblNjb3BlAFR5cGUAU3lzdGVtLkNvcmUAZ2V0X0N1bHR1cmUAc2V0X0N1bHR1cmUA
+cmVzb3VyY2VDdWx0dXJlAEFwcGxpY2F0aW9uU2V0dGluZ3NCYXNlAEVkaXRvckJyb3dzYWJsZVN0
+YXRlAENvbXBpbGVyR2VuZXJhdGVkQXR0cmlidXRlAERlYnVnZ2VyTm9uVXNlckNvZGVBdHRyaWJ1
+dGUARGVidWdnYWJsZUF0dHJpYnV0ZQBFZGl0b3JCcm93c2FibGVBdHRyaWJ1dGUAQXNzZW1ibHlU
+aXRsZUF0dHJpYnV0ZQBBc3NlbWJseVRyYWRlbWFya0F0dHJpYnV0ZQBUYXJnZXRGcmFtZXdvcmtB
+dHRyaWJ1dGUAQXNzZW1ibHlDb25maWd1cmF0aW9uQXR0cmlidXRlAEFzc2VtYmx5RGVzY3JpcHRp
+b25BdHRyaWJ1dGUAQ29tcGlsYXRpb25SZWxheGF0aW9uc0F0dHJpYnV0ZQBBc3NlbWJseVByb2R1
+Y3RBdHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUAU1NJU1NjcmlwdENvbXBvbmVu
+dEVudHJ5UG9pbnRBdHRyaWJ1dGUAQXNzZW1ibHlDb21wYW55QXR0cmlidXRlAFJ1bnRpbWVDb21w
+YXRpYmlsaXR5QXR0cmlidXRlAHZhbHVlAGdldF92YXJJbnB1dEZpbGVEaXJlY3RvcnlXb3JraW5n
+AFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcAU3RyaW5nAFN5c3RlbS5Db21wb25lbnRNb2RlbABT
+Q19kN2M2NWZkMWFlNjU0MDlkYjhiMzZhZjgzMGI3NGZkYS5kbGwAc2V0X1ZhbGlkYXRpb25NZXNz
+YWdlRU5fSXNOdWxsAHNldF9WYWxpZGF0aW9uTWVzc2FnZUZSX0lzTnVsbABzZXRfVmFsaWRhdGlv
+bkNvZGVfSXNOdWxsAHNldF9UYWJsZU5hbWVfSXNOdWxsAHNldF9WYWxpZGF0aW9uU2NvcGVfSXNO
+dWxsAHNldF9WYWxpZGF0aW9uU2V2ZXJpdHlfSXNOdWxsAFNldE51bGwAZ2V0X0l0ZW0Ac2V0X0l0
+ZW0AU3lzdGVtAHJlc291cmNlTWFuAFNjcmlwdE1haW4AU3lzdGVtLkNvbmZpZ3VyYXRpb24AU3lz
+dGVtLkdsb2JhbGl6YXRpb24AU3lzdGVtLlJlZmxlY3Rpb24ASW52YWxpZE9wZXJhdGlvbkV4Y2Vw
+dGlvbgBDdWx0dXJlSW5mbwBPdXRwdXROYW1lTWFwAE91dHB1dE1hcABNaWNyb3NvZnQuU3FsU2Vy
+dmVyLkRUU1J1bnRpbWVXcmFwAFN5c3RlbS5MaW5xAEVycm9yRGF0YUJ1ZmZlcgBQaXBlbGluZUJ1
+ZmZlcgBTY3JpcHRCdWZmZXIAZ2V0X1Jlc291cmNlTWFuYWdlcgBNaWNyb3NvZnQuU3FsU2VydmVy
+LkR0cy5SdW50aW1lLldyYXBwZXIALmN0b3IALmNjdG9yAE91dHB1dElEcwBTeXN0ZW0uRGlhZ25v
+c3RpY3MAU3lzdGVtLlJ1bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0uUmVzb3VyY2VzAFND
+X2Q3YzY1ZmQxYWU2NTQwOWRiOGIzNmFmODMwYjc0ZmRhLlByb3BlcnRpZXMuUmVzb3VyY2VzLnJl
+c291cmNlcwBEZWJ1Z2dpbmdNb2RlcwBTQ19kN2M2NWZkMWFlNjU0MDlkYjhiMzZhZjgzMGI3NGZk
+YS5Qcm9wZXJ0aWVzAGdldF9SZWFkT25seVZhcmlhYmxlcwBFbnVtZXJhdGVGaWxlcwBCdWZmZXJD
+b2x1bW5JbmRleGVzAEdldENvbHVtbkluZGV4ZXMAU2V0dGluZ3MAQ29ubmVjdGlvbnMAQnVmZmVy
+cwBGaW5pc2hPdXRwdXRzAENyZWF0ZU5ld091dHB1dFJvd3MARm9ybWF0AE9iamVjdABTZXRFbmRP
+ZlJvd3NldABnZXRfRGVmYXVsdABVc2VyQ29tcG9uZW50AFBhcmVudENvbXBvbmVudABTY3JpcHRD
+b21wb25lbnQATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABNaWNyb3NvZnQuU3FsU2VydmVy
+LlBpcGVsaW5lSG9zdABQcmltZU91dHB1dABHZXRWYWx1ZVdpdGhDb250ZXh0AFNjcmlwdENvbXBv
+bmVudEV2YWxDb250ZXh0AGdldF9FdmFsdWF0b3JDb250ZXh0AEFkZFJvdwBnZXRfQXNzZW1ibHkA
+QW55AERpcmVjdG9yeQBzZXRfVmFsaWRhdGlvblNldmVyaXR5AAAAAEdzAHQAYQBnAGkAbgBnAC4A
+UABBAFIAVABfAEkATgBGAE8ARABFAFYAXwBUAFIAQQBGAEYASQBDAF8ARABlAHQAYQBpAGwAAA1E
+AEUAVABBAEkATAAAD0kARABUAEYALQA0ADAAAUFOAG8AIABmAGkAbABlACAAJwB7ADAAfQAnACAA
+dwBhAHMAIABmAG8AdQBuAGQAIABpAG4AIAAnAHsAMQB9ACcAAXNBAHUAYwB1AG4AIABmAGkAYwBo
+AGkAZQByACAAJwB7ADAAfQAnACAAYQAgAOkAdADpACAAdAByAG8AdQB2AOkAIABkAGEAbgBzACAA
+bABlACAAcgDpAHAAZQByAHQAbwBpAHIAZQAgACcAewAxAH0AJwABC0YAQQBUAEEATAAAgJtJAHMA
+TgB1AGwAbAAgAHAAcgBvAHAAZQByAHQAeQAgAGMAYQBuAG4AbwB0ACAAYgBlACAAcwBlAHQAIAB0
+AG8AIABGAGEAbABzAGUALgAgAEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAgAHQA
+aABlACAAYwBvAGwAdQBtAG4AIABpAG4AcwB0AGUAYQBkAC4AABNFAHIAcgBvAHIARABhAHQAYQAA
+EUYAaQBsAGUAUwBwAGUAYwAAEVQAYQBzAGsATgBhAG0AZQAAO3YAYQByAF8ASQBuAHAAdQB0AEYA
+aQBsAGUARABpAHIAZQBjAHQAbwByAHkAVwBvAHIAawBpAG4AZwAAcVMAQwBfAGQANwBjADYANQBm
+AGQAMQBhAGUANgA1ADQAMAA5AGQAYgA4AGIAMwA2AGEAZgA4ADMAMABiADcANABmAGQAYQAuAFAA
+cgBvAHAAZQByAHQAaQBlAHMALgBSAGUAcwBvAHUAcgBjAGUAcwAAtWPswuuyPkW7kvPR5XMSwAAE
+IAEBCAMgAAEFIAEBEREEIAEBDgUgAQERWQkAAhUSbQEODg4KEAEBAhUSbQEeAAMKAQ4GAAMODhwc
+CSADARI9HQgSQQUgAgEIHAMgAAIDBwEIBgACCBJBDgUgAR0ICAQgABJ9BiABEoCBHAUAABKAhQYg
+ARwSgIkIAAESgI0RgJEFIAASgJUHIAIBDhKAlQi3elxWGTTgiQiJhF3NgIDMkQMGEhQDBhIYAwYS
+DAMGEkUDBhJRAwYSVQMGEiAEIAEBAgsgBAEIHQgdEj0SQQUgAQESRQMgAA4EAAASUQQAABJVBQAB
+ARJVBAAAEiADAAABAygADgMoAAIECAASUQQIABJVBAgAEiAIAQAIAAAAAAAeAQABAFQCFldyYXBO
+b25FeGNlcHRpb25UaHJvd3MBCAEAAgAAAAAAKAEAI1NDX2Q3YzY1ZmQxYWU2NTQwOWRiOGIzNmFm
+ODMwYjc0ZmRhAAAFAQAAAAAWAQARQ29weXJpZ2h0IEAgIDIwMTcAAEkBABouTkVURnJhbWV3b3Jr
+LFZlcnNpb249djQuNQEAVA4URnJhbWV3b3JrRGlzcGxheU5hbWUSLk5FVCBGcmFtZXdvcmsgNC41
+BAEAAAAAtAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBt
+c2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2Vu
+PWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAA
+AAAAAAAAAABQQURQQURQtAAAACw5AAAAAAAAAAAAAEY5AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAA4OQAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAASAAA
+AFhAAADsAwAAAAAAAAAAAADsAzQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAAAAAA
+vQTv/gAAAQAAAAEAAAAAAAAAAQAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQAAAAB
+AFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBuAAAA
+AAAAALAETAMAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAAKAMAAAEAMAAwADAAMAAw
+ADQAYgAwAAAAGgABAAEAQwBvAG0AbQBlAG4AdABzAAAAAAAAACIAAQABAEMAbwBtAHAAYQBuAHkA
+TgBhAG0AZQAAAAAAAAAAAHAAJAABAEYAaQBsAGUARABlAHMAYwByAGkAcAB0AGkAbwBuAAAAAABT
+AEMAXwBkADcAYwA2ADUAZgBkADEAYQBlADYANQA0ADAAOQBkAGIAOABiADMANgBhAGYAOAAzADAA
+YgA3ADQAZgBkAGEAAAAwAAgAAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADEALgAwAC4AMAAu
+ADAAAABwACgAAQBJAG4AdABlAHIAbgBhAGwATgBhAG0AZQAAAFMAQwBfAGQANwBjADYANQBmAGQA
+MQBhAGUANgA1ADQAMAA5AGQAYgA4AGIAMwA2AGEAZgA4ADMAMABiADcANABmAGQAYQAuAGQAbABs
+AAAASAASAAEATABlAGcAYQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAQwBvAHAAeQByAGkAZwBoAHQA
+IABAACAAIAAyADAAMQA3AAAAKgABAAEATABlAGcAYQBsAFQAcgBhAGQAZQBtAGEAcgBrAHMAAAAA
+AAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBuAGEAbQBlAAAAUwBDAF8AZAA3AGMA
+NgA1AGYAZAAxAGEAZQA2ADUANAAwADkAZABiADgAYgAzADYAYQBmADgAMwAwAGIANwA0AGYAZABh
+AC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0AE4AYQBtAGUAAAAAAFMAQwBfAGQANwBjADYA
+NQBmAGQAMQBhAGUANgA1ADQAMAA5AGQAYgA4AGIAMwA2AGEAZgA4ADMAMABiADcANABmAGQAYQAA
+ADQACAABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAA4AAgA
+AQBBAHMAcwBlAG0AYgBsAHkAIABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4AMAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAMAAAAWDkAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                      name="VSTAProjectName"
+                      typeConverter="NOTBROWSABLE">SC_d7c65fd1ae65409db8b36af830b74fda</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the programming language used by the script."
+                      name="ScriptLanguage"
+                      typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a comma-separated list of read-only variables."
+                      name="ReadOnlyVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg">System::TaskName,User::var_InputFileDirectoryWorking,$Package::FileSpec</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a comma-separated list of read/write variables."
+                      name="ReadWriteVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                    <property
+                      dataType="System.String"
+                      description="List of breakpoints present on the script."
+                      isArray="true"
+                      name="BreakpointCollection"
+                      typeConverter="NOTBROWSABLE">
+                      <arrayElements
+                        arrayElementCount="0" />
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Checksum to match component metedata against compiled codes."
+                      name="MetadataChecksum"
+                      typeConverter="NOTBROWSABLE">79fededd2042d6cbbad5b95e36f0a183</property>
+                    <property
+                      dataType="System.String"
+                      description="Checksum to match component metedata against compiled codes."
+                      name="MetadataShaChecksum"
+                      typeConverter="NOTBROWSABLE">a4c4dfe567a292c17377ec4cab1356d4a39950cc</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+                  </properties>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData]"
+                      hasSideEffects="true"
+                      name="ErrorData">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[TableName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[TableName]"
+                          name="TableName" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationScope]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationScope]"
+                          name="ValidationScope" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationCode]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationCode]"
+                          name="ValidationCode" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationMessage_EN]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationMessage_EN]"
+                          name="ValidationMessage_EN" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationMessage_FR]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationMessage_FR]"
+                          name="ValidationMessage_FR" />
+                        <outputColumn
+                          refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationSeverity]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData].Columns[ValidationSeverity]"
+                          name="ValidationSeverity" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder).Paths[Derived Column Output]"
+                  endId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder).Paths[ErrorData]"
+                  endId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult.Inputs[Derived Column Input]"
+                  name="ErrorData"
+                  startId="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder.Outputs[ErrorData]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Validate files exist in folder\SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{97DD83A9-CB40-42D9-ADD7-CD33CCD91B7F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Verify DataLoading validation result"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_VerifyValidationResult"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FailedValidationCount"
+                SQLTask:DtsVariableName="User::var_FailedDataLoadingValidationCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Validate files exist in folder.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{4AFB4B43-AAA5-4405-BD58-56EEF8DB3708}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::var_FailedDataLoadingValidationCount] == 0"
+          DTS:From="Package\SEQC - Validate files exist in folder\DFT - Dummy"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Validate files exist in folder.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{7FE2E3D1-B96F-4C9F-8A37-D3C64E596EB3}"
+          DTS:From="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Validate files exist in folder\SQL - DM_Staging - Verify DataLoading validation result" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{54C822DD-79CB-4ED0-9C89-7FA2D5FA654C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_UpdateDataLoadingValidationFlag" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{77DBE2E2-FC2A-459F-947F-8ACDFC1F604A}"
+      DTS:From="Package\SEQC - Create and Validate DataLoading record"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC - Validate files exist in folder" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2B2155BB-D4DE-4E3C-B94A-9E5ABBBF320A}"
+      DTS:From="Package\SEQC - Load and Validate files"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL - DM_Staging - Update DataLoading validation flag" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{E4FE8E6C-1538-412D-99B0-915A341FC335}"
+      DTS:From="Package\SEQC - Validate files exist in folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SEQC - Load and Validate files" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="260,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Load DataLoading"
+          TopLeft="54,5.5" />
+        <NodeLayout
+          Size="357,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Validate rule PARM-01 (DataID &lt;&gt; -1)"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC - Create and Validate DataLoading record\SQL - DM_Staging - Verify DataLoading validation result"
+          TopLeft="13,209.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint]"
+          TopLeft="184,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Create and Validate DataLoading record.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="368,306"
+          Size="368,350"
+          Id="Package\SEQC - Create and Validate DataLoading record"
+          TopLeft="23.0000000000001,5.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\SEQC - Load and Validate files\DFT - Dummy"
+          TopLeft="86.5,5.5" />
+        <NodeLayout
+          Size="296,42"
+          Id="Package\SEQC - Load and Validate files\FELC - Loop through all files matching the file spec\EPT - DM_Staging - PART_INFODEV_TRAFFIC"
+          TopLeft="5.5,5.5" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="307,102"
+          Size="307,146"
+          Id="Package\SEQC - Load and Validate files\FELC - Loop through all files matching the file spec"
+          TopLeft="5.50000000000003,107.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Load and Validate files.PrecedenceConstraints[Constraint]"
+          TopLeft="159,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.68123046875,18.25,53.3624609375,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="318,308"
+          Size="318,352"
+          Id="Package\SEQC - Load and Validate files"
+          TopLeft="48.0000000000002,825.5" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\SQL - DM_Staging - Update DataLoading validation flag"
+          TopLeft="37.0000000000002,1237.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="207,1177.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC - Validate files exist in folder\SQL - DM_Staging - Verify DataLoading validation result"
+          TopLeft="30.5,209.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\SEQC - Validate files exist in folder\DFT - Dummy"
+          TopLeft="129,5.5" />
+        <NodeLayout
+          Size="392,42"
+          Id="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)"
+          TopLeft="5.5,107.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Validate files exist in folder.PrecedenceConstraints[Constraint]"
+          TopLeft="201.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.68123046875,18.25,53.3624609375,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Validate files exist in folder.PrecedenceConstraints[Constraint 1]"
+          TopLeft="201.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="403,306"
+          Size="403,350"
+          Id="Package\SEQC - Validate files exist in folder"
+          TopLeft="5.50000000000011,415.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="207,355.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="207,765.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="270,42"
+          Id="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\SCR - Verify files exists in working folder"
+          TopLeft="23,5.5" />
+        <NodeLayout
+          Size="276,42"
+          Id="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult"
+          TopLeft="20,209.5" />
+        <NodeLayout
+          Size="305,42"
+          Id="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\DER - Add columns required by ValidationResult"
+          TopLeft="5.5,107.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder).Paths[ErrorData]"
+          TopLeft="158,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder).Paths[Derived Column Output]"
+          TopLeft="158,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Validate files exist in folder\DFT - IC_DM_Staging - Validate rule IDTF-40 (Files exist in folder)\OLE_DST - DM_Staging - ValidationResult">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,2030 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/5/2016 8:54:56 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI02"
+  DTS:CreatorName="CORP\adm1ned"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{4DEF943A-417B-416B-9D9A-78E78D27DBB7}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="GF_MAPPING_ENTITY_ASSET"
+  DTS:PackageType="5"
+  DTS:VersionBuild="589"
+  DTS:VersionGUID="{4E408D37-948E-4F25-99FE-C68B8328538A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{2C976267-84F2-4DCA-8336-DC8B43F60C15}"
+      DTS:ObjectName="BusinessProcessInstanceID"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20170517-TM</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{5CAB56DF-236F-44AE-9F62-D9344A4F1AC9}"
+      DTS:ObjectName="BusinessProcessInstanceIteration"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{0406C079-3A06-4479-A183-BC3472C61A96}"
+      DTS:ObjectName="DatasetID">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3A2E56A3-3B22-4D60-80C9-93039EAB3A6E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">MAPPING_ENTITY_ASSET</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{84169EC5-62F5-4E43-A172-39FF49CD25C7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">GF</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5FCEC596-DBB7-45EC-B210-1F2DCEA5EEE1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO staging.ConnectionInfo (Protocol, IsReadable, NumRecords, DataLoadingID, ConnectionString) VALUES('OLEDB',&quot;+ (DT_WSTR, 50)@[User::var_IsReadable]+&quot;,&quot;+(DT_WSTR, 50)@[User::var_RowCount] +&quot;,&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot;,'&quot;+ @[User::var_DataSourceConnectionString] +&quot;')&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertConnectionInfo">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO staging.ConnectionInfo (Protocol, IsReadable, NumRecords, DataLoadingID, ConnectionString) VALUES('OLEDB',1,0,0,'')</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1CFC8C3E-DFFA-4EE9-87EF-5BECD6E794F9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO [staging].[DataLoading]&#xA;           ([DataID]&#xA;           ,[LoadingDate]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]&#xA;           ,[IC_DM_LINEAGE_INFO]&#xA;           )&#xA;SELECT&#xA;&#x9;d.DataID,&#xA;&#x9;'&quot; + @[User::var_LoadingDate_str] + &quot;',&#xA;&#x9;'&quot; + @[$Package::BusinessProcessInstanceID] + &quot;',&#xA;&#x9;&quot; + (DT_WSTR, 32) @[$Package::BusinessProcessInstanceIteration] + &quot;,&#xA;&#x9;NULL&#xA;FROM config.Source s&#xA;JOIN config.Data d&#xA;&#x9;ON s.SourceID = d.SourceID&#xA;JOIN config.DataProvider dp&#xA;&#x9;ON d.DataID = dp.DataID&#xA;JOIN config.Provider p&#xA;&#x9;ON dp.ProviderID = p.ProviderID&#xA;WHERE s.SourceCode = '&quot;+ @[User::md_Source]  +&quot;'&#xA;&#x9;and d.DataCode = '&quot;+ @[User::md_Data]  +&quot;'&#xA;SELECT SCOPE_IDENTITY() AS DataLoadingID;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO [staging].[DataLoading]
+           ([DataID]
+           ,[LoadingDate]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]
+           ,[IC_DM_LINEAGE_INFO]
+           )
+SELECT
+	d.DataID,
+	'2018-05-25 11:20:47',
+	'20170517-TM',
+	1,
+	NULL
+FROM config.Source s
+JOIN config.Data d
+	ON s.SourceID = d.SourceID
+JOIN config.DataProvider dp
+	ON d.DataID = dp.DataID
+JOIN config.Provider p
+	ON dp.ProviderID = p.ProviderID
+WHERE s.SourceCode = 'GF'
+	and d.DataCode = 'MAPPING_ENTITY_ASSET'
+SELECT SCOPE_IDENTITY() AS DataLoadingID;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C309A983-A21C-47FD-9B61-AD3E44A24569}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT [EntityCode],&#xA;&#x9;[AssetCode]&#xA;FROM [dbo].[GF_MAPPING_ENTITY_ASSET]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ReadDataSource">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [EntityCode],
+	[AssetCode]
+FROM [dbo].[GF_MAPPING_ENTITY_ASSET]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{66CD63E2-A70D-4DE9-B08A-9FD090BEF7AA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DELETE FROM staging.&quot;+ @[User::md_Source]+&quot;_&quot;+ @[User::md_Data] +&quot;_Detail WITH (TABLOCK) WHERE IDATASET = &quot;+ (DT_WSTR, 50)@[$Package::DatasetID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateStaging">
+      <DTS:VariableValue
+        DTS:DataType="8">DELETE FROM staging.GF_MAPPING_ENTITY_ASSET_Detail WITH (TABLOCK) WHERE IDATASET = 0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B2C78BA3-2AF4-41E1-B66E-BE0F58F09D71}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE d&#xA;&#xA;SET ValidationSucceeded = IIF((SELECT COUNT(*) FROM staging.ValidationResult WHERE DataLoadingID = &quot;+(DT_WSTR, 50)@[User::var_DataLoadingID]+&quot; AND ValidationSeverity = 'FATAL') = 0, 1, 0),&#xA;&#xA;&#x9;ValidationDate = SYSDATETIME()&#xA;&#xA;FROM staging.DataLoading d&#xA;&#xA;WHERE d.DataLoadingID = &quot;+(DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDataLoadingValidationFlag">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE d
+
+SET ValidationSucceeded = IIF((SELECT COUNT(*) FROM staging.ValidationResult WHERE DataLoadingID = 0 AND ValidationSeverity = 'FATAL') = 0, 1, 0),
+
+	ValidationDate = SYSDATETIME()
+
+FROM staging.DataLoading d
+
+WHERE d.DataLoadingID = 0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F58DE4CE-48E3-49A3-AE2F-E5F1C073319F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='CONNECTION'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateConnectionInfo">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='GF' , @DataCodeParam= 'MAPPING_ENTITY_ASSET' , @ProviderCodeParam='IC', @DataLoadingID=0, @ValidationScopeParam='CONNECTION'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DDDB682A-A8A6-4699-85D7-BF4B6691235A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='DETAIL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='GF' , @DataCodeParam= 'MAPPING_ENTITY_ASSET' , @ProviderCodeParam='IC', @DataLoadingID=0, @ValidationScopeParam='DETAIL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A1C3C3E2-6547-4635-9D48-46ED42330A7F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @SourceCodeParam='&quot;+ @[User::md_Source] +&quot;' , @DataCodeParam= '&quot;+ @[User::md_Data] +&quot;' , @ProviderCodeParam='IC', @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateSP">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='GF' , @DataCodeParam= 'MAPPING_ENTITY_ASSET' , @ProviderCodeParam='IC', @DataLoadingID=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8A521378-1F9C-4DC6-B37C-E939D13057D5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot; AND ValidationSeverity = 'FATAL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_VerifyValidationResult">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT COUNT(*) AS FailedValidationCount FROM staging.ValidationResult WHERE DataLoadingID = 0 AND ValidationSeverity = 'FATAL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4C2F6A29-07B3-4856-BAED-FAE9E15A6629}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9C673403-2D45-4974-9D84-83BCDE27E727}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataSourceConnectionString">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BFD0FC93-42AA-4FCE-B512-44678E50F2D7}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_FailedDataLoadingValidationCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FC6EC060-7E05-414D-B4A1-09A9EB64BC2D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_IsReadable">
+      <DTS:VariableValue
+        DTS:DataType="17">1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B95C0A5B-FFD6-417D-BF45-29113EB231D5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:20:47</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{616ABE0E-4878-4956-A5B2-2DFCE43B8D87}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Load Data and Validate Connection"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{68875493-B470-4931-9B3B-1855E8B5BE43}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Load Data and Validate Connection">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{3CAB715E-0554-4A2B-972D-EEB72B13DC9C}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              defaultBufferMaxRows="100000"
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count"
+                  componentClassID="Microsoft.RowCount"
+                  contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+                  name="CNT - Row count">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable to hold the row count."
+                      name="VariableName">User::var_RowCount</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count.Inputs[Row Count Input 1]"
+                      hasSideEffects="true"
+                      name="Row Count Input 1">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count.Outputs[Row Count Output 1]"
+                      name="Row Count Output 1"
+                      synchronousInputId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count.Inputs[Row Count Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="DER - Add columns required by Detail"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                          name="DataLoadingID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[User::var_DataLoadingID]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[IDATASET]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[IDATASET]"
+                          name="IDATASET"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[$Package::DatasetID]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[$Package::DatasetID]</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[staging].[GF_MAPPING_ENTITY_ASSET_Detail]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 13720355</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Connections[OleDbConnection]"
+                      connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                          cachedDataType="i4"
+                          cachedName="DataLoadingID"
+                          externalMetadataColumnId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                        <inputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].Columns[EntityCode]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="EntityCode"
+                          externalMetadataColumnId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[EntityCode]"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].Columns[EntityCode]" />
+                        <inputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].Columns[AssetCode]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="AssetCode"
+                          externalMetadataColumnId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[AssetCode]"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].Columns[AssetCode]" />
+                        <inputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].Columns[IDATASET]"
+                          cachedDataType="i4"
+                          cachedName="IDATASET"
+                          externalMetadataColumnId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[IDATASET]"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[IDATASET]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                          dataType="i4"
+                          name="DataLoadingID" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[EntityCode]"
+                          dataType="wstr"
+                          length="50"
+                          name="EntityCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[AssetCode]"
+                          dataType="wstr"
+                          length="255"
+                          name="AssetCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input].ExternalColumns[IDATASET]"
+                          dataType="i4"
+                          name="IDATASET" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE_SRC - GF - MAPPING_ENTITY_ASSET"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GF_MAPPING_ENTITY_ASSET]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable">User::sql_ReadDataSource</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Connections[OleDbConnection]"
+                      connectionManagerID="{27EAD84F-D75D-4656-8230-8FE363158456}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[oledb GF_Integration]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].Columns[EntityCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].ExternalColumns[EntityCode]"
+                          length="50"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].Columns[EntityCode]"
+                          name="EntityCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].Columns[AssetCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].ExternalColumns[AssetCode]"
+                          length="255"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].Columns[AssetCode]"
+                          name="AssetCode"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].ExternalColumns[EntityCode]"
+                          dataType="wstr"
+                          length="50"
+                          name="EntityCode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output].ExternalColumns[AssetCode]"
+                          dataType="wstr"
+                          length="255"
+                          name="AssetCode" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[EntityCode]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[EntityCode]"
+                          name="EntityCode" />
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[AssetCode]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[AssetCode]"
+                          name="AssetCode" />
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail).Paths[Derived Column Output]"
+                  endId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail).Paths[OLE DB Source Output]"
+                  endId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count.Inputs[Row Count Input 1]"
+                  name="OLE DB Source Output"
+                  startId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail).Paths[Row Count Output 1]"
+                  endId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                  name="Row Count Output 1"
+                  startId="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count.Outputs[Row Count Output 1]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\ET - Set isReadable to false"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:Description="Expression Task"
+          DTS:DTSID="{138D298A-0B7C-49DE-AA8C-96CB044439F2}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="ET - Set isReadable to false"
+          DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::var_IsReadable] = 0" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\SCR - Get GF_Archive Connection String"
+          DTS:CreationName="Microsoft.ScriptTask"
+          DTS:Description="Script Task"
+          DTS:DTSID="{7BD53867-9C82-4028-9EB1-469CEAEF1E9F}"
+          DTS:ExecutableType="Microsoft.ScriptTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SCR - Get GF_Archive Connection String"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ScriptProject
+              Name="ST_19000374c1d04fc38d6e5352bf20c3a1"
+              VSTAMajorVersion="14"
+              VSTAMinorVersion="0"
+              Language="CSharp"
+              ReadWriteVariables="User::var_DataSourceConnectionString">
+              <ProjectItem
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_19000374c1d04fc38d6e5352bf20c3a1")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_19000374c1d04fc38d6e5352bf20c3a1")]
+[assembly: AssemblyCopyright("Copyright @  2017")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Resources.resx"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></ProjectItem>
+              <ProjectItem
+                Name="ScriptMain.cs"
+                Encoding="UTF8"><![CDATA[#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Runtime;
+using System.Windows.Forms;
+#endregion
+
+namespace ST_19000374c1d04fc38d6e5352bf20c3a1
+{
+	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
+	public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+	{
+		public void Main()
+		{
+            var connectionManager = Dts.Connections["oledb GF_Archive"];
+            Dts.Variables["var_DataSourceConnectionString"].Value = connectionManager.ConnectionString;
+            Dts.TaskResult = (int)ScriptResults.Success;
+		}
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
+        #endregion
+
+	}
+}]]></ProjectItem>
+              <ProjectItem
+                Name="Project"
+                Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_19000374c1d04fc38d6e5352bf20c3a1</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_19000374c1d04fc38d6e5352bf20c3a1</msb:DisplayName>
+		<msb:ProjectId>{1D4EBB5E-B194-4667-94F0-977F55D775DC}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_19000374c1d04fc38d6e5352bf20c3a1.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="ScriptMain.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_19000374c1d04fc38d6e5352bf20c3a1.Properties.Settings.get_Default():ST_19000374c1d04fc38d6e5352bf20c3a1.Properties.Sett" +
+    "ings")]
+
+namespace ST_19000374c1d04fc38d6e5352bf20c3a1.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <ProjectItem
+                Name="ST_19000374c1d04fc38d6e5352bf20c3a1.csproj"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{391e6acf-04bb-479e-b655-6aa5f865ce09}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ST_19000374c1d04fc38d6e5352bf20c3a1</RootNamespace>
+    <AssemblyName>ST_19000374c1d04fc38d6e5352bf20c3a1</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+         <Generator>ResXFileCodeGenerator</Generator>
+         <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+             <AutoGen>True</AutoGen>
+         <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+         <Generator>SettingsSingleFileGenerator</Generator>
+         <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+         <AutoGen>True</AutoGen>
+         <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMain.cs">
+         <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask"
+                           HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}"
+                           ApplicationType="usd"
+                           Language="cs"
+                           TemplatesPath=""
+                           DebugInfoCommandLine=""
+                           DebugInfoWorkingDir=""
+                           IconImageList=""/>
+        <Host Name="ScriptTask" GeneratedNamespace="$safeprojectname" IconIndex="">
+        </Host>
+        <ProjectClient>
+            <HostIdentifier>SSIS_ST130</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Resources.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_19000374c1d04fc38d6e5352bf20c3a1.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_19000374c1d04fc38d6e5352bf20c3a1.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_19000374c1d04fc38d6e5352bf20c3a1.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace ST_19000374c1d04fc38d6e5352bf20c3a1.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ST_19000374c1d04fc38d6e5352bf20c3a1.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <BinaryItem
+                Name="ST_19000374c1d04fc38d6e5352bf20c3a1.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAHitSlkAAAAAAAAAAOAAIiALATAAABAAAAAIAAAAAAAAMi4A
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAOAtAABPAAAAAEAAAHgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAOA4AAAAgAAAAEAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAHgEAAAAQAAAAAYAAAASAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAGAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAU
+LgAAAAAAAEgAAAACAAUACCEAACAMAAABAAAAAAAAACgtAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABMwAgBDAAAAAQAAEQIoEAAACm8RAAAKcgEAAHBvEgAACgoC
+KBAAAApvEwAACnIjAABwbxQAAAoGbxUAAApvFgAACgIoEAAAChZvFwAACioeAigYAAAKKh4CKBkA
+AAoqrn4BAAAELR5yYQAAcNADAAACKBoAAApvGwAACnMcAAAKgAEAAAR+AQAABCoafgIAAAQqHgKA
+AgAABCoafgMAAAQqHgIoHQAACioucwgAAAaAAwAABCoAAABCU0pCAQABAAAAAAAMAAAAdjQuMC4z
+MDMxOQAAAAAFAGwAAADUAwAAI34AAEAEAACMBQAAI1N0cmluZ3MAAAAAzAkAANQAAAAjVVMAoAoA
+ABAAAAAjR1VJRAAAALAKAABwAQAAI0Jsb2IAAAAAAAAAAgAAAVcdogEJAwAAAPoBMwAWAAABAAAA
+HwAAAAUAAAAGAAAACQAAAAEAAAAdAAAAAgAAABAAAAABAAAAAgAAAAMAAAAEAAAAAQAAAAQAAAAB
+AAAAAQAAAAAAgQMBAAAAAAAGACUCYwQGALQCYwQGAHEBUAQPANcEAAAGAJ4B/wMGAAgC/wMGAOkB
+/wMGAJsC/wMGAEUC/wMGAF4C/wMGALUB/wMGANAB4gIKAHkCMAMKAPAAMAMOADEEmwAGALkDsgMG
+AFQBUAQGAFoFsgMGACEEgwQGABEE6gMSACQBawMSAIUBawMSAAwB1QMGADkBYwQKAFkDMAMOADAF
+mwAOABkFmwAOAG4AmwAGALsAsgMGAHcAsgMGAIAF/wMAAAAAJQAAAAAAAQABAAEAEADKAwEAOQAB
+AAEAAAAQAIoE5gRJAAEAAwAAARAAIwXmBF0AAwAHAAMBAABMBQAAQQAEAAoAEQC+A3MAEQDgAHcA
+EQBeAHsABgZNAH8AVoA8BYIAVoDAAIIAUCAAAAAAhgDQAwYAAQCfIAAAAACGGEMEBgABAKcgAAAA
+AIMYQwQGAAEAryAAAAAAkwgdBIYAAQDbIAAAAACTCMgAiwABAOIgAAAAAJMI1ACQAAEA6iAAAAAA
+lghhBZYAAgDxIAAAAACGGEMEBgACAPkgAAAAAJEYSQSbAAIAAAABANwCCQBDBAEAEQBDBAYAGQBD
+BAoAKQBDBBAAMQBDBBAAOQBDBBAAQQBDBBAASQBDBBAAUQBDBBAAWQBDBBAAYQBDBBAAaQBDBAYA
+iQBDBAYAsQBDBBUAwQBDBAYAcQBEBSAAyQAsBSUA0QCpAyoAyQAVBTAA2QCpAzUAeQD8AjsA4QDS
+Aj8AyQBtBQEAcQBDBAYAkQBDBAYA6QCJAEQA6QB8BUsAmQBDBFAAuQBDBAYACAAUAGkACAAYAG4A
+KQBzANYALgALAK4ALgATALcALgAbANYALgAjAN8ALgArAAgBLgAzAAgBLgA7AAgBLgBDAN8ALgBL
+AA4BLgBTAAgBLgBbACUBQwBjAG4ASQBzANYAYQB7AG4AYwBrAG4AGwADAAEABAADAAAAIQSfAAAA
+6ACkAAAAZQWpAAIABAADAAIABQAFAAEABgAFAAIABwAHAASAAAABAAAA7RgcXwAAAAAAAAEAAAAE
+AAAAAAAAAAAAAABXAFUAAAAAAA0AAAAAAAAAAAAAAGAAEQMAAAAADQAAAAAAAAAAAAAAYAAuAAAA
+AAAEAAAAAAAAAAAAAABXALIDAAAAAAAAAAABAAAAlAQAAAUAAgAAAABTVF8xOTAwMDM3NGMxZDA0
+ZmMzOGQ2ZTUzNTJiZjIwYzNhMQA8TW9kdWxlPgBNaWNyb3NvZnQuU3FsU2VydmVyLk1hbmFnZWRE
+VFMAdmFsdWVfXwBtc2NvcmxpYgBkZWZhdWx0SW5zdGFuY2UAVmFyaWFibGUAUnVudGltZVR5cGVI
+YW5kbGUAR2V0VHlwZUZyb21IYW5kbGUATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZQBU
+eXBlAEZhaWx1cmUAZ2V0X0N1bHR1cmUAc2V0X0N1bHR1cmUAcmVzb3VyY2VDdWx0dXJlAFZTVEFS
+VFNjcmlwdE9iamVjdE1vZGVsQmFzZQBBcHBsaWNhdGlvblNldHRpbmdzQmFzZQBFZGl0b3JCcm93
+c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBEZWJ1Z2dlck5vblVzZXJDb2Rl
+QXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJvd3NhYmxlQXR0cmlidXRlAEFz
+c2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRyaWJ1dGUAVGFyZ2V0RnJh
+bWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0dHJpYnV0ZQBBc3NlbWJseURl
+c2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQXNzZW1i
+bHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0QXR0cmlidXRlAFNTSVNTY3JpcHRU
+YXNrRW50cnlQb2ludEF0dHJpYnV0ZQBBc3NlbWJseUNvbXBhbnlBdHRyaWJ1dGUAUnVudGltZUNv
+bXBhdGliaWxpdHlBdHRyaWJ1dGUAc2V0X1ZhbHVlAHZhbHVlAFN5c3RlbS5SdW50aW1lLlZlcnNp
+b25pbmcAZ2V0X0Nvbm5lY3Rpb25TdHJpbmcATWljcm9zb2Z0LlNxbFNlcnZlci5TY3JpcHRUYXNr
+AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlRhc2tzLlNjcmlwdFRhc2sAU2NyaXB0T2JqZWN0TW9k
+ZWwAU3lzdGVtLkNvbXBvbmVudE1vZGVsAFNUXzE5MDAwMzc0YzFkMDRmYzM4ZDZlNTM1MmJmMjBj
+M2ExLmRsbABnZXRfSXRlbQBTeXN0ZW0ARW51bQByZXNvdXJjZU1hbgBTY3JpcHRNYWluAFN5c3Rl
+bS5Db25maWd1cmF0aW9uAFN5c3RlbS5HbG9iYWxpemF0aW9uAFN5c3RlbS5SZWZsZWN0aW9uAEN1
+bHR1cmVJbmZvAGdldF9SZXNvdXJjZU1hbmFnZXIAQ29ubmVjdGlvbk1hbmFnZXIALmN0b3IALmNj
+dG9yAFN5c3RlbS5EaWFnbm9zdGljcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAFN5
+c3RlbS5SZXNvdXJjZXMAU1RfMTkwMDAzNzRjMWQwNGZjMzhkNmU1MzUyYmYyMGMzYTEuUHJvcGVy
+dGllcy5SZXNvdXJjZXMucmVzb3VyY2VzAERlYnVnZ2luZ01vZGVzAFNUXzE5MDAwMzc0YzFkMDRm
+YzM4ZDZlNTM1MmJmMjBjM2ExLlByb3BlcnRpZXMAZ2V0X1ZhcmlhYmxlcwBTZXR0aW5ncwBnZXRf
+Q29ubmVjdGlvbnMAU3VjY2VzcwBnZXRfRHRzAFNjcmlwdFJlc3VsdHMAT2JqZWN0AGdldF9EZWZh
+dWx0AHNldF9UYXNrUmVzdWx0AGdldF9Bc3NlbWJseQAAAAAAIW8AbABlAGQAYgAgAEcARgBfAEEA
+cgBjAGgAaQB2AGUAAD12AGEAcgBfAEQAYQB0AGEAUwBvAHUAcgBjAGUAQwBvAG4AbgBlAGMAdABp
+AG8AbgBTAHQAcgBpAG4AZwAAcVMAVABfADEAOQAwADAAMAAzADcANABjADEAZAAwADQAZgBjADMA
+OABkADYAZQA1ADMANQAyAGIAZgAyADAAYwAzAGEAMQAuAFAAcgBvAHAAZQByAHQAaQBlAHMALgBS
+AGUAcwBvAHUAcgBjAGUAcwAAAKEJ0JIr6yxAqet9ZfwI0YIABCABAQgDIAABBSABARERBCABAQ4F
+IAEBEVUEBwESPQQgABJlBCAAEmkFIAESPRwEIAASbQUgARJxHAMgAA4EIAEBHAYAARJ1EXkEIAAS
+fQYgAgEOEn0It3pcVhk04IkIiYRdzYCAzJEEAAAAAAQBAAAAAwYSTQMGElEDBhIQAgYIAwYRFAQA
+ABJNBAAAElEFAAEBElEEAAASEAMAAAEECAASTQQIABJRBAgAEhAIAQAIAAAAAAAeAQABAFQCFldy
+YXBOb25FeGNlcHRpb25UaHJvd3MBCAEAAgAAAAAAKAEAI1NUXzE5MDAwMzc0YzFkMDRmYzM4ZDZl
+NTM1MmJmMjBjM2ExAAAFAQAAAAAWAQARQ29weXJpZ2h0IEAgIDIwMTcAAEkBABouTkVURnJhbWV3
+b3JrLFZlcnNpb249djQuNQEAVA4URnJhbWV3b3JrRGlzcGxheU5hbWUSLk5FVCBGcmFtZXdvcmsg
+NC41ALQAAADOyu++AQAAAJEAAABsU3lzdGVtLlJlc291cmNlcy5SZXNvdXJjZVJlYWRlciwgbXNj
+b3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1i
+NzdhNWM1NjE5MzRlMDg5I1N5c3RlbS5SZXNvdXJjZXMuUnVudGltZVJlc291cmNlU2V0AgAAAAAA
+AAAAAAAAUEFEUEFEULQAAAAILgAAAAAAAAAAAAAiLgAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+FC4AAAAAAAAAAAAAAABfQ29yRGxsTWFpbgBtc2NvcmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAABABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAA
+AABIAAAAWEAAABoEAAAAAAAAAAAAABoENAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBP
+AAAAAAC9BO/+AAABAAAAAQAcX+0YAAABABxf7Rg/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAA
+RAAAAAEAVgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBv
+AG4AAAAAAAAAsAR6AwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAABWAwAAAQAwADAA
+MAAwADAANABiADAAAAAaAAEAAQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEAQwBvAG0AcABh
+AG4AeQBOAGEAbQBlAAAAAAAAAAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4A
+AAAAAFMAVABfADEAOQAwADAAMAAzADcANABjADEAZAAwADQAZgBjADMAOABkADYAZQA1ADMANQAy
+AGIAZgAyADAAYwAzAGEAMQAAAD4ADwABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAA
+LgA2ADMAOAAxAC4AMgA0ADMANAA4AAAAAABwACgAAQBJAG4AdABlAHIAbgBhAGwATgBhAG0AZQAA
+AFMAVABfADEAOQAwADAAMAAzADcANABjADEAZAAwADQAZgBjADMAOABkADYAZQA1ADMANQAyAGIA
+ZgAyADAAYwAzAGEAMQAuAGQAbABsAAAASAASAAEATABlAGcAYQBsAEMAbwBwAHkAcgBpAGcAaAB0
+AAAAQwBvAHAAeQByAGkAZwBoAHQAIABAACAAIAAyADAAMQA3AAAAKgABAAEATABlAGcAYQBsAFQA
+cgBhAGQAZQBtAGEAcgBrAHMAAAAAAAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBu
+AGEAbQBlAAAAUwBUAF8AMQA5ADAAMAAwADMANwA0AGMAMQBkADAANABmAGMAMwA4AGQANgBlADUA
+MwA1ADIAYgBmADIAMABjADMAYQAxAC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0AE4AYQBt
+AGUAAAAAAFMAVABfADEAOQAwADAAMAAzADcANABjADEAZAAwADQAZgBjADMAOABkADYAZQA1ADMA
+NQAyAGIAZgAyADAAYwAzAGEAMQAAAEIADwABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBpAG8AbgAA
+ADEALgAwAC4ANgAzADgAMQAuADIANAAzADQAOAAAAAAARgAPAAEAQQBzAHMAZQBtAGIAbAB5ACAA
+VgBlAHIAcwBpAG8AbgAAADEALgAwAC4ANgAzADgAMQAuADIANAAzADQAOAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAwAAAA0PgAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
+            </ScriptProject>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Truncate Staging"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{CC859633-B8CC-4F36-B872-6641FA68210D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Truncate Staging"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_TruncateStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Validate Connection Info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{ACEA65E3-79B3-4FA1-8D88-4B577B4C45F2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Validate Connection Info"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateConnectionInfo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Verify Connection Info Validation Results"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E56D75DF-ECC2-40CE-8314-DE9DFE769DE8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Verify Connection Info Validation Results"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_VerifyValidationResult"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FailedValidationCount"
+                SQLTask:DtsVariableName="User::var_FailedDataLoadingValidationCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Load Data and Validate Connection\SQL - Load Connection Info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{EA56AEDB-FFD4-4AC3-ACDB-9D06D0502B03}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - Load Connection Info"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_InsertConnectionInfo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{6E062EB7-ACA5-4A96-9427-63147C2E5740}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\SCR - Get GF_Archive Connection String"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Truncate Staging" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{AEFA944A-3959-40D5-9D26-90541973AEF2}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Truncate Staging"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{E434D8BC-C3B8-40F1-82AF-44D7EC99CF9F}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\SQL - Load Connection Info"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Validate Connection Info" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{B2B8D74F-D106-4073-8390-1E708437BE87}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Validate Connection Info"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Verify Connection Info Validation Results" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{68A1D5A5-3112-46DF-B8C2-A792E8B46B1C}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)"
+          DTS:ObjectName="Constraint 5"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\SQL - Load Connection Info" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{AC6C1C23-25FD-4F76-86EF-11A56CD2BCF5}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 6"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\ET - Set isReadable to false"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 7]"
+          DTS:CreationName=""
+          DTS:DTSID="{58F23E23-7169-4403-B493-6E6C747DEC28}"
+          DTS:From="Package\SEQC - Load Data and Validate Connection\ET - Set isReadable to false"
+          DTS:ObjectName="Constraint 7"
+          DTS:To="Package\SEQC - Load Data and Validate Connection\SQL - Load Connection Info" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - Validate Data"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{3AA3A21D-8486-4274-B68C-89D34D57AEE4}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - Validate Data">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Validate Data\DFT - Dummy"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{CAD52615-0278-4376-8EFC-FDBE274A4BB6}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT - Dummy"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - Validate Data\SQL - DM_Staging - Validate GF_MAPPING_ENTITY_ASSET_Detail"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{178C38A5-7C7D-4671-BC67-4B6971A4FEC4}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL - DM_Staging - Validate GF_MAPPING_ENTITY_ASSET_Detail"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::sql_ValidateDetail" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - Validate Data.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{C7FA35FD-041E-4C9B-911A-9531B8A602A2}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::var_FailedDataLoadingValidationCount] == 0"
+          DTS:From="Package\SEQC - Validate Data\DFT - Dummy"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - Validate Data\SQL - DM_Staging - Validate GF_MAPPING_ENTITY_ASSET_Detail" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Load DataLoading"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{48793A7D-3261-4C0D-91C1-7AAAAE9EFC78}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Load DataLoading"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_InsertDataLoading"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="DataLoadingID"
+            SQLTask:DtsVariableName="User::var_DataLoadingID" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F21E95DF-E7F1-46C3-8D57-3E08A7CC63D7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_UpdateDataLoadingValidationFlag" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{0175CC18-6F9D-490A-B2FC-D5B3096F00C0}"
+      DTS:From="Package\SQL - DM_Staging - Load DataLoading"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC - Load Data and Validate Connection" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{1A3B6E2B-611F-428B-9CE6-D0A72D620BA9}"
+      DTS:From="Package\SEQC - Load Data and Validate Connection"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SEQC - Validate Data"
+      DTS:Value="2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{5FCA5142-00DA-4F1E-AD48-C953116DBF4C}"
+      DTS:From="Package\SEQC - Validate Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="381,42"
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)"
+          TopLeft="5.50000000000006,209.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\SEQC - Load Data and Validate Connection\ET - Set isReadable to false"
+          TopLeft="257.5,311.5" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\SEQC - Load Data and Validate Connection\SCR - Get GF_Archive Connection String"
+          TopLeft="62,5.5" />
+        <NodeLayout
+          Size="256,42"
+          Id="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Truncate Staging"
+          TopLeft="68.0000000000001,107.5" />
+        <NodeLayout
+          Size="291,42"
+          Id="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Validate Connection Info"
+          TopLeft="50.5000000000001,515.5" />
+        <NodeLayout
+          Size="367,42"
+          Id="Package\SEQC - Load Data and Validate Connection\SQL - DM_Staging - Verify Connection Info Validation Results"
+          TopLeft="12.5000000000001,617.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\SEQC - Load Data and Validate Connection\SQL - Load Connection Info"
+          TopLeft="91.5000000000001,413.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint]"
+          TopLeft="196,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 1]"
+          TopLeft="196,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 3]"
+          TopLeft="196,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 4]"
+          TopLeft="196,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 5]"
+          TopLeft="133.833333333333,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.6666666666667,162"
+              Start="0,0"
+              End="28.6666666666667,154.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,76.6551869222488" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,76.6551869222488"
+                    Point2="0,80.6551869222488"
+                    Point3="4,80.6551869222488" />
+                  <mssgle:LineSegment
+                    End="24.6666666666667,80.6551869222488" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.6666666666667,80.6551869222488"
+                    Point2="28.6666666666667,80.6551869222488"
+                    Point3="28.6666666666667,84.6551869222488" />
+                  <mssgle:LineSegment
+                    End="28.6666666666667,154.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-3.65990885416664,85.6551869222488,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 6]"
+          TopLeft="258.166666666667,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="103.833333333333,60"
+              Start="0,0"
+              End="103.833333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1505488761108" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1505488761108"
+                    Point2="0,24.1505488761108"
+                    Point3="4,24.1505488761108" />
+                  <mssgle:LineSegment
+                    End="99.8333333333333,24.1505488761108" />
+                  <mssgle:CubicBezierSegment
+                    Point1="99.8333333333333,24.1505488761108"
+                    Point2="103.833333333333,24.1505488761108"
+                    Point3="103.833333333333,28.1505488761108" />
+                  <mssgle:LineSegment
+                    End="103.833333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="36.6753190104167,29.1505488761108,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection.PrecedenceConstraints[Constraint 7]"
+          TopLeft="362,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-132.5,60"
+              Start="0,0"
+              End="-132.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7264957264957" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7264957264957"
+                    Point2="0,35.7264957264957"
+                    Point3="-4,35.7264957264957" />
+                  <mssgle:LineSegment
+                    End="-128.5,35.7264957264957" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-128.5,35.7264957264957"
+                    Point2="-132.5,35.7264957264957"
+                    Point3="-132.5,39.7264957264957" />
+                  <mssgle:LineSegment
+                    End="-132.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-84.2432421875,40.7264957264957,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="472,715"
+          Size="472,758"
+          Id="Package\SEQC - Load Data and Validate Connection"
+          TopLeft="5.50000000000011,107.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\SEQC - Validate Data\DFT - Dummy"
+          TopLeft="128,5.5" />
+        <NodeLayout
+          Size="390,42"
+          Id="Package\SEQC - Validate Data\SQL - DM_Staging - Validate GF_MAPPING_ENTITY_ASSET_Detail"
+          TopLeft="5.50000000000003,107.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Validate Data.PrecedenceConstraints[Constraint]"
+          TopLeft="200.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.68123046875,18.25,53.3624609375,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="401,205"
+          Size="401,248"
+          Id="Package\SEQC - Validate Data"
+          TopLeft="41.0000000000002,925.5" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\SQL - DM_Staging - Load DataLoading"
+          TopLeft="111.5,5.5" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\SQL - DM_Staging - Update DataLoading validation flag"
+          TopLeft="71.5000000000002,1233.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="241.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.9932421875,21.47314453125,35.986484375,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="241.5,865.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,20.4453125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="241.5,1173.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,20.4453125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="257,42"
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\DER - Add columns required by Detail"
+          TopLeft="64,209.5" />
+        <NodeLayout
+          Size="374,42"
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail"
+          TopLeft="5.50000000000006,311.5" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\CNT - Row count"
+          TopLeft="113,107.5" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET"
+          TopLeft="53,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail).Paths[Row Count Output 1]"
+          TopLeft="192.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail).Paths[OLE DB Source Output]"
+          TopLeft="192.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail).Paths[Derived Column Output]"
+          TopLeft="192.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_DST - DM_Staging - GF_MAPPING_ENTITY_ASSET_Detail">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC - Load Data and Validate Connection\DFT - DM_Staging - Load GF_MAPPING_ENTITY_ASSET (Detail)\OLE_SRC - GF - MAPPING_ENTITY_ASSET">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">View</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

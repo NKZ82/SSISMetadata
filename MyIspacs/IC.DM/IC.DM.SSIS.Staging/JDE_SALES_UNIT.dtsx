@@ -1,0 +1,2936 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/8/2016 10:28:40 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSBI07"
+  DTS:CreatorName="CORP\adm1niea"
+  DTS:DTSID="{08D03765-008E-423F-9737-EDDB142E3871}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="JDE_BUSINESS_UNIT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="73"
+  DTS:VersionGUID="{BD6EE757-BC88-41B2-8883-7289407DD558}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{204C2F67-56A6-40E2-930C-E8468A251C09}"
+      DTS:ObjectName="BusinessProcessInstanceID"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20160610-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{530DDC0A-17C2-47CA-81AE-FECEA9B197A3}"
+      DTS:ObjectName="BusinessProcessInstanceIteration"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{FDC66EC8-968E-4238-A9C8-AB12DC145EA4}"
+      DTS:ObjectName="Type">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{930E11BD-35F5-461E-BAC0-BB906FD3CE49}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Data">
+      <DTS:VariableValue
+        DTS:DataType="8">BUSINESS_UNIT</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B6290955-A0A5-4D9B-BA51-295C5E540CB0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="md_Source">
+      <DTS:VariableValue
+        DTS:DataType="8">JDE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{891E58CE-6053-4669-BB8D-5707D3FDA89F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO [staging].[DataLoading]&#xA;           ([DataID]&#xA;           ,[LoadingDate]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]&#xA;           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]&#xA;           )&#xA;SELECT&#xA;&#x9;d.DataID,&#xA;&#x9;'&quot; + @[User::var_LoadingDate_str] + &quot;',&#xA;&#x9;'&quot; + @[$Package::BusinessProcessInstanceID] + &quot;',&#xA;&#x9;&quot; + (DT_WSTR, 32) @[$Package::BusinessProcessInstanceIteration] + &quot;&#xA;FROM config.Source s&#xA;JOIN config.Data d&#xA;&#x9;ON s.SourceID = d.SourceID&#xA;JOIN config.DataProvider dp&#xA;&#x9;ON d.DataID = dp.DataID&#xA;JOIN config.Provider p&#xA;&#x9;ON dp.ProviderID = p.ProviderID&#xA;WHERE s.SourceCode = '&quot;+ @[User::md_Source]  +&quot;'&#xA;&#x9;and d.DataCode = '&quot;+ @[User::md_Data]  +&quot;'&#xA;SELECT SCOPE_IDENTITY() AS DataLoadingID;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_InsertDataLoading">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO [staging].[DataLoading]
+           ([DataID]
+           ,[LoadingDate]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ID]
+           ,[IC_DM_BUSINESS_PROCESS_INSTANCE_ITERATION]
+           )
+SELECT
+	d.DataID,
+	'2018-05-25 11:20:40',
+	'20160610-01-EL',
+	1
+FROM config.Source s
+JOIN config.Data d
+	ON s.SourceID = d.SourceID
+JOIN config.DataProvider dp
+	ON d.DataID = dp.DataID
+JOIN config.Provider p
+	ON dp.ProviderID = p.ProviderID
+WHERE s.SourceCode = 'JDE'
+	and d.DataCode = 'BUSINESS_UNIT'
+SELECT SCOPE_IDENTITY() AS DataLoadingID;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3DD6A566-34D7-42DD-A6C8-294A3973724C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;delete from staging.JDE_SALES_BUSINESSUNIT_Detail&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_TruncateStaging">
+      <DTS:VariableValue
+        DTS:DataType="8">delete from staging.JDE_SALES_BUSINESSUNIT_Detail</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D4AC38D4-9314-42DB-986A-69C2ECC8BCC1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;UPDATE d&#xA;SET ValidationSucceeded = 1,&#xA;&#x9;ValidationDate = SYSDATETIME()&#xA;FROM staging.DataLoading d&#xA;WHERE d.DataLoadingID = &quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID] +&quot;&#xA;&#x9;AND NOT EXISTS(&#xA;&#x9;&#x9;SELECT * &#xA;&#x9;&#x9;FROM staging.ValidationResult &#xA;&#x9;&#x9;WHERE DataLoadingID = d.DataLoadingID&#xA;&#x9;&#x9;&#x9;AND ValidationSeverity = 'FATAL'&#xA;&#x9;)&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_UpdateDataLoadingValidationFlag">
+      <DTS:VariableValue
+        DTS:DataType="8">UPDATE d
+SET ValidationSucceeded = 1,
+	ValidationDate = SYSDATETIME()
+FROM staging.DataLoading d
+WHERE d.DataLoadingID = 0
+	AND NOT EXISTS(
+		SELECT * 
+		FROM staging.ValidationResult 
+		WHERE DataLoadingID = d.DataLoadingID
+			AND ValidationSeverity = 'FATAL'
+	)</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{63740849-F9C7-4311-8BBF-9EAB1116EF99}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='CONNECTION'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateConnectionInfo">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='SALES_UNIT', @ProviderCodeParam='IC', @DataLoadingID=0, @ValidationScopeParam='CONNECTION'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9A726231-D761-4CF4-9D6F-A3B97E43D96E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::sql_ValidateSP]+&quot;, @ValidationScopeParam='DETAIL'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateDetail">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='SALES_UNIT', @ProviderCodeParam='IC', @DataLoadingID=0, @ValidationScopeParam='DETAIL'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BEE6F2F3-AB88-4B37-A1F8-513B67BFBCD0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='SALES_UNIT', @ProviderCodeParam='IC', @DataLoadingID=&quot;+ (DT_WSTR, 50)@[User::var_DataLoadingID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sql_ValidateSP">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC staging.sp_Validate_Data @SourceCodeParam='JDE', @DataCodeParam='SALES_UNIT', @ProviderCodeParam='IC', @DataLoadingID=0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8DAA276C-711A-4EF0-8A88-E759D1BF08D6}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_DataLoadingID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7B1037F9-DB46-43A0-B4B8-A125A58D1149}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_isReadable">
+      <DTS:VariableValue
+        DTS:DataType="11">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{006F5365-4848-4D85-9FCC-62B9617A3E16}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , @[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; , @[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , @[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;hh&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mi&quot; , @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;ss&quot; , @[System::StartTime]), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_LoadingDate_str">
+      <DTS:VariableValue
+        DTS:DataType="8">2018-05-25 11:20:40</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A0DA3CD0-EB38-4422-8267-E188815000F2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_protocol">
+      <DTS:VariableValue
+        DTS:DataType="8">SQL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{201E48E9-71CD-4B1A-A1D9-E84DFE6724E8}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6C6BF63F-0674-48DD-B6AC-1C9B38B3FD54}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_RowNumber">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E3F5D463-97BD-4DDD-B18F-7E7628AE102A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::JDESchema]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_schema">
+      <DTS:VariableValue
+        DTS:DataType="8">CRPDTA</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4FC413D8-90D2-4EE8-B89B-BC7DD00AEC18}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT [BusinessUnit]&#xA;      ,[BusinessUnitType]&#xA;      ,[Company]&#xA;      ,[AddressNumber]&#xA;      ,[Description_En]&#xA;      ,[Description02_En]&#xA;      ,[PortfolioSoldCode]&#xA;      ,[PostingEditCode]&#xA;      ,[SubledgerInactiveCode]&#xA;      ,[BusinessUnitSubsequent]&#xA;      ,[Description_Fr]&#xA;      ,[Description02_Fr]&#xA;      From &quot; + @[User::var_schema] + &quot;.vDWH_BusinessUnitMaster&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_vDM_Business_Unit">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [BusinessUnit]
+      ,[BusinessUnitType]
+      ,[Company]
+      ,[AddressNumber]
+      ,[Description_En]
+      ,[Description02_En]
+      ,[PortfolioSoldCode]
+      ,[PostingEditCode]
+      ,[SubledgerInactiveCode]
+      ,[BusinessUnitSubsequent]
+      ,[Description_Fr]
+      ,[Description02_Fr]
+      From CRPDTA.vDWH_BusinessUnitMaster</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7EF2BD8B-0CFF-49FB-B790-152938C5EC01}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT - DM_Staging - Load JDE_BUSINESS_UNIT"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:EventHandlers>
+        <DTS:EventHandler
+          DTS:refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.EventHandlers[OnError]"
+          DTS:CreationName="OnError"
+          DTS:DTSID="{FDD962C6-9BCC-42A1-92F8-78884770A1CF}"
+          DTS:EventID="0"
+          DTS:EventName="OnError"
+          DTS:LocaleID="-1">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:Description="The propagate property of the event"
+              DTS:DTSID="{3140B561-89AF-4956-95DD-C5E9365862EE}"
+              DTS:IncludeInDebugDump="6789"
+              DTS:Namespace="System"
+              DTS:ObjectName="Propagate">
+              <DTS:VariableValue
+                DTS:DataType="11">0</DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:Executables />
+        </DTS:EventHandler>
+      </DTS:EventHandlers>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="DCONV - NVARCHAR"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[BusinessUnit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="BusinessUnit"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnit]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[BusinessUnitType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="BusinessUnitType"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitType]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Company]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Company"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Company]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Description_En]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Description_En"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_En]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Description02_En]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Description02_En"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_En]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[PortfolioSoldCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="PortfolioSoldCode"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PortfolioSoldCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[PostingEditCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PostingEditCode"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PostingEditCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[SubledgerInactiveCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SubledgerInactiveCode"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[SubledgerInactiveCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[BusinessUnitSubsequent]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="BusinessUnitSubsequent"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitSubsequent]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Description_Fr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Description_Fr"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_Fr]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input].Columns[Description02_Fr]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Description02_Fr"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_Fr]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnitType_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnitType_nvarchar]"
+                      name="BusinessUnitType_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitType]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Company_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Company_nvarchar]"
+                      name="Company_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Company]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description_En_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description_En_nvarchar]"
+                      name="Description_En_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_En]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description02_En_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description02_En_nvarchar]"
+                      name="Description02_En_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_En]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnit_nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnit_nvarchar]"
+                      name="BusinessUnit_nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnit]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of PortfolioSoldCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of PortfolioSoldCode]"
+                      name="Copy of PortfolioSoldCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PortfolioSoldCode]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of PostingEditCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of PostingEditCode]"
+                      name="Copy of PostingEditCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PostingEditCode]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of SubledgerInactiveCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of SubledgerInactiveCode]"
+                      name="Copy of SubledgerInactiveCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[SubledgerInactiveCode]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of BusinessUnitSubsequent]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of BusinessUnitSubsequent]"
+                      name="Copy of BusinessUnitSubsequent"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitSubsequent]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of Description_Fr]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of Description_Fr]"
+                      name="Copy of Description_Fr"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_Fr]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of Description02_Fr]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of Description02_Fr]"
+                      name="Copy of Description02_Fr"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_Fr]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER - Add columns required by Detail"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]"
+                      name="DataLoadingID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::var_DataLoadingID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::var_DataLoadingID]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST - DM_Staging - JDE_BUSINESS_UNIT"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[staging].[JDE_SALES_BUSINESSUNIT_Detail]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Connections[OleDbConnection]"
+                  connectionManagerID="{E24982FB-22F7-4235-9AE4-99A820D08725}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb IC_DM_Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[AddressNumber]"
+                      cachedDataType="r8"
+                      cachedName="AddressNumber"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[AddressNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[AddressNumber]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[BusinessUnit_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="BusinessUnit_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnit]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnit_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[BusinessUnitType_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="BusinessUnitType_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnitType]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[BusinessUnitType_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Company_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="Company_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Company]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Company_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Description_En_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Description_En_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description_En]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description_En_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Description02_En_nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Description02_En_nvarchar"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description02_En]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Description02_En_nvarchar]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[DataLoadingID]"
+                      cachedDataType="i4"
+                      cachedName="DataLoadingID"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Output].Columns[DataLoadingID]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Copy of PortfolioSoldCode]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Copy of PortfolioSoldCode"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[PortfolioSoldCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of PortfolioSoldCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Copy of PostingEditCode]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="Copy of PostingEditCode"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[PostingEditCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of PostingEditCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Copy of SubledgerInactiveCode]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="Copy of SubledgerInactiveCode"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[SubledgerInactiveCode]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of SubledgerInactiveCode]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Copy of BusinessUnitSubsequent]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="Copy of BusinessUnitSubsequent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnitSubsequent]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of BusinessUnitSubsequent]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Copy of Description_Fr]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Copy of Description_Fr"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description_Fr]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of Description_Fr]" />
+                    <inputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].Columns[Copy of Description02_Fr]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Copy of Description02_Fr"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description02_Fr]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output].Columns[Copy of Description02_Fr]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="i4"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnit]"
+                      dataType="wstr"
+                      length="12"
+                      name="BusinessUnit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnitType]"
+                      dataType="wstr"
+                      length="2"
+                      name="BusinessUnitType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Company]"
+                      dataType="wstr"
+                      length="5"
+                      name="Company" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[AddressNumber]"
+                      dataType="r8"
+                      name="AddressNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description_En]"
+                      dataType="wstr"
+                      length="30"
+                      name="Description_En" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description02_En]"
+                      dataType="wstr"
+                      length="30"
+                      name="Description02_En" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[PortfolioSoldCode]"
+                      dataType="wstr"
+                      length="3"
+                      name="PortfolioSoldCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[PostingEditCode]"
+                      dataType="wstr"
+                      length="1"
+                      name="PostingEditCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[SubledgerInactiveCode]"
+                      dataType="wstr"
+                      length="1"
+                      name="SubledgerInactiveCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[BusinessUnitSubsequent]"
+                      dataType="wstr"
+                      length="12"
+                      name="BusinessUnitSubsequent" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description_Fr]"
+                      dataType="wstr"
+                      length="30"
+                      name="Description_Fr" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Description02_Fr]"
+                      dataType="wstr"
+                      length="30"
+                      name="Description02_Fr" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[DataLoadingID]"
+                      dataType="i4"
+                      name="DataLoadingID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Currency]"
+                      dataType="wstr"
+                      length="3"
+                      name="Currency" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[RegionCode]"
+                      dataType="wstr"
+                      length="3"
+                      name="RegionCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[ConsolidatedProperty]"
+                      dataType="wstr"
+                      length="10"
+                      name="ConsolidatedProperty" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[ParentForRegional]"
+                      dataType="wstr"
+                      length="10"
+                      name="ParentForRegional" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[ParentForCompany]"
+                      dataType="wstr"
+                      length="10"
+                      name="ParentForCompany" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[Platform]"
+                      dataType="wstr"
+                      length="3"
+                      name="Platform" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[ProductType]"
+                      dataType="wstr"
+                      length="3"
+                      name="ProductType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[ActivityType]"
+                      dataType="wstr"
+                      length="3"
+                      name="ActivityType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="10"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[HFM_Nominee]"
+                      dataType="wstr"
+                      length="3"
+                      name="HFM_Nominee" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[PortfolioBusinessPartner]"
+                      dataType="wstr"
+                      length="10"
+                      name="PortfolioBusinessPartner" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
+                      dataType="numeric"
+                      name="LastModifiedDate"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedTime]"
+                      dataType="r8"
+                      name="LastModifiedTime" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Read from JDE vDM_Business_Unit"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::var_vDM_Business_Unit</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Connections[OleDbConnection]"
+                  connectionManagerID="{E43798EE-94AE-40E3-B2FE-B03C177063B8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[oledb JDE]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnit]"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnit]"
+                      name="BusinessUnit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnitType]"
+                      length="2"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitType]"
+                      name="BusinessUnitType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Company]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Company]"
+                      length="5"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Company]"
+                      name="Company"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[AddressNumber]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[AddressNumber]"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[AddressNumber]"
+                      name="AddressNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_En]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_En]"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_En]"
+                      name="Description_En"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_En]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description02_En]"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_En]"
+                      name="Description02_En"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PortfolioSoldCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[PortfolioSoldCode]"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PortfolioSoldCode]"
+                      name="PortfolioSoldCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PostingEditCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[PostingEditCode]"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[PostingEditCode]"
+                      name="PostingEditCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[SubledgerInactiveCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[SubledgerInactiveCode]"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[SubledgerInactiveCode]"
+                      name="SubledgerInactiveCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitSubsequent]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnitSubsequent]"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[BusinessUnitSubsequent]"
+                      name="BusinessUnitSubsequent"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_Fr]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_Fr]"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description_Fr]"
+                      name="Description_Fr"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_Fr]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description02_Fr]"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].Columns[Description02_Fr]"
+                      name="Description02_Fr"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="BusinessUnit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnitType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="BusinessUnitType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Company]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Company" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[AddressNumber]"
+                      dataType="r8"
+                      name="AddressNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_En]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Description_En" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description02_En]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Description02_En" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[PortfolioSoldCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="PortfolioSoldCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[PostingEditCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PostingEditCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[SubledgerInactiveCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SubledgerInactiveCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[BusinessUnitSubsequent]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="BusinessUnitSubsequent" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description_Fr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Description_Fr" />
+                    <externalMetadataColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output].ExternalColumns[Description02_Fr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Description02_Fr" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[BusinessUnit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[BusinessUnit]"
+                      name="BusinessUnit" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[BusinessUnitType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[BusinessUnitType]"
+                      name="BusinessUnitType" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Company]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Company]"
+                      name="Company" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[AddressNumber]"
+                      dataType="r8"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[AddressNumber]"
+                      name="AddressNumber" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description_En]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description_En]"
+                      name="Description_En" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description02_En]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description02_En]"
+                      name="Description02_En" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[PortfolioSoldCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[PortfolioSoldCode]"
+                      name="PortfolioSoldCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[PostingEditCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[PostingEditCode]"
+                      name="PostingEditCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[SubledgerInactiveCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[SubledgerInactiveCode]"
+                      name="SubledgerInactiveCode" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[BusinessUnitSubsequent]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[BusinessUnitSubsequent]"
+                      name="BusinessUnitSubsequent" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description_Fr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description_Fr]"
+                      name="Description_Fr" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description02_Fr]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[Description02_Fr]"
+                      name="Description02_Fr" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+              description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+              name="SCR - Get Row Number"
+              version="10">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Stores the source code of the component"
+                  isArray="true"
+                  name="SourceCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="30">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public override void ProcessInput(int InputID, string InputName, PipelineBuffer Buffer, OutputNameMap OutputMap)
+    {
+
+        if (InputName.Equals(@"Input 0", StringComparison.Ordinal))
+        {
+            Input0_ProcessInput(new Input0Buffer(Buffer, GetColumnIndexes(InputID), OutputMap));
+        }
+
+    }
+
+    public virtual void Input0_ProcessInput(Input0Buffer Buffer)
+    {
+        while (Buffer.NextRow())
+        {
+            Input0_ProcessInputRow(Buffer);
+        }
+    }
+
+    public virtual void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Int32 varRowCount
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadWriteVariables["var_RowCount"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+        set
+        {
+            ParentComponent.ReadWriteVariables["var_RowCount"].Value = value;
+        }
+    }
+
+    public Int32 varRowNumber
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadWriteVariables["var_RowNumber"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+        set
+        {
+            ParentComponent.ReadWriteVariables["var_RowNumber"].Value = value;
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow.
+ *
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script component. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+
+    #region Help:  Using Integration Services variables and parameters
+    /* To use a variable in this script, first ensure that the variable has been added to
+     * either the list contained in the ReadOnlyVariables property or the list contained in
+     * the ReadWriteVariables property of this script component, according to whether or not your
+     * code needs to write into the variable.  To do so, save this script, close this instance of
+     * Visual Studio, and update the ReadOnlyVariables and ReadWriteVariables properties in the
+     * Script Transformation Editor window.
+     * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+     *
+     * Example of reading from a variable or parameter:
+     *  DateTime startTime = Variables.MyStartTime;
+     *
+     * Example of writing to a variable:
+     *  Variables.myStringVariable = "new value";
+     */
+    #endregion
+
+    #region Help:  Using Integration Services Connnection Managers
+    /* Some types of connection managers can be used in this script component.  See the help topic
+     * "Working with Connection Managers Programatically" for details.
+     *
+     * To use a connection manager in this script, first ensure that the connection manager has
+     * been added to either the list of connection managers on the Connection Managers page of the
+     * script component editor.  To add the connection manager, save this script, close this instance of
+     * Visual Studio, and add the Connection Manager to the list.
+     *
+     * If the component needs to hold a connection open while processing rows, override the
+     * AcquireConnections and ReleaseConnections methods.
+     * 
+     * Example of using an ADO.Net connection manager to acquire a SqlConnection:
+     *  object rawConnection = Connections.SalesDB.AcquireConnection(transaction);
+     *  SqlConnection salesDBConn = (SqlConnection)rawConnection;
+     *
+     * Example of using a File connection manager to acquire a file path:
+     *  object rawConnection = Connections.Prices_zip.AcquireConnection(transaction);
+     *  string filePath = (string)rawConnection;
+     *
+     * Example of releasing a connection manager:
+     *  Connections.SalesDB.ReleaseConnection(rawConnection);
+     */
+    #endregion
+
+    #region Help:  Firing Integration Services Events
+    /* This script component can fire events.
+     *
+     * Example of firing an error event:
+     *  ComponentMetaData.FireError(10, "Process Values", "Bad value", "", 0, out cancel);
+     *
+     * Example of firing an information event:
+     *  ComponentMetaData.FireInformation(10, "Process Values", "Processing has started", "", 0, fireAgain);
+     *
+     * Example of firing a warning event:
+     *  ComponentMetaData.FireWarning(10, "Process Values", "No rows were received", "", 0);
+     */
+    #endregion
+
+    private int m_rowNumber;
+    private int m_rowCount;
+    public override void PreExecute()
+    {
+        base.PreExecute();
+        /*
+         * Add your code here
+         */
+        // Initialize the row number
+        m_rowNumber = 0;
+        m_rowCount = 0;
+    }
+
+    /// <summary>
+    /// This method is called after all the rows have passed through this component.
+    ///
+    /// You can delete this method if you don't need to do anything here.
+    /// </summary>
+    public override void PostExecute()
+    {
+        base.PostExecute();
+        /*
+         * Add your code here
+         */
+        this.Variables.varRowNumber = m_rowNumber;
+        this.Variables.varRowCount = m_rowCount;
+    }
+
+    /// <summary>
+    /// This method is called once for every row that passes through the component from Input0.
+    ///
+    /// Example of reading a value from a column in the the row:
+    ///  string zipCode = Row.ZipCode
+    ///
+    /// Example of writing a value to a column in the row:
+    ///  Row.ZipCode = zipCode
+    /// </summary>
+    /// <param name="Row">The row that is currently passing through the component</param>
+    public override void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+        /*
+         * Add your code here
+         */
+        // Increase  the row number  and assign  the value  to the output column
+        m_rowNumber++;
+        Row.RowNumber = m_rowNumber;
+        m_rowCount++;
+        Row.RowCount = m_rowNumber;
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class Input0Buffer: ScriptBuffer
+
+{
+    public Input0Buffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public Int32 RowCount
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool RowCount_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Int32 RowNumber
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool RowNumber_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public bool NextRow()
+    {
+        return base.NextRow();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Settings.get_Default():SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Sett" +
+    "ings")]
+
+namespace SC_cf88bddbfe674c53b7064ae0757f9548.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_cf88bddbfe674c53b7064ae0757f9548.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{d84a8d02-4bc3-48f0-b3a0-b2cf2f4e360c}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>Properties</AppDesignerFolder><RootNamespace>SC_cf88bddbfe674c53b7064ae0757f9548</RootNamespace><AssemblyName>SC_58BC9A4D72114762B115C03A0C323A71</AssemblyName><TargetFrameworkVersion>v4.5</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>DEBUG;TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Compile Include="main.cs" /><Compile Include="BufferWrapper.cs" /><Compile Include="ComponentWrapper.cs" /></ItemGroup><ItemGroup><AppDesigner Include="Properties\" /><Compile Include="Properties\AssemblyInfo.cs"><SubType>Code</SubType></Compile><EmbeddedResource Include="Properties\Resources.resx"><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.cs</LastGenOutput></EmbeddedResource><Compile Include="Properties\Resources.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Resources.resx</DependentUpon></Compile><None Include="Properties\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.cs</LastGenOutput></None><Compile Include="Properties\Settings.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon></Compile></ItemGroup><!-- Include the build rules for a C# project.--><Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /><!-- This section defines VSTA properties that describe the host-changable project properties. --><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="ScriptComponent" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" /><Host Name="ScriptComponent" GeneratedNamespace="SC_cf88bddbfe674c53b7064ae0757f9548" IconIndex="0"></Host><ProjectClient><HostIdentifier>SSIS_SC130</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Project]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>SC_cf88bddbfe674c53b7064ae0757f9548</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>SC_cf88bddbfe674c53b7064ae0757f9548</msb:DisplayName>
+		<msb:ProjectId>{EE4657A5-9614-4C5F-AB8D-41134CF70023}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_cf88bddbfe674c53b7064ae0757f9548.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_cf88bddbfe674c53b7064ae0757f9548")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_cf88bddbfe674c53b7064ae0757f9548")]
+[assembly: AssemblyCopyright("Copyright @  2016")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_cf88bddbfe674c53b7064ae0757f9548.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_cf88bddbfe674c53b7064ae0757f9548.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Stores the binary representation of the component"
+                  isArray="true"
+                  name="BinaryCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="2">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_58BC9A4D72114762B115C03A0C323A71.dll]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAKu5TlgAAAAAAAAAAOAAIiALATAAABYAAAAIAAAAAAAAyjQA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAHg0AABPAAAAAEAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAA0BQAAAAgAAAAFgAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAQAAAAAYAAAAYAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAHgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAACs
+NAAAAAAAAEgAAAACAAUAnCIAACQRAAABAAAAAAAAAMAzAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAFYCKBAAAAoCFn0BAAAEAhZ9AgAABCqmAigRAAAKAnsEAAAE
+AnsBAAAEbxUAAAYCewQAAAQCewIAAARvEwAABirWAgJ7AQAABBdYfQEAAAQDAnsBAAAEbwgAAAYC
+AnsCAAAEF1h9AgAABAMCewEAAARvBgAABioeAigMAAAGKioCAwQFKBIAAAoqOgIWA4waAAABKBMA
+AAoqWgMsCAIWKBQAAAoqcgEAAHBzFQAACno6AhcDjBoAAAEoEwAACipaAywIAhcoFAAACipyAQAA
+cHMVAAAKeh4CKBYAAAoqHgIoFwAACip+AigYAAAKAgJzEAAABn0DAAAEAgJzEQAABn0EAAAEKpIE
+cp4AAHAabxkAAAosFQIFAgMoGgAACg4EcwUAAAZvDgAABipKKwcCA28PAAAGA28KAAAGLfEqBio6
+AigbAAAKAgN9BQAABCo6AigbAAAKAgN9BgAABCqWAnsGAAAEbxwAAApyrgAAcG8dAAAKKB4AAApv
+HwAACqUaAAABKoYCewYAAARvHAAACnKuAABwbx0AAAoDjBoAAAFvIAAACiqWAnsGAAAEbxwAAApy
+yAAAcG8dAAAKKB4AAApvHwAACqUaAAABKoYCewYAAARvHAAACnLIAABwbx0AAAoDjBoAAAFvIAAA
+CioeAigbAAAKKq5+BwAABC0ecuQAAHDQBwAAAighAAAKbyIAAApzIwAACoAHAAAEfgcAAAQqGn4I
+AAAEKh4CgAgAAAQqGn4JAAAEKh4CKCQAAAoqLnMbAAAGgAkAAAQqAEJTSkIBAAEAAAAAAAwAAAB2
+NC4wLjMwMzE5AAAAAAUAbAAAACAGAAAjfgAAjAYAAHwHAAAjU3RyaW5ncwAAAAAIDgAAWAEAACNV
+UwBgDwAAEAAAACNHVUlEAAAAcA8AALQBAAAjQmxvYgAAAAAAAAACAAABVxWgAQkBAAAA+gEzABYA
+AAEAAAAkAAAACAAAAAkAAAAcAAAAEwAAACQAAAAQAAAABAAAAAkAAAAMAAAAAQAAAAUAAAABAAAA
+AAAzAwEAAAAAAAYAIwIrBQYAtwIrBQYAbwEYBQ8AnwUAAAYAnAHmAwYABgLmAwYA5wHmAwYAngLm
+AwYAQwLmAwYAXALmAwYAswHmAwYAzgH8AgoAdwK8AAoAwgS8AA4AswS8AAoALwS8AAoAcga8AAYA
+NQaeAwYAUgEYBQYA0wRLBQYAIwTRAxIAIgEdAxIAgwEdAxIACgG8AwYANwErBQYAXgCeAwYA+AOe
+AwYAFgOeAwYAEgSeAxYAEQDjBBYAAQDjBEcAIAcAABYAIgDjBAYA3QCeAwYAjgCeAwYAcwfmAwAA
+AABkAAAAAAABAAEAAQAQALEDAAAQAAEAAQABABAApgQAADkAAwAFAAEAEABUBgAARQADAAwAAQAQ
+ACkGAABJAAUAEAABABAA6gUAAEkABgARAAAAEABSBa4FSQAHABYAAAEQABkGrgVhAAkAGgABAJoE
+ggABAK8GggAGACkGhQAGAOoFiQABAGIGjQABAGIGjQARAKUDkQARAPoAlQARAH4AmQBQIAAAAADG
+ANUCBgABAGYgAAAAAMYA4AIGAAEAkCAAAAAAxgBQB50AAQDGIAAAAACGGAsFBgACAM4gAAAAAIYY
+CwUbAAIA2SAAAAAAhgiCBgEABQDoIAAAAACGCHADowAGAP8gAAAAAIYIagQBAAcADiEAAAAAhghb
+A6MACAAlIQAAAACGAGcHKwAJAC0hAAAAAIYAPAYrAAkANSEAAAAAhhgLBQYACQBVIQAAAADGAP8G
+qAAJAHohAAAAAMYB+AadAA0AjSEAAAAAxgFQB50ADgCPIQAAAACGGAsFsgAPAJ4hAAAAAIYYCwWy
+ABAArSEAAAAAhgiPBrgAEQDTIQAAAACGCJ8GAQARAPUhAAAAAIYIeAS4ABIAGyIAAAAAhgiJBAEA
+EgA9IgAAAACDGAsFBgATAEUiAAAAAJMIzwS8ABMAcSIAAAAAkwjiAMEAEwB4IgAAAACTCO4AxgAT
+AIAiAAAAAJYISAbMABQAhyIAAAAAhhgLBQYAFACPIgAAAACRGBEF0QAUAAAAAQBrBwAAAQDIBAAA
+AgD0BQAAAwA9BAAAAQD2AgAAAQD2AgAAAQD2AgAAAQD2AgAAAQBtAAAAAgCyAAAAAwDIBAAABAA9
+BAAAAQDIBAAAAQBrBwAAAQB4BgAAAQB4BgAAAQD2AgAAAQD2AgAAAQD2AgkACwUBABEACwUGABkA
+CwUKACkACwUQADEACwUQADkACwUQAEEACwUQAEkACwUQAFEACwUQAFkACwUQAGEACwUQAGkACwUG
+AJkACwUGALkACwUVAMkACwUGAIkA1QIGAIkA4AIGAHEACwUbAHEAlQMlAHEAhAMBANkACwUQAHEA
+ZwcrAHEAPAYrAIkACwUGAOEAIgYvAIkACAY2AJEACwUGAIkA3QU8APEAjANBAIkAOwdHAPkADAdN
+APkA7AJUABEBoABZABEBbwdiAKEACwVoAMEACwUGAC4ACwDsAC4AEwD1AC4AGwAUAS4AIwAdAS4A
+KwBGAS4AMwBGAS4AOwBGAS4AQwAdAS4ASwBMAS4AUwBGAS4AWwBjAUMAYwCtAeMAawCtAekAcwAU
+AQkBcwAUASEBewCtAQMAAQAGAAUABwAHAAgACQAAAKYG1QAAAHQD2QAAAJAE1QAAAF8D2QAAAKMG
+1QAAAI0E1QAAANME3QAAAAIB4gAAAEwG5wABAAYAAwABAAcABQABAAgABwABAAkACQACABIACwAB
+ABMACwACABQADQABABUADQACABcADwACABgAEQABABkAEQACABoAEwAEgAAAAQAAAAAAAAAAAAAA
+AAA6AAAABAAAAAAAAAAAAAAAcAB1AAAAAAANAAAAAAAAAAAAAAB5ALoGAAAAAA0AAAAAAAAAAAAA
+AHkA1wYAAAAABAAAAAAAAAAAAAAAcACeAwAAAAANAAAAAAAAAAAAAAB5AEcEAAAAAAAAAAABAAAA
+XAUAAAAAAElEVFNWYXJpYWJsZTEwMABJRFRTVmFyaWFibGVzMTAwAElEVFNFdmFsdWF0b3JDb250
+ZXh0MTAwAFNDXzU4QkM5QTRENzIxMTQ3NjJCMTE1QzAzQTBDMzIzQTcxAEludDMyADxNb2R1bGU+
+AElucHV0SUQAbXNjb3JsaWIAZGVmYXVsdEluc3RhbmNlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5
+cGVGcm9tSGFuZGxlAElucHV0TmFtZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5QaXBlbGluZQBU
+eXBlAGdldF9DdWx0dXJlAHNldF9DdWx0dXJlAHJlc291cmNlQ3VsdHVyZQBBcHBsaWNhdGlvblNl
+dHRpbmdzQmFzZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0
+ZQBEZWJ1Z2dlck5vblVzZXJDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9y
+QnJvd3NhYmxlQXR0cmlidXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1h
+cmtBdHRyaWJ1dGUAVGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlv
+bkF0dHJpYnV0ZQBBc3NlbWJseURlc2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhh
+dGlvbnNBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0
+QXR0cmlidXRlAFNTSVNTY3JpcHRDb21wb25lbnRFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5
+Q29tcGFueUF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRl
+AFBvc3RFeGVjdXRlAHNldF9WYWx1ZQB2YWx1ZQBTeXN0ZW0uUnVudGltZS5WZXJzaW9uaW5nAFN0
+cmluZwBTeXN0ZW0uQ29tcG9uZW50TW9kZWwAU0NfNThCQzlBNEQ3MjExNDc2MkIxMTVDMDNBMEMz
+MjNBNzEuZGxsAHNldF9Sb3dOdW1iZXJfSXNOdWxsAHNldF9Sb3dDb3VudF9Jc051bGwAU2V0TnVs
+bABnZXRfSXRlbQBzZXRfSXRlbQBTeXN0ZW0AcmVzb3VyY2VNYW4AU2NyaXB0TWFpbgBTeXN0ZW0u
+Q29uZmlndXJhdGlvbgBTeXN0ZW0uR2xvYmFsaXphdGlvbgBTeXN0ZW0uUmVmbGVjdGlvbgBJbnZh
+bGlkT3BlcmF0aW9uRXhjZXB0aW9uAFN0cmluZ0NvbXBhcmlzb24AQ3VsdHVyZUluZm8AT3V0cHV0
+TmFtZU1hcABPdXRwdXRNYXAATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNSdW50aW1lV3JhcABzZXRf
+Um93TnVtYmVyAGdldF92YXJSb3dOdW1iZXIAc2V0X3ZhclJvd051bWJlcgBtX3Jvd051bWJlcgBJ
+bnB1dDBCdWZmZXIAUGlwZWxpbmVCdWZmZXIAU2NyaXB0QnVmZmVyAGdldF9SZXNvdXJjZU1hbmFn
+ZXIATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZS5XcmFwcGVyAC5jdG9yAC5jY3RvcgBT
+eXN0ZW0uRGlhZ25vc3RpY3MAU3lzdGVtLlJ1bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0u
+UmVzb3VyY2VzAFNDX2NmODhiZGRiZmU2NzRjNTNiNzA2NGFlMDc1N2Y5NTQ4LlByb3BlcnRpZXMu
+UmVzb3VyY2VzLnJlc291cmNlcwBEZWJ1Z2dpbmdNb2RlcwBTQ19jZjg4YmRkYmZlNjc0YzUzYjcw
+NjRhZTA3NTdmOTU0OC5Qcm9wZXJ0aWVzAGdldF9SZWFkV3JpdGVWYXJpYWJsZXMAQnVmZmVyQ29s
+dW1uSW5kZXhlcwBHZXRDb2x1bW5JbmRleGVzAFNldHRpbmdzAEVxdWFscwBDb25uZWN0aW9ucwBP
+YmplY3QARW5kT2ZSb3dzZXQAZ2V0X0RlZmF1bHQAVXNlckNvbXBvbmVudABQYXJlbnRDb21wb25l
+bnQAU2NyaXB0Q29tcG9uZW50AHNldF9Sb3dDb3VudABnZXRfdmFyUm93Q291bnQAc2V0X3ZhclJv
+d0NvdW50AG1fcm93Q291bnQATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABNaWNyb3NvZnQu
+U3FsU2VydmVyLlBpcGVsaW5lSG9zdABJbnB1dDBfUHJvY2Vzc0lucHV0AEdldFZhbHVlV2l0aENv
+bnRleHQAU2NyaXB0Q29tcG9uZW50RXZhbENvbnRleHQAZ2V0X0V2YWx1YXRvckNvbnRleHQASW5w
+dXQwX1Byb2Nlc3NJbnB1dFJvdwBOZXh0Um93AGdldF9Bc3NlbWJseQAAgJtJAHMATgB1AGwAbAAg
+AHAAcgBvAHAAZQByAHQAeQAgAGMAYQBuAG4AbwB0ACAAYgBlACAAcwBlAHQAIAB0AG8AIABGAGEA
+bABzAGUALgAgAEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAgAHQAaABlACAAYwBv
+AGwAdQBtAG4AIABpAG4AcwB0AGUAYQBkAC4AAA9JAG4AcAB1AHQAIAAwAAAZdgBhAHIAXwBSAG8A
+dwBDAG8AdQBuAHQAABt2AGEAcgBfAFIAbwB3AE4AdQBtAGIAZQByAABxUwBDAF8AYwBmADgAOABi
+AGQAZABiAGYAZQA2ADcANABjADUAMwBiADcAMAA2ADQAYQBlADAANwA1ADcAZgA5ADUANAA4AC4A
+UAByAG8AcABlAHIAdABpAGUAcwAuAFIAZQBzAG8AdQByAGMAZQBzAAAAAGx546LcuhVNriZBrPBF
+hYAABCABAQgDIAABBSABARERBCABAQ4FIAEBEVkJIAMBEj0dCBJBBSACAQgcAyAAAgYgAgIOEXUF
+IAEdCAgEIAASeQUgARJ9HAUAABKAgQYgARwSgIUEIAEBHAgAARKAiRGAjQUgABKAkQcgAgEOEoCR
+CLd6XFYZNOCJCImEXc2AgMyRAgYIAwYSFAMGEhgDBhJFAwYSUQMGElUDBhIgBSABARIMBCABAQIJ
+IAQBCA4SPRJBBSABARJFAyAACAQAABJRBAAAElUFAAEBElUEAAASIAMAAAEDKAAIAygAAgQIABJR
+BAgAElUECAASIAgBAAgAAAAAAB4BAAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEIAQACAAAA
+AAAoAQAjU0NfY2Y4OGJkZGJmZTY3NGM1M2I3MDY0YWUwNzU3Zjk1NDgAAAUBAAAAABYBABFDb3B5
+cmlnaHQgQCAgMjAxNgAASQEAGi5ORVRGcmFtZXdvcmssVmVyc2lvbj12NC41AQBUDhRGcmFtZXdv
+cmtEaXNwbGF5TmFtZRIuTkVUIEZyYW1ld29yayA0LjUEAQAAAAAAtAAAAM7K774BAAAAkQAAAGxT
+eXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4w
+LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVt
+LlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAKA0AAAA
+AAAAAAAAALo0AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsNAAAAAAAAAAAAAAAAF9Db3JEbGxN
+YWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAABABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAAAABI
+AAAAWEAAAOwDAAAAAAAAAAAAAOwDNAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBPAAAA
+AAC9BO/+AAABAAAAAQAAAAAAAAABAAAAAAA/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAARAAA
+AAEAVgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBvAG4A
+AAAAAAAAsARMAwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAAAoAwAAAQAwADAAMAAw
+ADAANABiADAAAAAaAAEAAQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEAQwBvAG0AcABhAG4A
+eQBOAGEAbQBlAAAAAAAAAAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAA
+AFMAQwBfAGMAZgA4ADgAYgBkAGQAYgBmAGUANgA3ADQAYwA1ADMAYgA3ADAANgA0AGEAZQAwADcA
+NQA3AGYAOQA1ADQAOAAAADAACAABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAALgAw
+AC4AMAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBDAF8ANQA4AEIAQwA5AEEA
+NABEADcAMgAxADEANAA3ADYAMgBCADEAMQA1AEMAMAAzAEEAMABDADMAMgAzAEEANwAxAC4AZABs
+AGwAAABIABIAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8AcAB5AHIAaQBnAGgA
+dAAgAEAAIAAgADIAMAAxADYAAAAqAAEAAQBMAGUAZwBhAGwAVAByAGEAZABlAG0AYQByAGsAcwAA
+AAAAAAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABlAG4AYQBtAGUAAABTAEMAXwA1ADgA
+QgBDADkAQQA0AEQANwAyADEAMQA0ADcANgAyAEIAMQAxADUAQwAwADMAQQAwAEMAMwAyADMAQQA3
+ADEALgBkAGwAbAAAAGgAJAABAFAAcgBvAGQAdQBjAHQATgBhAG0AZQAAAAAAUwBDAF8AYwBmADgA
+OABiAGQAZABiAGYAZQA2ADcANABjADUAMwBiADcAMAA2ADQAYQBlADAANwA1ADcAZgA5ADUANAA4
+AAAANAAIAAEAUAByAG8AZAB1AGMAdABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4AMAAAADgA
+CAABAEEAcwBzAGUAbQBiAGwAeQAgAFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAwAAADMNAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                  name="VSTAProjectName"
+                  typeConverter="NOTBROWSABLE">SC_58bc9a4d72114762b115c03a0c323a71</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the programming language used by the script."
+                  name="ScriptLanguage"
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read-only variables."
+                  name="ReadOnlyVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read/write variables."
+                  name="ReadWriteVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg">User::var_RowCount,User::var_RowNumber</property>
+                <property
+                  dataType="System.String"
+                  description="List of breakpoints present on the script."
+                  isArray="true"
+                  name="BreakpointCollection"
+                  typeConverter="NOTBROWSABLE">
+                  <arrayElements
+                    arrayElementCount="0" />
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataChecksum"
+                  typeConverter="NOTBROWSABLE">1576fbc69a80d8989f0136aa1b079751</property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataShaChecksum"
+                  typeConverter="NOTBROWSABLE">73b3ae628982862ce3f3b3cbc63d885f41aa4d36</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Inputs[Input 0]"
+                  hasSideEffects="true"
+                  name="Input 0">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Outputs[Output 0]"
+                  name="Output 0"
+                  synchronousInputId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Inputs[Input 0]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Outputs[Output 0].Columns[RowCount]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Outputs[Output 0].Columns[RowCount]"
+                      name="RowCount" />
+                    <outputColumn
+                      refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Outputs[Output 0].Columns[RowNumber]"
+                      dataType="i4"
+                      lineageId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Outputs[Output 0].Columns[RowNumber]"
+                      name="RowNumber" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[Data Conversion Output]"
+              endId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[Derived Column Output]"
+              endId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[OLE DB Source Output]"
+              endId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Inputs[Input 0]"
+              name="OLE DB Source Output"
+              startId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[Output 0]"
+              endId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail.Inputs[Derived Column Input]"
+              name="Output 0"
+              startId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number.Outputs[Output 0]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\EST - Load Connexion Info"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0B1BE3C2-1764-4449-B296-C5D2D2518689}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EST - Load Connexion Info"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStatementSource="Insert into staging.ConnectionInfo (Protocol, IsReadable, NumRecords,DataLoadingID, ConnectionString ) Values(?,?,?,?,?)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::var_protocol"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::var_isReadable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="17"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::var_RowCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="User::var_DataLoadingID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="4"
+            SQLTask:DtsVariableName="$Project::JDEConnectionString"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ET - Set isReadable to false"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Description="Expression Task"
+      DTS:DTSID="{5BF8F64C-0A7E-4393-AD20-1867C56148B0}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ET - Set isReadable to false"
+      DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2016 RC3; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::var_isReadable] = false" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Load DataLoading"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FFDD63DE-2980-4E1F-B9F7-98037002C80F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Load DataLoading"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_InsertDataLoading"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="DataLoadingID"
+            SQLTask:DtsVariableName="User::var_DataLoadingID" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{71437530-60EB-4E06-BFD1-EA29FAFD0BA8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Update DataLoading validation flag"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_UpdateDataLoadingValidationFlag" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Validate Connection Info"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{86FAD4B4-EBC2-4747-A754-A8546EC80354}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Validate Connection Info"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateConnectionInfo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - DM_Staging - Validate JDE_BUSINESS_UNIT_Detail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CB5D5F48-D159-4A27-BFC7-194D6705EFD9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - DM_Staging - Validate JDE_BUSINESS_UNIT_Detail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_ValidateDetail" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - truncate Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{BDD582D2-17B6-4BAD-90B4-495505B90DFD}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - truncate Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E24982FB-22F7-4235-9AE4-99A820D08725}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::sql_TruncateStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D9CB602F-9B6D-403D-981D-70DFD6BD45E1}"
+      DTS:From="Package\SQL - DM_Staging - Load DataLoading"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL - truncate Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{97F1A7C3-D444-46D8-A2CE-74554EECF319}"
+      DTS:From="Package\SQL - truncate Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{0D1F7595-F30D-4F45-BC31-AF9480F97D08}"
+      DTS:From="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\ET - Set isReadable to false"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{361748FE-0A5A-416B-A1A4-1C0DD8F03533}"
+      DTS:From="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\EST - Load Connexion Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{30888CD2-B149-4105-AFF4-045296C45FC8}"
+      DTS:From="Package\ET - Set isReadable to false"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\EST - Load Connexion Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{7096717E-2657-4B1C-BEBF-1E6E483BAE00}"
+      DTS:From="Package\EST - Load Connexion Info"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\SQL - DM_Staging - Validate Connection Info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{DB8C7A4C-21AE-4657-93BD-CB49713CD948}"
+      DTS:From="Package\SQL - DM_Staging - Validate Connection Info"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\SQL - DM_Staging - Validate JDE_BUSINESS_UNIT_Detail" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{97CCD00B-E3CD-4369-9472-478C664B79D0}"
+      DTS:From="Package\SQL - DM_Staging - Validate JDE_BUSINESS_UNIT_Detail"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\SQL - DM_Staging - Update DataLoading validation flag" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="303,42"
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT"
+          TopLeft="219,221" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\EST - Load Connexion Info"
+          TopLeft="299,365" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\ET - Set isReadable to false"
+          TopLeft="607,274" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\SQL - DM_Staging - Load DataLoading"
+          TopLeft="248,51" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\SQL - DM_Staging - Update DataLoading validation flag"
+          TopLeft="227,613" />
+        <NodeLayout
+          Size="291,42"
+          Id="Package\SQL - DM_Staging - Validate Connection Info"
+          TopLeft="255,440" />
+        <NodeLayout
+          Size="351,42"
+          Id="Package\SQL - DM_Staging - Validate JDE_BUSINESS_UNIT_Detail"
+          TopLeft="225,525" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\SQL - truncate Staging"
+          TopLeft="281,127" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="376,93">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="372.25,169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52"
+              Start="0,0"
+              End="0,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="522,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="85,53"
+              Start="0,0"
+              End="77.5,53">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="38.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="38.5,0"
+                    Point2="42.5,0"
+                    Point3="42.5,4" />
+                  <mssgle:LineSegment
+                    End="42.5,49" />
+                  <mssgle:CubicBezierSegment
+                    Point1="42.5,49"
+                    Point2="42.5,53"
+                    Point3="46.5,53" />
+                  <mssgle:LineSegment
+                    End="77.5,53" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="27.25865234375,-15.7490234375,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="369.583333333333,263">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,102"
+              Start="0,0"
+              End="0,94.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,94.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="711.5,316">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-277.166666666667,49"
+              Start="0,0"
+              End="-277.166666666667,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.1723136495644" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.1723136495644"
+                    Point2="0,29.1723136495644"
+                    Point3="-4,29.1723136495644" />
+                  <mssgle:LineSegment
+                    End="-273.166666666667,29.1723136495644" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-273.166666666667,29.1723136495644"
+                    Point2="-277.166666666667,29.1723136495644"
+                    Point3="-277.166666666667,33.1723136495644" />
+                  <mssgle:LineSegment
+                    End="-277.166666666667,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="401,407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="400.5,482">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="398.75,567">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="189,42"
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\SCR - Get Row Number"
+          TopLeft="122,176" />
+        <NodeLayout
+          Size="303,42"
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT"
+          TopLeft="67,416" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit"
+          TopLeft="100,110" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DCONV - NVARCHAR"
+          TopLeft="128,333" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\DER - Add columns required by Detail"
+          TopLeft="93,252" />
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[Output 0]"
+          TopLeft="219,218">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[OLE DB Source Output]"
+          TopLeft="219.25,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24"
+              Start="0,0"
+              End="0,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[Derived Column Output]"
+          TopLeft="219,294">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.Paths[Data Conversion Output]"
+          TopLeft="217.5,375">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <DtsEventHandler
+    design-time-name="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <AnnotationLayout
+          Text="Empty OnError event handler, but with system variable Propagate set to false.&#xA;This will prevent propgating the event to the parent (loop) container."
+          ParentId="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT.EventHandlers[OnError]"
+          FontInfo="{assembly:Null}"
+          Size="438,NaN"
+          Id="0caa4fd6-511d-4306-bd90-cbcce6233210"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\Read from JDE vDM_Business_Unit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT - DM_Staging - Load JDE_BUSINESS_UNIT\OLE_DST - DM_Staging - JDE_BUSINESS_UNIT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

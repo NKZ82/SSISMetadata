@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/13/2017 2:11:37 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SDVCDPSHP36"
+  DTS:CreatorName="CORP\Adm1nAL"
+  DTS:DTSID="{54728FEA-D167-4E93-95EB-4332D8747C74}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MASTER_SALES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="46"
+  DTS:VersionGUID="{7D7FBE97-36B1-4BE5-B31F-085DD7DF62F3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{448CE5B0-BFA0-479C-9FF7-B80C70A8FDD8}"
+      DTS:ObjectName="BusinessProcessInstanceID"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">20160610-01-EL</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{14D63D02-024D-4EA3-BD81-74C301833A2A}"
+      DTS:ObjectName="BusinessProcessInstanceIteration"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - LEASE"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{B5C18B14-5A59-4C20-964C-B7FCB97D36BF}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - LEASE">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - LEASE\EPT - JDE_LEASE_BILLINGMASTER"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{0CABAF8B-983C-4F7A-85D4-99417DE17830}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EPT - JDE_LEASE_BILLINGMASTER"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>JDE_LEASE_BILLINGMASTER.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceID</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERDETAIL"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{7EAAC7BB-DFAE-46A0-8729-84E5741EBB33}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EPT - JDE_LEASE_MASTERDETAIL"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>JDE_LEASE_MASTERDETAIL.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceID</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERHEADER"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{C2D0EDC9-76B2-4AA3-B174-31D77BB9F6CC}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EPT - JDE_LEASE_MASTERHEADER"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>JDE_LEASE_MASTERHEADER.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceID</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - LEASE\EPT - JDE_LEASE_PRODUCTSCALESMASTER"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{3262B528-DD6B-426F-B19C-3BBED9AC2D01}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EPT - JDE_LEASE_PRODUCTSCALESMASTER"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>JDE_LEASE_PRODUCTSCALESMASTER.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceID</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - LEASE.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{D44527C5-CF05-4858-B717-4EC7F9363F75}"
+          DTS:From="Package\SEQC - LEASE\EPT - JDE_LEASE_BILLINGMASTER"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - LEASE\EPT - JDE_LEASE_PRODUCTSCALESMASTER" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - LEASE.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{97E42D84-9289-498D-B05B-15020A29C70E}"
+          DTS:From="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERDETAIL"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERHEADER" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - LEASE.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{F6F08575-6EDC-4CCF-921B-70DF87B680F7}"
+          DTS:From="Package\SEQC - LEASE\EPT - JDE_LEASE_BILLINGMASTER"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERDETAIL" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQC - SALES"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{902B059C-D9DD-43A0-BC70-E6C3CCA4D845}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC - SALES">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - SALES\SEQC - SALES MET"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Sequence Container"
+          DTS:DTSID="{7D00D55C-BAFC-47E1-88AC-B8E41C5322D5}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SEQC - SALES MET">
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES MET\EPT - JDE_LEASE_AREAMASTER"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{309F7B72-4A48-4365-92A2-99F78C29E3EB}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_LEASE_AREAMASTER"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_LEASE_AREAMASTER.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES MET\EPT - JDE_SALES_REPORTCONTROL"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{B4F5EF8C-8A91-49D3-8C12-BE4CA07C5FA8}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_REPORTCONTROL"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_REPORTCONTROL.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES MET.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{D55A1009-8F3A-4AEB-88CB-FC9B11A2DB66}"
+              DTS:From="Package\SEQC - SALES\SEQC - SALES MET\EPT - JDE_SALES_REPORTCONTROL"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\SEQC - SALES\SEQC - SALES MET\EPT - JDE_LEASE_AREAMASTER" />
+          </DTS:PrecedenceConstraints>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC - SALES\SEQC - SALES REF"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Sequence Container"
+          DTS:DTSID="{C2A8235C-EDEB-4DD0-8A38-272174CBE8FF}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SEQC - SALES REF">
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_ADRESSBOOK"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{BD248C25-F2CF-4021-9F16-7F4FC8FE5BA7}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_ADRESSBOOK"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_ADRESSBOOK.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_ANALYSISGROUPING"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{03BEAEDA-5571-4570-BD1B-297D56F0CAA1}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_ANALYSISGROUPING"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_ANALYSISGROUPING.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_BUSINESSUNIT"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:Disabled="True"
+              DTS:DTSID="{54182597-B161-42D4-868C-91BC3588BA9D}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_BUSINESSUNIT"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_BUSINESSUNIT.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_COMPANIES"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:Disabled="True"
+              DTS:DTSID="{0011D186-D6B6-4017-87D7-471C1CCF50EC}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_COMPANIES"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_COMPANIES.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_UNIT"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{4CA1FFEC-2236-41F6-B2A8-C5A2DFD70CC1}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_UNIT"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_UNIT.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_UNITMASTER"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{360862A7-8C21-4C0D-996C-93BDFA1F20E8}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EPT - JDE_SALES_UNITMASTER"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>JDE_SALES_UNITMASTER.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceID</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceID</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>BusinessProcessInstanceIteration</ParameterName>
+                    <BindedVariableOrParameterName>$Package::BusinessProcessInstanceIteration</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQC - SALES.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{C8DD7E60-0899-4C79-A5F5-7EDE5104272C}"
+          DTS:From="Package\SEQC - SALES\SEQC - SALES MET"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQC - SALES\SEQC - SALES REF" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{AE66A364-DD89-4236-9F7B-812985F0B598}"
+      DTS:From="Package\SEQC - LEASE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC - SALES" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="274,46"
+          Id="Package\SEQC - LEASE\EPT - JDE_LEASE_BILLINGMASTER"
+          TopLeft="76.5454545454546,12.9642857142856" />
+        <NodeLayout
+          Size="261,46"
+          Id="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERDETAIL"
+          TopLeft="399.786195286195,101.583333333333" />
+        <NodeLayout
+          Size="262,46"
+          Id="Package\SEQC - LEASE\EPT - JDE_LEASE_MASTERHEADER"
+          TopLeft="397.464766714767,199.813492063492" />
+        <NodeLayout
+          Size="297,46"
+          Id="Package\SEQC - LEASE\EPT - JDE_LEASE_PRODUCTSCALESMASTER"
+          TopLeft="5.5,147.297619047619" />
+        <EdgeLayout
+          Id="Package\SEQC - LEASE.PrecedenceConstraints[Constraint]"
+          TopLeft="150.522727272727,58.9642857142856">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,88.3333333333334"
+              Start="0,0"
+              End="0,80.8333333333334">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.8333333333334" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - LEASE.PrecedenceConstraints[Constraint 1]"
+          TopLeft="529.375481000481,147.583333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.2301587301588"
+              Start="0,0"
+              End="0,44.7301587301588">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.7301587301588" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQC - LEASE.PrecedenceConstraints[Constraint 3]"
+          TopLeft="280.045454545455,58.9642857142856">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="250.240740740741,42.6190476190477"
+              Start="0,0"
+              End="250.240740740741,35.1190476190477">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.4802065404475" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.4802065404475"
+                    Point2="0,14.4802065404475"
+                    Point3="4,14.4802065404475" />
+                  <mssgle:LineSegment
+                    End="246.240740740741,14.4802065404475" />
+                  <mssgle:CubicBezierSegment
+                    Point1="246.240740740741,14.4802065404475"
+                    Point2="250.240740740741,14.4802065404475"
+                    Point3="250.240740740741,18.4802065404475" />
+                  <mssgle:LineSegment
+                    End="250.240740740741,35.1190476190477" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="BillingMaster tout seul à cause de la volumétrie."
+          ParentId="Package\SEQC - LEASE"
+          FontInfo="{assembly:Null}"
+          Size="281,40"
+          Id="86c32b47-71df-4b04-a355-5940be68e9a6"
+          TopLeft="355.607142857143,12.9642857142858" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="683,338"
+          Size="683,381"
+          Id="Package\SEQC - LEASE"
+          TopLeft="20.9166666666667,200.75" />
+        <NodeLayout
+          Size="231,42"
+          Id="Package\SEQC - SALES\SEQC - SALES MET\EPT - JDE_LEASE_AREAMASTER"
+          TopLeft="13.2499999999999,70.4285714285713" />
+        <NodeLayout
+          Size="252,42"
+          Id="Package\SEQC - SALES\SEQC - SALES MET\EPT - JDE_SALES_REPORTCONTROL"
+          TopLeft="5.74999999999989,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC - SALES\SEQC - SALES MET.PrecedenceConstraints[Constraint]"
+          TopLeft="130.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,22.9285714285713"
+              Start="0,0"
+              End="0,15.4285714285713">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.4285714285713" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="262,167"
+          Size="262,210"
+          Id="Package\SEQC - SALES\SEQC - SALES MET"
+          TopLeft="177.785714285714,24.5714285714286" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_ADRESSBOOK"
+          TopLeft="27.878787878788,152.092857142857" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_ANALYSISGROUPING"
+          TopLeft="10.878787878788,280.864285714286" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_BUSINESSUNIT"
+          TopLeft="24.378787878788,216.478571428571" />
+        <NodeLayout
+          Size="224,42"
+          Id="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_COMPANIES"
+          TopLeft="31.878787878788,87.7071428571426" />
+        <NodeLayout
+          Size="191,42"
+          Id="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_UNIT"
+          TopLeft="48.378787878788,345.25" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\SEQC - SALES\SEQC - SALES REF\EPT - JDE_SALES_UNITMASTER"
+          TopLeft="28.878787878788,23.3214285714283" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="280,442"
+          Size="280,485"
+          Id="Package\SEQC - SALES\SEQC - SALES REF"
+          TopLeft="168.785714285714,264.571428571428" />
+        <EdgeLayout
+          Id="Package\SEQC - SALES.PrecedenceConstraints[Constraint]"
+          TopLeft="308.785714285714,234.571428571429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.9999999999999"
+              Start="0,0"
+              End="0,22.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="612,805"
+          Size="612,848"
+          Id="Package\SEQC - SALES"
+          TopLeft="763.31746031746,200.75" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="703.916666666667,391.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="59.4007936507933,233.5"
+              Start="0,0"
+              End="51.9007936507933,233.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="25.7003968253966,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="25.7003968253966,0"
+                    Point2="29.7003968253966,0"
+                    Point3="29.7003968253966,4" />
+                  <mssgle:LineSegment
+                    End="29.7003968253966,229.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="29.7003968253966,229.5"
+                    Point2="29.7003968253966,233.5"
+                    Point3="33.7003968253966,233.5" />
+                  <mssgle:LineSegment
+                    End="51.9007936507933,233.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
