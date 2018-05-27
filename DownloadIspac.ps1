@@ -8,7 +8,7 @@ $FolderName = "IC.DM"         # Can be empty to download multiple projects
 $ProjectName = "IC.DM.SSIS.Staging"       # Can be empty to download multiple projects
 $DownloadFolder = "D:\MyIspacs\" # Mandatory
 $CreateSubfolders = $true        # Mandatory
-$UnzipIspac = $true             # Mandatory
+$UnzipIspac = $true              # Mandatory
 
 
 #################################################
